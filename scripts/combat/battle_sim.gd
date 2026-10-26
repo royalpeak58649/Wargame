@@ -195,6 +195,9 @@ func _fire_salvo(s: Variant, target: Variant, g: Dictionary, range_km: float) ->
 			"impact_pos": aim + dir * along + lateral * across,
 			"impact_time": time + flight,
 			"range_km": range_km,
+			# 렌더링용(판정에 쓰지 않는다): 사격자 위치와 발사 시각
+			"launch_pos": s.pos,
+			"launch_time": time,
 		})
 
 
@@ -240,6 +243,9 @@ func _resolve_shell(shell: Dictionary) -> void:
 		"effArmorMm": 0.0,
 		"damage": 0.0,
 		"effects": [],
+		# 렌더링용(판정에 쓰지 않는다): 탄착점 좌표
+		"x": impact.x,
+		"y": impact.y,
 	}
 
 	if absf(along) > half_l or absf(across) > half_b:

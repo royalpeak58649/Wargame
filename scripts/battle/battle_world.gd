@@ -1,0 +1,305 @@
+extends Node2D
+## 전투 화면의 지도·함선·포탄·물기둥을 그린다 (그리기만 한다, 판정 없음).
+##
+## 좌표: 화면 좌표 = Vector2(x, −y). 전장 좌표는 미터, x = 동쪽, y = 북쪽.
+## 이 노드는 전장 좌표를 그대로 쓰고, y 뒤집기는 _to_screen() 에서 한다.
+## 카메라(Camera2D)가 확대·이동을 맡는다.
+##
+## 사용법:
+##   world.setup(sim, commanders, ais, scenario_name)
+##   world.selected_id = "a1"
+##   world.queue_redraw()
+
+const ShipState = preload("res://scripts/combat/ship_state.gd")
+const FleetCommander = preload("res://scripts/combat/fleet_commander.gd")
+const EnemyAI = preload("res://scripts/combat/enemy_ai.gd")
+
+# --- 표시 상수 ---------------------------------------------------------------
+
+const MAP_HALF_M := 22500.0        # m, 맵 반폭(45km × 45km, 원점 중심)
+const GRID_M := 5000.0             # m, 격자 간격
+const SEA_COLOR := Color(0.05, 0.09, 0.18)
+const GRID_COLOR := Color(0.20, 0.30, 0.45, 0.45)
+const GRID_AXIS_COLOR := Color(0.35, 0.50, 0.70, 0.70)
+const GRID_LABEL_COLOR := Color(0.55, 0.70, 0.85, 0.85)
+const SIDE_COLORS := [Color("#5aa0ff"), Color("#ff6a5a")]
+const SIDE_LABELS := ["아군", "적군"]
+const SUNK_COLOR := Color(0.55, 0.55, 0.55, 0.45)
+const SELECT_COLOR := Color(1.0, 1.0, 1.0, 0.9)
+const RANGE_COLOR := Color(1.0, 1.0, 1.0, 0.18)
+const TARGET_LINE_COLOR := Color(1.0, 1.0, 1.0, 0.35)
+const SHELL_COLOR := Color(1.0, 0.92, 0.60, 0.95)
+const FIRE_DOT_COLOR := Color(1.0, 0.55, 0.15)
+const FLOOD_DOT_COLOR := Color(0.45, 0.80, 1.0)
+const HP_BACK_COLOR := Color(0.10, 0.10, 0.10, 0.75)
+const HP_FRONT_COLOR := Color(0.45, 0.90, 0.45)
+const HP_LOW_COLOR := Color(0.95, 0.40, 0.35)
+const LABEL_COLOR := Color(0.92, 0.95, 1.0)
+
+const MIN_SHIP_LENGTH_PX := 22.0   # px, 화면에서 함선 최소 길이
+const SHELL_DOT_PX := 2.0          # px, 포탄 점 반지름
+const SPLASH_LIFE_SEC := 20.0      # s, 물기둥이 남는 전장 시간
+const SPLASH_MAX_RADIUS_PX := 9.0  # px, 물기둥 최대 반지름
+const SCALE_BAR_M := 5000.0        # m, 축척 막대 길이
+const SCALE_BAR_MARGIN := Vector2(24.0, 24.0)  # px, 화면 왼쪽 아래 여백
+const LABEL_FONT_SIZE := 12
+
+const SPLASH_COLORS := {
+	"miss": Color(1.0, 1.0, 1.0, 0.9),
+	"pen": Color(1.0, 0.55, 0.15, 0.9),
+	"nonpen": Color(1.0, 0.90, 0.30, 0.9),
+	"ricochet": Color(0.70, 0.70, 0.70, 0.9),
+}
+
+# --- 상태 -------------------------------------------------------------------
+
+var sim: Variant = null
+var commanders: Array = []
+var ais: Array = []
+var scenario_name := ""
+var selected_id := ""
+
+## 물기둥 목록: {pos: Vector2, t: float(전장 시각), result: String}
+var _splashes: Array[Dictionary] = []
+## 마지막으로 처리한 sim.log 위치
+var _log_cursor := 0
+
+
+func setup(sim_ref: Variant, commanders_ref: Array, ais_ref: Array, name: String) -> void:
+	sim = sim_ref
+	commanders = commanders_ref
+	ais = ais_ref
+	scenario_name = name
+	_splashes.clear()
+	_log_cursor = 0
+	queue_redraw()
+
+
+## 매 프레임 호출: 새 로그를 물기둥으로 바꾸고 다시 그린다.
+func refresh() -> void:
+	_collect_splashes()
+	queue_redraw()
+
+
+## 전장 좌표 → 화면 좌표(y 뒤집기).
+static func to_screen(p: Vector2) -> Vector2:
+	return Vector2(p.x, -p.y)
+
+
+## 화면 좌표 → 전장 좌표.
+static func to_world(p: Vector2) -> Vector2:
+	return Vector2(p.x, -p.y)
+
+
+func _collect_splashes() -> void:
+	if sim == null:
+		return
+	var log: Array = sim.log
+	if _log_cursor > log.size():
+		_log_cursor = 0
+		_splashes.clear()
+	while _log_cursor < log.size():
+		var e: Dictionary = log[_log_cursor]
+		_log_cursor += 1
+		if String(e.get("kind", "")) != "hit":
+			continue
+		if not e.has("x") or not e.has("y"):
+			continue
+		_splashes.append({
+			"pos": Vector2(float(e.x), float(e.y)),
+			"t": float(e.get("t", 0.0)),
+			"result": String(e.get("result", "miss")),
+		})
+	# 오래된 물기둥은 버린다.
+	var now: float = float(sim.time)
+	var kept: Array[Dictionary] = []
+	for s in _splashes:
+		if now - float(s.t) <= SPLASH_LIFE_SEC:
+			kept.append(s)
+	_splashes = kept
+
+
+# --- 그리기 -----------------------------------------------------------------
+
+func _draw() -> void:
+	_draw_sea()
+	_draw_grid()
+	if sim == null:
+		return
+	_draw_selection()
+	_draw_ships()
+	_draw_shells()
+	_draw_splashes()
+	_draw_scale_bar()
+
+
+func _draw_sea() -> void:
+	var half := MAP_HALF_M
+	draw_rect(Rect2(to_screen(Vector2(-half, half)), Vector2(half * 2.0, half * 2.0)), SEA_COLOR, true)
+
+
+func _draw_grid() -> void:
+	var half := MAP_HALF_M
+	var font := ThemeDB.fallback_font
+	var n := int(half / GRID_M)
+	for i in range(-n, n + 1):
+		var v := float(i) * GRID_M
+		var axis := i == 0
+		var color := GRID_AXIS_COLOR if axis else GRID_COLOR
+		# 세로선(x = v)
+		draw_line(to_screen(Vector2(v, -half)), to_screen(Vector2(v, half)), color, 1.0)
+		# 가로선(y = v)
+		draw_line(to_screen(Vector2(-half, v)), to_screen(Vector2(half, v)), color, 1.0)
+		if i != 0:
+			var km := int(v / 1000.0)
+			# x 축 눈금(맵 아래쪽 가장자리)
+			draw_string(font, to_screen(Vector2(v, -half)) + Vector2(3.0, -4.0), "%d" % km,
+				HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, GRID_LABEL_COLOR)
+			# y 축 눈금(맵 왼쪽 가장자리)
+			draw_string(font, to_screen(Vector2(-half, v)) + Vector2(3.0, -4.0), "%d" % km,
+				HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, GRID_LABEL_COLOR)
+
+
+func _draw_selection() -> void:
+	var ship: Variant = sim.get_ship(selected_id) if selected_id != "" else null
+	if ship == null:
+		return
+	var c := to_screen(ship.pos)
+	var zoom := _zoom()
+	var ring_r := maxf(_ship_length_px(ship) * 0.75, 14.0)
+	draw_arc(c, ring_r, 0.0, TAU, 32, SELECT_COLOR, 1.5 / zoom, true)
+
+	# 주포 최대 사거리 원
+	var range_m := _main_range_m(ship)
+	if range_m > 0.0:
+		draw_arc(c, range_m, 0.0, TAU, 96, RANGE_COLOR, 1.0 / zoom, true)
+
+	# 목표까지 선
+	var target: Variant = sim.get_ship(String(ship.target_id)) if String(ship.target_id) != "" else null
+	if target != null:
+		draw_line(c, to_screen(target.pos), TARGET_LINE_COLOR, 1.0 / zoom)
+
+
+func _draw_ships() -> void:
+	var font := ThemeDB.fallback_font
+	for s in sim.ships:
+		var c := to_screen(s.pos)
+		var color: Color = SUNK_COLOR if s.sunk else SIDE_COLORS[clampi(int(s.side), 0, 1)]
+		var length_px := _ship_length_px(s)
+		var beam_px := length_px * (s.beam_m() / maxf(s.length_m(), 0.001))
+		# 침로: 북 0, 시계 방향. 화면은 y 가 뒤집혀 있으므로 각도도 뒤집는다.
+		var angle := -deg_to_rad(float(s.heading_deg))
+		draw_set_transform(c, angle, Vector2.ONE)
+		draw_colored_polygon(_hull_points(length_px, beam_px), color)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+		if s.sunk:
+			continue
+
+		# 이름표
+		var label := "%s %s" % [String(s.id), String(s.design.get("name", ""))]
+		var label_pos := c + Vector2(-length_px * 0.5, -beam_px * 0.5 - 16.0)
+		draw_string(font, label_pos, label, HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, LABEL_COLOR)
+
+		# HP 막대
+		var bar_w := maxf(length_px, 24.0)
+		var bar_pos := c + Vector2(-bar_w * 0.5, -beam_px * 0.5 - 12.0)
+		var frac := clampf(float(s.hp) / maxf(float(s.max_hp), 1.0), 0.0, 1.0)
+		draw_rect(Rect2(bar_pos, Vector2(bar_w, 3.0)), HP_BACK_COLOR, true)
+		var hp_color := HP_FRONT_COLOR if frac > 0.35 else HP_LOW_COLOR
+		draw_rect(Rect2(bar_pos, Vector2(bar_w * frac, 3.0)), hp_color, true)
+
+		# 화재·침수 점
+		var dot := c + Vector2(bar_w * 0.5 + 4.0, -beam_px * 0.5 - 12.0)
+		var fires := int(s.active_fires(float(sim.time)))
+		var floods := int(s.active_floods(float(sim.time)))
+		for i in fires:
+			draw_circle(dot + Vector2(0.0, float(i) * 5.0), 2.0, FIRE_DOT_COLOR)
+		for i in floods:
+			draw_circle(dot + Vector2(5.0, float(i) * 5.0), 2.0, FLOOD_DOT_COLOR)
+
+
+## 선수가 뾰족한 선체 다각형(로컬 좌표, 선수 = −y 방향).
+func _hull_points(length_px: float, beam_px: float) -> PackedVector2Array:
+	var hl := length_px * 0.5
+	var hb := maxf(beam_px * 0.5, 1.5)
+	return PackedVector2Array([
+		Vector2(0.0, -hl),                 # 선수
+		Vector2(hb, -hl * 0.55),
+		Vector2(hb, hl * 0.75),
+		Vector2(hb * 0.6, hl),             # 선미
+		Vector2(-hb * 0.6, hl),
+		Vector2(-hb, hl * 0.75),
+		Vector2(-hb, -hl * 0.55),
+	])
+
+
+func _draw_shells() -> void:
+	if sim == null:
+		return
+	var now: float = float(sim.time)
+	for shell in sim.shells:
+		if not shell.has("launch_pos") or not shell.has("launch_time"):
+			continue
+		var from: Vector2 = shell.launch_pos
+		var to: Vector2 = shell.impact_pos
+		var t0: float = float(shell.launch_time)
+		var t1: float = float(shell.impact_time)
+		var span: float = t1 - t0
+		var frac: float = clampf((now - t0) / span, 0.0, 1.0) if span > 0.0001 else 1.0
+		draw_circle(to_screen(from.lerp(to, frac)), SHELL_DOT_PX, SHELL_COLOR)
+
+
+func _draw_splashes() -> void:
+	var now: float = float(sim.time)
+	for s in _splashes:
+		var age: float = now - float(s.t)
+		if age < 0.0 or age > SPLASH_LIFE_SEC:
+			continue
+		var k: float = age / SPLASH_LIFE_SEC
+		var color: Color = SPLASH_COLORS.get(String(s.result), SPLASH_COLORS["miss"])
+		color.a *= 1.0 - k
+		var r: float = lerpf(2.0, SPLASH_MAX_RADIUS_PX, k)
+		draw_arc(to_screen(s.pos), r, 0.0, TAU, 16, color, 1.5, true)
+
+
+func _draw_scale_bar() -> void:
+	var view := get_viewport_rect().size
+	var zoom := _zoom()
+	var bar_px := SCALE_BAR_M * zoom
+	var origin := Vector2(SCALE_BAR_MARGIN.x, view.y - SCALE_BAR_MARGIN.y)
+	var color := Color(1.0, 1.0, 1.0, 0.85)
+	draw_line(origin, origin + Vector2(bar_px, 0.0), color, 2.0)
+	draw_line(origin + Vector2(0.0, -4.0), origin + Vector2(0.0, 4.0), color, 2.0)
+	draw_line(origin + Vector2(bar_px, -4.0), origin + Vector2(bar_px, 4.0), color, 2.0)
+	draw_string(ThemeDB.fallback_font, origin + Vector2(0.0, -8.0), "%d km" % int(SCALE_BAR_M / 1000.0),
+		HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, color)
+
+
+# --- 도우미 -----------------------------------------------------------------
+
+func _zoom() -> float:
+	var cam := get_viewport().get_camera_2d()
+	if cam == null:
+		return 1.0
+	return cam.zoom.x
+
+
+## 화면에서 최소 길이를 보장한 함선 길이(px).
+func _ship_length_px(ship: Variant) -> float:
+	return maxf(float(ship.length_m()) * _zoom(), MIN_SHIP_LENGTH_PX)
+
+
+## 주포 최대 사거리(m). 주포가 없으면 부포 기준.
+func _main_range_m(ship: Variant) -> float:
+	var main_km := 0.0
+	var sec_km := 0.0
+	for g in ship.guns:
+		var gun: Dictionary = g.gun
+		var r: float = float(gun.maxRangeKm)
+		if String(g.type) == "main":
+			main_km = maxf(main_km, r)
+		elif String(g.type) == "secondary":
+			sec_km = maxf(sec_km, r)
+	var km: float = main_km if main_km > 0.0 else sec_km
+	return km * 1000.0

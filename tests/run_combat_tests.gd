@@ -11,6 +11,7 @@ const BattleSim = preload("res://scripts/combat/battle_sim.gd")
 const Navigation = preload("res://scripts/combat/navigation.gd")
 const FleetCommander = preload("res://scripts/combat/fleet_commander.gd")
 const EnemyAI = preload("res://scripts/combat/enemy_ai.gd")
+const BattleScenario = preload("res://scripts/battle/battle_scenario.gd")
 
 var db: Dictionary
 var gun_381: Dictionary
@@ -428,8 +429,36 @@ func test_deterministic_ai() -> void:
 	check(same, "함선별 hp 동일")
 
 
-# --- 전투 도우미 -----------------------------------------------------------
+# --- 시나리오 -------------------------------------------------------------
 
+func test_scenario_builds() -> void:
+	var scenario := BattleScenario.load_scenario("res://data/scenarios/test_battle.json")
+	check(not scenario.is_empty(), "시나리오 로드")
+	if scenario.is_empty():
+		return
+	var built := BattleScenario.build(scenario, db)
+	var sim: Variant = built.sim
+	var commanders: Array = built.commanders
+	var ais: Array = built.ais
+	check(sim.ships.size() == 6, "함선 6척 (%d)" % sim.ships.size())
+	check(sim.side_alive(0) == 3 and sim.side_alive(1) == 3,
+		"진영별 3척 (아군 %d, 적군 %d)" % [sim.side_alive(0), sim.side_alive(1)])
+	check(sim.get_ship("a2") != null and sim.get_ship("e3") != null, "id a2·e3 존재")
+	var cmd0: Variant = commanders[0]
+	check(cmd0.mode_of("a2") == FleetCommander.MODE_FOLLOW,
+		"a2 가 follow 모드 (%s)" % cmd0.mode_of("a2"))
+	var ai0: Variant = ais[0]
+	var ai1: Variant = ais[1]
+	while sim.time < 300.0:
+		ai0.update(1.0)
+		ai1.update(1.0)
+		cmd0.update(1.0)
+		commanders[1].update(1.0)
+		sim.step(1.0)
+	in_range(sim.time, 299.999, 300.001, "300초 진행 후 시간")
+
+
+# --- 전투 도우미 -----------------------------------------------------------
 ## battle_report 와 같은 3대3 AI 시나리오. {time, winner, hp}
 func _ai_battle(seed_value: int) -> Dictionary:
 	var sim := BattleSim.new(db, seed_value)
