@@ -11,7 +11,7 @@
 | `scripts/core/parts_db.gd` | PartsDB, ShipDesign JSON 로더 |
 | `data/parts_t2.json` | T2 부품: 선체 2, 기관 2, 주포 3, 부포 1, 구축함포 1, 어뢰 1, 사격 통제 1 |
 | `data/designs/*.json` | 샘플 설계: Queen Elizabeth급, V&W급 (건조형 특별 군함), 플레이어 고속 전함안 |
-| `tests/run_tests.gd` | 단위 테스트 18개 |
+| `tests/run_tests.gd` | 단위 테스트 24개 |
 | `tools/report.gd` | 설계 파일을 계산해 출력하는 도구 |
 
 ## 실행 (Godot 4.7)
