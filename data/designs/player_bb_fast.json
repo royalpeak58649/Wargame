@@ -1,0 +1,38 @@
+{
+  "id": "player_bb_t2_001",
+  "name": "플레이어 설계: 고속 전함안",
+  "tier": 2,
+  "nation": "UK",
+  "locked": false,
+  "special": null,
+  "shipClass": "BB",
+  "hull": {
+    "templateId": "hull_bb_t2_a",
+    "length": 205.0,
+    "beam": 27.6,
+    "draught": 9.3
+  },
+  "machinery": {
+    "partId": "turbine_t2_oil_heavy",
+    "powerShp": 88000
+  },
+  "armor": {
+    "beltMain": 230,
+    "beltUpper": 127,
+    "deck": 64,
+    "turretFace": 280,
+    "barbette": 203,
+    "conningTower": 250,
+    "torpedoBulge": 0
+  },
+  "weapons": [
+    { "slot": "main_A", "partId": "gun_343mm_t2", "barrels": 2 },
+    { "slot": "main_B", "partId": "gun_343mm_t2", "barrels": 2 },
+    { "slot": "main_X", "partId": "gun_343mm_t2", "barrels": 2 },
+    { "slot": "main_Y", "partId": "gun_343mm_t2", "barrels": 2 },
+    { "slot": "sec_P", "partId": "gun_152mm_t2", "barrels": 6 },
+    { "slot": "sec_S", "partId": "gun_152mm_t2", "barrels": 6 }
+  ],
+  "fireControl": "fc_t2_director",
+  "fuelFraction": 0.07
+}

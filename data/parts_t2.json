@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "note": "T2(1914~1921) 프로토타입 부품. 수치는 실제 함선을 참고한 근사치이며 밸런스 조정 대상이다.",
+  "hulls": {
+    "hull_bb_t2_a": {
+      "name": "T2 전함 선체 A",
+      "shipClass": "BB",
+      "tier": 2,
+      "length": 190.0,
+      "beam": 27.6,
+      "draught": 9.3,
+      "depth": 15.0,
+      "cb": 0.62,
+      "cwp": 0.75,
+      "admiralty": 185.0,
+      "structCoeff": 0.135,
+      "tacticalDiameterRatio": 4.5,
+      "lengthScaleRange": [0.9, 1.1],
+      "beamScaleRange": [0.9, 1.1],
+      "beltLengthFrac": 0.6,
+      "beltHeight": 4.0,
+      "beltTopAboveWL": 2.5,
+      "upperBeltHeight": 2.5,
+      "deckAreaFrac": 0.85,
+      "barbetteHeight": 6.0,
+      "conningTowerArea": 60.0,
+      "conningTowerHeight": 8.0,
+      "fireControlHeight": 20.0,
+      "maxArmorMm": 350,
+      "fuelFractionRange": [0.03, 0.12],
+      "miscFraction": 0.06,
+      "slots": [
+        { "id": "main_A", "type": "main", "x": 0.36, "z": 0.0, "maxCaliber": 381, "maxBarrels": 2 },
+        { "id": "main_B", "type": "main", "x": 0.28, "z": 3.0, "maxCaliber": 381, "maxBarrels": 2 },
+        { "id": "main_Q", "type": "main", "x": 0.00, "z": 0.0, "maxCaliber": 381, "maxBarrels": 2 },
+        { "id": "main_X", "type": "main", "x": -0.26, "z": 3.0, "maxCaliber": 381, "maxBarrels": 2 },
+        { "id": "main_Y", "type": "main", "x": -0.34, "z": 0.0, "maxCaliber": 381, "maxBarrels": 2 },
+        { "id": "sec_P", "type": "secondary", "x": 0.10, "z": -2.0, "maxCaliber": 152, "maxBarrels": 8 },
+        { "id": "sec_S", "type": "secondary", "x": 0.10, "z": -2.0, "maxCaliber": 152, "maxBarrels": 8 }
+      ]
+    },
+    "hull_dd_t2_a": {
+      "name": "T2 구축함 선체 A",
+      "shipClass": "DD",
+      "tier": 2,
+      "length": 95.0,
+      "beam": 8.95,
+      "draught": 3.25,
+      "depth": 5.6,
+      "cb": 0.52,
+      "cwp": 0.72,
+      "admiralty": 190.0,
+      "structCoeff": 0.11,
+      "tacticalDiameterRatio": 3.5,
+      "lengthScaleRange": [0.9, 1.1],
+      "beamScaleRange": [0.9, 1.1],
+      "beltLengthFrac": 0.5,
+      "beltHeight": 2.0,
+      "beltTopAboveWL": 1.0,
+      "upperBeltHeight": 0.0,
+      "deckAreaFrac": 0.7,
+      "barbetteHeight": 0.0,
+      "conningTowerArea": 6.0,
+      "conningTowerHeight": 3.0,
+      "fireControlHeight": 8.0,
+      "maxArmorMm": 25,
+      "fuelFractionRange": [0.05, 0.25],
+      "miscFraction": 0.05,
+      "slots": [
+        { "id": "main_A", "type": "main", "x": 0.38, "z": 1.0, "maxCaliber": 120, "maxBarrels": 1 },
+        { "id": "main_B", "type": "main", "x": 0.30, "z": 2.0, "maxCaliber": 120, "maxBarrels": 1 },
+        { "id": "main_X", "type": "main", "x": -0.30, "z": 1.0, "maxCaliber": 120, "maxBarrels": 1 },
+        { "id": "main_Y", "type": "main", "x": -0.40, "z": 0.0, "maxCaliber": 120, "maxBarrels": 1 },
+        { "id": "torp_1", "type": "torpedo", "x": 0.00, "z": 0.0, "maxCaliber": 533, "maxBarrels": 3 },
+        { "id": "torp_2", "type": "torpedo", "x": -0.12, "z": 0.0, "maxCaliber": 533, "maxBarrels": 3 }
+      ]
+    }
+  },
+  "machinery": {
+    "turbine_t2_oil_heavy": {
+      "name": "T2 중유 터빈 (대형함용)",
+      "tier": 2,
+      "shpPerTon": 20.0,
+      "maxShp": 90000,
+      "allowedClasses": ["BB", "BC", "CA", "CL"]
+    },
+    "turbine_t2_oil_light": {
+      "name": "T2 고출력 경량 터빈 (구축함용)",
+      "tier": 2,
+      "shpPerTon": 50.0,
+      "maxShp": 40000,
+      "allowedClasses": ["DD"]
+    }
+  },
+  "guns": {
+    "gun_381mm_t2": {
+      "name": "15인치(381mm) 42구경포",
+      "tier": 2,
+      "type": "main",
+      "nations": ["UK"],
+      "caliber": 381,
+      "shellMassKg": 879,
+      "muzzleVelocity": 732,
+      "reloadSec": 36,
+      "maxRangeKm": 21.7,
+      "mountWeight": { "2": 780 },
+      "ammoPerBarrel": 88,
+      "turretArmorArea": 100.0,
+      "barbetteDiameter": 10.0
+    },
+    "gun_343mm_t2": {
+      "name": "13.5인치(343mm) 45구경포",
+      "tier": 1,
+      "type": "main",
+      "nations": ["UK"],
+      "caliber": 343,
+      "shellMassKg": 635,
+      "muzzleVelocity": 760,
+      "reloadSec": 33,
+      "maxRangeKm": 20.0,
+      "mountWeight": { "2": 600 },
+      "ammoPerBarrel": 64,
+      "turretArmorArea": 90.0,
+      "barbetteDiameter": 9.0
+    },
+    "gun_305mm_t2": {
+      "name": "30.5cm 50구경포",
+      "tier": 1,
+      "type": "main",
+      "nations": ["DE"],
+      "caliber": 305,
+      "shellMassKg": 405,
+      "muzzleVelocity": 855,
+      "reloadSec": 30,
+      "maxRangeKm": 19.5,
+      "mountWeight": { "2": 530 },
+      "ammoPerBarrel": 36,
+      "turretArmorArea": 85.0,
+      "barbetteDiameter": 8.5
+    },
+    "gun_152mm_t2": {
+      "name": "6인치(152mm) 부포 (포곽식)",
+      "tier": 1,
+      "type": "secondary",
+      "caliber": 152,
+      "shellMassKg": 45.4,
+      "muzzleVelocity": 846,
+      "reloadSec": 8,
+      "maxRangeKm": 13.0,
+      "mountWeightPerBarrel": 20,
+      "ammoPerBarrel": 7,
+      "turretArmorArea": 0.0,
+      "barbetteDiameter": 0.0
+    },
+    "gun_102mm_t2": {
+      "name": "4인치(102mm) 45구경포",
+      "tier": 2,
+      "type": "main",
+      "caliber": 102,
+      "shellMassKg": 14.1,
+      "muzzleVelocity": 873,
+      "reloadSec": 6,
+      "maxRangeKm": 14.0,
+      "mountWeight": { "1": 10 },
+      "ammoPerBarrel": 4,
+      "turretArmorArea": 0.0,
+      "barbetteDiameter": 0.0
+    },
+    "torp_533mm_t2": {
+      "name": "21인치(533mm) 어뢰 발사관",
+      "tier": 2,
+      "type": "torpedo",
+      "caliber": 533,
+      "torpedoSpeedKn": 40,
+      "torpedoRangeKm": 3.7,
+      "warheadKg": 230,
+      "mountWeight": { "2": 11, "3": 15 },
+      "ammoPerBarrel": 1.5,
+      "turretArmorArea": 0.0,
+      "barbetteDiameter": 0.0
+    }
+  },
+  "fireControl": {
+    "fc_t2_director": {
+      "name": "T2 사격 지휘 장치",
+      "tier": 2,
+      "baseWeight": 40.0,
+      "initialSpreadPerKm": 25.0,
+      "correctionRate": 0.25,
+      "minSpreadM": 60.0
+    }
+  },
+  "costPerTon": {
+    "structure": 1.0,
+    "armor": 3.0,
+    "machinery": 4.0,
+    "weapons": 5.0,
+    "fireControl": 20.0,
+    "fuel": 0.2,
+    "misc": 0.5,
+    "ballast": 0.05
+  }
+}

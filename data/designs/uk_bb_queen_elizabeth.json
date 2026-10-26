@@ -1,0 +1,38 @@
+{
+  "id": "uk_bb_t2_queen_elizabeth",
+  "name": "Queen Elizabeth급",
+  "tier": 2,
+  "nation": "UK",
+  "locked": true,
+  "special": "buildable",
+  "shipClass": "BB",
+  "hull": {
+    "templateId": "hull_bb_t2_a",
+    "length": 190.0,
+    "beam": 27.6,
+    "draught": 9.3
+  },
+  "machinery": {
+    "partId": "turbine_t2_oil_heavy",
+    "powerShp": 75000
+  },
+  "armor": {
+    "beltMain": 330,
+    "beltUpper": 152,
+    "deck": 76,
+    "turretFace": 330,
+    "barbette": 254,
+    "conningTower": 280,
+    "torpedoBulge": 0
+  },
+  "weapons": [
+    { "slot": "main_A", "partId": "gun_381mm_t2", "barrels": 2 },
+    { "slot": "main_B", "partId": "gun_381mm_t2", "barrels": 2 },
+    { "slot": "main_X", "partId": "gun_381mm_t2", "barrels": 2 },
+    { "slot": "main_Y", "partId": "gun_381mm_t2", "barrels": 2 },
+    { "slot": "sec_P", "partId": "gun_152mm_t2", "barrels": 7 },
+    { "slot": "sec_S", "partId": "gun_152mm_t2", "barrels": 7 }
+  ],
+  "fireControl": "fc_t2_director",
+  "fuelFraction": 0.06
+}

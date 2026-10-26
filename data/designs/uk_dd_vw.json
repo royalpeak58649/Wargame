@@ -1,0 +1,38 @@
+{
+  "id": "uk_dd_t2_vw",
+  "name": "V&W급",
+  "tier": 2,
+  "nation": "UK",
+  "locked": true,
+  "special": "buildable",
+  "shipClass": "DD",
+  "hull": {
+    "templateId": "hull_dd_t2_a",
+    "length": 95.0,
+    "beam": 8.95,
+    "draught": 3.25
+  },
+  "machinery": {
+    "partId": "turbine_t2_oil_light",
+    "powerShp": 27000
+  },
+  "armor": {
+    "beltMain": 0,
+    "beltUpper": 0,
+    "deck": 0,
+    "turretFace": 0,
+    "barbette": 0,
+    "conningTower": 0,
+    "torpedoBulge": 0
+  },
+  "weapons": [
+    { "slot": "main_A", "partId": "gun_102mm_t2", "barrels": 1 },
+    { "slot": "main_B", "partId": "gun_102mm_t2", "barrels": 1 },
+    { "slot": "main_X", "partId": "gun_102mm_t2", "barrels": 1 },
+    { "slot": "main_Y", "partId": "gun_102mm_t2", "barrels": 1 },
+    { "slot": "torp_1", "partId": "torp_533mm_t2", "barrels": 3 },
+    { "slot": "torp_2", "partId": "torp_533mm_t2", "barrels": 3 }
+  ],
+  "fireControl": "fc_t2_director",
+  "fuelFraction": 0.15
+}
