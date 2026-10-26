@@ -2,20 +2,21 @@ extends SceneTree
 ## 전투 시뮬레이션 한 판을 돌려 결과를 출력한다.
 ## 사용법: godot --headless --path . --script res://tools/battle_report.gd [-- seed]
 ##
-## 시나리오: 영국 퀸 엘리자베스 2척(side 0) vs 플레이어 고속 전함안 2척(side 1).
-## 18km 떨어져 마주 보고 시작, 양쪽 전속, 가장 가까운 적을 목표로 한다.
-## 9km 이내가 되면 침로를 상대 방향 +90°로 바꿔 현측을 보인다.
-## 이 기동 로직은 도구 안의 간단한 스크립트다(AI 아님).
+## 시나리오: 영국 퀸 엘리자베스 3척(side 0) vs 플레이어 고속 전함안 3척(side 1).
+## 25km 떨어져 마주 보고 시작한다. 양쪽 모두 EnemyAI + FleetCommander 가 지휘한다.
+## 시작할 때 각 진영은 종진을 만들고, 교전(engage)에 들어간 함선은 진형을 푼다.
 
 const PartsDB = preload("res://scripts/core/parts_db.gd")
 const ShipState = preload("res://scripts/combat/ship_state.gd")
 const BattleSim = preload("res://scripts/combat/battle_sim.gd")
+const FleetCommander = preload("res://scripts/combat/fleet_commander.gd")
+const EnemyAI = preload("res://scripts/combat/enemy_ai.gd")
 
-const DT := 1.0                 # s, 시간 단계
-const MAX_TIME := 3600.0        # s, 최대 전투 시간
-const START_DISTANCE_M := 18000.0  # m, 시작 거리
-const TURN_RANGE_M := 9000.0    # m, 이 거리 안이면 현측을 보인다
-const LOG_TAIL := 20            # 개, 마지막 로그 줄 수
+const DT := 1.0                    # s, 시간 단계
+const MAX_TIME := 5400.0           # s, 최대 전투 시간
+const START_DISTANCE_M := 25000.0  # m, 시작 거리
+const COLUMN_GAP_M := 600.0        # m, 종진 함선 간격
+const LOG_TAIL := 20               # 개, 마지막 로그 줄 수
 
 
 func _init() -> void:
@@ -31,17 +32,28 @@ func _init() -> void:
 	var sim := BattleSim.new(db, seed_value)
 	# side 0: 남쪽에서 북쪽으로, side 1: 북쪽에서 남쪽으로
 	var half := START_DISTANCE_M / 2.0
-	sim.add_ship(ShipState.create("qe1", 0, qe, db, Vector2(-400.0, -half), 0.0))
-	sim.add_ship(ShipState.create("qe2", 0, qe, db, Vector2(400.0, -half), 0.0))
-	sim.add_ship(ShipState.create("bb1", 1, player, db, Vector2(-400.0, half), 180.0))
-	sim.add_ship(ShipState.create("bb2", 1, player, db, Vector2(400.0, half), 180.0))
+	var ids0: Array[String] = ["qe1", "qe2", "qe3"]
+	var ids1: Array[String] = ["bb1", "bb2", "bb3"]
+	for i in ids0.size():
+		var off := float(i) * COLUMN_GAP_M
+		sim.add_ship(ShipState.create(ids0[i], 0, qe, db, Vector2(0.0, -half - off), 0.0))
+		sim.add_ship(ShipState.create(ids1[i], 1, player, db, Vector2(0.0, half + off), 180.0))
 
-	for s in sim.ships:
-		sim.order_speed(s.id, 1.0)
+	var cmd0 := FleetCommander.new(sim, 0)
+	var cmd1 := FleetCommander.new(sim, 1)
+	cmd0.form_column(ids0)
+	cmd1.form_column(ids1)
+	var ai0 := EnemyAI.new(sim, cmd0, 0)
+	var ai1 := EnemyAI.new(sim, cmd1, 1)
 
-	var turned := {}
+	var broken := {}
 	while sim.time < MAX_TIME and sim.winner() == -1:
-		_script_orders(sim, turned)
+		ai0.update(DT)
+		ai1.update(DT)
+		_break_engaged(ai0, cmd0, broken)
+		_break_engaged(ai1, cmd1, broken)
+		cmd0.update(DT)
+		cmd1.update(DT)
 		sim.step(DT)
 
 	print("")
@@ -52,37 +64,23 @@ func _init() -> void:
 	print("")
 	_print_summary(sim)
 	print("")
+	_print_ai_states(sim, ai0, ai1)
+	print("")
 	_print_log_tail(sim)
 	quit(0)
 
 
-## 간단한 기동 스크립트: 가장 가까운 적을 목표로, 9km 이내면 현측을 보인다.
-func _script_orders(sim: BattleSim, turned: Dictionary) -> void:
-	for s in sim.ships:
-		if s.sunk:
+## 교전에 들어간 함선은 종진에서 빠진다.
+func _break_engaged(ai: Variant, cmd: Variant, broken: Dictionary) -> void:
+	for s in ai.sim.ships:
+		if int(s.side) != int(ai.side) or s.sunk:
 			continue
-		var target: Variant = _nearest_enemy(sim, s)
-		if target == null:
+		var id := String(s.id)
+		if broken.has(id):
 			continue
-		sim.order_target(s.id, target.id)
-		var dist: float = s.pos.distance_to(target.pos)
-		if dist <= TURN_RANGE_M and not turned.has(s.id):
-			turned[s.id] = true
-			var bearing: float = rad_to_deg(atan2(target.pos.x - s.pos.x, target.pos.y - s.pos.y))
-			sim.order_heading(s.id, wrapf(bearing + 90.0, 0.0, 360.0))
-
-
-func _nearest_enemy(sim: BattleSim, ship: Variant) -> Variant:
-	var best: Variant = null
-	var best_d := INF
-	for other in sim.ships:
-		if int(other.side) == int(ship.side) or other.sunk:
-			continue
-		var d: float = ship.pos.distance_to(other.pos)
-		if d < best_d:
-			best_d = d
-			best = other
-	return best
+		if ai.state_of(id) == EnemyAI.STATE_ENGAGE:
+			broken[id] = true
+			cmd.break_formation(id)
 
 
 func _print_summary(sim: BattleSim) -> void:
@@ -100,6 +98,16 @@ func _print_summary(sim: BattleSim) -> void:
 		print("%-6s HP %.0f / %.0f, 속도 %.1fkn, 화재 %d, 침수 %d" % [
 			s.id, maxf(s.hp, 0.0), s.max_hp, s.speed_ms / ShipState.KNOT_TO_MS,
 			s.fires.size(), s.floods.size()])
+
+
+func _print_ai_states(sim: BattleSim, ai0: Variant, ai1: Variant) -> void:
+	print("함선별 최종 AI 상태:")
+	for s in sim.ships:
+		var ai: Variant = ai0 if int(s.side) == 0 else ai1
+		print("  %-6s side %d  상태 %-8s  목표 %-6s  선호 거리 %.1fkm" % [
+			s.id, int(s.side), ai.state_of(String(s.id)),
+			String(ai.targets.get(String(s.id), "-")),
+			ai.preferred_range_of(String(s.id)) / 1000.0])
 
 
 func _print_log_tail(sim: BattleSim) -> void:

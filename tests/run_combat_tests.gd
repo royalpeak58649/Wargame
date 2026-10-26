@@ -8,6 +8,9 @@ const PartsDB = preload("res://scripts/core/parts_db.gd")
 const ShipCalc = preload("res://scripts/core/ship_calc.gd")
 const ShipState = preload("res://scripts/combat/ship_state.gd")
 const BattleSim = preload("res://scripts/combat/battle_sim.gd")
+const Navigation = preload("res://scripts/combat/navigation.gd")
+const FleetCommander = preload("res://scripts/combat/fleet_commander.gd")
+const EnemyAI = preload("res://scripts/combat/enemy_ai.gd")
 
 var db: Dictionary
 var gun_381: Dictionary
@@ -272,7 +275,197 @@ func test_sunk_ship_stops() -> void:
 	check(not fired_after, "침몰한 함선이 쏜 hit 로그 없음")
 
 
+# --- 항해·지휘·AI ----------------------------------------------------------
+
+func test_bearing() -> void:
+	in_range(Navigation.bearing_deg(Vector2.ZERO, Vector2(0.0, 1.0)), -0.001, 0.001, "북쪽 침로(°)")
+	in_range(Navigation.bearing_deg(Vector2.ZERO, Vector2(1.0, 0.0)), 89.999, 90.001, "동쪽 침로(°)")
+	in_range(Navigation.bearing_deg(Vector2.ZERO, Vector2(0.0, -1.0)), 179.999, 180.001, "남쪽 침로(°)")
+	in_range(Navigation.bearing_deg(Vector2.ZERO, Vector2(-1.0, 0.0)), 269.999, 270.001, "서쪽 침로(°)")
+	in_range(Navigation.angle_diff_deg(350.0, 10.0), 19.999, 20.001, "angle_diff(350, 10)(°)")
+
+
+func test_move_to_waypoint() -> void:
+	var sim := BattleSim.new(db, 3)
+	sim.add_ship(ShipState.create("qe1", 0, qe, db, Vector2.ZERO, 0.0))
+	var cmd := FleetCommander.new(sim, 0)
+	var wps: Array[Vector2] = [Vector2(5000.0, 5000.0)]
+	cmd.order_move("qe1", wps, 1.0)
+	var ship: Variant = sim.get_ship("qe1")
+	var t := 0.0
+	while t < 1800.0 and cmd.mode_of("qe1") == FleetCommander.MODE_MOVE:
+		cmd.update(1.0)
+		sim.step(1.0)
+		t += 1.0
+	check(cmd.mode_of("qe1") == FleetCommander.MODE_HOLD,		"경유점 도착 후 명령이 hold (%.0f초, 거리 %.0fm)" % [t, ship.pos.distance_to(Vector2(5000.0, 5000.0))])	check(Navigation.arrived(ship, Vector2(5000.0, 5000.0), FleetCommander.ARRIVE_RADIUS_M),		"경유점 300m 안 도착 (거리 %.0fm)" % ship.pos.distance_to(Vector2(5000.0, 5000.0)))
+
+func test_column_keeps_spacing() -> void:	var sim := BattleSim.new(db, 4)	var ids: Array[String] = ["qe1", "qe2", "qe3"]
+	for i in ids.size():
+		sim.add_ship(ShipState.create(ids[i], 0, qe, db, Vector2(0.0, -600.0 * float(i)), 0.0))
+	var cmd := FleetCommander.new(sim, 0)
+	cmd.form_column(ids)
+	cmd.order_heading("qe1", 90.0, 1.0)
+	for i in 600:
+		cmd.update(1.0)
+		sim.step(1.0)
+	cmd.order_heading("qe1", 0.0, 1.0)
+	for i in 900:
+		cmd.update(1.0)
+		sim.step(1.0)
+	var s1: Variant = sim.get_ship("qe1")
+	var s2: Variant = sim.get_ship("qe2")
+	var s3: Variant = sim.get_ship("qe3")
+	in_range(s1.pos.distance_to(s2.pos), 400.0, 900.0, "1·2번 간격(m)")
+	in_range(s2.pos.distance_to(s3.pos), 400.0, 900.0, "2·3번 간격(m)")
+	in_range(absf(Navigation.angle_diff_deg(0.0, s3.heading_deg)), 0.0, 10.0,
+		"3번 배 침로가 기함 침로(0°) ±10° (%.1f°)" % s3.heading_deg)
+
+
+func test_follow_after_leader_sunk() -> void:
+	var sim := BattleSim.new(db, 6)
+	var ids: Array[String] = ["qe1", "qe2", "qe3"]
+	for i in ids.size():
+		sim.add_ship(ShipState.create(ids[i], 0, qe, db, Vector2(0.0, -600.0 * float(i)), 0.0))
+	var cmd := FleetCommander.new(sim, 0)
+	cmd.form_column(ids)
+	cmd.order_heading("qe1", 90.0, 1.0)
+	for i in 300:
+		cmd.update(1.0)
+		sim.step(1.0)
+	var leader: Variant = sim.get_ship("qe1")
+	leader.hp = 0.0
+	sim.step(1.0)
+	check(leader.sunk, "기함 침몰")
+	for i in 300:
+		cmd.update(1.0)
+		sim.step(1.0)
+	check(cmd.mode_of("qe2") != FleetCommander.MODE_FOLLOW,
+		"2번 배가 기함이 됨 (mode %s)" % cmd.mode_of("qe2"))
+	in_range(absf(Navigation.angle_diff_deg(90.0, sim.get_ship("qe2").heading_deg)), 0.0, 10.0,
+		"2번 배가 기존 침로(90°) 유지 (%.1f°)" % sim.get_ship("qe2").heading_deg)
+
+
+func test_ai_approaches_then_engages() -> void:
+	var sim := BattleSim.new(db, 8)
+	sim.add_ship(ShipState.create("qe1", 0, qe, db, Vector2.ZERO, 0.0))
+	sim.add_ship(ShipState.create("bb1", 1, player, db, Vector2(0.0, 25000.0), 180.0))
+	var cmd := FleetCommander.new(sim, 0)
+	var ai := EnemyAI.new(sim, cmd, 0)
+	ai.update(1.0)
+	check(ai.state_of("qe1") == EnemyAI.STATE_APPROACH,
+		"첫 판단은 approach (%s)" % ai.state_of("qe1"))
+	var pref: float = ai.preferred_range_of("qe1")
+	var engage_t := -1.0
+	var in_band := 0
+	var engage_steps := 0
+	var t := 0.0
+	while t < 1200.0:
+		ai.update(1.0)
+		cmd.update(1.0)
+		sim.step(1.0)
+		t += 1.0
+		if ai.state_of("qe1") == EnemyAI.STATE_ENGAGE:
+			if engage_t < 0.0:
+				engage_t = t
+			engage_steps += 1
+			var d: float = sim.get_ship("qe1").pos.distance_to(sim.get_ship("bb1").pos)
+			if absf(d - pref) <= 3000.0:
+				in_band += 1
+	check(engage_t >= 0.0 and engage_t <= 1200.0, "1200초 안에 engage 진입 (%.0f초)" % engage_t)
+	check(engage_steps > 0 and float(in_band) / float(maxi(engage_steps, 1)) >= 0.5,
+		"engage 중 선호 거리 ±3000m 유지 비율 %.2f" % (float(in_band) / float(maxi(engage_steps, 1))))
+
+
+func test_ai_retreats_when_damaged() -> void:
+	var sim := BattleSim.new(db, 9)
+	var a: Variant = ShipState.create("qe1", 0, qe, db, Vector2.ZERO, 0.0)
+	var b: Variant = ShipState.create("bb1", 1, player, db, Vector2(0.0, 12000.0), 180.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	var cmd := FleetCommander.new(sim, 0)
+	var ai := EnemyAI.new(sim, cmd, 0)
+	for i in 60:
+		ai.update(1.0)
+		cmd.update(1.0)
+		sim.step(1.0)
+	a.hp = a.max_hp * 0.25
+	ai.update(1.0)
+	check(ai.state_of("qe1") == EnemyAI.STATE_RETREAT,
+		"hp 25%% → retreat (%s)" % ai.state_of("qe1"))
+	var d0: float = a.pos.distance_to(b.pos)
+	for i in 300:
+		ai.update(1.0)
+		cmd.update(1.0)
+		sim.step(1.0)
+	var d1: float = a.pos.distance_to(b.pos)
+	check(d1 > d0, "퇴각 후 적과 거리 증가 (%.0fm → %.0fm)" % [d0, d1])
+
+
+func test_ai_battle_finishes() -> void:
+	var r := _ai_battle(2024)
+	check(int(r.winner) != -1, "5400초 안에 승부 (승자 %d, 경과 %.0f초)" % [int(r.winner), float(r.time)])
+
+
+func test_deterministic_ai() -> void:
+	var r1 := _ai_battle(777)
+	var r2 := _ai_battle(777)
+	check(absf(float(r1.time) - float(r2.time)) < 0.0001,
+		"경과 시간 동일 (%.0f vs %.0f)" % [float(r1.time), float(r2.time)])
+	check(int(r1.winner) == int(r2.winner), "승자 동일 (%d vs %d)" % [int(r1.winner), int(r2.winner)])
+	var hp1: Array = r1.hp
+	var hp2: Array = r2.hp
+	var same := hp1.size() == hp2.size()
+	if same:
+		for i in hp1.size():
+			if absf(float(hp1[i]) - float(hp2[i])) > 0.0001:
+				same = false
+	check(same, "함선별 hp 동일")
+
+
 # --- 전투 도우미 -----------------------------------------------------------
+
+## battle_report 와 같은 3대3 AI 시나리오. {time, winner, hp}
+func _ai_battle(seed_value: int) -> Dictionary:
+	var sim := BattleSim.new(db, seed_value)
+	var half := 12500.0
+	var ids0: Array[String] = ["qe1", "qe2", "qe3"]
+	var ids1: Array[String] = ["bb1", "bb2", "bb3"]
+	for i in ids0.size():
+		var off := 600.0 * float(i)
+		sim.add_ship(ShipState.create(ids0[i], 0, qe, db, Vector2(0.0, -half - off), 0.0))
+		sim.add_ship(ShipState.create(ids1[i], 1, player, db, Vector2(0.0, half + off), 180.0))
+	var cmd0 := FleetCommander.new(sim, 0)
+	var cmd1 := FleetCommander.new(sim, 1)
+	cmd0.form_column(ids0)
+	cmd1.form_column(ids1)
+	var ai0 := EnemyAI.new(sim, cmd0, 0)
+	var ai1 := EnemyAI.new(sim, cmd1, 1)
+	var broken := {}
+	while sim.time < 5400.0 and sim.winner() == -1:
+		ai0.update(1.0)
+		ai1.update(1.0)
+		_break_engaged(ai0, cmd0, broken)
+		_break_engaged(ai1, cmd1, broken)
+		cmd0.update(1.0)
+		cmd1.update(1.0)
+		sim.step(1.0)
+	var hp: Array = []
+	for s in sim.ships:
+		hp.append(float(s.hp))
+	return {"time": sim.time, "winner": sim.winner(), "hp": hp}
+
+
+func _break_engaged(ai: Variant, cmd: Variant, broken: Dictionary) -> void:
+	for s in ai.sim.ships:
+		if int(s.side) != int(ai.side) or s.sunk:
+			continue
+		var id := String(s.id)
+		if broken.has(id):
+			continue
+		if ai.state_of(id) == EnemyAI.STATE_ENGAGE:
+			broken[id] = true
+			cmd.break_formation(id)
+
 
 ## QE 1척 vs player 1척, 12km, 600초 고정 시나리오.
 func _duel(seed_value: int) -> Dictionary:

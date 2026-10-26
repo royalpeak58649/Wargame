@@ -14,10 +14,13 @@
 | `scripts/combat/ballistics.gd` | 전투 탄도·관통 계산 모듈: 잔존 속도, 관통력, 낙각, 입사각, 유효 장갑, 일제사격 분산 (순수 함수) |
 | `scripts/combat/ship_state.gd` | 전투 중 함선 상태: 성능·내구·무장·사격 통제, 이동 단계 (순수 로직) |
 | `scripts/combat/battle_sim.gd` | 전투 시뮬레이션 코어: 시간 단계, 사격, 피해, 전투 로그, 명령 API |
+| `scripts/combat/navigation.gd` | 항해 계산: 방위, 각도 차, 점으로 가는 침로, 도착 판정 (순수 함수) |
+| `scripts/combat/fleet_commander.gd` | 한 진영의 명령: 경유점 항해, 지정 침로, 종진(follow), 속도 단계, 조타 명령 변환 |
+| `scripts/combat/enemy_ai.gd` | 적 AI: search/approach/engage/retreat 상태 기계, 거리 유지·T자 가로지르기 |
 | `tests/run_tests.gd` | 단위 테스트 24개 |
-| `tests/run_combat_tests.gd` | 전투 탄도·관통 계산 테스트 10개 + 전투 시뮬레이션 테스트 9개 |
+| `tests/run_combat_tests.gd` | 전투 탄도·관통 계산 테스트 10개 + 전투 시뮬레이션 테스트 9개 + 항해·지휘·AI 테스트 8개 |
 | `tools/report.gd` | 설계 파일을 계산해 출력하는 도구 |
-| `tools/battle_report.gd` | 전투 시뮬레이션 한 판을 돌려 결과를 출력하는 도구 |
+| `tools/battle_report.gd` | AI 대 AI 3대3 전투(퀸 엘리자베스 3척 vs 고속 전함안 3척, 25km)를 돌려 결과를 출력하는 도구 |
 
 ## 실행 (Godot 4.7)
 
