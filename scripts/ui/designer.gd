@@ -395,7 +395,7 @@ func _load_design_list() -> void:
 				files.append(f)
 		files.sort()
 		for f in files:
-			var path := dir_path.path_join(f)
+			var path: String = String(dir_path).path_join(f)
 			var d := PartsDB.load_design(path)
 			if d.is_empty():
 				continue
@@ -1050,17 +1050,17 @@ func _on_weight_bar_draw() -> void:
 	if total <= 0.0:
 		return
 	# 막대 전체 길이는 총중량과 설계 배수량 중 큰 쪽을 기준으로 한다.
-	var scale := maxf(total, disp)
+	var bar_scale := maxf(total, disp)
 	var x := 0.0
 	for g in GROUP_ORDER:
 		var w := float(groups.get(g, 0.0))
 		if w <= 0.0:
 			continue
-		var w_px := rect.size.x * (w / scale)
+		var w_px := rect.size.x * (w / bar_scale)
 		weight_bar.draw_rect(Rect2(Vector2(x, 0), Vector2(w_px, rect.size.y)), GROUP_COLORS[g])
 		x += w_px
 	# 설계 배수량 위치에 세로선
-	var dx := rect.size.x * (disp / scale)
+	var dx := rect.size.x * (disp / bar_scale)
 	weight_bar.draw_line(Vector2(dx, 0), Vector2(dx, rect.size.y), Color(1, 1, 1), 2.0)
 
 
