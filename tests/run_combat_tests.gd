@@ -450,7 +450,8 @@ func test_scenario_builds() -> void:
 	var ai0: Variant = ais[0]
 	var ai1: Variant = ais[1]
 	while sim.time < 300.0:
-		ai0.update(1.0)
+		if ai0 != null:
+			ai0.update(1.0)  # 아군이 플레이어 지휘면 null
 		ai1.update(1.0)
 		cmd0.update(1.0)
 		commanders[1].update(1.0)
@@ -633,7 +634,8 @@ func test_ai_stays_in_map() -> void:
 	var outside := 0
 	for i in 4800:
 		for ai in built.ais:
-			ai.update(0.5)
+			if ai != null:
+				ai.update(0.5)
 		for cmd in built.commanders:
 			cmd.update(0.5)
 		sim.step(0.5)
@@ -641,7 +643,7 @@ func test_ai_stays_in_map() -> void:
 			if not s.is_active():
 				continue
 			var ai: Variant = built.ais[int(s.side)]
-			if String(ai.state_of(String(s.id))) == EnemyAI.STATE_RETREAT:
+			if ai == null or String(ai.state_of(String(s.id))) == EnemyAI.STATE_RETREAT:
 				continue
 			if absf(s.pos.x) > half or absf(s.pos.y) > half:
 				outside += 1
@@ -656,9 +658,37 @@ func test_battle_resolves() -> void:
 	check(limit > 0.0, "시나리오에 시간 제한이 있음")
 	while sim.winner() == -1 and sim.time < limit + 10.0:
 		for ai in built.ais:
-			ai.update(1.0)
+			if ai != null:
+				ai.update(1.0)
 		for cmd in built.commanders:
 			cmd.update(1.0)
 		sim.step(1.0)
 	var r: Dictionary = sim.result()
 	check(int(r.winner) != -1, "시간 제한 안에 반드시 끝남 (%.0f초, %s)" % [sim.time, r])
+
+
+# --- 플레이어 지휘 (C2b-2) ----------------------------------------------------
+
+func test_scenario_player_control() -> void:
+	var sc: Dictionary = BattleScenario.load_scenario("res://data/scenarios/test_battle.json")
+	var built: Dictionary = BattleScenario.build(sc, db)
+	var ais: Array = built.ais
+	check(ais.size() == 2 and ais[0] == null and ais[1] != null, "아군은 플레이어, 적군만 AI")
+	var cmd: Variant = built.commanders[0]
+	var m1 := String(cmd.mode_of("a1"))
+	check(m1 == "hold" or m1 == "heading", "a1 은 기함 (%s)" % m1)
+	check(String(cmd.mode_of("a2")) == "follow" and String(cmd.mode_of("a3")) == "follow", "a2·a3 은 종진")
+
+
+func test_player_design_override() -> void:
+	BattleScenario.player_design_override = qe.duplicate(true)
+	var sc: Dictionary = BattleScenario.load_scenario("res://data/scenarios/test_battle.json")
+	var built: Dictionary = BattleScenario.build(sc, db)
+	BattleScenario.player_design_override = {}
+	var sim: Variant = built.sim
+	var a1: Variant = sim.get_ship("a1")
+	var e1: Variant = sim.get_ship("e1")
+	check(a1 != null and String(a1.design.name) == String(qe.name), "아군이 설계 화면의 설계로 만들어짐 (%s)" % String(a1.design.name))
+	check(sim.ships.size() == 6, "척 수는 그대로 6척")
+	check(String(e1.design.name) == String(qe.name), "적군은 시나리오 설계 그대로")
+

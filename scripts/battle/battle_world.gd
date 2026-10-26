@@ -39,6 +39,11 @@ const LABEL_COLOR := Color(0.92, 0.95, 1.0)
 const WAYPOINT_COLOR := Color(0.45, 0.95, 0.55, 0.85)
 const FAINT_TARGET_LINE_COLOR := Color(1.0, 1.0, 1.0, 0.12)
 const FOLLOWER_MARK := "∙"
+const DRAG_FILL_COLOR := Color(0.55, 0.80, 1.0, 0.12)
+const DRAG_EDGE_COLOR := Color(0.55, 0.80, 1.0, 0.75)
+const MOVE_MARK_COLOR := Color(0.45, 0.95, 0.55)
+const TARGET_MARK_COLOR := Color(1.0, 0.40, 0.35)
+const MARK_LIFE_MS := 600          # ms, 명령 표시가 남는 실제 시간
 
 const MIN_SHIP_LENGTH_PX := 22.0   # px, 화면에서 함선 최소 길이
 const MIN_SHIP_BEAM_PX := 4.0      # px, 화면에서 함선 최소 폭
@@ -67,6 +72,10 @@ var scenario_name := ""
 var selected_id := ""
 ## 플레이어가 선택한 아군 함선 id 목록(선택한 순서). 모두에게 흰 고리를 그린다.
 var selected_ids: Array[String] = []
+## 드래그 선택 중인 화면 사각형(크기 0 이면 그리지 않는다).
+var drag_rect := Rect2()
+## 명령 표시: {pos: Vector2(전장 좌표), kind: "move"|"target", until: int(실제 ms)}
+var marks: Array[Dictionary] = []
 
 ## 물기둥 목록: {pos: Vector2, t: float(전장 시각), result: String}
 var _splashes: Array[Dictionary] = []
@@ -159,6 +168,8 @@ func _draw() -> void:
 	_draw_ships()
 	_draw_shells()
 	_draw_splashes()
+	_draw_marks()
+	_draw_drag_rect()
 	_draw_scale_bar()
 
 
@@ -215,6 +226,41 @@ func _draw_selection() -> void:
 	var target: Variant = sim.get_ship(String(ship.target_id)) if String(ship.target_id) != "" else null
 	if target != null:
 		draw_line(c, view(target.pos), TARGET_LINE_COLOR, 1.0)
+
+
+## 명령을 내린 위치에 짧게 남기는 표시: 이동은 녹색 ×, 목표 지정은 빨간 고리.
+func add_mark(pos: Vector2, kind: String) -> void:
+	marks.append({"pos": pos, "kind": kind, "until": Time.get_ticks_msec() + MARK_LIFE_MS})
+
+
+func _draw_marks() -> void:
+	var now := Time.get_ticks_msec()
+	var kept: Array[Dictionary] = []
+	for m in marks:
+		var left: int = int(m.until) - now
+		if left <= 0:
+			continue
+		kept.append(m)
+		var a: float = float(left) / float(MARK_LIFE_MS)
+		var p: Vector2 = view(m.pos)
+		if String(m.kind) == "target":
+			var c := TARGET_MARK_COLOR
+			c.a = a
+			draw_arc(p, 16.0 - 6.0 * a, 0.0, TAU, 24, c, 2.0, true)
+		else:
+			var c := MOVE_MARK_COLOR
+			c.a = a
+			draw_line(p + Vector2(-6.0, -6.0), p + Vector2(6.0, 6.0), c, 2.0)
+			draw_line(p + Vector2(-6.0, 6.0), p + Vector2(6.0, -6.0), c, 2.0)
+	marks = kept
+
+
+func _draw_drag_rect() -> void:
+	if drag_rect.size == Vector2.ZERO:
+		return
+	var r := drag_rect.abs()
+	draw_rect(r, DRAG_FILL_COLOR, true)
+	draw_rect(r, DRAG_EDGE_COLOR, false, 1.0)
 
 
 ## 선택된 아군 함선의 경유점: 현재 위치 → 경유점들을 얇은 녹색 선과 작은 점으로.
@@ -284,7 +330,7 @@ func _draw_ships() -> void:
 			draw_string(font, tag_pos + Vector2(id_w + 2.0, 0.0), FOLLOWER_MARK,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, LABEL_COLOR)
 		var bar_w := 20.0
-		var bar_pos := tag_pos + Vector2(18.0, -5.0)
+		var bar_pos := tag_pos + Vector2(26.0, -5.0)
 		var frac := clampf(float(s.hp) / maxf(float(s.max_hp), 1.0), 0.0, 1.0)
 		draw_rect(Rect2(bar_pos, Vector2(bar_w, 3.0)), HP_BACK_COLOR, true)
 		var hp_color := HP_FRONT_COLOR if frac > 0.35 else HP_LOW_COLOR
@@ -380,3 +426,15 @@ func _main_range_m(ship: Variant) -> float:
 			sec_km = maxf(sec_km, r)
 	var km: float = main_km if main_km > 0.0 else sec_km
 	return km * 1000.0
+
+
+## 종진에서 앞 배를 따라가는 중인가(그 진영 지휘관의 명령 mode 가 follow).
+func _is_follower(ship: Variant) -> bool:
+	var side := int(ship.side)
+	if side < 0 or side >= commanders.size():
+		return false
+	var cmd: Variant = commanders[side]
+	if cmd == null:
+		return false
+	var o: Dictionary = cmd.order_of(String(ship.id))
+	return String(o.get("mode", "")) == "follow"

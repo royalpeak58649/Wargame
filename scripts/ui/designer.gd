@@ -10,6 +10,8 @@ extends Control
 const ShipCalc = preload("res://scripts/core/ship_calc.gd")
 const PartsDB = preload("res://scripts/core/parts_db.gd")
 const DesignerOptions = preload("res://scripts/ui/designer_options.gd")
+const BattleScenario = preload("res://scripts/battle/battle_scenario.gd")
+const BATTLE_SCENE := "res://scenes/battle/battle.tscn"
 
 const PARTS_PATH := "res://data/parts_t2.json"
 const DESIGN_DIRS := ["res://data/designs", "user://designs"]
@@ -84,6 +86,7 @@ var name_edit: LineEdit
 var meta_label: Label
 var banner: Label
 var save_button: Button
+var battle_button: Button
 var new_button: Button
 
 var hull_dropdown: OptionButton
@@ -193,6 +196,11 @@ func _build_top_bar() -> Control:
 	save_button.text = "저장"
 	save_button.pressed.connect(_on_save_pressed)
 	bar.add_child(save_button)
+
+	battle_button = Button.new()
+	battle_button.text = "시험 전투"
+	battle_button.pressed.connect(_on_battle_pressed)
+	bar.add_child(battle_button)
 
 	bar.add_child(_label("이름"))
 	name_edit = LineEdit.new()
@@ -1028,6 +1036,14 @@ func _update_results() -> void:
 	issues_label.text = "\n".join(lines)
 
 
+## 지금 설계로 시험 전투를 한다(아군 3척 모두 이 설계). 특별 군함도 가능.
+func _on_battle_pressed() -> void:
+	if not bool(result.get("valid", false)):
+		return
+	BattleScenario.player_design_override = design.duplicate(true)
+	get_tree().change_scene_to_file(BATTLE_SCENE)
+
+
 func _update_status() -> void:
 	var errors: Array = result.get("errors", [])
 	var ok := bool(result.get("valid", false))
@@ -1035,6 +1051,9 @@ func _update_status() -> void:
 	if status_note != "":
 		text += " · " + status_note
 	status_label.text = text
+	if battle_button != null:
+		battle_button.disabled = not ok
+		battle_button.tooltip_text = "" if ok else "설계 불가 상태에서는 전투할 수 없음"
 	status_label.add_theme_color_override("font_color",
 		Color(0.55, 0.85, 0.55) if ok else Color(0.95, 0.40, 0.40))
 
