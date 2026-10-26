@@ -5,6 +5,7 @@ extends SceneTree
 
 const ShipCalc = preload("res://scripts/core/ship_calc.gd")
 const PartsDB = preload("res://scripts/core/parts_db.gd")
+const DesignerOptions = preload("res://scripts/ui/designer_options.gd")
 
 var db: Dictionary
 var qe: Dictionary
@@ -215,3 +216,56 @@ func test_special_cost_rules() -> void:
 	var reward := variant(qe)
 	reward.special = "reward"
 	check(ShipCalc.compute_cost(reward, db).cost == 0.0, "보상형은 건조 비용 0")
+
+
+# --- 설계 화면 선택지 (designer_options.gd) ------------------------------------
+
+func _options_db() -> Dictionary:
+	return PartsDB.load_many(["res://data/parts_t2.json"])
+
+
+func _slot(hull_id: String, slot_id: String) -> Dictionary:
+	var odb := _options_db()
+	for s in odb.hulls[hull_id].slots:
+		if String(s.id) == slot_id:
+			return s
+	return {}
+
+
+func test_options_uk_bb_main_guns() -> void:
+	var odb := _options_db()
+	var d := {"nation": "UK", "tier": 2, "shipClass": "BB"}
+	var opts := DesignerOptions.gun_options(odb, d, _slot("hull_bb_t2_a", "main_A"))
+	check(opts.has("gun_381mm_t2"), "영국 T2 전함 주포에 381mm 포함: %s" % [opts])
+	check(opts.has("gun_343mm_t2"), "영국 T2 전함 주포에 343mm 포함: %s" % [opts])
+	# 102mm 는 type main 이고 구경 102 ≤ 381, nations 없음 → 실제로 포함된다.
+	check(opts.has("gun_102mm_t2"), "102mm 는 type main 이라 포함: %s" % [opts])
+	check(not opts.has("gun_305mm_t2"), "305mm 는 독일 전용이라 제외: %s" % [opts])
+	check(not opts.has("gun_152mm_t2"), "152mm 는 부포라 제외: %s" % [opts])
+
+
+func test_options_torpedo_barrels() -> void:
+	var odb := _options_db()
+	var opts := DesignerOptions.barrel_options(odb.guns["torp_533mm_t2"], _slot("hull_dd_t2_a", "torp_1"))
+	check(opts == [2, 3], "533mm 어뢰 발사관은 2, 3문: %s" % [opts])
+
+
+func test_options_secondary_barrels() -> void:
+	var odb := _options_db()
+	var opts := DesignerOptions.barrel_options(odb.guns["gun_152mm_t2"], _slot("hull_bb_t2_a", "sec_P"))
+	check(opts == [1, 2, 3, 4, 5, 6, 7, 8], "152mm 부포는 1~8문: %s" % [opts])
+
+
+func test_options_dd_machinery() -> void:
+	var odb := _options_db()
+	var d := {"nation": "UK", "tier": 2, "shipClass": "DD"}
+	var opts := DesignerOptions.machinery_options(odb, d)
+	check(opts == ["turbine_t2_oil_light"], "구축함 기관은 경량 터빈만: %s" % [opts])
+
+
+func test_options_tier_filter() -> void:
+	var odb := _options_db()
+	var d := {"nation": "UK", "tier": 1, "shipClass": "BB"}
+	var opts := DesignerOptions.gun_options(odb, d, _slot("hull_bb_t2_a", "main_A"))
+	check(not opts.has("gun_381mm_t2"), "T1 설계에 T2 381mm 는 없음: %s" % [opts])
+	check(opts.has("gun_343mm_t2"), "T1 설계에 T1 343mm 는 있음: %s" % [opts])

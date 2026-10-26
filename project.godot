@@ -5,4 +5,10 @@ config_version=5
 
 config/name="Naval Fleet Prototype"
 config/description="함선 설계 + 함대 지휘 2D 실시간 전술 프로토타입"
+run/main_scene="res://scenes/designer/designer.tscn"
 config/features=PackedStringArray("4.3")
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720

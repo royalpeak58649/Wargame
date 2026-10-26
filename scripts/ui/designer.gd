@@ -47,14 +47,15 @@ const GROUP_COLORS := {
 	"ballast": Color(0.30, 0.40, 0.50),
 }
 ## 기획서 일반 범위(비율). 벗어나면 회색 참고 표시만 한다(경고 아님).
+## 연료·기타는 합계 5~10% 로 보므로 여기에는 넣지 않고 _update_results 에서 따로 본다.
 const GROUP_NORMAL_RANGE := {
 	"structure": [0.30, 0.40],
 	"armor": [0.20, 0.40],
 	"machinery": [0.10, 0.20],
 	"weapons": [0.10, 0.25],
-	"fuel": [0.05, 0.10],
-	"misc": [0.05, 0.10],
 }
+## 연료 + 기타 합계의 일반 범위(비율).
+const FUEL_MISC_NORMAL_RANGE := [0.05, 0.10]
 
 const SLOT_TYPE_LABELS := {"main": "주포", "secondary": "부포", "torpedo": "어뢰"}
 const SPECIAL_LABELS := {"reward": "보상형", "buildable": "건조형", "paper": "계획함"}
@@ -715,10 +716,20 @@ func _fill_dropdown(dd: OptionButton, labels: Array, ids: Array, current: String
 
 func _apply_editability() -> void:
 	var editable := ShipCalc.can_edit(design)
-	for c in [design_dropdown, new_button, hull_dropdown, length_slider, length_spin,
-			beam_slider, beam_spin, machinery_dropdown, power_slider, power_spin,
-			fc_dropdown, fuel_slider]:
-		(c as Control).set("disabled", not editable)
+	# 설계 목록과 "새 설계" 는 특별 군함을 열람 중이어도 항상 쓸 수 있어야 한다.
+	design_dropdown.disabled = false
+	new_button.disabled = false
+	# OptionButton 은 disabled, HSlider/SpinBox 는 editable 로 잠근다.
+	hull_dropdown.disabled = not editable
+	machinery_dropdown.disabled = not editable
+	fc_dropdown.disabled = not editable
+	length_slider.editable = editable
+	length_spin.editable = editable
+	beam_slider.editable = editable
+	beam_spin.editable = editable
+	power_slider.editable = editable
+	power_spin.editable = editable
+	fuel_slider.editable = editable
 	name_edit.editable = editable
 	for key in armor_spins:
 		(armor_spins[key] as SpinBox).editable = editable
@@ -956,6 +967,14 @@ func _update_results() -> void:
 			var r: Array = GROUP_NORMAL_RANGE[g]
 			if frac < float(r[0]) or frac > float(r[1]):
 				text += "  [참고: 일반 %d~%d%%]" % [int(float(r[0]) * 100.0), int(float(r[1]) * 100.0)]
+		# 연료·기타는 합계로 본다. 기타 줄 끝에 합계 참고를 붙인다.
+		if has_weights and g == "misc":
+			var fuel_misc := float(fractions.get("fuel", 0.0)) + frac
+			if fuel_misc < float(FUEL_MISC_NORMAL_RANGE[0]) or fuel_misc > float(FUEL_MISC_NORMAL_RANGE[1]):
+				text += "  [참고: 연료·기타 합계 %.1f%%, 일반 %d~%d%%]" % [
+					fuel_misc * 100.0,
+					int(float(FUEL_MISC_NORMAL_RANGE[0]) * 100.0),
+					int(float(FUEL_MISC_NORMAL_RANGE[1]) * 100.0)]
 		(weight_rows[g] as Label).text = text
 
 	if has_weights:
