@@ -5,6 +5,8 @@ extends RefCounted
 ##   {
 ##     "name": "시험 전투",
 ##     "seed": 1,
+##     "mapHalfM": 22500,      (선택) 맵 반폭(m). 없으면 0 = 경계 없음
+##     "timeLimitS": 5400,     (선택) 전장 시간 제한(s). 없으면 0 = 제한 없음
 ##     "sides": [
 ##       {"label": "아군", "designs": ["res://...json", ...],
 ##        "start": [x, y], "heading": 0, "column": true},
@@ -43,6 +45,8 @@ static func load_scenario(path: String) -> Dictionary:
 static func build(scenario: Dictionary, db: Dictionary) -> Dictionary:
 	var seed_value := int(scenario.get("seed", DEFAULT_SEED))
 	var sim := BattleSim.new(db, seed_value)
+	sim.map_half_m = float(scenario.get("mapHalfM", 0.0))
+	sim.time_limit_s = float(scenario.get("timeLimitS", 0.0))
 	var commanders: Array = []
 	var ais: Array = []
 	var sides: Array = scenario.get("sides", [])

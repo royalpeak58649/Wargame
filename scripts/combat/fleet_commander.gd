@@ -126,7 +126,7 @@ func order_of(ship_id: String) -> Dictionary:
 func update(dt: float) -> void:
 	_update_trails()
 	for s in sim.ships:
-		if int(s.side) != side or s.sunk:
+		if int(s.side) != side or not s.is_active():
 			continue
 		var o := _order(String(s.id))
 		match String(o.mode):
@@ -155,7 +155,7 @@ func _order_speed_capped(s: Variant, frac: float) -> void:
 
 func _has_follower(ship_id: String) -> bool:
 	for other in sim.ships:
-		if int(other.side) != side or other.sunk:
+		if int(other.side) != side or not other.is_active():
 			continue
 		var oo := _order(String(other.id))
 		if String(oo.mode) == MODE_FOLLOW and String(oo.leader_id) == ship_id:
@@ -181,7 +181,7 @@ func _apply_move(s: Variant, o: Dictionary) -> void:
 
 func _apply_follow(s: Variant, o: Dictionary) -> void:
 	var leader: Variant = sim.get_ship(String(o.leader_id))
-	if leader == null or leader.sunk:
+	if leader == null or not leader.is_active():
 		_promote_follower(s, o)
 		return
 	var target: Vector2 = _trail_point_behind(leader, COLUMN_SPACING_M)
@@ -200,7 +200,7 @@ func _promote_follower(s: Variant, o: Dictionary) -> void:
 	if old_leader != null and orders.has(old_leader_id):
 		var lo: Dictionary = orders[old_leader_id]
 		next_id = String(lo.leader_id)
-	if next_id != "" and sim.get_ship(next_id) != null and not sim.get_ship(next_id).sunk:
+	if next_id != "" and sim.get_ship(next_id) != null and sim.get_ship(next_id).is_active():
 		o.leader_id = next_id
 		o.mode = MODE_FOLLOW
 		_apply_follow(s, o)
@@ -224,7 +224,7 @@ func _promote_follower(s: Variant, o: Dictionary) -> void:
 
 func _update_trails() -> void:
 	for s in sim.ships:
-		if int(s.side) != side or s.sunk:
+		if int(s.side) != side or not s.is_active():
 			continue
 		var id := String(s.id)
 		var trail: Array = trails.get(id, [])

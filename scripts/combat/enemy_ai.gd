@@ -25,6 +25,7 @@ const TURN_STEP_DEG := 30.0        # °, 거리 유지 기동 꺾는 각
 const RETREAT_HP_FRAC := 0.3       # 무차원, 이 비율 미만이면 퇴각
 const SEARCH_SPEED_FRAC := 0.75    # 무차원, 수색 중 속도
 const FULL_SPEED_FRAC := 1.0       # 무차원, 교전·퇴각 속도
+const EDGE_MARGIN_M := 3000.0      # m, 맵 경계에서 이만큼 안쪽에 들어오면 안쪽으로 꺾는다
 
 const STATE_SEARCH := "search"
 const STATE_APPROACH := "approach"
@@ -73,7 +74,7 @@ func preferred_range_of(ship_id: String) -> float:
 ## 매 단계 commander.update 전에 호출.
 func update(dt: float) -> void:
 	for s in sim.ships:
-		if int(s.side) != side or s.sunk:
+		if int(s.side) != side or not s.is_active():
 			continue
 		var id := String(s.id)
 		if not states.has(id):
@@ -122,13 +123,14 @@ func _think(s: Variant) -> void:
 
 
 func _do_search(s: Variant) -> void:
-	commander.order_heading(String(s.id), float(s.heading_deg), SEARCH_SPEED_FRAC)
+	commander.order_heading(String(s.id), _edge_heading(s, float(s.heading_deg)), SEARCH_SPEED_FRAC)
 
 
 func _do_approach(s: Variant, enemy: Variant) -> void:
 	commander.order_target(String(s.id), String(enemy.id))
 	targets[String(s.id)] = String(enemy.id)
-	commander.order_heading(String(s.id), Navigation.steer_to_point(s, enemy.pos), FULL_SPEED_FRAC)
+	var heading: float = Navigation.steer_to_point(s, enemy.pos)
+	commander.order_heading(String(s.id), _edge_heading(s, heading), FULL_SPEED_FRAC)
 
 
 func _do_engage(s: Variant, enemy: Variant, dist: float, pref: float) -> void:
@@ -164,7 +166,7 @@ func _do_engage(s: Variant, enemy: Variant, dist: float, pref: float) -> void:
 	elif dist < pref - RANGE_BAND_M:
 		order_heading = wrapf(base - TURN_STEP_DEG * _sign(Navigation.angle_diff_deg(base, bearing)), 0.0, 360.0)
 
-	commander.order_heading(id, order_heading, FULL_SPEED_FRAC)
+	commander.order_heading(id, _edge_heading(s, order_heading), FULL_SPEED_FRAC)
 
 
 func _do_retreat(s: Variant) -> void:
@@ -174,14 +176,28 @@ func _do_retreat(s: Variant) -> void:
 		commander.order_heading(id, float(s.heading_deg), FULL_SPEED_FRAC)
 		return
 	# 사격은 계속한다(목표 유지).
-	if not targets.has(id) or sim.get_ship(String(targets[id])) == null or sim.get_ship(String(targets[id])).sunk:
+	if not targets.has(id) or sim.get_ship(String(targets[id])) == null or not sim.get_ship(String(targets[id])).is_active():
 		commander.order_target(id, String(enemy.id))
 		targets[id] = String(enemy.id)
 	var away: float = Navigation.bearing_deg(enemy.pos, s.pos)
+	# 퇴각은 경계 처리를 하지 않는다: 맵을 벗어나면 이탈이 된다.
 	commander.order_heading(id, away, FULL_SPEED_FRAC)
 
 
 # --- 내부 -------------------------------------------------------------------
+
+## 맵 경계 처리: 경계 안쪽 EDGE_MARGIN_M 안에 들어오면 원래 침로와 맵 중심 방향의
+## 가운데 침로로 꺾는다. 경계가 없거나(sim.map_half_m <= 0) 아직 안쪽이면 그대로.
+func _edge_heading(s: Variant, heading: float) -> float:
+	var half: float = float(sim.map_half_m)
+	if half <= 0.0:
+		return heading
+	var pos: Vector2 = s.pos
+	var inner: float = half - EDGE_MARGIN_M
+	if absf(pos.x) <= inner and absf(pos.y) <= inner:
+		return heading
+	var to_center: float = Navigation.bearing_deg(pos, Vector2.ZERO)
+	return wrapf(heading + Navigation.angle_diff_deg(heading, to_center) * 0.5, 0.0, 360.0)
 
 ## 가장 가까운 적. 기존 목표와 거리 차이가 TARGET_SWITCH_M 안이면 유지한다.
 func _pick_target(s: Variant, nearest: Variant) -> Variant:
@@ -189,7 +205,7 @@ func _pick_target(s: Variant, nearest: Variant) -> Variant:
 	if not targets.has(id):
 		return nearest
 	var current: Variant = sim.get_ship(String(targets[id]))
-	if current == null or current.sunk:
+	if current == null or not current.is_active():
 		return nearest
 	var d_cur: float = s.pos.distance_to(current.pos)
 	var d_new: float = s.pos.distance_to(nearest.pos)
@@ -202,7 +218,7 @@ func _nearest_enemy(s: Variant) -> Variant:
 	var best: Variant = null
 	var best_d := INF
 	for other in sim.ships:
-		if int(other.side) == int(s.side) or other.sunk:
+		if int(other.side) == int(s.side) or not other.is_active():
 			continue
 		var d: float = s.pos.distance_to(other.pos)
 		if d < best_d:

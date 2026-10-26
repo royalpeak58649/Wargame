@@ -1,6 +1,8 @@
 {
   "name": "시험 전투",
   "seed": 1,
+  "mapHalfM": 22500,
+  "timeLimitS": 5400,
   "sides": [
     {"label": "아군", "designs": ["res://data/designs/player_bb_fast.json", "res://data/designs/player_bb_fast.json", "res://data/designs/player_bb_fast.json"],
      "start": [0, -12500], "heading": 0, "column": true},

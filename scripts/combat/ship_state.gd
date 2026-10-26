@@ -41,6 +41,7 @@ var accuracy_mult: float = 1.0
 var max_hp: float = 0.0
 var hp: float = 0.0
 var sunk: bool = false
+var withdrawn: bool = false
 var speed_mult: float = 1.0
 var rudder_jam_until: float = 0.0
 var fires: Array[float] = []
@@ -166,6 +167,11 @@ func step_movement(t: float, dt: float) -> bool:
 	var turned: float = absf(wrapf(heading_deg - heading_before, -180.0, 180.0))
 	var speed_delta: float = absf(speed_ms - speed_before)
 	return turned > BIG_TURN_DEG_PER_SEC * dt or speed_delta > BIG_SPEED_DELTA_MS2 * dt
+
+
+## 전투에 남아 있는가: 침몰하지도, 전장을 이탈하지도 않았다.
+func is_active() -> bool:
+	return not sunk and not withdrawn
 
 
 func forward() -> Vector2:
