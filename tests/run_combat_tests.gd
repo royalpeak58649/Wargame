@@ -297,9 +297,15 @@ func test_move_to_waypoint() -> void:
 		cmd.update(1.0)
 		sim.step(1.0)
 		t += 1.0
-	check(cmd.mode_of("qe1") == FleetCommander.MODE_HOLD,		"경유점 도착 후 명령이 hold (%.0f초, 거리 %.0fm)" % [t, ship.pos.distance_to(Vector2(5000.0, 5000.0))])	check(Navigation.arrived(ship, Vector2(5000.0, 5000.0), FleetCommander.ARRIVE_RADIUS_M),		"경유점 300m 안 도착 (거리 %.0fm)" % ship.pos.distance_to(Vector2(5000.0, 5000.0)))
+	check(cmd.mode_of("qe1") == FleetCommander.MODE_HOLD,
+		"경유점 도착 후 명령이 hold (%.0f초, 거리 %.0fm)" % [t, ship.pos.distance_to(Vector2(5000.0, 5000.0))])
+	check(Navigation.arrived(ship, Vector2(5000.0, 5000.0), FleetCommander.ARRIVE_RADIUS_M),
+		"경유점 300m 안 도착 (거리 %.0fm)" % ship.pos.distance_to(Vector2(5000.0, 5000.0)))
 
-func test_column_keeps_spacing() -> void:	var sim := BattleSim.new(db, 4)	var ids: Array[String] = ["qe1", "qe2", "qe3"]
+
+func test_column_keeps_spacing() -> void:
+	var sim := BattleSim.new(db, 4)
+	var ids: Array[String] = ["qe1", "qe2", "qe3"]
 	for i in ids.size():
 		sim.add_ship(ShipState.create(ids[i], 0, qe, db, Vector2(0.0, -600.0 * float(i)), 0.0))
 	var cmd := FleetCommander.new(sim, 0)

@@ -22,9 +22,11 @@ const TRAIL_SAMPLE_M := 100.0      # m, 항적 기록 간격
 const TRAIL_MAX := 200             # 점, 함선마다 보관하는 항적 최대 점 수
 const COLUMN_SPACING_M := 600.0    # m, 종진에서 앞 배와의 간격
 const SPACING_GAIN_M := 1500.0     # m, 간격 오차 1m 당 속도 비율 변화
+const TRAIL_OFFSET_FALLBACK_M := 400.0  # m, 뒤 배가 앞 배 항적에서 이보다 멀면 직선거리로 간격을 잰다
 const SPEED_STEP := 0.25           # 무차원, 허용 속도 단계
 const SPEED_MIN := 0.25            # 무차원, 종진 속도 하한
 const SPEED_MAX := 1.0             # 무차원, 종진 속도 상한
+const COLUMN_LEADER_MAX_FRAC := 0.85  # 무차원, 뒤에 배가 붙은 기함의 속도 상한(뒤 배가 따라잡을 여유)
 
 const MODE_HOLD := "hold"          # 현재 침로 유지
 const MODE_MOVE := "move"          # 경유점 목록을 차례로 항해
@@ -132,7 +134,7 @@ func update(dt: float) -> void:
 				_apply_move(s, o)
 			MODE_HEADING:
 				sim.order_heading(String(s.id), float(o.heading_deg))
-				sim.order_speed(String(s.id), float(o.speed_frac))
+				_order_speed_capped(s, float(o.speed_frac))
 			MODE_FOLLOW:
 				_apply_follow(s, o)
 			_:
@@ -141,7 +143,24 @@ func update(dt: float) -> void:
 
 func _apply_hold(s: Variant, o: Dictionary) -> void:
 	sim.order_heading(String(s.id), float(s.heading_deg))
-	sim.order_speed(String(s.id), float(o.speed_frac))
+	_order_speed_capped(s, float(o.speed_frac))
+
+
+## 뒤에 따라오는 배가 있는 기함이면 속도를 COLUMN_LEADER_MAX_FRAC 로 제한한다.
+func _order_speed_capped(s: Variant, frac: float) -> void:
+	if _has_follower(String(s.id)):
+		frac = minf(frac, COLUMN_LEADER_MAX_FRAC)
+	sim.order_speed(String(s.id), frac)
+
+
+func _has_follower(ship_id: String) -> bool:
+	for other in sim.ships:
+		if int(other.side) != side or other.sunk:
+			continue
+		var oo := _order(String(other.id))
+		if String(oo.mode) == MODE_FOLLOW and String(oo.leader_id) == ship_id:
+			return true
+	return false
 
 
 func _apply_move(s: Variant, o: Dictionary) -> void:
@@ -152,7 +171,7 @@ func _apply_move(s: Variant, o: Dictionary) -> void:
 			wps.remove_at(0)
 			continue
 		sim.order_heading(String(s.id), Navigation.steer_to_point(s, wp))
-		sim.order_speed(String(s.id), float(o.speed_frac))
+		_order_speed_capped(s, float(o.speed_frac))
 		return
 	# 경유점을 모두 지나면 현재 침로 유지
 	o.mode = MODE_HOLD
@@ -168,7 +187,8 @@ func _apply_follow(s: Variant, o: Dictionary) -> void:
 	var target: Vector2 = _trail_point_behind(leader, COLUMN_SPACING_M)
 	sim.order_heading(String(s.id), Navigation.steer_to_point(s, target))
 	var gap: float = _trail_distance(leader, s.pos)
-	var frac: float = float(o.speed_frac) + (gap - COLUMN_SPACING_M) / SPACING_GAIN_M
+	# 앞 배의 실제 속도 명령을 기준으로 간격 오차만큼 가감한다.
+	var frac: float = float(leader.order_speed_frac) + (gap - COLUMN_SPACING_M) / SPACING_GAIN_M
 	sim.order_speed(String(s.id), clampf(frac, SPEED_MIN, SPEED_MAX))
 
 
@@ -236,17 +256,29 @@ func _trail_point_behind(ship: Variant, back_m: float) -> Vector2:
 	return ship.pos - ship.forward() * back_m
 
 
-## 함선 항적을 따라 그 함선 현재 위치까지의 거리(항적 길이).
+## 앞 배(ship) 현재 위치에서 그 항적을 거슬러 올라가, point 와 가장 가까운 항적 지점까지의 길이.
+## point 가 항적에서 TRAIL_OFFSET_FALLBACK_M 보다 멀리 떨어져 있으면 직선거리를 쓴다.
 func _trail_distance(ship: Variant, point: Vector2) -> float:
 	var trail: Array = trails.get(String(ship.id), [])
 	var acc := 0.0
 	var prev: Vector2 = ship.pos
+	var best_along := prev.distance_to(point)
+	var best_off := INF
 	for i in range(trail.size() - 1, -1, -1):
 		var p: Vector2 = trail[i]
-		acc += prev.distance_to(p)
+		var seg: float = prev.distance_to(p)
+		if seg > 0.001:
+			var t: float = clampf((point - prev).dot(p - prev) / (seg * seg), 0.0, 1.0)
+			var proj: Vector2 = prev.lerp(p, t)
+			var off: float = proj.distance_to(point)
+			if off < best_off:
+				best_off = off
+				best_along = acc + seg * t
+		acc += seg
 		prev = p
-	acc += prev.distance_to(point)
-	return acc
+	if best_off > TRAIL_OFFSET_FALLBACK_M:
+		return ship.pos.distance_to(point)
+	return best_along
 
 
 # --- 내부 -------------------------------------------------------------------
