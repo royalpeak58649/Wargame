@@ -37,6 +37,7 @@ const AI_STATE_LABELS := {
 	"retreat": "퇴각",
 }
 const GUN_TYPE_LABELS := {"main": "주포", "secondary": "부포", "torpedo": "어뢰"}
+const REASON_LABELS := {"annihilation": "격멸", "withdrawal": "적 퇴각", "mutual": "상호 전멸", "time": "시간 판정"}
 
 # --- 상태 -------------------------------------------------------------------
 
@@ -120,7 +121,7 @@ func _process(delta: float) -> void:
 			_accum -= SIM_DT
 			_step_once()
 			steps += 1
-			if sim.winner() != -1:
+			if int(sim.result().winner) != -1:
 				_finish_battle()
 				break
 		if steps >= MAX_STEPS_PER_FRAME:
@@ -386,7 +387,11 @@ func _update_hud() -> void:
 	if sim == null:
 		return
 	_title_label.text = scenario_name
-	_time_label.text = "경과 %s" % _format_time(float(sim.time))
+	var limit: float = float(sim.time_limit_s)
+	if limit > 0.0:
+		_time_label.text = "경과 %s · 남은 %s" % [_format_time(float(sim.time)), _format_time(limit - float(sim.time))]
+	else:
+		_time_label.text = "경과 %s" % _format_time(float(sim.time))
 	_pause_button.text = "재개" if paused else "일시정지"
 	for i in _speed_buttons.size():
 		var b: Button = _speed_buttons[i]
@@ -428,9 +433,11 @@ func _update_info_panel() -> void:
 
 
 func _show_end_panel() -> void:
-	var w: int = sim.winner()
+	var r: Dictionary = sim.result()
+	var w: int = int(r.winner)
 	_end_title.text = "아군 승리" if w == 0 else ("적군 승리" if w == 1 else "무승부")
-	_end_time.text = "경과 시간 %s" % _format_time(float(sim.time))
+	var reason := String(REASON_LABELS.get(String(r.reason), String(r.reason)))
+	_end_time.text = "%s · 경과 시간 %s" % [reason, _format_time(float(sim.time))]
 	_end_table.text = _summary_table()
 	_end_panel.visible = true
 
@@ -438,13 +445,14 @@ func _show_end_panel() -> void:
 func _summary_table() -> String:
 	var sum: Dictionary = sim.summary()
 	var lines: Array[String] = []
-	lines.append("[b]함선  진영  발사  명중  관통  가한 피해  받은 피해  침몰[/b]")
+	lines.append("[b]함선  진영  발사  명중  관통  가한 피해  받은 피해  결과[/b]")
 	for s in sim.ships:
 		var r: Dictionary = sum[s.id]
 		var side := clampi(int(s.side), 0, 1)
 		lines.append("%s  %s  %d  %d  %d  %.0f  %.0f  %s" % [
 			String(s.id), SIDE_LABELS[side], int(r.fired), int(r.hits), int(r.pen),
-			float(r.damageDealt), float(r.damageTaken), "예" if bool(r.sunk) else "아니오"])
+			float(r.damageDealt), float(r.damageTaken),
+			"침몰" if bool(r.sunk) else ("이탈" if bool(r.withdrawn) else "생존")])
 	return "\n".join(lines)
 
 

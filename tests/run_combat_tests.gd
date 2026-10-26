@@ -554,3 +554,111 @@ func _nearest_enemy(sim: BattleSim, ship: Variant) -> Variant:
 			best_d = d
 			best = other
 	return best
+
+
+# --- 전장 이탈과 시간 제한 (C2b-1) ------------------------------------------
+
+func test_withdraw_at_edge() -> void:
+	var sim := BattleSim.new(db, 41)
+	sim.map_half_m = 5000.0
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2(4500.0, 0.0), 90.0)
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(-3000.0, 0.0), 90.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	sim.order_speed("a", 1.0)
+	a.speed_ms = a.max_speed_ms  # 이미 전속으로 달리는 중
+	for i in 120:
+		sim.step(1.0)
+	check(bool(a.withdrawn) and not a.is_active(), "경계를 넘으면 이탈 (x = %.0f)" % a.pos.x)
+	check(sim.side_alive(0) == 0, "이탈한 배는 생존 수에서 빠짐")
+	var r := sim.result()
+	check(int(r.winner) == 1 and String(r.reason) == "withdrawal", "전원 이탈 → 상대 승, 사유 퇴각 (%s)" % [r])
+
+
+func test_withdrawn_not_targeted() -> void:
+	var sim := BattleSim.new(db, 42)
+	sim.map_half_m = 13000.0
+	# a 는 동쪽 경계 근처에서 동쪽으로 달려 이탈한다. b 는 서로 사거리 안에서 정지.
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2(12000.0, 0.0), 90.0)
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(0.0, 0.0), 0.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	sim.order_target("a", "b")
+	sim.order_target("b", "a")
+	sim.order_speed("a", 1.0)
+	a.speed_ms = a.max_speed_ms
+	var t_out := -1.0
+	for i in 600:
+		sim.step(1.0)
+		if t_out < 0.0 and bool(a.withdrawn):
+			t_out = sim.time
+	check(t_out > 0.0, "a 이탈 (%.0f초)" % t_out)
+	var bad_target := false
+	var bad_shooter := false
+	for e in sim.log:
+		if String(e.kind) != "hit":
+			continue
+		if String(e.target) == "a" and float(e.t) > t_out:
+			bad_target = true
+		if String(e.shooter) == "a" and float(e.t) > t_out + 40.0:
+			bad_shooter = true
+	check(not bad_target, "이탈 뒤 그 배를 맞힌 기록 없음")
+	check(not bad_shooter, "이탈 뒤 그 배가 쏜 기록 없음")
+
+
+func test_time_limit_judgement() -> void:
+	var sim := BattleSim.new(db, 43)
+	sim.time_limit_s = 60.0
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2(0.0, 0.0), 0.0)
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(40000.0, 0.0), 0.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	b.hp = b.max_hp * 0.5
+	for i in 59:
+		sim.step(1.0)
+	check(sim.winner() == -1, "시간 제한 전에는 진행 중")
+	sim.step(1.0)
+	var r := sim.result()
+	check(int(r.winner) == 0 and String(r.reason) == "time", "남은 전력이 많은 쪽이 시간 판정승 (%s)" % [r])
+	b.hp = a.hp
+	check(sim.winner() == 2, "남은 전력이 같으면 무승부")
+
+
+func test_ai_stays_in_map() -> void:
+	var sc: Dictionary = BattleScenario.load_scenario("res://data/scenarios/test_battle.json")
+	var built: Dictionary = BattleScenario.build(sc, db)
+	var sim: Variant = built.sim
+	var half: float = float(sim.map_half_m)
+	check(half > 0.0, "시나리오에 맵 경계가 있음")
+	var outside := 0
+	for i in 4800:
+		for ai in built.ais:
+			ai.update(0.5)
+		for cmd in built.commanders:
+			cmd.update(0.5)
+		sim.step(0.5)
+		for s in sim.ships:
+			if not s.is_active():
+				continue
+			var ai: Variant = built.ais[int(s.side)]
+			if String(ai.state_of(String(s.id))) == EnemyAI.STATE_RETREAT:
+				continue
+			if absf(s.pos.x) > half or absf(s.pos.y) > half:
+				outside += 1
+	check(outside == 0, "퇴각하지 않는 배는 맵 안에 머묾 (경계 밖 %d 회)" % outside)
+
+
+func test_battle_resolves() -> void:
+	var sc: Dictionary = BattleScenario.load_scenario("res://data/scenarios/test_battle.json")
+	var built: Dictionary = BattleScenario.build(sc, db)
+	var sim: Variant = built.sim
+	var limit: float = float(sim.time_limit_s)
+	check(limit > 0.0, "시나리오에 시간 제한이 있음")
+	while sim.winner() == -1 and sim.time < limit + 10.0:
+		for ai in built.ais:
+			ai.update(1.0)
+		for cmd in built.commanders:
+			cmd.update(1.0)
+		sim.step(1.0)
+	var r: Dictionary = sim.result()
+	check(int(r.winner) != -1, "시간 제한 안에 반드시 끝남 (%.0f초, %s)" % [sim.time, r])

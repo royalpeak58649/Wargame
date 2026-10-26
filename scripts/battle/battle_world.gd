@@ -200,6 +200,8 @@ func _draw_selection() -> void:
 func _draw_ships() -> void:
 	var font := ThemeDB.fallback_font
 	for s in sim.ships:
+		if s.withdrawn:
+			continue  # 전장을 이탈한 배는 그리지 않는다
 		var c := view(s.pos)
 		var color: Color = SUNK_COLOR if s.sunk else SIDE_COLORS[clampi(int(s.side), 0, 1)]
 		var length_px := _ship_length_px(s)

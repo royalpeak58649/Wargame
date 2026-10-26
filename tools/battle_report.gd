@@ -17,6 +17,8 @@ const MAX_TIME := 5400.0           # s, 최대 전투 시간
 const START_DISTANCE_M := 25000.0  # m, 시작 거리
 const COLUMN_GAP_M := 600.0        # m, 종진 함선 간격
 const LOG_TAIL := 20               # 개, 마지막 로그 줄 수
+const MAP_HALF_M := 22500.0        # m, 맵 반폭(45km × 45km). 밖으로 나가면 이탈
+const REASON_LABELS := {"annihilation": "격멸", "withdrawal": "퇴각", "mutual": "상호 전멸", "time": "시간 판정"}
 
 
 func _init() -> void:
@@ -30,6 +32,8 @@ func _init() -> void:
 	var player := PartsDB.load_design("res://data/designs/player_bb_fast.json")
 
 	var sim := BattleSim.new(db, seed_value)
+	sim.map_half_m = MAP_HALF_M
+	sim.time_limit_s = MAX_TIME
 	# side 0: 남쪽에서 북쪽으로, side 1: 북쪽에서 남쪽으로
 	var half := START_DISTANCE_M / 2.0
 	var ids0: Array[String] = ["qe1", "qe2", "qe3"]
@@ -47,7 +51,7 @@ func _init() -> void:
 	var ai1 := EnemyAI.new(sim, cmd1, 1)
 
 	var broken := {}
-	while sim.time < MAX_TIME and sim.winner() == -1:
+	while sim.winner() == -1:
 		ai0.update(DT)
 		ai1.update(DT)
 		_break_engaged(ai0, cmd0, broken)
@@ -59,8 +63,9 @@ func _init() -> void:
 	print("")
 	print("=== 전투 보고 (seed %d) ===" % seed_value)
 	print("경과 시간: %.0f초 (%.1f분)" % [sim.time, sim.time / 60.0])
-	var w := sim.winner()
-	print("승자: %s" % ("무승부/미결" if w == -1 else "side %d" % w))
+	var r := sim.result()
+	var w := int(r.winner)
+	print("결과: %s (%s)" % ["무승부" if w == 2 else "side %d 승리" % w, String(REASON_LABELS.get(String(r.reason), String(r.reason)))])
 	print("")
 	_print_summary(sim)
 	print("")
@@ -73,7 +78,7 @@ func _init() -> void:
 ## 교전에 들어간 함선은 종진에서 빠진다.
 func _break_engaged(ai: Variant, cmd: Variant, broken: Dictionary) -> void:
 	for s in ai.sim.ships:
-		if int(s.side) != int(ai.side) or s.sunk:
+		if int(s.side) != int(ai.side) or not s.is_active():
 			continue
 		var id := String(s.id)
 		if broken.has(id):
@@ -86,13 +91,13 @@ func _break_engaged(ai: Variant, cmd: Variant, broken: Dictionary) -> void:
 func _print_summary(sim: BattleSim) -> void:
 	var sum := sim.summary()
 	print("%-6s %-4s %6s %6s %5s %6s %6s %5s %10s %10s %5s" % [
-		"함선", "side", "발사", "명중", "관통", "불관통", "도탄", "빗나감", "가한 피해", "받은 피해", "침몰"])
+		"함선", "side", "발사", "명중", "관통", "불관통", "도탄", "빗나감", "가한 피해", "받은 피해", "결과"])
 	for s in sim.ships:
 		var r: Dictionary = sum[s.id]
 		print("%-6s %-4d %6d %6d %5d %6d %6d %5d %10.0f %10.0f %5s" % [
 			s.id, int(s.side), int(r.fired), int(r.hits), int(r.pen), int(r.nonpen),
 			int(r.ricochet), int(r.miss), float(r.damageDealt), float(r.damageTaken),
-			"예" if bool(r.sunk) else "아니오"])
+			"침몰" if bool(r.sunk) else ("이탈" if bool(r.withdrawn) else "생존")])
 	print("")
 	for s in sim.ships:
 		print("%-6s HP %.0f / %.0f, 속도 %.1fkn, 화재 %d, 침수 %d" % [
