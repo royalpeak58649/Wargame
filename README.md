@@ -11,13 +11,16 @@
 | `scripts/core/parts_db.gd` | PartsDB, ShipDesign JSON 로더 |
 | `data/parts_t2.json` | T2 부품: 선체 2, 기관 2, 주포 3, 부포 1, 구축함포 1, 어뢰 1, 사격 통제 1 |
 | `data/designs/*.json` | 샘플 설계: Queen Elizabeth급, V&W급 (건조형 특별 군함), 플레이어 고속 전함안 |
+| `scripts/combat/ballistics.gd` | 전투 탄도·관통 계산 모듈: 잔존 속도, 관통력, 낙각, 입사각, 유효 장갑, 일제사격 분산 (순수 함수) |
 | `tests/run_tests.gd` | 단위 테스트 24개 |
+| `tests/run_combat_tests.gd` | 전투 탄도·관통 계산 테스트 10개 |
 | `tools/report.gd` | 설계 파일을 계산해 출력하는 도구 |
 
 ## 실행 (Godot 4.7)
 
 ```
 godot --headless --path . --script res://tests/run_tests.gd
+godot --headless --path . --script res://tests/run_combat_tests.gd
 godot --headless --path . --script res://tools/report.gd
 godot --headless --path . --script res://tools/report.gd -- res://data/designs/uk_dd_vw.json
 ```
