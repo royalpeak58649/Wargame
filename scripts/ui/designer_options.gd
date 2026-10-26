@@ -35,7 +35,7 @@ static func machinery_options(db: Dictionary, design: Dictionary) -> Array:
 	return out
 
 
-## 무장 선택지: 접근 가능 + 슬롯 종류 일치 + 구경 상한 이하.
+## 무장 선택지: 접근 가능 + 슬롯 종류 일치 + 구경 상한 이하 + 구경 하한(최소 구경) 이상.
 static func gun_options(db: Dictionary, design: Dictionary, slot: Dictionary) -> Array:
 	var out: Array = []
 	for id in db.guns:
@@ -45,6 +45,8 @@ static func gun_options(db: Dictionary, design: Dictionary, slot: Dictionary) ->
 		if String(g.get("type", "")) != String(slot.get("type", "")):
 			continue
 		if int(g.get("caliber", 0)) > int(slot.get("maxCaliber", 0)):
+			continue
+		if int(g.get("caliber", 0)) < int(slot.get("minCaliber", 0)):
 			continue
 		out.append(String(id))
 	out.sort()

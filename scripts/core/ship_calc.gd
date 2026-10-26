@@ -336,6 +336,8 @@ static func validate_parts(design: Dictionary, db: Dictionary) -> Dictionary:
 			errors.append(_issue("slot_type", "%s(%s) 슬롯에 %s 무장을 놓을 수 없음" % [sid, slot.type, g.type]))
 		if int(g.caliber) > int(slot.maxCaliber):
 			errors.append(_issue("slot_caliber", "%s 슬롯 최대 구경 %dmm 초과 (%dmm)" % [sid, slot.maxCaliber, g.caliber]))
+		if int(g.caliber) < int(slot.get("minCaliber", 0)):
+			errors.append(_issue("slot_min_caliber", "%s 슬롯 최소 구경 %dmm 미만 (%dmm)" % [sid, slot.minCaliber, g.caliber]))
 		if n < 1 or n > int(slot.maxBarrels):
 			errors.append(_issue("slot_barrels", "%s 슬롯은 1~%d문까지" % [sid, slot.maxBarrels]))
 		elif g.has("mountWeight") and not g.mountWeight.has(str(n)):

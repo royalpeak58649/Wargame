@@ -14,7 +14,7 @@
 | `tests/run_tests.gd` | 단위 테스트 18개 |
 | `tools/report.gd` | 설계 파일을 계산해 출력하는 도구 |
 
-## 실행 (Godot 4.3)
+## 실행 (Godot 4.7)
 
 ```
 godot --headless --path . --script res://tests/run_tests.gd
@@ -43,6 +43,7 @@ var r := ShipCalc.compute_all(design, db)
 - GM = KB + BM − KG. GM/폭 < 0.03 경고(명중률 −10%), < 0.015 설계 불가.
 - 과적 5% 초과 시 설계 불가. 설계 배수량의 90% 미만이면 밸러스트를 자동 적재.
 - 특별 군함: `locked: true`면 편집 불가. 건조형 비용 ×1.1, 기간 ×0.85. 보상형 비용 0.
+- 슬롯 필드 `minCaliber`(선택, 기본 0): 무장 구경이 이 값 미만이면 `slot_min_caliber` 오류.
 
 ## 보정 결과
 

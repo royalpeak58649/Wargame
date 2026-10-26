@@ -149,6 +149,16 @@ func test_caliber_limit() -> void:
 	check(has_code(r.errors, "slot_caliber"), "구축함 슬롯에 381mm는 오류")
 
 
+func test_min_caliber() -> void:
+	var d := variant(player)
+	for w in d.weapons:
+		if String(w.slot) == "main_A":
+			w.partId = "gun_102mm_t2"
+			w.barrels = 1
+	var r := ShipCalc.validate_parts(d, db)
+	check(has_code(r.errors, "slot_min_caliber"), "전함 주포 슬롯에 102mm는 최소 구경 미만 오류: %s" % [r.errors])
+
+
 func test_turret_barrel_options() -> void:
 	var d := variant(qe)
 	d.weapons[0].barrels = 1
@@ -238,8 +248,8 @@ func test_options_uk_bb_main_guns() -> void:
 	var opts := DesignerOptions.gun_options(odb, d, _slot("hull_bb_t2_a", "main_A"))
 	check(opts.has("gun_381mm_t2"), "영국 T2 전함 주포에 381mm 포함: %s" % [opts])
 	check(opts.has("gun_343mm_t2"), "영국 T2 전함 주포에 343mm 포함: %s" % [opts])
-	# 102mm 는 type main 이고 구경 102 ≤ 381, nations 없음 → 실제로 포함된다.
-	check(opts.has("gun_102mm_t2"), "102mm 는 type main 이라 포함: %s" % [opts])
+	# 102mm 는 type main 이지만 전함 주포 슬롯 최소 구경 280mm 미만이라 제외된다.
+	check(not opts.has("gun_102mm_t2"), "102mm 는 최소 구경 280mm 미만이라 제외: %s" % [opts])
 	check(not opts.has("gun_305mm_t2"), "305mm 는 독일 전용이라 제외: %s" % [opts])
 	check(not opts.has("gun_152mm_t2"), "152mm 는 부포라 제외: %s" % [opts])
 

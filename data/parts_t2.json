@@ -30,11 +30,11 @@
       "fuelFractionRange": [0.03, 0.12],
       "miscFraction": 0.06,
       "slots": [
-        { "id": "main_A", "type": "main", "x": 0.36, "z": 0.0, "maxCaliber": 381, "maxBarrels": 2 },
-        { "id": "main_B", "type": "main", "x": 0.28, "z": 3.0, "maxCaliber": 381, "maxBarrels": 2 },
-        { "id": "main_Q", "type": "main", "x": 0.00, "z": 0.0, "maxCaliber": 381, "maxBarrels": 2 },
-        { "id": "main_X", "type": "main", "x": -0.26, "z": 3.0, "maxCaliber": 381, "maxBarrels": 2 },
-        { "id": "main_Y", "type": "main", "x": -0.34, "z": 0.0, "maxCaliber": 381, "maxBarrels": 2 },
+        { "id": "main_A", "type": "main", "x": 0.36, "z": 0.0, "maxCaliber": 381, "minCaliber": 280, "maxBarrels": 2 },
+        { "id": "main_B", "type": "main", "x": 0.28, "z": 3.0, "maxCaliber": 381, "minCaliber": 280, "maxBarrels": 2 },
+        { "id": "main_Q", "type": "main", "x": 0.00, "z": 0.0, "maxCaliber": 381, "minCaliber": 280, "maxBarrels": 2 },
+        { "id": "main_X", "type": "main", "x": -0.26, "z": 3.0, "maxCaliber": 381, "minCaliber": 280, "maxBarrels": 2 },
+        { "id": "main_Y", "type": "main", "x": -0.34, "z": 0.0, "maxCaliber": 381, "minCaliber": 280, "maxBarrels": 2 },
         { "id": "sec_P", "type": "secondary", "x": 0.10, "z": -2.0, "maxCaliber": 152, "maxBarrels": 8 },
         { "id": "sec_S", "type": "secondary", "x": 0.10, "z": -2.0, "maxCaliber": 152, "maxBarrels": 8 }
       ]
