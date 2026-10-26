@@ -5,11 +5,16 @@ extends SceneTree
 
 const Ballistics = preload("res://scripts/combat/ballistics.gd")
 const PartsDB = preload("res://scripts/core/parts_db.gd")
+const ShipCalc = preload("res://scripts/core/ship_calc.gd")
+const ShipState = preload("res://scripts/combat/ship_state.gd")
+const BattleSim = preload("res://scripts/combat/battle_sim.gd")
 
 var db: Dictionary
 var gun_381: Dictionary
 var gun_152: Dictionary
 var fc: Dictionary
+var qe: Dictionary
+var player: Dictionary
 var passed := 0
 var failed := 0
 
@@ -19,6 +24,8 @@ func _init() -> void:
 	gun_381 = db.guns["gun_381mm_t2"]
 	gun_152 = db.guns["gun_152mm_t2"]
 	fc = db.fireControl["fc_t2_director"]
+	qe = PartsDB.load_design("res://data/designs/uk_bb_queen_elizabeth.json")
+	player = PartsDB.load_design("res://data/designs/player_bb_fast.json")
 
 	for m in get_method_list():
 		var name: String = m.name
@@ -123,3 +130,189 @@ func test_bad_stability_spreads_more() -> void:
 	var good: float = Ballistics.salvo_spread_m(fc, 15.0, 3, 1.0)
 	var bad: float = Ballistics.salvo_spread_m(fc, 15.0, 3, 0.9)
 	check(bad > good, "명중률 배수 0.9 는 분산이 더 큼 (%.2f vs %.2f)" % [bad, good])
+
+
+# --- 함선 상태 -------------------------------------------------------------
+
+func test_ship_from_design() -> void:
+	var ship: Variant = ShipState.create("p1", 0, player, db, Vector2.ZERO, 0.0)
+	check(ship != null, "player_bb_fast 함선 생성")
+	if ship == null:
+		return
+	var calc := ShipCalc.compute_all(player, db)
+	var expect_speed: float = float(calc.performance.maxSpeedKn) * 0.514444
+	in_range(ship.max_speed_ms, expect_speed - 0.001, expect_speed + 0.001, "max_speed_ms")
+	in_range(ship.max_hp, float(calc.weights.groups.structure) - 0.001,
+		float(calc.weights.groups.structure) + 0.001, "max_hp")
+	check(ship.guns.size() == player.weapons.size(), "무장 슬롯 수 %d == %d" % [ship.guns.size(), player.weapons.size()])
+
+
+func test_locked_design_ok() -> void:
+	var ship: Variant = ShipState.create("qe1", 0, qe, db, Vector2.ZERO, 0.0)
+	check(ship != null, "특별 군함(퀸 엘리자베스) 생성")
+	if ship == null:
+		return
+	check(ship.max_hp > 0.0, "max_hp > 0 (%.0f)" % ship.max_hp)
+	check(ship.max_speed_ms > 0.0, "max_speed_ms > 0 (%.2f)" % ship.max_speed_ms)
+
+
+func test_accelerates_and_turns() -> void:
+	var ship: Variant = ShipState.create("p1", 0, player, db, Vector2.ZERO, 0.0)
+	if ship == null:
+		check(false, "함선 생성 실패")
+		return
+	ship.set_speed_order(1.0)
+	for i in 300:
+		ship.step_movement(float(i), 1.0)
+	check(ship.speed_ms >= ship.max_speed_ms * 0.95,
+		"300초 후 속도 %.2f m/s >= 최고의 95%% (%.2f)" % [ship.speed_ms, ship.max_speed_ms * 0.95])
+
+	ship.set_heading_order(90.0)
+	for i in 600:
+		ship.step_movement(300.0 + float(i), 1.0)
+	in_range(ship.heading_deg, 89.0, 91.0, "침로(°)")
+
+
+func test_big_turn_resets_correction() -> void:
+	var sim := BattleSim.new(db, 7)
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2.ZERO, 0.0)
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(12000.0, 0.0), 270.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	sim.order_target("a", "b")
+	sim.order_target("b", "a")
+	for i in 200:
+		sim.step(1.0)
+	check(a.shots_on_target > 0, "사격 후 shots_on_target > 0 (%d)" % a.shots_on_target)
+	sim.order_heading("a", wrapf(a.heading_deg + 90.0, 0.0, 360.0))
+	sim.step(1.0)
+	check(a.shots_on_target == 0, "급선회 후 shots_on_target == 0 (%d)" % a.shots_on_target)
+
+
+func test_deterministic() -> void:
+	var r1 := _duel(11)
+	var r2 := _duel(11)
+	check(r1.log_size == r2.log_size, "로그 크기 동일 (%d vs %d)" % [r1.log_size, r2.log_size])
+	check(r1.last == r2.last, "마지막 로그 동일")
+	check(absf(r1.hp0 - r2.hp0) < 0.0001 and absf(r1.hp1 - r2.hp1) < 0.0001,
+		"양측 hp 동일 (%.3f/%.3f vs %.3f/%.3f)" % [r1.hp0, r1.hp1, r2.hp0, r2.hp1])
+
+
+func test_different_seed_differs() -> void:
+	var r1 := _duel(11)
+	var r2 := _duel(99)
+	check(absf(r1.hp0 - r2.hp0) > 0.0001 or absf(r1.hp1 - r2.hp1) > 0.0001,
+		"다른 seed 는 hp 결과가 다름 (%.3f/%.3f vs %.3f/%.3f)" % [r1.hp0, r1.hp1, r2.hp0, r2.hp1])
+
+
+func test_close_range_penetrates_more() -> void:
+	var close := _fixed_range_pen_ratio(6.0)
+	var far := _fixed_range_pen_ratio(18.0)
+	check(close > far, "6km 관통 비율 %.3f > 18km %.3f" % [close, far])
+
+
+func test_battle_ends() -> void:
+	var sim := BattleSim.new(db, 2024)
+	var half := 9000.0
+	sim.add_ship(ShipState.create("qe1", 0, qe, db, Vector2(-400.0, -half), 0.0))
+	sim.add_ship(ShipState.create("qe2", 0, qe, db, Vector2(400.0, -half), 0.0))
+	sim.add_ship(ShipState.create("bb1", 1, player, db, Vector2(-400.0, half), 180.0))
+	sim.add_ship(ShipState.create("bb2", 1, player, db, Vector2(400.0, half), 180.0))
+	for s in sim.ships:
+		sim.order_speed(s.id, 1.0)
+	var turned := {}
+	while sim.time < 3600.0 and sim.winner() == -1:
+		for s in sim.ships:
+			if s.sunk:
+				continue
+			var target: Variant = _nearest_enemy(sim, s)
+			if target == null:
+				continue
+			sim.order_target(s.id, target.id)
+			if s.pos.distance_to(target.pos) <= 9000.0 and not turned.has(s.id):
+				turned[s.id] = true
+				var bearing: float = rad_to_deg(atan2(target.pos.x - s.pos.x, target.pos.y - s.pos.y))
+				sim.order_heading(s.id, wrapf(bearing + 90.0, 0.0, 360.0))
+		sim.step(1.0)
+	var damaged := false
+	for s in sim.ships:
+		if s.hp < s.max_hp:
+			damaged = true
+	check(sim.winner() != -1 or damaged, "3600초 안에 승부 또는 피해 (승자 %d, 경과 %.0f초)" % [sim.winner(), sim.time])
+
+
+func test_sunk_ship_stops() -> void:
+	var sim := BattleSim.new(db, 5)
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2.ZERO, 0.0)
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(10000.0, 0.0), 270.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	sim.order_target("a", "b")
+	sim.order_target("b", "a")
+	sim.order_speed("a", 1.0)
+	a.hp = 0.0
+	sim.step(1.0)
+	check(a.sunk, "hp 0 → sunk")
+	check(a.speed_ms == 0.0, "침몰 함선 속도 0 (%.3f)" % a.speed_ms)
+	var sunk_time := sim.time
+	for i in 300:
+		sim.step(1.0)
+	var fired_after := false
+	for e in sim.log:
+		if String(e.kind) == "hit" and String(e.shooter) == "a" and float(e.t) >= sunk_time:
+			fired_after = true
+	check(not fired_after, "침몰 후 그 함선이 쏜 hit 로그 없음")
+
+
+# --- 전투 도우미 -----------------------------------------------------------
+
+## QE 1척 vs player 1척, 12km, 600초 고정 시나리오.
+func _duel(seed_value: int) -> Dictionary:
+	var sim := BattleSim.new(db, seed_value)
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2.ZERO, 0.0)
+	var b: Variant = ShipState.create("b", 1, player, db, Vector2(12000.0, 0.0), 270.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	sim.order_target("a", "b")
+	sim.order_target("b", "a")
+	for i in 600:
+		sim.step(1.0)
+	var last := ""
+	if not sim.log.is_empty():
+		last = str(sim.log[sim.log.size() - 1])
+	return {"log_size": sim.log.size(), "last": last, "hp0": a.hp, "hp1": b.hp}
+
+
+## QE 대 QE, 고정 거리에서 600초. 관통 비율을 돌려준다.
+func _fixed_range_pen_ratio(range_km: float) -> float:
+	var sim := BattleSim.new(db, 31)
+	var a: Variant = ShipState.create("a", 0, qe, db, Vector2.ZERO, 0.0)
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(range_km * 1000.0, 0.0), 270.0)
+	sim.add_ship(a)
+	sim.add_ship(b)
+	sim.order_target("a", "b")
+	sim.order_target("b", "a")
+	for i in 600:
+		sim.step(1.0)
+	var pen := 0
+	var total := 0
+	for e in sim.log:
+		if String(e.kind) != "hit" or String(e.result) == "miss":
+			continue
+		total += 1
+		if String(e.result) == "pen":
+			pen += 1
+	return float(pen) / float(maxi(total, 1))
+
+
+func _nearest_enemy(sim: BattleSim, ship: Variant) -> Variant:
+	var best: Variant = null
+	var best_d := INF
+	for other in sim.ships:
+		if int(other.side) == int(ship.side) or other.sunk:
+			continue
+		var d: float = ship.pos.distance_to(other.pos)
+		if d < best_d:
+			best_d = d
+			best = other
+	return best
