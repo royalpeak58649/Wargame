@@ -216,7 +216,7 @@ static func compute_combat(design: Dictionary, db: Dictionary) -> Dictionary:
 		"fireControl": {
 			"initialSpreadPerKm": float(fc.initialSpreadPerKm),
 			"correctionRate": float(fc.correctionRate),
-			"minSpreadM": float(fc.minSpreadM),
+			"minSpreadPerKm": float(fc.minSpreadPerKm),
 		},
 		"accuracyMult": stab.accuracyMult,
 	}

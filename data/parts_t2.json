@@ -187,7 +187,7 @@
       "baseWeight": 40.0,
       "initialSpreadPerKm": 25.0,
       "correctionRate": 0.25,
-      "minSpreadM": 60.0
+      "minSpreadPerKm": 15.0
     }
   },
   "costPerTon": {

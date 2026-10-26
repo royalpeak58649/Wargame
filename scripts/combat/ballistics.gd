@@ -20,7 +20,9 @@ const FLIGHT_SPEED_FRAC := 0.8    # 무차원, 평균 비행 속도 / 초속
 const DECK_CHANCE_DEG := 25.0     # °, 갑판 피탄 확률이 최대가 되는 낙각
 const DECK_CHANCE_MIN := 0.05     # 무차원, 갑판 피탄 확률 하한
 const DECK_CHANCE_MAX := 0.85     # 무차원, 갑판 피탄 확률 상한
-const RICOCHET_DEG := 60.0        # °, 이 이상 입사각이면 도탄
+const RICOCHET_DEG := 60.0        # °, 벨트(수직 판): 이 이상 입사각이면 도탄
+const DECK_RICOCHET_DEG := 80.0   # °, 갑판(수평 판): 이 이상 입사각이면 도탄.
+                                  #    낙각이 최대 30°라 갑판 입사각은 늘 60° 이상이므로 따로 둔다.
 const MAX_OBLIQUITY_DEG := 89.9   # °, 이 이상 입사각이면 유효 장갑 무한대
 
 const PLATE_BELT := "belt"        # 수직 판(현측 장갑)
@@ -98,6 +100,11 @@ static func deck_hit_chance(fall_deg: float) -> float:
 	return clampf(fall_deg / DECK_CHANCE_DEG, DECK_CHANCE_MIN, DECK_CHANCE_MAX)
 
 
+## 판 종류별 도탄 기준 입사각(°).
+static func ricochet_threshold_deg(plate: String) -> float:
+	return DECK_RICOCHET_DEG if plate == PLATE_DECK else RICOCHET_DEG
+
+
 ## 한 발의 판정을 결정적으로 계산한다.
 ## 반환: {"result", "penMm", "effArmorMm", "obliquityDeg", "fallDeg"}
 ## result: "ricochet" | "pen" | "nonpen"
@@ -112,7 +119,7 @@ static func resolve_hit(gun: Dictionary, range_km: float, plate: String, thickne
 	if thickness_mm <= 0.0:
 		# 장갑 없는 구역은 입사각과 무관하게 관통.
 		result = "pen"
-	elif obliquity_deg >= RICOCHET_DEG:
+	elif obliquity_deg >= ricochet_threshold_deg(plate):
 		result = "ricochet"
 	elif pen_mm >= eff_armor_mm:
 		result = "pen"
@@ -131,12 +138,13 @@ static func resolve_hit(gun: Dictionary, range_km: float, plate: String, thickne
 # ---------------------------------------------------------------------------
 
 ## 일제사격 분산(m). σ_n = σ0 · (1 − c)^n + σ_min, 명중률 배수로 나눈다.
+## σ0 와 σ_min 모두 거리에 비례한다(가까울수록 잘 맞는다).
 ## fc: parts_t2.json 의 fireControl 항목.
 static func salvo_spread_m(fc: Dictionary, range_km: float, shots_on_target: int,
 		accuracy_mult: float) -> float:
 	var sigma0: float = float(fc.initialSpreadPerKm) * range_km
 	var c: float = float(fc.correctionRate)
-	var sigma_min: float = float(fc.minSpreadM)
+	var sigma_min: float = float(fc.minSpreadPerKm) * range_km
 	var n: int = maxi(shots_on_target, 0)
 	var spread: float = sigma0 * pow(1.0 - c, float(n)) + sigma_min
 	if accuracy_mult <= 0.0:

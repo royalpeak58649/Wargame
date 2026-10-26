@@ -123,7 +123,8 @@ func test_spread_converges() -> void:
 	var s50: float = Ballistics.salvo_spread_m(fc, 15.0, 50, 1.0)
 	check(s0 > s3, "분산 n=0 > n=3 (%.2f vs %.2f)" % [s0, s3])
 	check(s3 > s10, "분산 n=3 > n=10 (%.2f vs %.2f)" % [s3, s10])
-	check(absf(s50 - float(fc.minSpreadM)) < 1.0, "n=50 분산이 minSpreadM 에 수렴 (%.3f vs %.1f)" % [s50, fc.minSpreadM])
+	var floor_m: float = float(fc.minSpreadPerKm) * 15.0
+	check(absf(s50 - floor_m) < 1.0, "n=50 분산이 minSpreadPerKm × 거리에 수렴 (%.3f vs %.1f)" % [s50, floor_m])
 
 
 func test_bad_stability_spreads_more() -> void:
@@ -294,7 +295,8 @@ func _duel(seed_value: int) -> Dictionary:
 func _fixed_range_pen_ratio(range_km: float) -> float:
 	var sim := BattleSim.new(db, 31)
 	var a: Variant = ShipState.create("a", 0, qe, db, Vector2.ZERO, 0.0)
-	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(range_km * 1000.0, 0.0), 270.0)
+	# 양쪽 모두 북쪽을 향해 나란히 놓아 서로 현측을 보인다(관통 판정만 비교하려는 배치).
+	var b: Variant = ShipState.create("b", 1, qe, db, Vector2(range_km * 1000.0, 0.0), 0.0)
 	sim.add_ship(a)
 	sim.add_ship(b)
 	sim.order_target("a", "b")
@@ -304,7 +306,8 @@ func _fixed_range_pen_ratio(range_km: float) -> float:
 	var pen := 0
 	var total := 0
 	for e in sim.log:
-		if String(e.kind) != "hit" or String(e.result) == "miss":
+		# 부포는 가까운 거리에서만 쏘고 전함 벨트를 뚫지 못하므로 주포만 센다.
+		if String(e.kind) != "hit" or String(e.result) == "miss" or not String(e.gun).begins_with("main"):
 			continue
 		total += 1
 		if String(e.result) == "pen":
