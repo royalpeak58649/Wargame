@@ -4,9 +4,9 @@
   "mapHalfM": 22500,
   "timeLimitS": 5400,
   "sides": [
-    {"label": "아군", "designs": ["res://data/designs/player_bb_fast.json", "res://data/designs/player_bb_fast.json", "res://data/designs/player_bb_fast.json"],
+    {"label": "아군", "control": "player", "designs": ["res://data/designs/player_bb_fast.json", "res://data/designs/player_bb_fast.json", "res://data/designs/player_bb_fast.json"],
      "start": [0, -12500], "heading": 0, "column": true},
-    {"label": "적군", "designs": ["res://data/designs/uk_bb_queen_elizabeth.json", "res://data/designs/uk_bb_queen_elizabeth.json", "res://data/designs/uk_bb_queen_elizabeth.json"],
+    {"label": "적군", "control": "ai", "designs": ["res://data/designs/uk_bb_queen_elizabeth.json", "res://data/designs/uk_bb_queen_elizabeth.json", "res://data/designs/uk_bb_queen_elizabeth.json"],
      "start": [0, 12500], "heading": 180, "column": true}
   ]
 }

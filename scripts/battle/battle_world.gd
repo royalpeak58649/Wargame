@@ -8,6 +8,7 @@ extends Node2D
 ## 사용법:
 ##   world.setup(sim, commanders, ais, scenario_name)
 ##   world.selected_id = "a1"
+##   world.selected_ids = ["a1", "a2"]
 ##   world.queue_redraw()
 
 const ShipState = preload("res://scripts/combat/ship_state.gd")
@@ -35,6 +36,9 @@ const HP_BACK_COLOR := Color(0.10, 0.10, 0.10, 0.75)
 const HP_FRONT_COLOR := Color(0.45, 0.90, 0.45)
 const HP_LOW_COLOR := Color(0.95, 0.40, 0.35)
 const LABEL_COLOR := Color(0.92, 0.95, 1.0)
+const WAYPOINT_COLOR := Color(0.45, 0.95, 0.55, 0.85)
+const FAINT_TARGET_LINE_COLOR := Color(1.0, 1.0, 1.0, 0.12)
+const FOLLOWER_MARK := "∙"
 
 const MIN_SHIP_LENGTH_PX := 22.0   # px, 화면에서 함선 최소 길이
 const MIN_SHIP_BEAM_PX := 4.0      # px, 화면에서 함선 최소 폭
@@ -59,7 +63,10 @@ var sim: Variant = null
 var commanders: Array = []
 var ais: Array = []
 var scenario_name := ""
+## 정보 패널용으로 마지막에 고른 함선 id.
 var selected_id := ""
+## 플레이어가 선택한 아군 함선 id 목록(선택한 순서). 모두에게 흰 고리를 그린다.
+var selected_ids: Array[String] = []
 
 ## 물기둥 목록: {pos: Vector2, t: float(전장 시각), result: String}
 var _splashes: Array[Dictionary] = []
@@ -78,6 +85,8 @@ func setup(sim_ref: Variant, commanders_ref: Array, ais_ref: Array, name: String
 	commanders = commanders_ref
 	ais = ais_ref
 	scenario_name = name
+	selected_id = ""
+	selected_ids.clear()
 	_splashes.clear()
 	_log_cursor = 0
 	queue_redraw()
@@ -144,6 +153,8 @@ func _draw() -> void:
 	_draw_grid()
 	if sim == null:
 		return
+	_draw_waypoints()
+	_draw_target_lines()
 	_draw_selection()
 	_draw_ships()
 	_draw_shells()
@@ -179,6 +190,15 @@ func _draw_grid() -> void:
 
 
 func _draw_selection() -> void:
+	# 선택된 아군 함선 모두에게 흰 고리
+	for id in selected_ids:
+		var sel: Variant = sim.get_ship(id)
+		if sel == null or not sel.is_active():
+			continue
+		var sc := view(sel.pos)
+		var sel_r := maxf(_ship_length_px(sel) * 0.75, 14.0)
+		draw_arc(sc, sel_r, 0.0, TAU, 32, SELECT_COLOR, 1.5, true)
+
 	var ship: Variant = sim.get_ship(selected_id) if selected_id != "" else null
 	if ship == null:
 		return
@@ -195,6 +215,45 @@ func _draw_selection() -> void:
 	var target: Variant = sim.get_ship(String(ship.target_id)) if String(ship.target_id) != "" else null
 	if target != null:
 		draw_line(c, view(target.pos), TARGET_LINE_COLOR, 1.0)
+
+
+## 선택된 아군 함선의 경유점: 현재 위치 → 경유점들을 얇은 녹색 선과 작은 점으로.
+func _draw_waypoints() -> void:
+	if commanders.is_empty():
+		return
+	var cmd: Variant = commanders[0]
+	for id in selected_ids:
+		var ship: Variant = sim.get_ship(id)
+		if ship == null or not ship.is_active():
+			continue
+		var order: Dictionary = cmd.order_of(id)
+		if order.is_empty():
+			continue
+		var wps: Array = order.get("waypoints", [])
+		if wps.is_empty():
+			continue
+		var prev: Vector2 = view(ship.pos)
+		for w in wps:
+			var p: Vector2 = view(w)
+			draw_line(prev, p, WAYPOINT_COLOR, 1.0)
+			draw_circle(p, 2.5, WAYPOINT_COLOR)
+			prev = p
+
+
+## 모든 아군 활성 함선의 목표까지 아주 옅은 선. 선택된 배는 _draw_selection 이 진하게 긋는다.
+func _draw_target_lines() -> void:
+	for s in sim.ships:
+		if int(s.side) != 0 or not s.is_active():
+			continue
+		if selected_ids.has(String(s.id)):
+			continue
+		var target_id := String(s.target_id)
+		if target_id == "":
+			continue
+		var target: Variant = sim.get_ship(target_id)
+		if target == null or not target.is_active():
+			continue
+		draw_line(view(s.pos), view(target.pos), FAINT_TARGET_LINE_COLOR, 1.0)
 
 
 func _draw_ships() -> void:
@@ -219,6 +278,11 @@ func _draw_ships() -> void:
 		# 전체 이름은 선택했을 때 정보 패널에 나온다.
 		var tag_pos := c + Vector2(TAG_OFFSET_PX, 4.0)
 		draw_string(font, tag_pos, String(s.id), HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, LABEL_COLOR)
+		# 종진(follow) 상태인 배는 id 옆에 작은 점을 붙여 기함과 구분한다.
+		if _is_follower(s):
+			var id_w: float = font.get_string_size(String(s.id), HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE).x
+			draw_string(font, tag_pos + Vector2(id_w + 2.0, 0.0), FOLLOWER_MARK,
+				HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, LABEL_COLOR)
 		var bar_w := 20.0
 		var bar_pos := tag_pos + Vector2(18.0, -5.0)
 		var frac := clampf(float(s.hp) / maxf(float(s.max_hp), 1.0), 0.0, 1.0)
