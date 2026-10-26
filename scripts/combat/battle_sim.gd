@@ -148,7 +148,8 @@ func _step_movement(dt: float) -> void:
 
 func _step_fire(dt: float) -> void:
 	for s in ships:
-		if s.sunk:
+		# hp 가 이미 0 이하인 배는 이번 단계에 침몰 처리되므로 쏘지 않는다.
+		if s.sunk or float(s.hp) <= 0.0:
 			continue
 		var target: Variant = get_ship(s.target_id)
 		if target == null or target.sunk:

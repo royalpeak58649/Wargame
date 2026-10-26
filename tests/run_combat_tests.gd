@@ -181,6 +181,8 @@ func test_big_turn_resets_correction() -> void:
 	sim.add_ship(b)
 	sim.order_target("a", "b")
 	sim.order_target("b", "a")
+	# 정지한 배는 선회하지 못하므로 먼저 속도를 낸다.
+	sim.order_speed("a", 1.0)
 	for i in 200:
 		sim.step(1.0)
 	check(a.shots_on_target > 0, "사격 후 shots_on_target > 0 (%d)" % a.shots_on_target)
@@ -254,14 +256,19 @@ func test_sunk_ship_stops() -> void:
 	sim.step(1.0)
 	check(a.sunk, "hp 0 → sunk")
 	check(a.speed_ms == 0.0, "침몰 함선 속도 0 (%.3f)" % a.speed_ms)
-	var sunk_time := sim.time
+	# 첫 단계에도 쏘지 않았어야 하므로, 이 뒤로 a 가 쏜 포탄은 하나도 없어야 한다.
+	var a_shells := 0
+	for sh in sim.shells:
+		if String(sh.shooter_id) == "a":
+			a_shells += 1
+	check(a_shells == 0, "hp 0 인 함선은 사격하지 않음 (비행 중 포탄 %d)" % a_shells)
 	for i in 300:
 		sim.step(1.0)
 	var fired_after := false
 	for e in sim.log:
-		if String(e.kind) == "hit" and String(e.shooter) == "a" and float(e.t) >= sunk_time:
+		if String(e.kind) == "hit" and String(e.shooter) == "a":
 			fired_after = true
-	check(not fired_after, "침몰 후 그 함선이 쏜 hit 로그 없음")
+	check(not fired_after, "침몰한 함선이 쏜 hit 로그 없음")
 
 
 # --- 전투 도우미 -----------------------------------------------------------
