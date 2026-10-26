@@ -37,6 +37,8 @@ const HP_LOW_COLOR := Color(0.95, 0.40, 0.35)
 const LABEL_COLOR := Color(0.92, 0.95, 1.0)
 
 const MIN_SHIP_LENGTH_PX := 22.0   # px, 화면에서 함선 최소 길이
+const MIN_SHIP_BEAM_PX := 4.0      # px, 화면에서 함선 최소 폭
+const TAG_OFFSET_PX := 10.0        # px, 함선 중심에서 오른쪽으로 띄운 id 표시 거리
 const SHELL_DOT_PX := 2.0          # px, 포탄 점 반지름
 const SPLASH_LIFE_SEC := 20.0      # s, 물기둥이 남는 전장 시간
 const SPLASH_MAX_RADIUS_PX := 9.0  # px, 물기둥 최대 반지름
@@ -64,6 +66,12 @@ var _splashes: Array[Dictionary] = []
 ## 마지막으로 처리한 sim.log 위치
 var _log_cursor := 0
 
+## 시점: 화면 가운데에 오는 전장 좌표(m)와 확대율(px/m).
+## Camera2D 를 쓰지 않고 그리기 코드가 직접 변환한다. 그래서 px 로 정한 크기
+## (선 두께, 함선 최소 길이, 글자)는 확대율과 무관하게 언제나 그 크기로 보인다.
+var cam_center := Vector2.ZERO
+var zoom := 1.0
+
 
 func setup(sim_ref: Variant, commanders_ref: Array, ais_ref: Array, name: String) -> void:
 	sim = sim_ref
@@ -89,6 +97,16 @@ static func to_screen(p: Vector2) -> Vector2:
 ## 화면 좌표 → 전장 좌표.
 static func to_world(p: Vector2) -> Vector2:
 	return Vector2(p.x, -p.y)
+
+
+## 전장 좌표(m) → 화면 픽셀 좌표.
+func view(p: Vector2) -> Vector2:
+	return (to_screen(p) - to_screen(cam_center)) * zoom + get_viewport_rect().size * 0.5
+
+
+## 화면 픽셀 좌표 → 전장 좌표(m).
+func screen_to_world(sp: Vector2) -> Vector2:
+	return to_world((sp - get_viewport_rect().size * 0.5) / zoom + to_screen(cam_center))
 
 
 func _collect_splashes() -> void:
@@ -135,7 +153,7 @@ func _draw() -> void:
 
 func _draw_sea() -> void:
 	var half := MAP_HALF_M
-	draw_rect(Rect2(to_screen(Vector2(-half, half)), Vector2(half * 2.0, half * 2.0)), SEA_COLOR, true)
+	draw_rect(Rect2(view(Vector2(-half, half)), Vector2(half * 2.0, half * 2.0) * zoom), SEA_COLOR, true)
 
 
 func _draw_grid() -> void:
@@ -145,18 +163,18 @@ func _draw_grid() -> void:
 	for i in range(-n, n + 1):
 		var v := float(i) * GRID_M
 		var axis := i == 0
-		var color := GRID_AXIS_COLOR if axis else GRID_COLOR
+		var color: Color = GRID_AXIS_COLOR if axis else GRID_COLOR
 		# 세로선(x = v)
-		draw_line(to_screen(Vector2(v, -half)), to_screen(Vector2(v, half)), color, 1.0)
+		draw_line(view(Vector2(v, -half)), view(Vector2(v, half)), color, 1.0)
 		# 가로선(y = v)
-		draw_line(to_screen(Vector2(-half, v)), to_screen(Vector2(half, v)), color, 1.0)
+		draw_line(view(Vector2(-half, v)), view(Vector2(half, v)), color, 1.0)
 		if i != 0:
 			var km := int(v / 1000.0)
 			# x 축 눈금(맵 아래쪽 가장자리)
-			draw_string(font, to_screen(Vector2(v, -half)) + Vector2(3.0, -4.0), "%d" % km,
+			draw_string(font, view(Vector2(v, -half)) + Vector2(3.0, -4.0), "%d" % km,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, GRID_LABEL_COLOR)
 			# y 축 눈금(맵 왼쪽 가장자리)
-			draw_string(font, to_screen(Vector2(-half, v)) + Vector2(3.0, -4.0), "%d" % km,
+			draw_string(font, view(Vector2(-half, v)) + Vector2(3.0, -4.0), "%d" % km,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, GRID_LABEL_COLOR)
 
 
@@ -164,29 +182,28 @@ func _draw_selection() -> void:
 	var ship: Variant = sim.get_ship(selected_id) if selected_id != "" else null
 	if ship == null:
 		return
-	var c := to_screen(ship.pos)
-	var zoom := _zoom()
+	var c := view(ship.pos)
 	var ring_r := maxf(_ship_length_px(ship) * 0.75, 14.0)
-	draw_arc(c, ring_r, 0.0, TAU, 32, SELECT_COLOR, 1.5 / zoom, true)
+	draw_arc(c, ring_r, 0.0, TAU, 32, SELECT_COLOR, 1.5, true)
 
 	# 주포 최대 사거리 원
 	var range_m := _main_range_m(ship)
 	if range_m > 0.0:
-		draw_arc(c, range_m, 0.0, TAU, 96, RANGE_COLOR, 1.0 / zoom, true)
+		draw_arc(c, range_m * zoom, 0.0, TAU, 96, RANGE_COLOR, 1.0, true)
 
 	# 목표까지 선
 	var target: Variant = sim.get_ship(String(ship.target_id)) if String(ship.target_id) != "" else null
 	if target != null:
-		draw_line(c, to_screen(target.pos), TARGET_LINE_COLOR, 1.0 / zoom)
+		draw_line(c, view(target.pos), TARGET_LINE_COLOR, 1.0)
 
 
 func _draw_ships() -> void:
 	var font := ThemeDB.fallback_font
 	for s in sim.ships:
-		var c := to_screen(s.pos)
+		var c := view(s.pos)
 		var color: Color = SUNK_COLOR if s.sunk else SIDE_COLORS[clampi(int(s.side), 0, 1)]
 		var length_px := _ship_length_px(s)
-		var beam_px := length_px * (s.beam_m() / maxf(s.length_m(), 0.001))
+		var beam_px: float = maxf(length_px * (s.beam_m() / maxf(s.length_m(), 0.001)), MIN_SHIP_BEAM_PX)
 		# 침로: 북 0, 시계 방향. 화면은 y 가 뒤집혀 있으므로 각도도 뒤집는다.
 		var angle := -deg_to_rad(float(s.heading_deg))
 		draw_set_transform(c, angle, Vector2.ONE)
@@ -196,27 +213,25 @@ func _draw_ships() -> void:
 		if s.sunk:
 			continue
 
-		# 이름표
-		var label := "%s %s" % [String(s.id), String(s.design.get("name", ""))]
-		var label_pos := c + Vector2(-length_px * 0.5, -beam_px * 0.5 - 16.0)
-		draw_string(font, label_pos, label, HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, LABEL_COLOR)
-
-		# HP 막대
-		var bar_w := maxf(length_px, 24.0)
-		var bar_pos := c + Vector2(-bar_w * 0.5, -beam_px * 0.5 - 12.0)
+		# id 표시와 HP 막대: 함선 오른쪽에 한 줄로 둔다(종진 간격이 화면에서 좁아 위에 두면 겹친다).
+		# 전체 이름은 선택했을 때 정보 패널에 나온다.
+		var tag_pos := c + Vector2(TAG_OFFSET_PX, 4.0)
+		draw_string(font, tag_pos, String(s.id), HORIZONTAL_ALIGNMENT_LEFT, -1, LABEL_FONT_SIZE, LABEL_COLOR)
+		var bar_w := 20.0
+		var bar_pos := tag_pos + Vector2(18.0, -5.0)
 		var frac := clampf(float(s.hp) / maxf(float(s.max_hp), 1.0), 0.0, 1.0)
 		draw_rect(Rect2(bar_pos, Vector2(bar_w, 3.0)), HP_BACK_COLOR, true)
 		var hp_color := HP_FRONT_COLOR if frac > 0.35 else HP_LOW_COLOR
 		draw_rect(Rect2(bar_pos, Vector2(bar_w * frac, 3.0)), hp_color, true)
 
-		# 화재·침수 점
-		var dot := c + Vector2(bar_w * 0.5 + 4.0, -beam_px * 0.5 - 12.0)
+		# 화재·침수 점: HP 막대 오른쪽
+		var dot := bar_pos + Vector2(bar_w + 4.0, 1.5)
 		var fires := int(s.active_fires(float(sim.time)))
 		var floods := int(s.active_floods(float(sim.time)))
 		for i in fires:
-			draw_circle(dot + Vector2(0.0, float(i) * 5.0), 2.0, FIRE_DOT_COLOR)
+			draw_circle(dot + Vector2(float(i) * 5.0, 0.0), 2.0, FIRE_DOT_COLOR)
 		for i in floods:
-			draw_circle(dot + Vector2(5.0, float(i) * 5.0), 2.0, FLOOD_DOT_COLOR)
+			draw_circle(dot + Vector2(float(fires + i) * 5.0, 0.0), 2.0, FLOOD_DOT_COLOR)
 
 
 ## 선수가 뾰족한 선체 다각형(로컬 좌표, 선수 = −y 방향).
@@ -247,7 +262,7 @@ func _draw_shells() -> void:
 		var t1: float = float(shell.impact_time)
 		var span: float = t1 - t0
 		var frac: float = clampf((now - t0) / span, 0.0, 1.0) if span > 0.0001 else 1.0
-		draw_circle(to_screen(from.lerp(to, frac)), SHELL_DOT_PX, SHELL_COLOR)
+		draw_circle(view(from.lerp(to, frac)), SHELL_DOT_PX, SHELL_COLOR)
 
 
 func _draw_splashes() -> void:
@@ -260,14 +275,13 @@ func _draw_splashes() -> void:
 		var color: Color = SPLASH_COLORS.get(String(s.result), SPLASH_COLORS["miss"])
 		color.a *= 1.0 - k
 		var r: float = lerpf(2.0, SPLASH_MAX_RADIUS_PX, k)
-		draw_arc(to_screen(s.pos), r, 0.0, TAU, 16, color, 1.5, true)
+		draw_arc(view(s.pos), r, 0.0, TAU, 16, color, 1.5, true)
 
 
 func _draw_scale_bar() -> void:
-	var view := get_viewport_rect().size
-	var zoom := _zoom()
+	var view_size := get_viewport_rect().size
 	var bar_px := SCALE_BAR_M * zoom
-	var origin := Vector2(SCALE_BAR_MARGIN.x, view.y - SCALE_BAR_MARGIN.y)
+	var origin := Vector2(SCALE_BAR_MARGIN.x, view_size.y - SCALE_BAR_MARGIN.y)
 	var color := Color(1.0, 1.0, 1.0, 0.85)
 	draw_line(origin, origin + Vector2(bar_px, 0.0), color, 2.0)
 	draw_line(origin + Vector2(0.0, -4.0), origin + Vector2(0.0, 4.0), color, 2.0)
@@ -279,10 +293,7 @@ func _draw_scale_bar() -> void:
 # --- 도우미 -----------------------------------------------------------------
 
 func _zoom() -> float:
-	var cam := get_viewport().get_camera_2d()
-	if cam == null:
-		return 1.0
-	return cam.zoom.x
+	return zoom
 
 
 ## 화면에서 최소 길이를 보장한 함선 길이(px).

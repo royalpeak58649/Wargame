@@ -65,7 +65,7 @@ static func _add_side_ships(sim: Variant, db: Dictionary, side: int, side_data: 
 	var start_arr: Array = side_data.get("start", [0, 0])
 	var start := Vector2(float(start_arr[0]), float(start_arr[1]))
 	var heading := float(side_data.get("heading", 0.0))
-	var prefix := SIDE_ID_PREFIX[side] if side < SIDE_ID_PREFIX.size() else "s%d_" % side
+	var prefix: String = SIDE_ID_PREFIX[side] if side < SIDE_ID_PREFIX.size() else "s%d_" % side
 	# 침로 반대 방향으로 늘어선다.
 	var h := deg_to_rad(heading)
 	var back := -Vector2(sin(h), cos(h))

@@ -52,7 +52,6 @@ var _accum := 0.0
 var _finished := false
 
 var _world: Node2D = null
-var _camera: Camera2D = null
 var _hud: CanvasLayer = null
 
 # HUD 위젯
@@ -104,9 +103,8 @@ func _start_battle() -> void:
 
 func _reset_camera() -> void:
 	var view := get_viewport_rect().size
-	var zoom := view.y / (MAP_HALF_M * 2.0)
-	_camera.zoom = Vector2(zoom, zoom)
-	_camera.position = Vector2.ZERO
+	_world.zoom = view.y / (MAP_HALF_M * 2.0)
+	_world.cam_center = Vector2.ZERO
 
 
 # --- 시간 진행 ---------------------------------------------------------------
@@ -153,7 +151,9 @@ func _handle_pan_keys(delta: float) -> void:
 		dir.y += 1.0
 	if dir == Vector2.ZERO:
 		return
-	_camera.position += dir.normalized() * PAN_SPEED_PX * delta / _camera.zoom.x
+	# 화면 아래쪽(+y)이 전장 남쪽(−y)이므로 y 를 뒤집는다.
+	var d: Vector2 = dir.normalized() * PAN_SPEED_PX * delta / float(_world.zoom)
+	_world.cam_center += Vector2(d.x, -d.y)
 
 
 func _finish_battle() -> void:
@@ -194,7 +194,8 @@ func _handle_mouse_button(event: InputEventMouseButton) -> void:
 
 func _handle_mouse_motion(event: InputEventMouseMotion) -> void:
 	if _panning:
-		_camera.position -= event.relative / _camera.zoom.x
+		var d: Vector2 = event.relative / _world.zoom
+		_world.cam_center += Vector2(-d.x, d.y)
 
 
 func _handle_key(event: InputEventKey) -> void:
@@ -217,15 +218,13 @@ func _handle_key(event: InputEventKey) -> void:
 ## 마우스 위치를 고정한 채 확대·축소한다.
 func _zoom_at(screen_pos: Vector2, factor: float) -> void:
 	var before := _screen_to_world(screen_pos)
-	var z := clampf(_camera.zoom.x * factor, ZOOM_MIN, ZOOM_MAX)
-	_camera.zoom = Vector2(z, z)
+	_world.zoom = clampf(_world.zoom * factor, ZOOM_MIN, ZOOM_MAX)
 	var after := _screen_to_world(screen_pos)
-	_camera.position += before - after
+	_world.cam_center += before - after
 
 
 func _screen_to_world(screen_pos: Vector2) -> Vector2:
-	var view_center := get_viewport_rect().size * 0.5
-	return _camera.position + (screen_pos - view_center) / _camera.zoom.x
+	return _world.screen_to_world(screen_pos)
 
 
 ## 화면상 PICK_RADIUS_PX 안에서 가장 가까운 함선을 고른다. 빈 곳이면 선택 해제.
@@ -233,7 +232,7 @@ func _select_at(screen_pos: Vector2) -> void:
 	var best_id := ""
 	var best_d := PICK_RADIUS_PX
 	for s in sim.ships:
-		var sp: Vector2 = BattleWorld.to_screen(s.pos)
+		var sp: Vector2 = _world.view(s.pos)
 		var d: float = sp.distance_to(screen_pos)
 		if d <= best_d:
 			best_d = d
@@ -262,10 +261,6 @@ func _build_ui() -> void:
 	_world.name = "World"
 	add_child(_world)
 
-	_camera = Camera2D.new()
-	_camera.name = "Camera2D"
-	_world.add_child(_camera)
-	_camera.make_current()
 
 	_hud = CanvasLayer.new()
 	_hud.name = "HUD"
@@ -407,7 +402,7 @@ func _update_info_panel() -> void:
 		return
 	_info_panel.visible = true
 	var side := clampi(int(ship.side), 0, 1)
-	var color := SIDE_COLORS[side].to_html(false)
+	var color: String = (SIDE_COLORS[side] as Color).to_html(false)
 	var hp_frac := clampf(float(ship.hp) / maxf(float(ship.max_hp), 1.0), 0.0, 1.0)
 	var ai: Variant = ais[side]
 	var target_id := String(ai.targets.get(String(ship.id), "-"))
@@ -433,7 +428,7 @@ func _update_info_panel() -> void:
 
 
 func _show_end_panel() -> void:
-	var w := sim.winner()
+	var w: int = sim.winner()
 	_end_title.text = "아군 승리" if w == 0 else ("적군 승리" if w == 1 else "무승부")
 	_end_time.text = "경과 시간 %s" % _format_time(float(sim.time))
 	_end_table.text = _summary_table()
