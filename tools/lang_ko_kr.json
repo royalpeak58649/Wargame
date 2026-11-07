@@ -94,5 +94,8 @@
   "item.lobcorp.gaze_suit": "응시의 옷",
   "entity.lobcorp.big_bird": "큰 새",
   "item.lobcorp.lamp": "램프",
-  "item.lobcorp.lamp_suit": "램프의 옷"
+  "item.lobcorp.lamp_suit": "램프의 옷",
+  "entity.lobcorp.judgement_bird": "심판 새",
+  "item.lobcorp.justitia": "유스티티아",
+  "item.lobcorp.justitia_suit": "유스티티아의 옷"
 }

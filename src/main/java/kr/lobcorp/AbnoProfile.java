@@ -548,8 +548,24 @@ public record AbnoProfile(
                     "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
             ));
 
+    public static final AbnoProfile JUDGEMENT_BIRD = new AbnoProfile(
+            "judgement_bird", "심판 새", "O-02-62", "WAW", 0xAA55FF,
+            new int[]{20, 20, 20, 0}, 24, 13, 7,
+            DamageColor.PALE, 5, 7,
+            2,
+            () -> ModItems.JUSTITIA, 150,
+            () -> ModItems.JUSTITIA_SUIT, 120,
+            "justitia", "유스티티아", "이동 속도 +3%", 2,
+            new float[]{0.8f, 0.8f, 0.8f, 2.0f},
+            List.of(
+                    "길고 마른 다리 위에 검은 사제복을 걸친 새. 머리는 붕대로 감싼 자루이고, 그 앞으로 긴 부리가 뻗어 있다.",
+                    "작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "탈출하면 저울을 들어 올린 뒤 8블록 안의 모든 직원에게 심판을 내린다. 방호복은 아무 소용이 없다. 저울이 빛나는 2초 동안 자리를 벗어나십시오."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(BIG_BIRD.id, BIG_BIRD),
+            Map.entry(JUDGEMENT_BIRD.id, JUDGEMENT_BIRD),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),

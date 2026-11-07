@@ -12,6 +12,7 @@ import kr.lobcorp.client.model.FragmentModel;
 import kr.lobcorp.client.model.FreischutzModel;
 import kr.lobcorp.client.model.FuneralModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
+import kr.lobcorp.client.model.JudgementBirdModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
 import kr.lobcorp.client.model.LaetitiaModel;
@@ -46,6 +47,7 @@ import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.FreischutzEntity;
 import kr.lobcorp.entity.FuneralEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
+import kr.lobcorp.entity.JudgementBirdEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
@@ -876,6 +878,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(BigBirdModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class JudgementBird extends MobRenderer<JudgementBirdEntity, JudgementBirdModel.State, JudgementBirdModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/judgement_bird.png");
+
+        public JudgementBird(EntityRendererProvider.Context ctx) {
+            super(ctx, new JudgementBirdModel(ctx.bakeLayer(JudgementBirdModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public JudgementBirdModel.State createRenderState() {
+            return new JudgementBirdModel.State();
+        }
+
+        @Override
+        public void extractRenderState(JudgementBirdEntity e, JudgementBirdModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.judge = e.getJudgeTicks() > 0 ? 1f : 0f;
+            if (e.getJudgeTicks() > 0) s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 저울이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(JudgementBirdModel.State s) {
             return TEX;
         }
     }

@@ -94,5 +94,8 @@
   "item.lobcorp.gaze_suit": "Gaze Garb",
   "entity.lobcorp.big_bird": "Big Bird",
   "item.lobcorp.lamp": "Lamp",
-  "item.lobcorp.lamp_suit": "Lamp Garb"
+  "item.lobcorp.lamp_suit": "Lamp Garb",
+  "entity.lobcorp.judgement_bird": "Judgement Bird",
+  "item.lobcorp.justitia": "Justitia",
+  "item.lobcorp.justitia_suit": "Justitia Garb"
 }

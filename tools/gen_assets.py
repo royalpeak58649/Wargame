@@ -4820,3 +4820,180 @@ merge_lang({
     "item.lobcorp.lamp": "Lamp",
     "item.lobcorp.lamp_suit": "Lamp Garb",
 })
+
+
+# ═════════════ 33차: 심판 새 (O-02-62) ═════════════
+def judgement_bird():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    robe = hexc("#2a2a30")
+    robe_hi = hexc("#3a3a42")
+    robe_dark = hexc("#141418")
+    leg = hexc("#1a1a1e")
+    leg_hi = hexc("#2e2e34")
+    sack = hexc("#d8d0b8")
+    sack_hi = hexc("#e8e0cc")
+    sack_dark = hexc("#b0a890")
+    wrap = hexc("#8a8270")
+    wrap_dark = hexc("#5e5848")
+    beak = hexc("#c8b088")
+    beak_dark = hexc("#8a7450")
+    gold = hexc("#d8b040")
+    gold_hi = hexc("#f0d070")
+    gold_dark = hexc("#8a6a20")
+
+    # 다리 (u0 v0, 1x18x1 / u4 v0, 1x18x1)
+    for u in (0, 4):
+        l = box(img, u, 0, 1, 18, 1, leg, 4)
+        lx, ly = l["front"]
+        for y in range(18):
+            px(img, lx, ly + y, leg_hi if y % 4 == 0 else leg)
+        px(img, lx, ly + 17, hexc("#3a3a40"))
+
+    # 사제복 (u0 v20, 6x14x4)
+    b = box(img, 0, 20, 6, 14, 4, robe, 4, top=robe_hi)
+    bx, by = b["front"]
+    # 옷깃과 여밈
+    for y in range(14):
+        px(img, bx + 2, by + y, robe_dark)
+        px(img, bx + 3, by + y, robe_dark)
+    for y in (2, 5, 8, 11):
+        px(img, bx + 2, by + y, gold_dark)
+    for x in range(6):
+        px(img, bx + x, by + 13, robe_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(14):
+            if y % 4 == 0:
+                px(img, sx + 1, sy + y, robe_hi)
+        for x in range(4):
+            px(img, sx + x, sy + 13, robe_dark)
+
+    # 팔 (u20 v20, 1x14x1 / u24 v20, 1x14x1)
+    for u in (20, 24):
+        a = box(img, u, 20, 1, 14, 1, robe, 4)
+        ax, ay = a["front"]
+        for y in range(14):
+            px(img, ax, ay + y, robe_dark if y % 5 == 0 else robe)
+        px(img, ax, ay + 13, hexc("#3a3a40"))
+
+    # 목 (u28 v20, 2x6x2)
+    n = box(img, 28, 20, 2, 6, 2, robe, 4, top=robe_hi)
+    nx, ny = n["front"]
+    for y in range(6):
+        px(img, nx, ny + y, robe_dark)
+
+    # 자루 머리 (u0 v40, 5x6x5)
+    h = box(img, 0, 40, 5, 6, 5, sack, 4, top=sack_hi)
+    hx, hy = h["front"]
+    # 붕대 감은 자국: 비스듬한 띠
+    for y in range(6):
+        for x in range(5):
+            if (x + y) % 3 == 0:
+                px(img, hx + x, hy + y, wrap)
+            elif (x + y) % 7 == 0:
+                px(img, hx + x, hy + y, wrap_dark)
+    for x in range(5):
+        px(img, hx + x, hy + 5, sack_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(6):
+            for x in range(5):
+                if (x * 2 + y) % 4 == 0:
+                    px(img, sx + x, sy + y, wrap)
+                elif (x + y) % 6 == 0:
+                    px(img, sx + x, sy + y, wrap_dark)
+        for x in range(5):
+            px(img, sx + x, sy + 5, sack_dark)
+    tx, ty = h["top"]
+    for x in range(5):
+        for y in range(5):
+            if (x + y) % 3 == 0:
+                px(img, tx + x, ty + y, wrap)
+
+    # 긴 부리 (u20 v40, 1x1x6)
+    bk = box(img, 20, 40, 1, 1, 6, beak, 4, top=beak_dark)
+    bkx, bky = bk["front"]
+    px(img, bkx, bky, beak_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = bk[side]
+        for x in range(6):
+            px(img, sx + x, sy, beak_dark if x % 2 == 0 else beak)
+
+    # 저울대 (u36 v40, 8x1x1)
+    sc = box(img, 36, 40, 8, 1, 1, gold, 4, top=gold_hi)
+    scx, scy = sc["front"]
+    for x in range(8):
+        px(img, scx + x, scy, gold_hi if x % 2 == 0 else gold_dark)
+    # 저울 접시 (u36 v44, 3x1x3 / u48 v44, 3x1x3)
+    for u in (36, 48):
+        p = box(img, u, 44, 3, 1, 3, gold, 4, top=gold_hi)
+        px_, py_ = p["front"]
+        for x in range(3):
+            px(img, px_ + x, py_, gold_dark)
+        ptx, pty = p["top"]
+        for x in range(3):
+            for y in range(3):
+                if (x + y) % 2 == 0:
+                    px(img, ptx + x, pty + y, gold_hi)
+
+    save(img, "textures/entity/judgement_bird.png")
+
+
+JT = {"g": "#d8b040", "h": "#f0d070", "d": "#8a6a20", "k": "#2a2a30", "s": "#d8d0b8", "w": "#8a8270"}
+icon([
+    "................",
+    "..............gg",
+    ".............gg.",
+    "............gg..",
+    "...........gg...",
+    "..........gg....",
+    ".........gg.....",
+    "........gg......",
+    ".......gg.......",
+    "......gg........",
+    ".....gg.........",
+    "....gg..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], JT, "textures/item/justitia.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkggggkk....",
+    "....kkggggkk....",
+    "....kkggggkk....",
+    "....kkggggkk....",
+    "....kkkkkkkk....",
+    "....kkhhhhkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], JT, "textures/item/justitia_suit.png")
+
+armor(hexc("#2a2a30"), "#141418", "#d8b040", "textures/entity/equipment/humanoid/justitia.png")
+
+for item, parent in [("justitia", "minecraft:item/handheld"), ("justitia_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/justitia.json", {"layers": {"humanoid": [{"texture": "lobcorp:justitia"}]}})
+
+
+judgement_bird()
+print("assets judgement ok")
+
+merge_lang({
+    "entity.lobcorp.judgement_bird": "심판 새",
+    "item.lobcorp.justitia": "유스티티아",
+    "item.lobcorp.justitia_suit": "유스티티아의 옷",
+}, {
+    "entity.lobcorp.judgement_bird": "Judgement Bird",
+    "item.lobcorp.justitia": "Justitia",
+    "item.lobcorp.justitia_suit": "Justitia Garb",
+})

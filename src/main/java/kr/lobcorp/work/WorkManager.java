@@ -23,6 +23,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -182,16 +183,7 @@ public final class WorkManager {
         if (!near) actionbar(p, red("환상체와 너무 멀리 떨어져 있습니다!"));
         switch (prof.workDamage()) {
             case WHITE -> {
-                if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)
-                        || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)
-                        || wearing(p, ModItems.HORN_SUIT) || wearing(p, ModItems.LANTERN_SUIT)
-                        || wearing(p, ModItems.NOISE_SUIT) || wearing(p, ModItems.HARMONY_SUIT)
-                        || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT)
-                        || wearing(p, ModItems.OUR_GALAXY_SUIT) || wearing(p, ModItems.MAGIC_BULLET_SUIT)
-                        || wearing(p, ModItems.SYRINX_SUIT) || wearing(p, ModItems.FROST_SPLINTER_SUIT)
-                        || wearing(p, ModItems.LOGGING_SUIT) || wearing(p, ModItems.HARVEST_SUIT)
-                        || wearing(p, ModItems.CHRISTMAS_SUIT) || wearing(p, ModItems.SOLEMN_LAMENT_SUIT)
-                        || wearing(p, ModItems.GAZE_SUIT) || wearing(p, ModItems.LAMP_SUIT)) dmg--;
+                if (wearsAny(p, WHITE_SUITS)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
@@ -205,15 +197,7 @@ public final class WorkManager {
                 if (dmg > 0) Employees.damageSp(p, dmg);
             }
             default -> {
-                if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
-                        || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)
-                        || wearing(p, ModItems.RED_EYES_SUIT) || wearing(p, ModItems.HORN_SUIT)
-                        || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)
-                        || wearing(p, ModItems.LAETITIA_SUIT) || wearing(p, ModItems.GRINDER_SUIT)
-                        || wearing(p, ModItems.OUR_GALAXY_SUIT) || wearing(p, ModItems.MAGIC_BULLET_SUIT)
-                        || wearing(p, ModItems.LOGGING_SUIT)
-                        || wearing(p, ModItems.HARVEST_SUIT) || wearing(p, ModItems.CHRISTMAS_SUIT)
-                        || wearing(p, ModItems.GAZE_SUIT) || wearing(p, ModItems.LAMP_SUIT)) dmg--;
+                if (wearsAny(p, RED_SUITS)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }
@@ -309,13 +293,72 @@ public final class WorkManager {
     }
 
     /** BLACK 저항 방호복 착용 여부 (작업 실패 시 HP·SP 피해 -1) */
+
+    // ── 방호복 저항 목록: 새 E.G.O 방호복은 해당 목록에 한 줄 추가 ──
+    /** WHITE 작업 피해 -1 */
+    public static final List<java.util.function.Supplier<Item>> WHITE_SUITS = List.of(
+            () -> ModItems.PENITENCE_SUIT,
+            () -> ModItems.BEAR_PAWS_SUIT,
+            () -> ModItems.SCREAMING_WEDGE_SUIT,
+            () -> ModItems.SOLITUDE_SUIT,
+            () -> ModItems.HORN_SUIT,
+            () -> ModItems.LANTERN_SUIT,
+            () -> ModItems.NOISE_SUIT,
+            () -> ModItems.HARMONY_SUIT,
+            () -> ModItems.PLEASURE_SUIT,
+            () -> ModItems.LAETITIA_SUIT,
+            () -> ModItems.OUR_GALAXY_SUIT,
+            () -> ModItems.MAGIC_BULLET_SUIT,
+            () -> ModItems.SYRINX_SUIT,
+            () -> ModItems.FROST_SPLINTER_SUIT,
+            () -> ModItems.LOGGING_SUIT,
+            () -> ModItems.HARVEST_SUIT,
+            () -> ModItems.CHRISTMAS_SUIT,
+            () -> ModItems.SOLEMN_LAMENT_SUIT,
+            () -> ModItems.GAZE_SUIT,
+            () -> ModItems.LAMP_SUIT,
+            () -> ModItems.JUSTITIA_SUIT);
+    /** RED·PALE 작업 피해 -1 */
+    public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
+            () -> ModItems.REGRET_SUIT,
+            () -> ModItems.MATCH_FLAME_SUIT,
+            () -> ModItems.WINGBEAT_SUIT,
+            () -> ModItems.BEAK_SUIT,
+            () -> ModItems.DAREDEVIL_SUIT,
+            () -> ModItems.RED_EYES_SUIT,
+            () -> ModItems.HORN_SUIT,
+            () -> ModItems.LANTERN_SUIT,
+            () -> ModItems.SANGUINE_DESIRE_SUIT,
+            () -> ModItems.LAETITIA_SUIT,
+            () -> ModItems.GRINDER_SUIT,
+            () -> ModItems.OUR_GALAXY_SUIT,
+            () -> ModItems.MAGIC_BULLET_SUIT,
+            () -> ModItems.LOGGING_SUIT,
+            () -> ModItems.HARVEST_SUIT,
+            () -> ModItems.CHRISTMAS_SUIT,
+            () -> ModItems.GAZE_SUIT,
+            () -> ModItems.LAMP_SUIT,
+            () -> ModItems.JUSTITIA_SUIT);
+    /** BLACK 작업 피해 -1 */
+    public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
+            () -> ModItems.FROST_SPLINTER_SUIT,
+            () -> ModItems.FRAGMENTS_SUIT,
+            () -> ModItems.NOISE_SUIT,
+            () -> ModItems.PLEASURE_SUIT,
+            () -> ModItems.LAETITIA_SUIT,
+            () -> ModItems.MAGIC_BULLET_SUIT,
+            () -> ModItems.SYRINX_SUIT,
+            () -> ModItems.SOLEMN_LAMENT_SUIT,
+            () -> ModItems.LAMP_SUIT,
+            () -> ModItems.JUSTITIA_SUIT);
+
+    static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
+        for (var s : suits) if (wearing(p, s.get())) return true;
+        return false;
+    }
+
     private static boolean blackSuit(ServerPlayer p) {
-        if (wearing(p, ModItems.FROST_SPLINTER_SUIT)) return true;
-        return wearing(p, ModItems.FRAGMENTS_SUIT) || wearing(p, ModItems.NOISE_SUIT)
-                || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT)
-                || wearing(p, ModItems.MAGIC_BULLET_SUIT) || wearing(p, ModItems.SYRINX_SUIT)
-                || wearing(p, ModItems.FROST_SPLINTER_SUIT) || wearing(p, ModItems.SOLEMN_LAMENT_SUIT)
-                || wearing(p, ModItems.LAMP_SUIT);
+        return wearsAny(p, BLACK_SUITS);
     }
 
     public static MutableComponent red(String s) {
