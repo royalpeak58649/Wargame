@@ -353,6 +353,21 @@ public record AbnoProfile(
                     "마실 때마다 항아리가 터질 확률이 15%씩 오른다 (최대 60%). 터지면 20초 뒤 마신 직원이 터지고, 주변 8블록의 직원이 정신 피해를 입는다."
             ));
 
+    public static final AbnoProfile PORTRAIT = new AbnoProfile(
+            "portrait", "다른 세계의 초상", "O-09-91", "HE", 0xFFAA00,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "도구형 환상체. 작업도, PE-BOX도, E.G.O도 없다.",
+                    "사용한 직원은 「새겨진 자」가 되고, 접속 중인 다른 직원 한 명이 「대신하는 자」가 된다. 새겨진 자가 받을 HP·SP 피해는 대신하는 자에게 1.5배로 옮겨 간다.",
+                    "옮겨 간 피해가 100을 넘으면 2배, 200을 넘으면 2.5배가 된다. 한 번의 피해가 최대 HP·SP를 넘으면 새겨진 자가 그대로 죽는다. 누군가 새로 사용하면 이전 새겨진 자는 죽고, 하루가 끝나면 초상화는 제자리로 돌아간다."
+            ));
+
     public static final AbnoProfile SHELTER = new AbnoProfile(
             "shelter", "3월 27일의 대피소", "T-09-82", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -391,7 +406,8 @@ public record AbnoProfile(
             Map.entry(LAETITIA.id, LAETITIA),
             Map.entry(HELPER.id, HELPER),
             Map.entry(TREE_SAP.id, TREE_SAP),
-            Map.entry(SHELTER.id, SHELTER)
+            Map.entry(SHELTER.id, SHELTER),
+            Map.entry(PORTRAIT.id, PORTRAIT)
     );
 
     public boolean canBreach() {

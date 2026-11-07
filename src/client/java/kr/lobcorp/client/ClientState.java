@@ -4,7 +4,7 @@ package kr.lobcorp.client;
 public final class ClientState {
     private ClientState() {}
 
-    public static int[] v = new int[17];
+    public static int[] v = new int[18];
     public static boolean received = false;
 
     public static int sp() { return v[0]; }
@@ -20,4 +20,5 @@ public final class ClientState {
     public static int possess() { return v.length > 14 ? v[14] : 0; }
     public static boolean heart() { return v.length > 15 && v[15] == 1; }
     public static boolean sheltered() { return v.length > 16 && v[16] == 1; }
+    public static int portrait() { return v.length > 17 ? v[17] : 0; }
 }

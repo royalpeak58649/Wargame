@@ -44,6 +44,12 @@ public final class LobCorpHud {
         }
         if (ClientState.sheltered()) {
             g.text(font, "대피소 안 · 피해 무효", x, line, 0xFF7CFFE0, true);
+            line += 10;
+        }
+        if (ClientState.portrait() == 1) {
+            g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
+        } else if (ClientState.portrait() == 2) {
+            g.text(font, "초상 · 누군가의 상처가 당신에게 옵니다", x, line, 0xFF8A1A1A, true);
         }
 
         // ── 작업 진행 ──

@@ -65,6 +65,7 @@ public final class Employees {
         v[14] = d.possessTicks;
         v[15] = d.laetitiaHeart ? 1 : 0;
         v[16] = ToolState.isSheltered(p) ? 1 : 0;
+        v[17] = ToolState.isEtched(p) ? 1 : ToolState.isVictim(p) ? 2 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -224,6 +225,27 @@ public final class Employees {
     /** SP 피해. 0 이하가 되면 패닉 */
     public static void damageSp(ServerPlayer p, int amount) {
         if (ToolState.isSheltered(p)) return;
+        // 다른 세계의 초상: 새겨진 자의 SP 피해는 대신하는 자에게 옮겨 간다
+        if (ToolState.isEtched(p)) {
+            if (amount > get(p).maxSp()) {
+                ServerLevel sl = p.level();
+                Facility.broadcast(sl.getServer(), Component.literal("[관제] ").withStyle(s -> s.withColor(0xAA0000))
+                        .append(p.getDisplayName())
+                        .append(Component.literal(" 직원의 정신이 초상화 너머로 찢겨 나갔습니다.").withStyle(s -> s.withColor(0xFF5555))));
+                ToolState.resetPortrait();
+                p.hurtServer(sl, sl.damageSources().magic(), 1000f);
+                return;
+            }
+            ServerPlayer v = p.level().getServer().getPlayerList().getPlayer(ToolState.victim);
+            if (v != null && v != p) {
+                int redirected = Math.max(1, Math.round(amount * ToolState.portraitMult()));
+                ToolState.portraitTotal += redirected;
+                p.level().sendParticles(ParticleTypes.ENCHANT, p.getX(), p.getY() + 1.2, p.getZ(), 8, 0.4, 0.6, 0.4, 0.1);
+                v.level().sendParticles(ParticleTypes.ENCHANT, v.getX(), v.getY() + 1.2, v.getZ(), 8, 0.4, 0.6, 0.4, 0.1);
+                damageSp(v, redirected);
+            }
+            return;
+        }
         EmployeeData d = get(p);
         d.sp -= amount;
         if (d.sp <= 0) panic(p);

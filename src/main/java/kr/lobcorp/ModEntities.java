@@ -19,6 +19,7 @@ import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PorccubusEntity;
+import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -60,6 +61,7 @@ public final class ModEntities {
     public static EntityType<AllAroundHelperEntity> ALL_AROUND_HELPER;
     public static EntityType<TreeSapEntity> TREE_SAP;
     public static EntityType<ShelterEntity> SHELTER;
+    public static EntityType<PortraitEntity> PORTRAIT;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -117,6 +119,8 @@ public final class ModEntities {
                 .sized(0.8f, 1.3f).clientTrackingRange(10));
         SHELTER = register("shelter", EntityType.Builder.of(ShelterEntity::new, MobCategory.MISC)
                 .sized(1.2f, 0.6f).clientTrackingRange(10));
+        PORTRAIT = register("portrait", EntityType.Builder.of(PortraitEntity::new, MobCategory.MISC)
+                .sized(1.0f, 1.6f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -142,5 +146,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(ALL_AROUND_HELPER, AllAroundHelperEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(TREE_SAP, TreeSapEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SHELTER, ShelterEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(PORTRAIT, PortraitEntity.createAttributes());
     }
 }

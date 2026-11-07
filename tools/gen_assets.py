@@ -2756,3 +2756,87 @@ merge_lang({
 }, {
     "entity.lobcorp.shelter": "Shelter from the 27th of March",
 })
+
+
+# ═════════════ 21차: 다른 세계의 초상 (O-09-91) ═════════════
+def portrait():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wood = hexc("#6b4a2a")
+    wood_hi = hexc("#7d5a36")
+    wood_dark = hexc("#4a3220")
+    gold = hexc("#c8a040")
+    gold_hi = hexc("#e8c060")
+    gold_dark = hexc("#8a6a20")
+    sky = hexc("#3a2a4a")
+    sky_hi = hexc("#4e3a62")
+    ground = hexc("#6a4a3a")
+    ground_dark = hexc("#4a3228")
+    figure = hexc("#e8e2d8")
+    figure_shade = hexc("#c8c0b4")
+    smear = hexc("#8a7a8a")
+
+    # 이젤 다리 (u0 v0, 1x16x1)
+    for u in (0, 4):
+        l = box(img, u, 0, 1, 16, 1, wood, 8)
+        lx, ly = l["front"]
+        for y in range(16):
+            px(img, lx, ly + y, wood_dark if y % 4 == 0 else wood)
+    # 받침대 (u0 v20, 12x1x3)
+    s = box(img, 0, 20, 12, 1, 3, wood, 8, top=wood_hi)
+    sx, sy = s["front"]
+    for x in range(12):
+        px(img, sx + x, sy, wood_dark)
+
+    # 캔버스 (u0 v24, 12x14x1)
+    c = box(img, 0, 24, 12, 14, 1, sky, 4)
+    cx, cy = c["front"]
+    # 하늘: 위쪽은 보랏빛, 아래로 갈수록 흐려진다
+    for y in range(14):
+        for x in range(12):
+            if y < 5:
+                px(img, cx + x, cy + y, sky if (x + y) % 5 else sky_hi)
+            elif y < 8:
+                px(img, cx + x, cy + y, hexc("#5a4258") if (x * 3 + y) % 7 else sky_hi)
+            else:
+                px(img, cx + x, cy + y, ground if (x + y * 2) % 6 else ground_dark)
+    # 지평선
+    for x in range(12):
+        px(img, cx + x, cy + 8, hexc("#2a1e2a"))
+    # 멀리 보이는 봉우리
+    for (x, h) in [(1, 2), (2, 3), (3, 2), (8, 2), (9, 3), (10, 2)]:
+        for y in range(h):
+            px(img, cx + x, cy + 7 - y, hexc("#2e2236"))
+    # 창백한 형체: 서 있는 사람
+    for y in range(3, 8):
+        px(img, cx + 5, cy + y, figure)
+        px(img, cx + 6, cy + y, figure_shade)
+    px(img, cx + 5, cy + 2, figure)
+    px(img, cx + 6, cy + 2, figure_shade)
+    # 번진 얼굴
+    for (x, y) in [(5, 2), (6, 2), (5, 3), (6, 3), (4, 3), (7, 3), (5, 4), (6, 4)]:
+        px(img, cx + x, cy + y, smear)
+    # 그림자
+    for x in range(4, 8):
+        px(img, cx + x, cy + 8, hexc("#1e1620"))
+
+    # 금장 액자 (u40 v24, 13x1x2 / u40 v28, 1x15x2)
+    ft = box(img, 40, 24, 13, 1, 2, gold, 6, top=gold_hi)
+    ftx, fty = ft["front"]
+    for x in range(13):
+        px(img, ftx + x, fty, gold_dark)
+    fl = box(img, 40, 28, 1, 15, 2, gold, 6)
+    flx, fly = fl["front"]
+    for y in range(15):
+        px(img, flx, fly + y, gold_dark if y % 3 == 0 else gold)
+
+    save(img, "textures/entity/portrait.png")
+
+
+portrait()
+print("assets portrait ok")
+
+merge_lang({
+    "entity.lobcorp.portrait": "다른 세계의 초상",
+}, {
+    "entity.lobcorp.portrait": "Portrait of Another World",
+})

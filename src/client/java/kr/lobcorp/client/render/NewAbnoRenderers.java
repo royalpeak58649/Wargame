@@ -14,6 +14,7 @@ import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PorccubusModel;
+import kr.lobcorp.client.model.PortraitModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
@@ -36,6 +37,7 @@ import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PorccubusEntity;
+import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
@@ -555,6 +557,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public void extractRenderState(ShelterEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class Portrait extends MobRenderer<PortraitEntity, LivingEntityRenderState, PortraitModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/portrait.png");
+
+        public Portrait(EntityRendererProvider.Context ctx) {
+            super(ctx, new PortraitModel(ctx.bakeLayer(PortraitModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(PortraitEntity e, LivingEntityRenderState s, float pt) {
             super.extractRenderState(e, s, pt);
         }
 
