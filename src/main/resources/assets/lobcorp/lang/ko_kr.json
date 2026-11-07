@@ -7,6 +7,7 @@
   "entity.lobcorp.punishing_bird": "처벌새",
   "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
   "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+  "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -22,5 +23,7 @@
   "item.lobcorp.todays_expression": "오늘의 표정",
   "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
   "item.lobcorp.screaming_wedge": "비명 쐐기",
-  "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)"
+  "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+  "item.lobcorp.daredevil": "만용",
+  "item.lobcorp.daredevil_suit": "만용 (방어구)"
 }

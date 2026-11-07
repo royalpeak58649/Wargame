@@ -143,6 +143,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 부서 전체에 흐느낌이 퍼져 정신력을 깎아먹는다. 자제가 낮은 직원은 뒤를 돌아보고 만다."
             ));
 
+    public static final AbnoProfile CRUMBLING_ARMOR = new AbnoProfile(
+            "crumbling_armor", "부서지는 갑옷", "O-05-61", "TETH", 0x5599FF,
+            new int[]{60, 45, 35, 55}, 12, 9, 5,
+            DamageColor.RED, 2, 4,
+            0,
+            () -> ModItems.DAREDEVIL, 30,
+            () -> ModItems.DAREDEVIL_SUIT, 30,
+            "courage", "용기", "이동 속도 +10% (애착 작업 시 사망)", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "용기 I등급(30 미만) 직원은 작업을 시작하자마자 목이 베인다.",
+                    "억압 작업을 마치면 기프트 「용기」를 준다.",
+                    "「용기」를 가진 직원이 어떤 환상체든 애착 작업을 하면 죽는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -151,7 +166,8 @@ public record AbnoProfile(
             Map.entry(FAIRY_FESTIVAL.id, FAIRY_FESTIVAL),
             Map.entry(PUNISHING_BIRD.id, PUNISHING_BIRD),
             Map.entry(TODAYS_SHY_LOOK.id, TODAYS_SHY_LOOK),
-            Map.entry(LADY_FACING_THE_WALL.id, LADY_FACING_THE_WALL)
+            Map.entry(LADY_FACING_THE_WALL.id, LADY_FACING_THE_WALL),
+            Map.entry(CRUMBLING_ARMOR.id, CRUMBLING_ARMOR)
     );
 
     public boolean canBreach() {

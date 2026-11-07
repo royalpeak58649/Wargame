@@ -1011,3 +1011,191 @@ wjson("lang/en_us.json", {
 
 lady_facing_the_wall()
 print("assets wall ok")
+
+
+# ═════════════ 6차: 부서지는 갑옷 (O-05-61) ═════════════
+def crumbling_armor():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    lacquer = hexc("#3a0f12")
+    black = hexc("#1a1414")
+    gold = hexc("#b8923a")
+    rust = hexc("#7a4a2a")
+    pink = hexc("#e8a0b4")
+    eye = hexc("#6ad0ff")
+
+    # 투구 (u0 v0, 8x7x8)
+    h = box(img, 0, 0, 8, 7, 8, lacquer, 6, top=black)
+    hx, hy = h["front"]
+    # 얼굴판: 어두운 철판 + 푸른 눈 두 점
+    rect(img, hx + 1, hy + 2, 6, 4, black, 4)
+    px(img, hx + 2, hy + 3, eye)
+    px(img, hx + 5, hy + 3, eye)
+    px(img, hx + 2, hy + 4, hexc("#2a6a8a"))
+    px(img, hx + 5, hy + 4, hexc("#2a6a8a"))
+    # 금테
+    for x in range(8):
+        px(img, hx + x, hy, gold)
+        px(img, hx + x, hy + 6, gold)
+    # 투구깃 (u32 v0, 1x5x1)
+    box(img, 32, 0, 1, 5, 1, gold, 6)
+
+    # 흉갑 (u0 v16, 10x10x6)
+    c = box(img, 0, 16, 10, 10, 6, lacquer, 6, top=black)
+    cx, cy = c["front"]
+    # 벚꽃 무늬
+    for (x, y) in [(2, 2), (3, 2), (2, 3), (3, 3), (6, 5), (7, 5), (6, 6), (7, 6), (4, 7)]:
+        px(img, cx + x, cy + y, pink)
+    # 금테 가슴띠
+    for x in range(10):
+        px(img, cx + x, cy + 4, gold)
+    for y in range(10):
+        px(img, cx, cy + y, gold)
+        px(img, cx + 9, cy + y, gold)
+
+    # 초하부 (u0 v32, 11x5x7)
+    s = box(img, 0, 32, 11, 5, 7, lacquer, 6)
+    sx, sy = s["front"]
+    for y in range(5):
+        for x in range(11):
+            if (x + y) % 3 == 0:
+                px(img, sx + x, sy + y, rust)
+    for x in range(11):
+        px(img, sx + x, sy, gold)
+
+    # 어깨 판 (u36 v16, 4x2x6) — 녹
+    for u in (36, 36):
+        sh = box(img, u, 16, 4, 2, 6, lacquer, 6, top=rust)
+        shx, shy = sh["front"]
+        for x in range(4):
+            px(img, shx + x, shy + 1, rust)
+
+    # 왼팔 (u32 v24, 3x10x3)
+    a = box(img, 32, 24, 3, 10, 3, lacquer, 6)
+    ax, ay = a["front"]
+    for y in range(10):
+        px(img, ax + 1, ay + y, black)
+    for x in range(3):
+        px(img, ax + x, ay + 9, gold)
+
+    # 다리 (u44 v24, 4x8x4)
+    for u in (44, 44):
+        l = box(img, u, 24, 4, 8, 4, black, 6)
+        lx, ly = l["front"]
+        for x in range(4):
+            px(img, lx + x, ly + 7, gold)
+
+    # 바닥에 떨어진 오른쪽 손등가죽 (u48 v0, 3x3x5)
+    g = box(img, 48, 0, 3, 3, 5, lacquer, 6, top=rust)
+    gx, gy = g["front"]
+    for x in range(3):
+        px(img, gx + x, gy + 2, gold)
+
+    save(img, "textures/entity/crumbling_armor.png")
+
+
+DD = {"s": "#c9cfd4", "l": "#eef2f5", "d": "#5c6268", "g": "#b8923a", "h": "#3a2a1a", "r": "#7a2a2a"}
+icon([
+    "................",
+    "..............ll",
+    ".............ll.",
+    "............ll..",
+    "...........ll...",
+    "..........ll....",
+    ".........ll.....",
+    "........ll......",
+    ".......ll.......",
+    "......ll........",
+    ".....ll.........",
+    "....ll..........",
+    "...gg...........",
+    "..gg............",
+    "..h.............",
+    "................",
+], DD, "textures/item/daredevil.png")
+icon([
+    "................",
+    "...dd......dd...",
+    "..dddd....dddd..",
+    "..dddddddddddd..",
+    "...dddddddddd...",
+    "....ddggggdd....",
+    "....ddggggdd....",
+    "....ddggggdd....",
+    "....ddggggdd....",
+    "....dddddddd....",
+    "....ddrrrrdd....",
+    "....dddddddd....",
+    "....dddddddd....",
+    ".....hhhhhh.....",
+    "................",
+    "................",
+], DD, "textures/item/daredevil_suit.png")
+
+armor(hexc("#3a0f12"), "#b8923a", "#e8a0b4", "textures/entity/equipment/humanoid/daredevil.png")
+
+for item, parent in [("daredevil", "minecraft:item/handheld"), ("daredevil_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/daredevil.json", {"layers": {"humanoid": [{"texture": "lobcorp:daredevil"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+    "item.lobcorp.daredevil": "만용",
+    "item.lobcorp.daredevil_suit": "만용 (방어구)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "entity.lobcorp.crumbling_armor": "Crumbling Armor",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+    "item.lobcorp.daredevil": "Daredevil",
+    "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
+})
+
+crumbling_armor()
+print("assets armor ok")

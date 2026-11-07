@@ -7,6 +7,7 @@
   "entity.lobcorp.punishing_bird": "Punishing Bird",
   "entity.lobcorp.todays_shy_look": "Today's Shy Look",
   "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+  "entity.lobcorp.crumbling_armor": "Crumbling Armor",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -22,5 +23,7 @@
   "item.lobcorp.todays_expression": "Today's Expression",
   "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
   "item.lobcorp.screaming_wedge": "Screaming Wedge",
-  "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)"
+  "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+  "item.lobcorp.daredevil": "Daredevil",
+  "item.lobcorp.daredevil_suit": "Daredevil (Suit)"
 }

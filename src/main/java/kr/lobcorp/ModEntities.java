@@ -1,5 +1,6 @@
 package kr.lobcorp;
 
+import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.ForsakenMurdererEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
@@ -28,6 +29,7 @@ public final class ModEntities {
     public static EntityType<PunishingBirdEntity> PUNISHING_BIRD;
     public static EntityType<TodaysShyLookEntity> TODAYS_SHY_LOOK;
     public static EntityType<LadyFacingTheWallEntity> LADY_FACING_THE_WALL;
+    public static EntityType<CrumblingArmorEntity> CRUMBLING_ARMOR;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -53,6 +55,8 @@ public final class ModEntities {
                 .sized(1.4f, 2.0f).clientTrackingRange(10));
         LADY_FACING_THE_WALL = register("lady_facing_the_wall", EntityType.Builder.of(LadyFacingTheWallEntity::new, MobCategory.MISC)
                 .sized(0.8f, 1.9f).clientTrackingRange(10));
+        CRUMBLING_ARMOR = register("crumbling_armor", EntityType.Builder.of(CrumblingArmorEntity::new, MobCategory.MISC)
+                .sized(1.0f, 1.9f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -62,5 +66,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(PUNISHING_BIRD, PunishingBirdEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(TODAYS_SHY_LOOK, TodaysShyLookEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(LADY_FACING_THE_WALL, LadyFacingTheWallEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(CRUMBLING_ARMOR, CrumblingArmorEntity.createAttributes());
     }
 }

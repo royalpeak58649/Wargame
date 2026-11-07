@@ -56,7 +56,8 @@ public class EmployeeData {
             "wingbeat", new int[]{0, 0, 3, 0},
             "beak", new int[]{0, 0, 2, 5},
             "todays_expression", new int[]{0, -2, 4, 0},
-            "screaming_wedge", new int[]{1, 2, 0, 0}
+            "screaming_wedge", new int[]{1, 2, 0, 0},
+            "courage", new int[]{0, 0, 0, 10}
     );
 
     private int giftSum(int idx) {

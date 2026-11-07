@@ -1,12 +1,14 @@
 package kr.lobcorp.client.render;
 
 import kr.lobcorp.LobCorp;
+import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
+import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
@@ -136,6 +138,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public void extractRenderState(LadyFacingTheWallEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class Armor extends MobRenderer<CrumblingArmorEntity, LivingEntityRenderState, CrumblingArmorModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/crumbling_armor.png");
+
+        public Armor(EntityRendererProvider.Context ctx) {
+            super(ctx, new CrumblingArmorModel(ctx.bakeLayer(CrumblingArmorModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(CrumblingArmorEntity e, LivingEntityRenderState s, float pt) {
             super.extractRenderState(e, s, pt);
         }
 

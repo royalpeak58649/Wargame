@@ -4,6 +4,7 @@ import kr.lobcorp.AbnoProfile;
 import kr.lobcorp.DamageColor;
 import kr.lobcorp.ModItems;
 import kr.lobcorp.entity.AbnormalityEntity;
+import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.net.Payloads;
@@ -75,6 +76,11 @@ public final class WorkManager {
         // 요정의 축제: 축복받은 채 다른 환상체에 들어가면 잡아먹힌다
         if (d.fairyTicks > 0 && !(a instanceof FairyFestivalEntity)) {
             FairyFestivalEntity.devour(p, a);
+            return;
+        }
+        // 부서지는 갑옷: 「용기」를 지닌 직원이 애착 작업을 시작하면 목이 베인다
+        if (d.hasGift("courage") && type == WorkType.ATTACHMENT) {
+            CrumblingArmorEntity.decapitate(p, "용기를 지닌 채 애착 작업");
             return;
         }
         // 환상체별 사전 판정 (행복한 테디베어의 포옹 등)
