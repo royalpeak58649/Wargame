@@ -43,6 +43,7 @@ public final class ModItems {
     public static final ArmorMaterial HORN_MAT = material("horn", 5);
     public static final ArmorMaterial LANTERN_MAT = material("lantern", 5);
     public static final ArmorMaterial FRAGMENTS_MAT = material("fragments", 5);
+    public static final ArmorMaterial NOISE_MAT = material("noise", 5);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -74,6 +75,8 @@ public final class ModItems {
     public static Item LANTERN_SUIT;
     public static Item FRAGMENTS;
     public static Item FRAGMENTS_SUIT;
+    public static Item NOISE;
+    public static Item NOISE_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -195,6 +198,10 @@ public final class ModItems {
                 "O-03-60 · TETH", "BLACK 피해 창, 빠른 찌르기", "밤하늘의 색을 띤 창날 곳곳에 작은 하트가 박혀 있다.");
         FRAGMENTS_SUIT = suit("fragments_suit", FRAGMENTS_MAT,
                 "O-03-60 · TETH", "BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+        NOISE = weapon("noise", DamageColor.WHITE, 4.0, -2.4,
+                "T-06-27 · TETH", "WHITE 피해 지팡이", "손잡이를 쥘 때마다 지직거리는 잡음이 손바닥을 타고 올라온다.");
+        NOISE_SUIT = suit("noise_suit", NOISE_MAT,
+                "T-06-27 · TETH", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -203,6 +210,6 @@ public final class ModItems {
                 TODAYS_EXPRESSION, TODAYS_EXPRESSION_SUIT, SCREAMING_WEDGE, SCREAMING_WEDGE_SUIT,
                 DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT, RED_EYES, RED_EYES_SUIT,
                 ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
-                FRAGMENTS, FRAGMENTS_SUIT);
+                FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT);
     }
 }

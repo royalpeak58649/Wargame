@@ -65,7 +65,8 @@ public class EmployeeData {
             java.util.Map.entry("engulfing_dream", new int[]{0, 4, 0, 0}),
             java.util.Map.entry("horn", new int[]{2, 2, 0, 0}),
             java.util.Map.entry("lantern", new int[]{5, 0, 0, 0}),
-            java.util.Map.entry("fragments", new int[]{0, 0, 2, 2})
+            java.util.Map.entry("fragments", new int[]{0, 0, 2, 2}),
+            java.util.Map.entry("noise", new int[]{0, 0, 0, 3})
     );
 
     private int giftSum(int idx) {

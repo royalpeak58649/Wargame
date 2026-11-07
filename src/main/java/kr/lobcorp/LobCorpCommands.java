@@ -41,7 +41,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("void_dream").executes(c -> build(c, ModEntities.VOID_DREAM, false)))
                         .then(Commands.literal("beauty_and_the_beast").executes(c -> build(c, ModEntities.BEAUTY_BEAST, false)))
                         .then(Commands.literal("meat_lantern").executes(c -> build(c, ModEntities.MEAT_LANTERN, false)))
-                        .then(Commands.literal("fragment_of_universe").executes(c -> build(c, ModEntities.FRAGMENT, false))))
+                        .then(Commands.literal("fragment_of_universe").executes(c -> build(c, ModEntities.FRAGMENT, false)))
+                        .then(Commands.literal("mhz").executes(c -> build(c, ModEntities.MHZ, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

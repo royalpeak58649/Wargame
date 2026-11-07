@@ -14,6 +14,7 @@
   "entity.lobcorp.beauty_and_the_beast": "미녀와 야수",
   "entity.lobcorp.meat_lantern": "고기 등불",
   "entity.lobcorp.fragment_of_universe": "우주의 파편",
+  "entity.lobcorp.mhz": "1.76 MHz",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -43,5 +44,7 @@
   "item.lobcorp.lantern": "등불",
   "item.lobcorp.lantern_suit": "등불 (방호복)",
   "item.lobcorp.fragments": "어딘가의 파편",
-  "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)"
+  "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)",
+  "item.lobcorp.noise": "잡음",
+  "item.lobcorp.noise_suit": "잡음 (방호복)"
 }

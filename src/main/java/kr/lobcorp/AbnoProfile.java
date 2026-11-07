@@ -248,6 +248,21 @@ public record AbnoProfile(
                     "탈출하면 느릿하게 배회하며 촉수로 직원을 찌른다. 때때로 멈춰 서서 노래를 부르는데, 그 소리를 들은 직원은 정신이 무너진다."
             ));
 
+    public static final AbnoProfile MHZ = new AbnoProfile(
+            "mhz", "1.76 MHz", "T-06-27", "TETH", 0x5599FF,
+            new int[]{40, 40, 20, 55}, 12, 10, 6,
+            DamageColor.WHITE, 2, 4,
+            4,
+            () -> ModItems.NOISE, 30,
+            () -> ModItems.NOISE_SUIT, 30,
+            "noise", "잡음", "이동 속도 +3%", 5,
+            new float[]{1.0f, 1.0f, 1.0f, 1.0f},
+            List.of(
+                    "작업 결과가 좋음이면 클리포트 카운터가 1 회복된다. PE-BOX를 12개 모두 모으면 2 회복된다.",
+                    "작업 결과가 보통이면 40%, 나쁨이면 80% 확률로 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 격리실에서 잡음이 새어 나와 시설로 번진다. 구역 안의 직원은 정신력을 잃고, 카운터를 다시 채워야 멈춘다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -263,7 +278,8 @@ public record AbnoProfile(
             Map.entry(VOID_DREAM.id, VOID_DREAM),
             Map.entry(BEAUTY_BEAST.id, BEAUTY_BEAST),
             Map.entry(MEAT_LANTERN.id, MEAT_LANTERN),
-            Map.entry(FRAGMENT.id, FRAGMENT)
+            Map.entry(FRAGMENT.id, FRAGMENT),
+            Map.entry(MHZ.id, MHZ)
     );
 
     public boolean canBreach() {

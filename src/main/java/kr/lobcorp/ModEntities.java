@@ -8,6 +8,7 @@ import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
+import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
@@ -42,6 +43,7 @@ public final class ModEntities {
     public static EntityType<BeautyBeastEntity> BEAUTY_BEAST;
     public static EntityType<MeatLanternEntity> MEAT_LANTERN;
     public static EntityType<FragmentEntity> FRAGMENT;
+    public static EntityType<MhzEntity> MHZ;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -81,6 +83,8 @@ public final class ModEntities {
                 .sized(1.6f, 1.4f).clientTrackingRange(10));
         FRAGMENT = register("fragment_of_universe", EntityType.Builder.of(FragmentEntity::new, MobCategory.MISC)
                 .sized(1.0f, 1.0f).clientTrackingRange(10));
+        MHZ = register("mhz", EntityType.Builder.of(MhzEntity::new, MobCategory.MISC)
+                .sized(0.9f, 1.0f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -97,5 +101,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(BEAUTY_BEAST, BeautyBeastEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(MEAT_LANTERN, MeatLanternEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FRAGMENT, FragmentEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(MHZ, MhzEntity.createAttributes());
     }
 }

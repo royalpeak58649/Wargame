@@ -8,6 +8,7 @@ import kr.lobcorp.client.model.FragmentModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.MeatLanternModel;
+import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
@@ -21,6 +22,7 @@ import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
+import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
@@ -329,6 +331,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(FragmentModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Mhz extends MobRenderer<MhzEntity, MhzModel.State, MhzModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/mhz.png");
+
+        public Mhz(EntityRendererProvider.Context ctx) {
+            super(ctx, new MhzModel(ctx.bakeLayer(MhzModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public MhzModel.State createRenderState() {
+            return new MhzModel.State();
+        }
+
+        @Override
+        public void extractRenderState(MhzEntity e, MhzModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.distorting = e.getRadius() > 0;
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 스피커 틈으로 새는 빛
+        }
+
+        @Override
+        public Identifier getTextureLocation(MhzModel.State s) {
             return TEX;
         }
     }
