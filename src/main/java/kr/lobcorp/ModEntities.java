@@ -28,6 +28,7 @@ import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
+import kr.lobcorp.entity.RudoltaEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
@@ -76,6 +77,7 @@ public final class ModEntities {
     public static EntityType<SnowQueenEntity> SNOW_QUEEN;
     public static EntityType<WoodsmanEntity> WOODSMAN;
     public static EntityType<ScarecrowEntity> SCARECROW;
+    public static EntityType<RudoltaEntity> RUDOLTA;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -149,6 +151,8 @@ public final class ModEntities {
                 .sized(0.9f, 2.0f).clientTrackingRange(10));
         SCARECROW = register("scarecrow", EntityType.Builder.of(ScarecrowEntity::new, MobCategory.MISC)
                 .sized(0.9f, 2.2f).clientTrackingRange(10));
+        RUDOLTA = register("rudolta", EntityType.Builder.of(RudoltaEntity::new, MobCategory.MISC)
+                .sized(1.4f, 1.8f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -182,5 +186,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(SNOW_QUEEN, SnowQueenEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(WOODSMAN, WoodsmanEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCARECROW, ScarecrowEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(RUDOLTA, RudoltaEntity.createAttributes());
     }
 }

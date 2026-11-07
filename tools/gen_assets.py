@@ -3996,6 +3996,223 @@ wjson("equipment/harvest.json", {"layers": {"humanoid": [{"texture": "lobcorp:ha
 scarecrow()
 print("assets scarecrow ok")
 
+
+# ═════════════ 29차: 썰매 탄 루돌타 (F-02-49) ═════════════
+def rudolta():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    fur = hexc("#6a4a32")
+    fur_hi = hexc("#7d5a3e")
+    fur_dark = hexc("#4a3220")
+    stain = hexc("#7a1a1a")
+    stain_dark = hexc("#4a0a0a")
+    hoof = hexc("#2a1e16")
+    antler = hexc("#c8b088")
+    antler_dark = hexc("#8a7450")
+    nose = hexc("#ff2020")
+    nose_hi = hexc("#ff8080")
+    light_y = hexc("#ffe040")
+    light_g = hexc("#40ff60")
+    light_r = hexc("#ff4040")
+    sleigh = hexc("#a01818")
+    sleigh_hi = hexc("#c02a2a")
+    sleigh_dark = hexc("#6a0a0a")
+    gold = hexc("#d4a640")
+    gold_dark = hexc("#8a6a20")
+    sack = hexc("#8a7a5a")
+    sack_hi = hexc("#a89878")
+    sack_dark = hexc("#5e5238")
+
+    # 몸통 (u0 v0, 6x6x12)
+    b = box(img, 0, 0, 6, 6, 12, fur, 8, top=fur_hi)
+    bx, by = b["front"]
+    # 피 얼룩
+    for (x, y) in [(1, 1), (2, 1), (1, 2), (4, 3), (5, 3), (4, 4), (0, 4), (3, 5)]:
+        px(img, bx + x, by + y, stain)
+    for (x, y) in [(2, 2), (5, 4), (0, 5)]:
+        px(img, bx + x, by + y, stain_dark)
+    for x in range(6):
+        px(img, bx + x, by + 5, fur_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(6):
+            for x in range(12):
+                if (x * 3 + y * 5) % 17 == 0:
+                    px(img, sx + x, sy + y, stain)
+                elif (x + y) % 9 == 0:
+                    px(img, sx + x, sy + y, fur_dark)
+        for x in range(12):
+            px(img, sx + x, sy + 5, fur_dark)
+    tx, ty = b["top"]
+    for x in range(6):
+        for y in range(12):
+            if (x * 5 + y * 3) % 13 == 0:
+                px(img, tx + x, ty + y, stain)
+            elif (x + y) % 7 == 0:
+                px(img, tx + x, ty + y, fur_dark)
+
+    # 목 (u0 v18, 4x8x4)
+    n = box(img, 0, 18, 4, 8, 4, fur, 8, top=fur_hi)
+    nx, ny = n["front"]
+    for y in range(8):
+        px(img, nx + 1, ny + y, fur_dark if y % 3 == 0 else fur)
+    for (x, y) in [(0, 2), (3, 5)]:
+        px(img, nx + x, ny + y, stain)
+
+    # 머리 (u16 v18, 4x4x7)
+    h = box(img, 16, 18, 4, 4, 7, fur, 8, top=fur_hi)
+    hx, hy = h["front"]
+    # 눈: 작고 어두운 점
+    px(img, hx + 1, hy + 1, hexc("#141010"))
+    px(img, hx + 2, hy + 1, hexc("#141010"))
+    # 주둥이 끝의 그늘
+    for x in range(4):
+        px(img, hx + x, hy + 3, fur_dark)
+    # 피 묻은 턱
+    px(img, hx + 1, hy + 2, stain)
+    px(img, hx + 2, hy + 2, stain_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(4):
+            for x in range(7):
+                if (x * 3 + y) % 11 == 0:
+                    px(img, sx + x, sy + y, stain)
+                elif (x + y) % 5 == 0:
+                    px(img, sx + x, sy + y, fur_dark)
+
+    # 붉게 빛나는 코 (u38 v18, 2x2x2)
+    ns = box(img, 38, 18, 2, 2, 2, nose, 4, top=nose_hi)
+    nsx, nsy = ns["front"]
+    px(img, nsx, nsy, nose_hi)
+    px(img, nsx + 1, nsy + 1, hexc("#a00000"))
+
+    # 귀 (u46 v18, 1x2x2)
+    e = box(img, 46, 18, 1, 2, 2, fur, 8)
+    ex, ey = e["front"]
+    px(img, ex, ey, fur_dark)
+    px(img, ex, ey + 1, stain)
+
+    # 뿔 막대 (u52 v18, 1x6x1)
+    a = box(img, 52, 18, 1, 6, 1, antler, 6, top=hexc("#e0c8a0"))
+    ax, ay = a["front"]
+    for y in range(6):
+        px(img, ax, ay + y, antler_dark if y % 2 == 0 else antler)
+
+    # 뿔에 매달린 전구 (u56 v18, 1x1x1) — 노랑 / 초록 / 빨강
+    for u, col in ((56, light_y), (58, light_g), (60, light_r)):
+        l = box(img, u, 18, 1, 1, 1, col, 0)
+        lx, ly = l["front"]
+        px(img, lx, ly, col)
+
+    # 다리 (u0 v32, 2x8x2)
+    l = box(img, 0, 32, 2, 8, 2, fur, 8, top=fur_hi)
+    lx, ly = l["front"]
+    for y in range(8):
+        px(img, lx, ly + y, fur_dark if y % 3 == 0 else fur)
+    for x in range(2):
+        px(img, lx + x, ly + 7, hoof)
+    for (x, y) in [(1, 3), (0, 5)]:
+        px(img, lx + x, ly + y, stain)
+
+    # 썰매 몸체 (u0 v44, 6x4x8)
+    s = box(img, 0, 44, 6, 4, 8, sleigh, 6, top=sleigh_hi)
+    sx, sy = s["front"]
+    for x in range(6):
+        px(img, sx + x, sy + 3, sleigh_dark)
+    # 금장 장식
+    for x in range(6):
+        px(img, sx + x, sy, gold)
+    for (x, y) in [(1, 1), (4, 1), (2, 2), (3, 2)]:
+        px(img, sx + x, sy + y, gold_dark)
+    for side in ("right", "left", "back"):
+        ox, oy = s[side]
+        for x in range(8):
+            px(img, ox + x, oy, gold)
+        for x in range(8):
+            px(img, ox + x, oy + 3, sleigh_dark)
+
+    # 썰매 날 (u28 v44, 1x1x9)
+    r = box(img, 28, 44, 1, 1, 9, gold, 4, top=hexc("#e8c060"))
+    rx, ry = r["front"]
+    px(img, rx, ry, gold_dark)
+
+    # 자루 (u40 v44, 5x5x5)
+    sk = box(img, 40, 44, 5, 5, 5, sack, 6, top=sack_hi)
+    skx, sky = sk["front"]
+    for y in range(5):
+        px(img, skx + 2, sky + y, sack_dark)
+    for x in range(5):
+        px(img, skx + x, sky + 4, sack_dark)
+    # 자루를 묶은 끈
+    for x in range(5):
+        px(img, skx + x, sky, hexc("#3a2a1a"))
+    for side in ("right", "left", "back"):
+        ox, oy = sk[side]
+        for y in range(5):
+            if y % 2 == 0:
+                px(img, ox + 2, oy + y, sack_dark)
+
+    save(img, "textures/entity/rudolta.png")
+
+
+CH = {"r": "#a01818", "h": "#c02a2a", "d": "#6a0a0a", "g": "#d4a640", "w": "#f4f0e8", "k": "#2a1e16"}
+icon([
+    "................",
+    "..............gg",
+    ".............gg.",
+    "............gg..",
+    "...........gg...",
+    "..........gg....",
+    ".........gg.....",
+    "........gg......",
+    ".......gg.......",
+    "......gg........",
+    ".....gg.........",
+    "....rr..........",
+    "...rr...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], CH, "textures/item/christmas.png")
+icon([
+    "................",
+    "...rr......rr...",
+    "..rrrr....rrrr..",
+    "..rrrrrrrrrrrr..",
+    "...rrrrrrrrrr...",
+    "....rrwwwwrr....",
+    "....rrwwwwrr....",
+    "....rrwwwwrr....",
+    "....rrwwwwrr....",
+    "....rrrrrrrr....",
+    "....rrggggrr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], CH, "textures/item/christmas_suit.png")
+
+armor(hexc("#a01818"), "#6a0a0a", "#d4a640", "textures/entity/equipment/humanoid/christmas.png")
+
+for item, parent in [("christmas", "minecraft:item/handheld"), ("christmas_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/christmas.json", {"layers": {"humanoid": [{"texture": "lobcorp:christmas"}]}})
+
+
+rudolta()
+print("assets rudolta ok")
+
+merge_lang({
+    "entity.lobcorp.rudolta": "썰매 탄 루돌타",
+    "item.lobcorp.christmas": "크리스마스",
+    "item.lobcorp.christmas_suit": "크리스마스의 옷",
+}, {
+    "entity.lobcorp.rudolta": "Rudolta of the Sleigh",
+    "item.lobcorp.christmas": "Christmas",
+    "item.lobcorp.christmas_suit": "Christmas Garb",
+})
+
 merge_lang({
     "entity.lobcorp.scarecrow": "지혜를 찾는 허수아비",
     "item.lobcorp.harvest": "수확",

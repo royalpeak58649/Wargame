@@ -21,6 +21,7 @@ import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PortraitModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
+import kr.lobcorp.client.model.RudoltaModel;
 import kr.lobcorp.client.model.ScarecrowModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.ShelterModel;
@@ -51,6 +52,7 @@ import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
+import kr.lobcorp.entity.RudoltaEntity;
 import kr.lobcorp.entity.ScarecrowEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
@@ -768,6 +770,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(ScarecrowModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Rudolta extends MobRenderer<RudoltaEntity, RudoltaModel.State, RudoltaModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/rudolta.png");
+
+        public Rudolta(EntityRendererProvider.Context ctx) {
+            super(ctx, new RudoltaModel(ctx.bakeLayer(RudoltaModel.LAYER)), 0.7f);
+        }
+
+        @Override
+        public RudoltaModel.State createRenderState() {
+            return new RudoltaModel.State();
+        }
+
+        @Override
+        public void extractRenderState(RudoltaEntity e, RudoltaModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.walk = s.walkAnimationPos;
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 붉은 코와 뿔의 전구가 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(RudoltaModel.State s) {
             return TEX;
         }
     }

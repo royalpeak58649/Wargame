@@ -488,6 +488,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 마지막으로 본 직원을 쫓는다. 쓰러뜨린 직원의 머릿속에서 지혜를 꺼내 가슴에 채워 넣는다."
             ));
 
+    public static final AbnoProfile RUDOLTA = new AbnoProfile(
+            "rudolta", "썰매 탄 루돌타", "F-02-49", "HE", 0xFFAA00,
+            new int[]{20, 50, 40, 0}, 18, 12, 6,
+            DamageColor.WHITE, 3, 4,
+            2,
+            () -> ModItems.CHRISTMAS, 35,
+            () -> ModItems.CHRISTMAS_SUIT, 40,
+            "christmas", "크리스마스", "최대 HP -4, 최대 SP +8", 4,
+            new float[]{1.5f, 0.5f, 1.0f, 2.0f},
+            List.of(
+                    "작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 썰매를 끌고 시설을 느릿하게 배회한다. 누구도 쫓지 않지만, 지나간 자리에는 눈이 쌓인다.",
+                    "3초마다 몸에서 피를 쏟아낸다. 10블록 안의 직원은 정신력을 잃는다. 멀리서 제압하십시오."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -519,7 +534,8 @@ public record AbnoProfile(
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),
             Map.entry(NOTES.id, NOTES),
-            Map.entry(SCARECROW.id, SCARECROW)
+            Map.entry(SCARECROW.id, SCARECROW),
+            Map.entry(RUDOLTA.id, RUDOLTA)
     );
 
     public boolean canBreach() {

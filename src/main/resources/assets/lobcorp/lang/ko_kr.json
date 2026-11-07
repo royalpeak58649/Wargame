@@ -82,5 +82,8 @@
   "item.lobcorp.logging_suit": "벌목의 옷",
   "entity.lobcorp.scarecrow": "지혜를 찾는 허수아비",
   "item.lobcorp.harvest": "수확",
-  "item.lobcorp.harvest_suit": "수확의 옷"
+  "item.lobcorp.harvest_suit": "수확의 옷",
+  "entity.lobcorp.rudolta": "썰매 탄 루돌타",
+  "item.lobcorp.christmas": "크리스마스",
+  "item.lobcorp.christmas_suit": "크리스마스의 옷"
 }

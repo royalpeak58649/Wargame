@@ -96,6 +96,7 @@ public class EmployeeData {
             java.util.Map.entry("frost_splinter", new int[]{6, 6, 0, 0}),
             java.util.Map.entry("logging", new int[]{2, 0, 2, 2}),
             java.util.Map.entry("harvest", new int[]{0, 4, 0, 0}),
+            java.util.Map.entry("christmas", new int[]{-4, 8, 0, 0}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

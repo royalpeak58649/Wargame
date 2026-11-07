@@ -82,5 +82,8 @@
   "item.lobcorp.logging_suit": "Logging Garb",
   "entity.lobcorp.scarecrow": "Scarecrow Searching for Wisdom",
   "item.lobcorp.harvest": "Harvest",
-  "item.lobcorp.harvest_suit": "Harvest Garb"
+  "item.lobcorp.harvest_suit": "Harvest Garb",
+  "entity.lobcorp.rudolta": "Rudolta of the Sleigh",
+  "item.lobcorp.christmas": "Christmas",
+  "item.lobcorp.christmas_suit": "Christmas Garb"
 }

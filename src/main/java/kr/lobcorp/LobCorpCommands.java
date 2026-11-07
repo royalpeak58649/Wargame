@@ -57,7 +57,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("nameless_fetus").executes(c -> build(c, ModEntities.NAMELESS_FETUS, false)))
                         .then(Commands.literal("snow_queen").executes(c -> build(c, ModEntities.SNOW_QUEEN, false)))
                         .then(Commands.literal("woodsman").executes(c -> build(c, ModEntities.WOODSMAN, false)))
-                        .then(Commands.literal("scarecrow").executes(c -> build(c, ModEntities.SCARECROW, false))))
+                        .then(Commands.literal("scarecrow").executes(c -> build(c, ModEntities.SCARECROW, false)))
+                        .then(Commands.literal("rudolta").executes(c -> build(c, ModEntities.RUDOLTA, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());
