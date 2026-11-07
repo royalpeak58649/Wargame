@@ -29,22 +29,25 @@ public class RedShoesModel extends EntityModel<LivingEntityRenderState> {
         PartDefinition root = mesh.getRoot();
         // 받침대
         root.addOrReplaceChild("pedestal", CubeListBuilder.create().texOffs(0, 0)
-                .addBox(-4, 0, -4, 8, 2, 8), PartPose.offset(0, 22, 0));
+                .addBox(-4, 0, -4, 8, 2, 8), PartPose.offset(0, 10, 0));
+        // 받침대 기둥 — 구두가 눈높이 가까이 오도록
+        root.addOrReplaceChild("column", CubeListBuilder.create().texOffs(0, 20)
+                .addBox(-2, 0, -2, 4, 12, 4), PartPose.offset(0, 12, 0));
         // 왼쪽 구두: 몸통 + 굽 + 끈
         PartDefinition left = root.addOrReplaceChild("left_shoe", CubeListBuilder.create().texOffs(0, 10)
-                .addBox(-1.5f, -2, -3, 3, 2, 6), PartPose.offset(-2, 22, 0));
+                .addBox(-1.5f, -2, -3, 3, 2, 6), PartPose.offset(-2, 10, 0));
         left.addOrReplaceChild("left_heel", CubeListBuilder.create().texOffs(18, 10)
-                .addBox(-0.5f, 0, 2, 1, 2, 1), PartPose.ZERO);
+                .addBox(-0.5f, -1, 2, 1, 1, 1), PartPose.ZERO);
         left.addOrReplaceChild("left_strap", CubeListBuilder.create().texOffs(22, 10)
                 .addBox(-1.5f, -2.5f, -1, 3, 1, 1), PartPose.ZERO);
         // 오른쪽 구두
         PartDefinition right = root.addOrReplaceChild("right_shoe", CubeListBuilder.create().texOffs(0, 10)
-                .addBox(-1.5f, -2, -3, 3, 2, 6), PartPose.offset(2, 22, 0));
+                .addBox(-1.5f, -2, -3, 3, 2, 6), PartPose.offset(2, 10, 0));
         right.addOrReplaceChild("right_heel", CubeListBuilder.create().texOffs(18, 10)
-                .addBox(-0.5f, 0, 2, 1, 2, 1), PartPose.ZERO);
+                .addBox(-0.5f, -1, 2, 1, 1, 1), PartPose.ZERO);
         right.addOrReplaceChild("right_strap", CubeListBuilder.create().texOffs(22, 10)
                 .addBox(-1.5f, -2.5f, -1, 3, 1, 1), PartPose.ZERO);
-        return LayerDefinition.create(mesh, 32, 32);
+        return LayerDefinition.create(mesh, 64, 64);
     }
 
     @Override

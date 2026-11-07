@@ -2661,6 +2661,14 @@ def red_shoes():
             for x in range(0, 8, 3):
                 px(img, sx + x, sy + y, wood_dark)
 
+    # 받침대 기둥 (u0 v20, 4x12x4)
+    c = box(img, 0, 20, 4, 12, 4, wood, 4, top=wood_hi)
+    for side in ("front", "right", "left", "back"):
+        cx, cy = c[side]
+        for y in range(0, 12, 4):
+            for x in range(4):
+                px(img, cx + x, cy + y, wood_dark)
+
     # 구두 몸통 (u0 v10, 3x2x6) — 좌우 공용
     s = box(img, 0, 10, 3, 2, 6, red, 6, top=red_hi)
     sx, sy = s["front"]

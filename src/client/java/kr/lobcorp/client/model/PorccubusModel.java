@@ -26,7 +26,7 @@ public class PorccubusModel extends EntityModel<PorccubusModel.State> {
     public PorccubusModel(ModelPart root) {
         super(root);
         for (int i = 0; i < SEGMENTS; i++) stem[i] = root.getChild("stem" + i);
-        head = root.getChild("head");
+        head = stem[SEGMENTS - 1].getChild("head");
     }
 
     public static LayerDefinition createLayer() {

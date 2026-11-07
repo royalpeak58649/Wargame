@@ -110,6 +110,8 @@ public final class WorkManager {
 
     // ───────────── 틱 ─────────────
 
+    public static final double ABANDON_RANGE = 16.0;
+
     public static void tick(MinecraftServer server) {
         for (Map.Entry<UUID, WorkSession> en : new ArrayList<>(SESSIONS.entrySet())) {
             UUID id = en.getKey();
@@ -119,6 +121,11 @@ public final class WorkManager {
             if (p == null || !p.isAlive() || !s.abno.isAlive() || s.abno.isBreached()) {
                 SESSIONS.remove(id);
                 if (p != null) p.sendSystemMessage(Component.literal("■ 작업 중단").withStyle(st -> st.withColor(0xAA0000)));
+                continue;
+            }
+            // 격리실을 크게 벗어나면 작업을 포기한 것으로 본다 (라티샤의 선물을 지키는 유일한 방법)
+            if (p.distanceTo(s.abno) > ABANDON_RANGE) {
+                abort(p, "작업 포기");
                 continue;
             }
             if (++s.tick >= s.interval) {

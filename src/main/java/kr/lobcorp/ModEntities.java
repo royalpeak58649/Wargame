@@ -98,7 +98,7 @@ public final class ModEntities {
         MHZ = register("mhz", EntityType.Builder.of(MhzEntity::new, MobCategory.MISC)
                 .sized(0.9f, 1.0f).clientTrackingRange(10));
         RED_SHOES = register("red_shoes", EntityType.Builder.of(RedShoesEntity::new, MobCategory.MISC)
-                .sized(0.6f, 0.6f).clientTrackingRange(10));
+                .sized(0.6f, 1.0f).clientTrackingRange(10));
         SINGING_MACHINE = register("singing_machine", EntityType.Builder.of(SingingMachineEntity::new, MobCategory.MISC)
                 .sized(1.2f, 1.4f).clientTrackingRange(10));
         PORCCUBUS = register("porccubus", EntityType.Builder.of(PorccubusEntity::new, MobCategory.MISC)

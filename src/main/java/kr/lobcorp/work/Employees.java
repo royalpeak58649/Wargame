@@ -150,7 +150,7 @@ public final class Employees {
     /** 홀림을 푼다. */
     public static void release(ServerPlayer p, String why) {
         EmployeeData d = get(p);
-        if (d.possessTicks <= 0 && d.possessHits == 0) return;
+        if (d.possessLabel.isEmpty() && d.possessTicks <= 0) return;
         d.possessTicks = 0;
         d.possessHits = 0;
         d.possessLabel = "";
