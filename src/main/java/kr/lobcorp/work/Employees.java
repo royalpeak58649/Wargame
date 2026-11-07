@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.SwingAnimation;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
@@ -209,7 +210,7 @@ public final class Employees {
         p.setDeltaMovement(horiz.x, vy, horiz.z);
         if (p.distanceTo(target) < 2.6 && p.tickCount % 20 == 0) {
             target.hurtServer(sl, sl.damageSources().playerAttack(p), 4 + p.getRandom().nextInt(3));
-            p.swing(InteractionHand.MAIN_HAND, net.minecraft.world.entity.player.Player.SwingAnimation.WHITE, true);
+            p.swing(InteractionHand.MAIN_HAND, SwingAnimation.WHITE, true);
             sl.playSound(null, p.blockPosition(), SoundEvents.PLAYER_ATTACK_STRONG, SoundSource.PLAYERS, 1f, 1f);
             if (!target.isAlive() && d.possessHeal) {
                 p.setHealth(p.getMaxHealth());

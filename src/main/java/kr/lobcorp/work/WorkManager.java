@@ -151,7 +151,7 @@ public final class WorkManager {
                 if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)
                         || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)
                         || wearing(p, ModItems.HORN_SUIT) || wearing(p, ModItems.LANTERN_SUIT)
-                        || wearing(p, ModItems.NOISE_SUIT)) dmg--;
+                        || wearing(p, ModItems.NOISE_SUIT) || wearing(p, ModItems.HARMONY_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);

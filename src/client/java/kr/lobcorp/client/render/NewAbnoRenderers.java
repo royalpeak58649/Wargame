@@ -13,6 +13,7 @@ import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
+import kr.lobcorp.client.model.SingingMachineModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.VoidDreamModel;
@@ -28,6 +29,7 @@ import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
+import kr.lobcorp.entity.SingingMachineEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
@@ -381,6 +383,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class SingingMachine extends MobRenderer<SingingMachineEntity, SingingMachineModel.State, SingingMachineModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/singing_machine.png");
+
+        public SingingMachine(EntityRendererProvider.Context ctx) {
+            super(ctx, new SingingMachineModel(ctx.bakeLayer(SingingMachineModel.LAYER)), 0.7f);
+        }
+
+        @Override
+        public SingingMachineModel.State createRenderState() {
+            return new SingingMachineModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SingingMachineEntity e, SingingMachineModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.open = e.getMusicTicks() > 0;
+        }
+
+        @Override
+        public Identifier getTextureLocation(SingingMachineModel.State s) {
             return TEX;
         }
     }

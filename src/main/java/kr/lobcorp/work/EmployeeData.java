@@ -75,7 +75,8 @@ public class EmployeeData {
             java.util.Map.entry("lantern", new int[]{5, 0, 0, 0}),
             java.util.Map.entry("fragments", new int[]{0, 0, 2, 2}),
             java.util.Map.entry("noise", new int[]{0, 0, 0, 3}),
-            java.util.Map.entry("sanguine_desire", new int[]{3, 0, 0, 0})
+            java.util.Map.entry("sanguine_desire", new int[]{3, 0, 0, 0}),
+            java.util.Map.entry("harmony", new int[]{8, -4, 0, 0})
     );
 
     private int giftSum(int idx) {
@@ -88,7 +89,7 @@ public class EmployeeData {
     }
 
     public int maxSp() {
-        return prudence + giftSum(1);
+        return Math.max(1, prudence + giftSum(1));
     }
 
     public int maxHp() {

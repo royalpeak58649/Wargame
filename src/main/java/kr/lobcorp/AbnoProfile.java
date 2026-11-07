@@ -278,6 +278,21 @@ public record AbnoProfile(
                     "작업 결과가 보통이면 30%, 나쁨이면 60% 확률로 자제가 낮은 직원을 부른다. 불려간 직원은 구두를 신고 동료를 덮친다. 세 번 때리면 정신을 차린다."
             ));
 
+    public static final AbnoProfile SINGING_MACHINE = new AbnoProfile(
+            "singing_machine", "노래하는 기계", "O-05-30", "HE", 0xFFAA00,
+            new int[]{55, 50, 0, 40}, 18, 15, 8,
+            DamageColor.WHITE, 4, 6,
+            1,
+            () -> ModItems.HARMONY, 40,
+            () -> ModItems.HARMONY_SUIT, 40,
+            "harmony", "화음", "최대 HP +8, 최대 SP -4", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0인 상태에서 작업을 시작하거나 마치면, 직원이 기계 속으로 뛰어들어 갈려 버린다.",
+                    "자제 III 미만이거나 용기 IV 이상인 직원도 작업을 마치면 기계 속으로 빨려 든다. 누군가 갈릴 때마다 아름다운 연주가 흘러나와, 다른 직원 한 명이 음악에 홀린다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -295,7 +310,8 @@ public record AbnoProfile(
             Map.entry(MEAT_LANTERN.id, MEAT_LANTERN),
             Map.entry(FRAGMENT.id, FRAGMENT),
             Map.entry(MHZ.id, MHZ),
-            Map.entry(RED_SHOES.id, RED_SHOES)
+            Map.entry(RED_SHOES.id, RED_SHOES),
+            Map.entry(SINGING_MACHINE.id, SINGING_MACHINE)
     );
 
     public boolean canBreach() {
