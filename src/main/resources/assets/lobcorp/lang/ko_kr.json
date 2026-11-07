@@ -15,6 +15,7 @@
   "entity.lobcorp.meat_lantern": "고기 등불",
   "entity.lobcorp.fragment_of_universe": "우주의 파편",
   "entity.lobcorp.mhz": "1.76 MHz",
+  "entity.lobcorp.red_shoes": "붉은 구두",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -46,5 +47,7 @@
   "item.lobcorp.fragments": "어딘가의 파편",
   "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)",
   "item.lobcorp.noise": "잡음",
-  "item.lobcorp.noise_suit": "잡음 (방호복)"
+  "item.lobcorp.noise_suit": "잡음 (방호복)",
+  "item.lobcorp.sanguine_desire": "선혈의 욕망",
+  "item.lobcorp.sanguine_desire_suit": "선혈의 욕망 (방호복)"
 }

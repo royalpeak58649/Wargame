@@ -2633,3 +2633,219 @@ wjson("lang/en_us.json", {
 
 mhz()
 print("assets mhz ok")
+
+
+# ═════════════ 14차: 붉은 구두 (O-04-08) ═════════════
+def red_shoes():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wood = hexc("#4a2c1a")
+    wood_hi = hexc("#5e3a22")
+    wood_dark = hexc("#2e1a0e")
+    red = hexc("#c4101a")
+    red_dark = hexc("#7a0810")
+    red_hi = hexc("#ff5a66")
+    white = hexc("#f4eef0")
+    sole = hexc("#1a0a0c")
+
+    # 받침대 (u0 v0, 8x2x8)
+    p = box(img, 0, 0, 8, 2, 8, wood, 8, top=wood_hi)
+    px_, py_ = p["front"]
+    for x in range(8):
+        px(img, px_ + x, py_ + 1, wood_dark)
+    for x in range(8):
+        px(img, px_ + x, py_, wood_hi)
+    # 받침대 옆면 나뭇결
+    for side in ("right", "left", "back"):
+        sx, sy = p[side]
+        for y in range(2):
+            for x in range(0, 8, 3):
+                px(img, sx + x, sy + y, wood_dark)
+
+    # 구두 몸통 (u0 v10, 3x2x6) — 좌우 공용
+    s = box(img, 0, 10, 3, 2, 6, red, 6, top=red_hi)
+    sx, sy = s["front"]
+    # 광택 하이라이트 가로줄
+    for x in range(3):
+        px(img, sx + x, sy, white)
+    px(img, sx, sy + 1, red_dark)
+    px(img, sx + 2, sy + 1, red_dark)
+    # 옆면 광택
+    for side in ("right", "left"):
+        ox, oy = s[side]
+        for y in range(2):
+            px(img, ox + 2, oy + y, red_hi)
+        px(img, ox + 1, oy, white)
+    # 밑창
+    bx, by = s["bottom"]
+    for x in range(3):
+        for y in range(6):
+            px(img, bx + x, by + y, sole)
+
+    # 굽 (u18 v10, 1x2x1)
+    h = box(img, 18, 10, 1, 2, 1, red_dark, 4)
+    hx, hy = h["front"]
+    px(img, hx, hy, hexc("#4a0408"))
+
+    # 끈 (u22 v10, 3x1x1)
+    st = box(img, 22, 10, 3, 1, 1, white, 4)
+    stx, sty = st["front"]
+    px(img, stx + 1, sty, hexc("#d8ccd0"))
+
+    save(img, "textures/entity/red_shoes.png")
+
+
+SD = {"r": "#c4101a", "d": "#7a0810", "h": "#ff5a66", "w": "#f4eef0", "k": "#1a0a0c", "b": "#4a2c1a"}
+icon([
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "................",
+    "......rrrr......",
+    ".....rrhhrr.....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    "....dddddddd....",
+    "....kkkkkkkk....",
+    "................",
+    "................",
+    "................",
+    "................",
+], SD, "textures/item/sanguine_desire.png")
+icon([
+    "................",
+    "...dd......dd...",
+    "..dddd....dddd..",
+    "..dddddddddddd..",
+    "...dddddddddd...",
+    "....ddrrrrdd....",
+    "....ddrrrrdd....",
+    "....ddrrrrdd....",
+    "....ddrrrrdd....",
+    "....dddddddd....",
+    "....ddhhhhdd....",
+    "....dddddddd....",
+    "....dddddddd....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], SD, "textures/item/sanguine_desire_suit.png")
+
+armor(hexc("#c4101a"), "#7a0810", "#f4eef0", "textures/entity/equipment/humanoid/sanguine_desire.png")
+
+for item, parent in [("sanguine_desire", "minecraft:item/handheld"),
+                     ("sanguine_desire_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/sanguine_desire.json", {"layers": {"humanoid": [{"texture": "lobcorp:sanguine_desire"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
+    "entity.lobcorp.old_lady": "늙은 여인",
+    "entity.lobcorp.spider_bud": "거미 봉오리",
+    "entity.lobcorp.void_dream": "공허한 꿈",
+    "entity.lobcorp.beauty_and_the_beast": "미녀와 야수",
+    "entity.lobcorp.meat_lantern": "고기 등불",
+    "entity.lobcorp.fragment_of_universe": "우주의 파편",
+    "entity.lobcorp.mhz": "1.76 MHz",
+    "entity.lobcorp.red_shoes": "붉은 구두",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+    "item.lobcorp.daredevil": "만용",
+    "item.lobcorp.daredevil_suit": "만용 (방어구)",
+    "item.lobcorp.solitude": "고독",
+    "item.lobcorp.solitude_suit": "고독 (방어구)",
+    "item.lobcorp.red_eyes": "붉은 눈",
+    "item.lobcorp.red_eyes_suit": "붉은 눈 (방어구)",
+    "item.lobcorp.engulfing_dream": "집어삼키는 꿈",
+    "item.lobcorp.engulfing_dream_suit": "집어삼키는 꿈 (방어구)",
+    "item.lobcorp.horn": "뿔",
+    "item.lobcorp.horn_suit": "뿔 (방호복)",
+    "item.lobcorp.lantern": "등불",
+    "item.lobcorp.lantern_suit": "등불 (방호복)",
+    "item.lobcorp.fragments": "어딘가의 파편",
+    "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)",
+    "item.lobcorp.noise": "잡음",
+    "item.lobcorp.noise_suit": "잡음 (방호복)",
+    "item.lobcorp.sanguine_desire": "선혈의 욕망",
+    "item.lobcorp.sanguine_desire_suit": "선혈의 욕망 (방호복)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "entity.lobcorp.crumbling_armor": "Crumbling Armor",
+    "entity.lobcorp.old_lady": "Old Lady",
+    "entity.lobcorp.spider_bud": "Spider Bud",
+    "entity.lobcorp.void_dream": "Void Dream",
+    "entity.lobcorp.beauty_and_the_beast": "Beauty and the Beast",
+    "entity.lobcorp.meat_lantern": "Meat Lantern",
+    "entity.lobcorp.fragment_of_universe": "Fragment of the Universe",
+    "entity.lobcorp.mhz": "1.76 MHz",
+    "entity.lobcorp.red_shoes": "Red Shoes",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+    "item.lobcorp.daredevil": "Daredevil",
+    "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
+    "item.lobcorp.solitude": "Solitude",
+    "item.lobcorp.solitude_suit": "Solitude (Suit)",
+    "item.lobcorp.red_eyes": "Red Eyes",
+    "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)",
+    "item.lobcorp.engulfing_dream": "Engulfing Dream",
+    "item.lobcorp.engulfing_dream_suit": "Engulfing Dream (Suit)",
+    "item.lobcorp.horn": "Horn",
+    "item.lobcorp.horn_suit": "Horn Suit",
+    "item.lobcorp.lantern": "Lantern",
+    "item.lobcorp.lantern_suit": "Lantern Suit",
+    "item.lobcorp.fragments": "Fragments from Somewhere",
+    "item.lobcorp.fragments_suit": "Fragments from Somewhere (Suit)",
+    "item.lobcorp.noise": "Noise",
+    "item.lobcorp.noise_suit": "Noise Suit",
+    "item.lobcorp.sanguine_desire": "Sanguine Desire",
+    "item.lobcorp.sanguine_desire_suit": "Sanguine Desire (Suit)",
+})
+
+red_shoes()
+print("assets shoes ok")

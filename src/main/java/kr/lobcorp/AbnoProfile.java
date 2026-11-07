@@ -263,6 +263,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 격리실에서 잡음이 새어 나와 시설로 번진다. 구역 안의 직원은 정신력을 잃고, 카운터를 다시 채워야 멈춘다."
             ));
 
+    public static final AbnoProfile RED_SHOES = new AbnoProfile(
+            "red_shoes", "붉은 구두", "O-04-08", "HE", 0xFFAA00,
+            new int[]{45, 40, 50, 30}, 16, 11, 7,
+            DamageColor.RED, 3, 5,
+            0,
+            () -> ModItems.SANGUINE_DESIRE, 40,
+            () -> ModItems.SANGUINE_DESIRE_SUIT, 40,
+            "sanguine_desire", "선혈의 욕망", "최대 HP +3", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "작은 받침대 위에 놓인, 윤이 번들번들 흐르는 붉은 구두 한 켤레. 얼핏 보면 아주 깨끗하고 곱다.",
+                    "자제가 낮은 직원은 애착 작업을 쉽게 성공한다. 그러나 그 쉬움 자체가 함정이다.",
+                    "작업 결과가 보통이면 30%, 나쁨이면 60% 확률로 자제가 낮은 직원을 부른다. 불려간 직원은 구두를 신고 동료를 덮친다. 세 번 때리면 정신을 차린다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -279,7 +294,8 @@ public record AbnoProfile(
             Map.entry(BEAUTY_BEAST.id, BEAUTY_BEAST),
             Map.entry(MEAT_LANTERN.id, MEAT_LANTERN),
             Map.entry(FRAGMENT.id, FRAGMENT),
-            Map.entry(MHZ.id, MHZ)
+            Map.entry(MHZ.id, MHZ),
+            Map.entry(RED_SHOES.id, RED_SHOES)
     );
 
     public boolean canBreach() {

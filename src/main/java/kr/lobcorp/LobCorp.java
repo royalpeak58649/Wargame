@@ -57,13 +57,28 @@ public class LobCorp implements ModInitializer {
             WorkManager.clear(oldP);
             Employees.get(newP).fairyTicks = 0;
             Employees.get(newP).sleepTicks = 0;
+            Employees.get(newP).possessTicks = 0;
+            Employees.get(newP).possessHits = 0;
+            Employees.get(newP).possessLabel = "";
+            Employees.get(newP).possessHeal = false;
             Employees.apply(newP);
             Employees.restoreSp(newP);
         });
-        // 잠든 직원은 피해를 받으면 깬다
+        // 잠든 직원은 피해를 받으면 깨고, 홀린 직원은 동료에게 세 번 맞으면 정신을 차린다
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
-            if (entity instanceof net.minecraft.server.level.ServerPlayer p && Employees.get(p).sleepTicks > 0) {
-                Employees.wake(p, false);
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p) {
+                if (Employees.get(p).sleepTicks > 0) {
+                    Employees.wake(p, false);
+                }
+                if (Employees.get(p).possessTicks > 0 && source.getEntity() instanceof net.minecraft.world.entity.player.Player attacker
+                        && attacker != p) {
+                    Employees.onPossessedHit(p);
+                }
+            }
+        });
+        ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p && Employees.get(p).possessTicks > 0) {
+                Employees.release(p, "  홀림이 풀렸다.");
             }
         });
 

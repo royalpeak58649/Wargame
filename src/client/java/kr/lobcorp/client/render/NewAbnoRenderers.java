@@ -11,6 +11,7 @@ import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
+import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
@@ -25,6 +26,7 @@ import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
+import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -356,6 +358,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(MhzModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class RedShoes extends MobRenderer<RedShoesEntity, LivingEntityRenderState, RedShoesModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/red_shoes.png");
+
+        public RedShoes(EntityRendererProvider.Context ctx) {
+            super(ctx, new RedShoesModel(ctx.bakeLayer(RedShoesModel.LAYER)), 0.3f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(RedShoesEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
             return TEX;
         }
     }

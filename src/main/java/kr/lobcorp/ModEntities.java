@@ -14,6 +14,7 @@ import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
+import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -44,6 +45,7 @@ public final class ModEntities {
     public static EntityType<MeatLanternEntity> MEAT_LANTERN;
     public static EntityType<FragmentEntity> FRAGMENT;
     public static EntityType<MhzEntity> MHZ;
+    public static EntityType<RedShoesEntity> RED_SHOES;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -85,6 +87,8 @@ public final class ModEntities {
                 .sized(1.0f, 1.0f).clientTrackingRange(10));
         MHZ = register("mhz", EntityType.Builder.of(MhzEntity::new, MobCategory.MISC)
                 .sized(0.9f, 1.0f).clientTrackingRange(10));
+        RED_SHOES = register("red_shoes", EntityType.Builder.of(RedShoesEntity::new, MobCategory.MISC)
+                .sized(0.6f, 0.6f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -102,5 +106,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(MEAT_LANTERN, MeatLanternEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FRAGMENT, FragmentEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(MHZ, MhzEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(RED_SHOES, RedShoesEntity.createAttributes());
     }
 }

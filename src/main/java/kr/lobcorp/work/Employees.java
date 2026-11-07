@@ -8,14 +8,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.phys.Vec3;
 
 /** 직원 스탯 / SP / 패닉 처리 */
 public final class Employees {
@@ -60,6 +63,7 @@ public final class Employees {
         v[6] = d.panicTicks;
         v[12] = d.fairyTicks;
         v[13] = d.sleepTicks;
+        v[14] = d.possessTicks;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -109,6 +113,113 @@ public final class Employees {
         sync(p);
     }
 
+    // ───────────── 홀림 (강제 조종) ─────────────
+
+    /**
+     * 직원을 홀리게 한다. 홀린 직원은 조종권을 잃고 가장 가까운 동료를 쫓아가 때린다.
+     * 동료에게 세 번 맞으면 풀린다.
+     */
+    public static void possess(ServerPlayer p, int ticks, String label, int healthBoostAmp) {
+        if (p.isCreative() || p.isSpectator()) return;
+        EmployeeData d = get(p);
+        if (d.possessTicks > 0) return;
+        WorkManager.abort(p, label);
+        d.possessTicks = ticks;
+        d.possessHits = 0;
+        d.possessLabel = label;
+        d.possessHeal = true;
+        if (healthBoostAmp >= 0) {
+            p.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, ticks, healthBoostAmp, false, false));
+        }
+        p.addEffect(new MobEffectInstance(MobEffects.STRENGTH, ticks, 0, false, false));
+        p.addEffect(new MobEffectInstance(MobEffects.SPEED, ticks, 0, false, false));
+        p.addEffect(new MobEffectInstance(MobEffects.GLOWING, ticks, 0, false, false));
+        p.setHealth(p.getMaxHealth());
+        p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal(label).withStyle(s -> s.withColor(0xFFAAAA))));
+        p.connection.send(new ClientboundSetTitleTextPacket(Component.literal("홀림").withStyle(s -> s.withColor(0xFF3333).withBold(true))));
+        p.sendSystemMessage(Component.literal("  " + label + "이(가) 당신의 발을 붙잡았다. 몸이 제멋대로 움직인다.")
+                .withStyle(s -> s.withColor(0xFF7777).withItalic(true)));
+        p.level().playSound(null, p.blockPosition(), SoundEvents.ALLAY_ITEM_TAKEN, SoundSource.HOSTILE, 1.2f, 0.5f);
+        Facility.broadcast(p.level().getServer(), Component.literal("[관제] ").withStyle(s -> s.withColor(0xAA0000))
+                .append(p.getDisplayName())
+                .append(Component.literal(" 직원이 " + label + "에 홀렸습니다! 세 번 때려 정신 차리게 하십시오.")
+                        .withStyle(s -> s.withColor(0xFF5555))));
+        sync(p);
+    }
+
+    /** 홀림을 푼다. */
+    public static void release(ServerPlayer p, String why) {
+        EmployeeData d = get(p);
+        if (d.possessTicks <= 0 && d.possessHits == 0) return;
+        d.possessTicks = 0;
+        d.possessHits = 0;
+        d.possessLabel = "";
+        d.possessHeal = false;
+        p.removeEffect(MobEffects.HEALTH_BOOST);
+        p.removeEffect(MobEffects.STRENGTH);
+        p.removeEffect(MobEffects.SPEED);
+        p.removeEffect(MobEffects.GLOWING);
+        if (p.getHealth() > p.getMaxHealth()) p.setHealth(p.getMaxHealth());
+        p.sendSystemMessage(Component.literal(why).withStyle(s -> s.withColor(0x55FF55)));
+        sync(p);
+    }
+
+    /** 홀린 직원이 동료에게 맞았을 때. 세 번이면 풀린다. */
+    public static void onPossessedHit(ServerPlayer p) {
+        EmployeeData d = get(p);
+        if (d.possessTicks <= 0) return;
+        d.possessHits++;
+        if (d.possessHits >= 3) {
+            release(p, "  정신을 차렸다.");
+        } else {
+            WorkManager.actionbar(p, Component.literal("정신이 흔들린다 (" + d.possessHits + "/3)")
+                    .withStyle(s -> s.withColor(0xFFAAAA)));
+        }
+    }
+
+    /** 매 틱, 홀린 직원을 조종한다. */
+    private static void tickPossession(ServerPlayer p, EmployeeData d) {
+        ServerLevel sl = p.level();
+        if (--d.possessTicks <= 0) {
+            release(p, "  홀림이 풀렸다.");
+            return;
+        }
+        if (p.tickCount % 10 == 0) {
+            sl.sendParticles(ParticleTypes.CRIMSON_SPORE, p.getX(), p.getY() + 0.1, p.getZ(), 6, 0.3, 0.1, 0.3, 0.01);
+        }
+        ServerPlayer target = null;
+        double best = 32 * 32;
+        for (ServerPlayer o : sl.players()) {
+            if (o == p || !o.isAlive() || o.isCreative() || o.isSpectator()) continue;
+            if (Employees.get(o).possessTicks > 0) continue;
+            double dist = o.distanceToSqr(p);
+            if (dist < best) {
+                best = dist;
+                target = o;
+            }
+        }
+        if (target == null) return;
+        Vec3 diff = target.position().subtract(p.position());
+        Vec3 horiz = new Vec3(diff.x, 0, diff.z);
+        if (horiz.lengthSqr() > 1.0E-4) {
+            horiz = horiz.normalize().scale(0.30);
+        }
+        double vy = p.getDeltaMovement().y;
+        if (p.onGround() && target.getY() - p.getY() > 1.0) vy = 0.42;
+        p.setDeltaMovement(horiz.x, vy, horiz.z);
+        if (p.distanceTo(target) < 2.6 && p.tickCount % 20 == 0) {
+            target.hurtServer(sl, sl.damageSources().playerAttack(p), 4 + p.getRandom().nextInt(3));
+            p.swing(InteractionHand.MAIN_HAND, net.minecraft.world.entity.player.Player.SwingAnimation.WHITE, true);
+            sl.playSound(null, p.blockPosition(), SoundEvents.PLAYER_ATTACK_STRONG, SoundSource.PLAYERS, 1f, 1f);
+            if (!target.isAlive() && d.possessHeal) {
+                p.setHealth(p.getMaxHealth());
+                Facility.broadcast(sl.getServer(), Component.literal("  … ").withStyle(s -> s.withColor(0xAA0000))
+                        .append(p.getDisplayName())
+                        .append(Component.literal("이(가) 쓰러진 동료를 짓밟고 기운을 되찾았다.").withStyle(s -> s.withColor(0xAA0000))));
+            }
+        }
+    }
+
     /** SP 피해. 0 이하가 되면 패닉 */
     public static void damageSp(ServerPlayer p, int amount) {
         EmployeeData d = get(p);
@@ -140,6 +251,9 @@ public final class Employees {
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {
             EmployeeData d = get(p);
             kr.lobcorp.entity.FairyFestivalEntity.tickBlessing(p, d);
+            if (d.possessTicks > 0) {
+                tickPossession(p, d);
+            }
             if (d.sleepTicks > 0) {
                 d.sleepTicks--;
                 p.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 10, false, false));

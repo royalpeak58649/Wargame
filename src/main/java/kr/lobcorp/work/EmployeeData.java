@@ -23,6 +23,14 @@ public class EmployeeData {
     public int fairyTicks = 0;
     /** 공허한 꿈의 빛무리에 닿아 잠든 남은 틱 (저장 안 함) */
     public int sleepTicks = 0;
+    /** 홀림(강제 조종) 남은 틱 (저장 안 함) */
+    public int possessTicks = 0;
+    /** 홀린 직원이 동료에게 맞은 횟수 */
+    public int possessHits = 0;
+    /** 홀림 원인 표시 (예: 붉은 구두) */
+    public String possessLabel = "";
+    /** 홀림 중 동료를 쓰러뜨리면 회복하는가 */
+    public boolean possessHeal = false;
     public Set<String> gifts = new HashSet<>();
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -66,7 +74,8 @@ public class EmployeeData {
             java.util.Map.entry("horn", new int[]{2, 2, 0, 0}),
             java.util.Map.entry("lantern", new int[]{5, 0, 0, 0}),
             java.util.Map.entry("fragments", new int[]{0, 0, 2, 2}),
-            java.util.Map.entry("noise", new int[]{0, 0, 0, 3})
+            java.util.Map.entry("noise", new int[]{0, 0, 0, 3}),
+            java.util.Map.entry("sanguine_desire", new int[]{3, 0, 0, 0})
     );
 
     private int giftSum(int idx) {
@@ -96,6 +105,10 @@ public class EmployeeData {
 
     public boolean isPanicking() {
         return panicTicks > 0;
+    }
+
+    public boolean isPossessed() {
+        return possessTicks > 0;
     }
 
     public void addStat(WorkType type, int amount) {

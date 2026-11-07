@@ -70,6 +70,7 @@ public final class WorkManager {
         EmployeeData d = Employees.get(p);
         if (session(p) != null) { actionbar(p, red("이미 작업 중입니다.")); return; }
         if (d.isPanicking()) { actionbar(p, red("패닉 상태에서는 작업할 수 없습니다.")); return; }
+        if (d.possessTicks > 0) { actionbar(p, red("홀린 상태로는 작업할 수 없습니다.")); return; }
         if (a.isBreached()) { actionbar(p, red("탈출한 환상체에게는 작업할 수 없습니다. 제압하세요!")); return; }
         if (isAbnoBusy(a)) { actionbar(p, red("다른 직원이 작업 중인 환상체입니다.")); return; }
 
@@ -167,7 +168,7 @@ public final class WorkManager {
                 if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
                         || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)
                         || wearing(p, ModItems.RED_EYES_SUIT) || wearing(p, ModItems.HORN_SUIT)
-                        || wearing(p, ModItems.LANTERN_SUIT)) dmg--;
+                        || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }

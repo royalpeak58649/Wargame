@@ -15,6 +15,7 @@
   "entity.lobcorp.meat_lantern": "Meat Lantern",
   "entity.lobcorp.fragment_of_universe": "Fragment of the Universe",
   "entity.lobcorp.mhz": "1.76 MHz",
+  "entity.lobcorp.red_shoes": "Red Shoes",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -46,5 +47,7 @@
   "item.lobcorp.fragments": "Fragments from Somewhere",
   "item.lobcorp.fragments_suit": "Fragments from Somewhere (Suit)",
   "item.lobcorp.noise": "Noise",
-  "item.lobcorp.noise_suit": "Noise Suit"
+  "item.lobcorp.noise_suit": "Noise Suit",
+  "item.lobcorp.sanguine_desire": "Sanguine Desire",
+  "item.lobcorp.sanguine_desire_suit": "Sanguine Desire (Suit)"
 }

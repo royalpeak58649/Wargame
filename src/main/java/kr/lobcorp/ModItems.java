@@ -44,6 +44,7 @@ public final class ModItems {
     public static final ArmorMaterial LANTERN_MAT = material("lantern", 5);
     public static final ArmorMaterial FRAGMENTS_MAT = material("fragments", 5);
     public static final ArmorMaterial NOISE_MAT = material("noise", 5);
+    public static final ArmorMaterial SANGUINE_DESIRE_MAT = material("sanguine_desire", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -77,6 +78,8 @@ public final class ModItems {
     public static Item FRAGMENTS_SUIT;
     public static Item NOISE;
     public static Item NOISE_SUIT;
+    public static Item SANGUINE_DESIRE;
+    public static Item SANGUINE_DESIRE_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -202,6 +205,10 @@ public final class ModItems {
                 "T-06-27 · TETH", "WHITE 피해 지팡이", "손잡이를 쥘 때마다 지직거리는 잡음이 손바닥을 타고 올라온다.");
         NOISE_SUIT = suit("noise_suit", NOISE_MAT,
                 "T-06-27 · TETH", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+        SANGUINE_DESIRE = weapon("sanguine_desire", DamageColor.RED, 7.0, -3.0,
+                "O-04-08 · HE", "RED 피해 대형 도끼, 느리고 묵직함", "춤추고 싶어 하는 붉은 도끼날. 손잡이가 조금씩 따뜻해진다.");
+        SANGUINE_DESIRE_SUIT = suit("sanguine_desire_suit", SANGUINE_DESIRE_MAT,
+                "O-04-08 · HE", "RED 저항: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -210,6 +217,6 @@ public final class ModItems {
                 TODAYS_EXPRESSION, TODAYS_EXPRESSION_SUIT, SCREAMING_WEDGE, SCREAMING_WEDGE_SUIT,
                 DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT, RED_EYES, RED_EYES_SUIT,
                 ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
-                FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT);
+                FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT, SANGUINE_DESIRE, SANGUINE_DESIRE_SUIT);
     }
 }

@@ -32,6 +32,10 @@ public final class LobCorpHud {
         }
         if (ClientState.sleep() > 0) {
             g.text(font, "잠듦 " + (ClientState.sleep() / 20 + 1) + "초 · 피해를 받으면 깹니다", x, line, 0xFFC9C3E6, true);
+            line += 10;
+        }
+        if (ClientState.possess() > 0) {
+            g.text(font, "홀림 " + (ClientState.possess() / 20 + 1) + "초 · 다른 직원이 세 번 때리면 풀립니다", x, line, 0xFFFF5555, true);
         }
 
         // ── 작업 진행 ──
