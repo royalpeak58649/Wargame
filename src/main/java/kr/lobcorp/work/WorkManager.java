@@ -81,8 +81,9 @@ public final class WorkManager {
         if (!a.beforeWorkStart(p, type)) return;
 
         AbnoProfile prof = a.profile();
-        int chance = prof.chances()[type.ordinal()] + d.temperance / 5 + d.giftChanceBonus();
-        chance = Math.min(95, chance);
+        int chance = prof.chances()[type.ordinal()] + d.temperance / 5 + d.giftChanceBonus()
+                + a.workChanceBonus(p, type);
+        chance = Math.max(5, Math.min(95, chance));
         int interval = Math.max(10, 30 - d.temperance / 4);
         SESSIONS.put(p.getUUID(), new WorkSession(a, type, prof.maxBox(), chance, interval));
         PunishingBirdEntity.onAnyWorkStarted(p.level(), a, p);
@@ -130,23 +131,36 @@ public final class WorkManager {
             s.good++;
             level.sendParticles(ParticleTypes.HAPPY_VILLAGER, s.abno.getX(), s.abno.getY() + 1.5, s.abno.getZ(), 6, 0.4, 0.5, 0.4, 0);
             level.playSound(null, p.blockPosition(), SoundEvents.NOTE_BLOCK_CHIME.value(), SoundSource.PLAYERS, 0.5f, 1.7f);
+            s.abno.onBoxResult(p, true);
             return;
         }
         // 실패 → 환상체 피해
         AbnoProfile prof = s.abno.profile();
         int dmg = prof.dmgMin() + level.getRandom().nextInt(prof.dmgMax() - prof.dmgMin() + 1);
+        dmg = Math.max(1, Math.round(dmg * s.abno.workDamageMultiplier(p)));
         if (!near) actionbar(p, red("환상체와 너무 멀리 떨어져 있습니다!"));
-        if (prof.workDamage() == DamageColor.WHITE) {
-            if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)) dmg--;
-            level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
-            level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
-            if (dmg > 0) Employees.damageSp(p, dmg);
-        } else {
-            if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
-                    || wearing(p, ModItems.BEAK_SUIT)) dmg--;
-            level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
-            if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
+        switch (prof.workDamage()) {
+            case WHITE -> {
+                if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)) dmg--;
+                level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
+                level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
+                if (dmg > 0) Employees.damageSp(p, dmg);
+            }
+            case BLACK -> {
+                // HP를 먼저 깎는다 — damageSp가 패닉을 일으켜 세션을 중단시킬 수 있기 때문
+                level.sendParticles(ParticleTypes.SQUID_INK, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.4, 0.6, 0.4, 0);
+                level.playSound(null, p.blockPosition(), SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.PLAYERS, 0.8f, 0.6f);
+                if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
+                if (dmg > 0) Employees.damageSp(p, dmg);
+            }
+            default -> {
+                if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
+                        || wearing(p, ModItems.BEAK_SUIT)) dmg--;
+                level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
+                if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
+            }
         }
+        s.abno.onBoxResult(p, false);
     }
 
     private static void finish(ServerPlayer p, WorkSession s) {

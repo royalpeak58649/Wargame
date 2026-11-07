@@ -686,3 +686,164 @@ wjson("lang/en_us.json", {
 
 punishing_bird()
 print("assets v3 ok")
+
+
+# ═════════════ 4차: 오늘의 수줍은 표정 (O-01-92) ═════════════
+def todays_shy_look():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    robe = hexc("#6b4a30")
+    robe_dark = hexc("#4a3220")
+    leg = hexc("#a8473f")
+    cloth = hexc("#e8dcc0")
+    dark = hexc("#2a2018")
+    blue = hexc("#5aa8e0")
+    red = hexc("#c8102e")
+
+    # 밧줄 (u0 v0, 14x1x1)
+    box(img, 0, 0, 14, 1, 1, hexc("#8a7a5a"), 8)
+
+    # 얼굴 판 다섯 개 (u = i*4, v = 8, 3x4x1)
+    # 0: 활짝 웃는 얼굴
+    f = box(img, 0, 8, 3, 4, 1, cloth, 5)
+    fx, fy = f["front"]
+    for x in range(3):
+        px(img, fx + x, fy + 2, dark)
+    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    px(img, fx, fy + 3, dark); px(img, fx + 2, fy + 3, dark)
+    px(img, fx + 1, fy + 3, dark)
+    # 1: 웃는 얼굴
+    f = box(img, 4, 8, 3, 4, 1, cloth, 5)
+    fx, fy = f["front"]
+    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    for x in range(3):
+        px(img, fx + x, fy + 2, dark)
+    # 2: 무표정
+    f = box(img, 8, 8, 3, 4, 1, cloth, 5)
+    fx, fy = f["front"]
+    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    for x in range(3):
+        px(img, fx + x, fy + 2, dark)
+    # 3: 슬픈 얼굴 + 눈물
+    f = box(img, 12, 8, 3, 4, 1, cloth, 5)
+    fx, fy = f["front"]
+    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    px(img, fx, fy + 3, dark); px(img, fx + 2, fy + 3, dark)
+    px(img, fx + 1, fy + 2, dark)
+    px(img, fx, fy + 2, blue); px(img, fx + 2, fy + 2, blue)
+    # 4: 화난 얼굴 + 벌린 입
+    f = box(img, 16, 8, 3, 4, 1, cloth, 5)
+    fx, fy = f["front"]
+    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    px(img, fx + 1, fy + 1, dark)
+    px(img, fx + 1, fy + 2, red); px(img, fx + 1, fy + 3, red)
+
+    # 천 뒤의 형체: 갈색 두루마기 (u0 v16, 4x8x3)
+    b = box(img, 0, 16, 4, 8, 3, robe, 8)
+    bx, by = b["front"]
+    for y in range(8):
+        px(img, bx + 1, by + y, robe_dark)
+        px(img, bx + 2, by + y, robe_dark)
+    # 머리 (u20 v16, 3x3x3)
+    h = box(img, 20, 16, 3, 3, 3, robe, 8)
+    hx, hy = h["front"]
+    px(img, hx, hy + 1, dark); px(img, hx + 2, hy + 1, dark)
+    # 다리 (u32 v16, 1x5x1)
+    box(img, 32, 16, 1, 5, 1, leg, 8)
+
+    save(img, "textures/entity/todays_shy_look.png")
+
+
+TS = {"c": "#e8dcc0", "d": "#2a2018", "b": "#5aa8e0", "r": "#c8102e", "w": "#6b4a30", "k": "#4a3220"}
+icon([
+    "................",
+    "..cccccccccccc..",
+    "..cddcddcddcdd..",
+    "..cddcddcddcdd..",
+    "..cccccccccccc..",
+    "....wwwwwwww....",
+    "....wwkkkkww....",
+    "....wwkkkkww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+    "................",
+], TS, "textures/item/todays_expression.png")
+icon([
+    "................",
+    "...cc......cc...",
+    "..cccc....cccc..",
+    "..cccccccccccc..",
+    "...cccccccccc...",
+    "....ccddddcc....",
+    "....ccddddcc....",
+    "....ccddddcc....",
+    "....ccddddcc....",
+    "....cccccccc....",
+    "....ccwwwwcc....",
+    "....cccccccc....",
+    "....cccccccc....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], TS, "textures/item/todays_expression_suit.png")
+
+armor(hexc("#6b4a30"), "#4a3220", "#e8dcc0", "textures/entity/equipment/humanoid/todays_expression.png")
+
+for item, parent in [("todays_expression", "minecraft:item/handheld"), ("todays_expression_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/todays_expression.json", {"layers": {"humanoid": [{"texture": "lobcorp:todays_expression"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+})
+
+todays_shy_look()
+print("assets shy ok")

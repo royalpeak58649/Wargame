@@ -29,6 +29,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.FAIRY_FESTIVAL, kr.lobcorp.client.render.NewAbnoRenderers.Fairy::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.PunishingBirdModel.LAYER, kr.lobcorp.client.model.PunishingBirdModel::createLayer);
         EntityRendererRegistry.register(ModEntities.PUNISHING_BIRD, kr.lobcorp.client.render.NewAbnoRenderers.PunishingBird::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.TodaysShyLookModel.LAYER, kr.lobcorp.client.model.TodaysShyLookModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.TODAYS_SHY_LOOK, kr.lobcorp.client.render.NewAbnoRenderers.ShyLook::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

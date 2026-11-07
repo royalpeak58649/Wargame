@@ -67,6 +67,19 @@ public abstract class AbnormalityEntity extends PathfinderMob {
 
     public void onWorkFinished(ServerPlayer worker, WorkManager.Result result, WorkSession session) {}
 
+    /** 작업 성공률 보정 (퍼센트 포인트). 오늘의 수줍은 표정 등 */
+    public int workChanceBonus(ServerPlayer worker, WorkType type) {
+        return 0;
+    }
+
+    /** 작업 실패 피해 배율 */
+    public float workDamageMultiplier(ServerPlayer worker) {
+        return 1f;
+    }
+
+    /** PE-BOX 하나가 판정된 직후 */
+    public void onBoxResult(ServerPlayer worker, boolean success) {}
+
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;

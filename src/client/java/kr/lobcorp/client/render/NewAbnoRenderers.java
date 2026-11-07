@@ -5,10 +5,12 @@ import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
+import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
+import kr.lobcorp.entity.TodaysShyLookEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -114,6 +116,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(PunishingBirdModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ShyLook extends MobRenderer<TodaysShyLookEntity, TodaysShyLookModel.State, TodaysShyLookModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/todays_shy_look.png");
+
+        public ShyLook(EntityRendererProvider.Context ctx) {
+            super(ctx, new TodaysShyLookModel(ctx.bakeLayer(TodaysShyLookModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public TodaysShyLookModel.State createRenderState() {
+            return new TodaysShyLookModel.State();
+        }
+
+        @Override
+        public void extractRenderState(TodaysShyLookEntity e, TodaysShyLookModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.face = e.getFace();
+        }
+
+        @Override
+        public Identifier getTextureLocation(TodaysShyLookModel.State s) {
             return TEX;
         }
     }

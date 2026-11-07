@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lobcorp:item/todays_expression_suit"
+  }
+}

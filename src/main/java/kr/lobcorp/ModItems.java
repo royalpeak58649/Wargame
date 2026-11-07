@@ -34,6 +34,7 @@ public final class ModItems {
     public static final ArmorMaterial BEAR_PAWS_MAT = material("bear_paws", 7);
     public static final ArmorMaterial WINGBEAT_MAT = material("wingbeat", 5);
     public static final ArmorMaterial BEAK_MAT = material("beak", 5);
+    public static final ArmorMaterial TODAYS_EXPRESSION_MAT = material("todays_expression", 5);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -47,6 +48,8 @@ public final class ModItems {
     public static Item WINGBEAT_SUIT;
     public static Item BEAK;
     public static Item BEAK_SUIT;
+    public static Item TODAYS_EXPRESSION;
+    public static Item TODAYS_EXPRESSION_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -132,10 +135,15 @@ public final class ModItems {
                 "O-02-56 · TETH", "RED 피해, 매우 빠른 연타", "작은 부리가 남긴 자국은 오래 남는다.");
         BEAK_SUIT = suit("beak_suit", BEAK_MAT,
                 "O-02-56 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
+        TODAYS_EXPRESSION = weapon("todays_expression", DamageColor.BLACK, 4.0, -2.4,
+                "O-01-92 · TETH", "BLACK 피해", "오늘은 어떤 얼굴을 하고 있을까.");
+        TODAYS_EXPRESSION_SUIT = suit("todays_expression_suit", TODAYS_EXPRESSION_MAT,
+                "O-01-92 · TETH", "BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
         return List.of(PENITENCE, PENITENCE_SUIT, REGRET, REGRET_SUIT, MATCH_FLAME, MATCH_FLAME_SUIT,
-                BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT, BEAK, BEAK_SUIT);
+                BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT, BEAK, BEAK_SUIT,
+                TODAYS_EXPRESSION, TODAYS_EXPRESSION_SUIT);
     }
 }

@@ -54,7 +54,8 @@ public class EmployeeData {
             "match_flame", new int[]{3, 0, 0, 0},
             "bear_paws", new int[]{0, 3, 0, 0},
             "wingbeat", new int[]{0, 0, 3, 0},
-            "beak", new int[]{0, 0, 2, 5}
+            "beak", new int[]{0, 0, 2, 5},
+            "todays_expression", new int[]{0, -2, 4, 0}
     );
 
     private int giftSum(int idx) {

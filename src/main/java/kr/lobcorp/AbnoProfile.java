@@ -113,13 +113,29 @@ public record AbnoProfile(
                     "탈출한 새를 때리면 격노해 거대한 아가리로 물어뜯는다. 90초가 지나면 스스로 돌아온다."
             ));
 
+    public static final AbnoProfile TODAYS_SHY_LOOK = new AbnoProfile(
+            "todays_shy_look", "오늘의 수줍은 표정", "O-01-92", "TETH", 0x5599FF,
+            new int[]{50, 50, 50, 50}, 12, 9, 5,
+            DamageColor.BLACK, 2, 3,
+            0,
+            () -> ModItems.TODAYS_EXPRESSION, 25,
+            () -> ModItems.TODAYS_EXPRESSION_SUIT, 30,
+            "todays_expression", "오늘의 표정", "최대 SP -2, 작업 성공률 +4%", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "다섯 개의 얼굴이 천에 걸려 있고, 그중 하나 뒤에 수줍은 무언가가 숨어 있다.",
+                    "얼굴이 바뀔 때마다 작업 성공률과 실패 피해가 달라진다. 활짝 웃는 얼굴이 가장 좋다.",
+                    "격리실을 탈출하지 않는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.of(
             ONE_SIN.id, ONE_SIN,
             FORSAKEN_MURDERER.id, FORSAKEN_MURDERER,
             SCORCHED_GIRL.id, SCORCHED_GIRL,
             HAPPY_TEDDY.id, HAPPY_TEDDY,
             FAIRY_FESTIVAL.id, FAIRY_FESTIVAL,
-            PUNISHING_BIRD.id, PUNISHING_BIRD
+            PUNISHING_BIRD.id, PUNISHING_BIRD,
+            TODAYS_SHY_LOOK.id, TODAYS_SHY_LOOK
     );
 
     public boolean canBreach() {
