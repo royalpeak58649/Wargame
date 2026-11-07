@@ -65,6 +65,10 @@ public final class LobCorpHud {
             g.text(font, "❄ 얼어붙음 · 누군가 눈의 여왕과 결투해야 합니다", x, line, 0xFF7CFFE0, true);
             line += 10;
         }
+        if (ClientState.blessed()) {
+            g.text(font, "✦ 절망의 기사의 가호 · 작업 불가", x, line, 0xFF9AD0FF, true);
+            line += 10;
+        }
         if (ClientState.portrait() == 1) {
             g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
         } else if (ClientState.portrait() == 2) {

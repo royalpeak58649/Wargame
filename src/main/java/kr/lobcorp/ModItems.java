@@ -61,6 +61,7 @@ public final class ModItems {
     public static final ArmorMaterial LAMP_MAT = material("lamp", 7);
     public static final ArmorMaterial JUSTITIA_MAT = material("justitia", 9);
     public static final ArmorMaterial LOVE_AND_HATE_MAT = material("love_and_hate", 7);
+    public static final ArmorMaterial TEARS_SWORD_MAT = material("tears_sword", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -128,6 +129,8 @@ public final class ModItems {
     public static Item JUSTITIA_SUIT;
     public static Item LOVE_AND_HATE;
     public static Item LOVE_AND_HATE_SUIT;
+    public static Item TEARS_SWORD;
+    public static Item TEARS_SWORD_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -321,6 +324,10 @@ public final class ModItems {
                 "O-01-04 · WAW", "BLACK 피해 지팡이", "별이 달린 분홍 지팡이. 휘두를 때마다 반짝이는 가루가 흩날린다.");
         LOVE_AND_HATE_SUIT = suit("love_and_hate_suit", LOVE_AND_HATE_MAT,
                 "O-01-04 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+        TEARS_SWORD = weapon("tears_sword", DamageColor.WHITE, 5.0, -1.8,
+                "O-01-73 · WAW", "WHITE 피해 검, 빠른 연타", "눈물을 식혀 벼려 낸 날. 아직 마르지 않았다.");
+        TEARS_SWORD_SUIT = suit("tears_sword_suit", TEARS_SWORD_MAT,
+                "O-01-73 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -335,6 +342,6 @@ public final class ModItems {
                 SYRINX, SYRINX_SUIT, FROST_SPLINTER, FROST_SPLINTER_SUIT, LOGGING, LOGGING_SUIT,
                 HARVEST, HARVEST_SUIT, CHRISTMAS, CHRISTMAS_SUIT, SOLEMN_LAMENT, SOLEMN_LAMENT_SUIT,
                 GAZE, GAZE_SUIT, LAMP, LAMP_SUIT, JUSTITIA, JUSTITIA_SUIT,
-                LOVE_AND_HATE, LOVE_AND_HATE_SUIT);
+                LOVE_AND_HATE, LOVE_AND_HATE_SUIT, TEARS_SWORD, TEARS_SWORD_SUIT);
     }
 }

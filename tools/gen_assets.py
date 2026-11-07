@@ -5266,3 +5266,215 @@ merge_lang({
     "item.lobcorp.justitia": "Justitia",
     "item.lobcorp.justitia_suit": "Justitia Garb",
 })
+
+
+# ═════════════ 35차: 절망의 기사 (O-01-73) ═════════════
+def knight_of_despair():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    armor_dark = hexc("#2a3050")
+    armor_dark_hi = hexc("#3a4268")
+    armor_dark_dark = hexc("#181c34")
+    silver = hexc("#8aa0c8")
+    silver_hi = hexc("#b0c4e4")
+    silver_dark = hexc("#5a6e94")
+    skin = hexc("#f0ece8")
+    skin_shade = hexc("#d4ccc8")
+    hair_blue = hexc("#4a70d0")
+    hair_mid = hexc("#2e3e88")
+    hair_black = hexc("#0e0e1a")
+    tear = hexc("#9ad0ff")
+    cape = hexc("#1a1a2a")
+    cape_hi = hexc("#2a2a40")
+    cape_dark = hexc("#0a0a12")
+    blade = hexc("#d0d8ff")
+    blade_hi = hexc("#f0f4ff")
+    blade_dark = hexc("#8a94c0")
+    hilt = hexc("#c8a040")
+
+    # 다리: 어두운 갑옷 (u0 v0, 2x10x2 / u8 v0, 2x10x2)
+    for u in (0, 8):
+        l = box(img, u, 0, 2, 10, 2, armor_dark, 6, top=armor_dark_hi)
+        lx, ly = l["front"]
+        for y in range(10):
+            px(img, lx, ly + y, armor_dark_dark if y % 4 == 0 else armor_dark)
+            px(img, lx + 1, ly + y, armor_dark_hi if y % 5 == 0 else armor_dark)
+        for x in range(2):
+            px(img, lx + x, ly + 9, hexc("#0e1020"))
+
+    # 치마 (u0 v12, 7x5x5)
+    s = box(img, 0, 12, 7, 5, 5, armor_dark, 6, top=armor_dark_hi)
+    sx, sy = s["front"]
+    for y in range(5):
+        px(img, sx + 3, sy + y, armor_dark_dark)
+    for x in range(7):
+        px(img, sx + x, sy + 4, armor_dark_dark)
+    for side in ("right", "left", "back"):
+        ox, oy = s[side]
+        for y in range(5):
+            if y % 2 == 0:
+                px(img, ox + 2, oy + y, armor_dark_hi)
+        for x in range(5):
+            px(img, ox + x, oy + 4, armor_dark_dark)
+
+    # 몸통: 은빛 푸른 갑옷 (u24 v0, 6x7x3)
+    b = box(img, 24, 0, 6, 7, 3, silver, 6, top=silver_hi)
+    bx, by = b["front"]
+    # 가슴의 푸른 보석
+    px(img, bx + 2, by + 2, hair_blue)
+    px(img, bx + 3, by + 2, hair_blue)
+    px(img, bx + 2, by + 3, hair_mid)
+    px(img, bx + 3, by + 3, hair_mid)
+    # 갑옷 이음매
+    for x in range(6):
+        px(img, bx + x, by + 5, silver_dark)
+    for y in range(7):
+        px(img, bx, by + y, silver_dark)
+        px(img, bx + 5, by + y, silver_dark)
+    for side in ("right", "left", "back"):
+        ox, oy = b[side]
+        for y in range(7):
+            if y % 3 == 0:
+                px(img, ox + 1, oy + y, silver_dark)
+        for x in range(3):
+            px(img, ox + x, oy + 6, silver_dark)
+
+    # 팔 (u42 v0, 2x8x2 / u50 v0, 2x8x2)
+    for u in (42, 50):
+        a = box(img, u, 0, 2, 8, 2, silver, 6, top=silver_hi)
+        ax, ay = a["front"]
+        for y in range(8):
+            px(img, ax, ay + y, silver_dark if y % 3 == 0 else silver)
+        for x in range(2):
+            px(img, ax + x, ay + 7, skin)
+
+    # 머리: 창백한 얼굴 (u0 v24, 6x6x6)
+    h = box(img, 0, 24, 6, 6, 6, skin, 3, top=hair_blue)
+    hx, hy = h["front"]
+    # 슬픈 눈
+    px(img, hx + 1, hy + 2, hexc("#2a3050"))
+    px(img, hx + 4, hy + 2, hexc("#2a3050"))
+    px(img, hx + 1, hy + 1, skin_shade)
+    px(img, hx + 4, hy + 1, skin_shade)
+    # 눈물 자국
+    px(img, hx + 1, hy + 3, tear)
+    px(img, hx + 1, hy + 4, tear)
+    px(img, hx + 4, hy + 3, hexc("#6aa0d0"))
+    # 입
+    px(img, hx + 2, hy + 5, hexc("#a08a90"))
+    px(img, hx + 3, hy + 5, hexc("#a08a90"))
+    # 앞머리
+    for x in range(6):
+        px(img, hx + x, hy, hair_blue)
+    for x in (0, 2, 5):
+        px(img, hx + x, hy + 1, hair_mid)
+    for side in ("right", "left"):
+        ox, oy = h[side]
+        for y in range(6):
+            px(img, ox + 2, oy + y, hair_blue if y < 3 else hair_mid)
+
+    # 긴 머리카락: 위는 푸르고 아래로 갈수록 검어진다 (u0 v36, 6x12x2)
+    hr = box(img, 0, 36, 6, 12, 2, hair_blue, 6, top=hexc("#6a90e8"))
+    hrx, hry = hr["front"]
+    for y in range(12):
+        if y < 4:
+            c = hair_blue
+        elif y < 8:
+            c = hair_mid
+        else:
+            c = hair_black
+        for x in range(6):
+            px(img, hrx + x, hry + y, c)
+    for y in range(12):
+        px(img, hrx + 1, hry + y, hair_mid if y < 8 else hair_black)
+        px(img, hrx + 4, hry + y, hair_black if y > 5 else hair_mid)
+    for side in ("right", "left", "back"):
+        ox, oy = hr[side]
+        for y in range(12):
+            c = hair_blue if y < 4 else hair_mid if y < 8 else hair_black
+            for x in range(2):
+                px(img, ox + x, oy + y, c)
+
+    # 찢어진 망토 (u16 v36, 8x14x1)
+    c = box(img, 16, 36, 8, 14, 1, cape, 4, top=cape_hi)
+    cx, cy = c["front"]
+    for y in range(14):
+        for x in range(8):
+            if (x * 3 + y * 5) % 13 == 0:
+                px(img, cx + x, cy + y, cape_hi)
+            elif (x + y) % 9 == 0:
+                px(img, cx + x, cy + y, cape_dark)
+    # 밑단의 찢긴 틈
+    for x in (1, 4, 6):
+        px(img, cx + x, cy + 13, (0, 0, 0, 0))
+        px(img, cx + x, cy + 12, cape_dark)
+    for x in range(8):
+        px(img, cx + x, cy, cape_hi)
+
+    # 떠 있는 검 (u34 v36, 1x8x1)
+    sw = box(img, 34, 36, 1, 8, 1, blade, 4, top=blade_hi)
+    swx, swy = sw["front"]
+    for y in range(8):
+        px(img, swx, swy + y, blade_hi if y < 5 else blade_dark)
+    px(img, swx, swy + 6, hilt)
+    px(img, swx, swy + 7, hexc("#8a6a20"))
+
+    save(img, "textures/entity/knight_of_despair.png")
+
+
+knight_of_despair()
+print("assets knight ok")
+
+TS2 = {"s": "#d0d8ff", "h": "#f0f4ff", "d": "#8a94c0", "g": "#c8a040", "k": "#2a3050", "b": "#4a70d0"}
+icon([
+    "................",
+    "..............hh",
+    ".............hh.",
+    "............hh..",
+    "...........hh...",
+    "..........hh....",
+    ".........hh.....",
+    "........hh......",
+    ".......hh.......",
+    "......hh........",
+    ".....gg.........",
+    "....gg..........",
+    "...kk...........",
+    "..kk............",
+    "..k.............",
+    "................",
+], TS2, "textures/item/tears_sword.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kksssskk....",
+    "....kksssskk....",
+    "....kksssskk....",
+    "....kksssskk....",
+    "....kkkkkkkk....",
+    "....kkbbbbkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], TS2, "textures/item/tears_sword_suit.png")
+
+armor(hexc("#8aa0c8"), "#5a6e94", "#4a70d0", "textures/entity/equipment/humanoid/tears_sword.png")
+
+for item, parent in [("tears_sword", "minecraft:item/handheld"), ("tears_sword_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/tears_sword.json", {"layers": {"humanoid": [{"texture": "lobcorp:tears_sword"}]}})
+
+merge_lang({
+    "entity.lobcorp.knight_of_despair": "절망의 기사",
+    "item.lobcorp.tears_sword": "눈물로 벼려낸 검",
+    "item.lobcorp.tears_sword_suit": "눈물로 벼려낸 검의 갑주",
+}, {
+    "entity.lobcorp.knight_of_despair": "The Knight of Despair",
+    "item.lobcorp.tears_sword": "The Sword Sharpened with Tears",
+    "item.lobcorp.tears_sword_suit": "Sword Sharpened with Tears Armor",
+})

@@ -76,6 +76,7 @@ public final class Employees {
         v[18] = ToolState.isNotesHolder(p) ? ToolState.notesTicks / 20 : 0;
         v[19] = d.pebble ? 1 : 0;
         v[20] = d.frost;
+        v[21] = d.blessed ? 1 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -257,6 +258,7 @@ public final class Employees {
             return;
         }
         EmployeeData d = get(p);
+        if (d.blessed) amount = Math.max(1, (amount + 1) / 2);
         d.sp -= amount;
         if (amount > 0) ToolState.addNotesDamage(p, amount);
         if (d.sp <= 0) panic(p);
@@ -303,6 +305,9 @@ public final class Employees {
                     if (d.sp < d.maxSp()) d.sp = Math.min(d.maxSp(), d.sp + n);
                     p.level().sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1.2, p.getZ(), 2, 0.3, 0.4, 0.3, 0.01);
                 }
+            }
+            if (d.blessed) {
+                p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 40, 2, false, false));
             }
             if (d.frost == 2) {
                 if (d.frozenAt == null) d.frozenAt = p.position();

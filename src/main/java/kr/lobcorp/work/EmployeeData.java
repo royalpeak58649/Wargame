@@ -39,6 +39,8 @@ public class EmployeeData {
     public boolean pebble = false;
     /** 눈의 여왕의 저주: 0 없음, 1 심장의 얼음 조각, 2 얼어붙음 (저장 안 함) */
     public int frost = 0;
+    /** 절망의 기사의 가호를 받았는가 (저장 안 함) */
+    public boolean blessed = false;
     /** 얼어붙은 자리 (저장 안 함) */
     public net.minecraft.world.phys.Vec3 frozenAt = null;
     public Set<String> gifts = new HashSet<>();
@@ -104,6 +106,7 @@ public class EmployeeData {
             java.util.Map.entry("lamp", new int[]{3, 0, 3, 3}),
             java.util.Map.entry("justitia", new int[]{0, 0, 0, 3}),
             java.util.Map.entry("love_and_hate", new int[]{0, 0, 2, 4}),
+            java.util.Map.entry("tears_sword", new int[]{0, 2, 0, 4}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

@@ -100,5 +100,8 @@
   "item.lobcorp.justitia_suit": "Justitia Garb",
   "entity.lobcorp.queen_of_hatred": "Queen of Hatred",
   "item.lobcorp.love_and_hate": "In the Name of Love and Hate",
-  "item.lobcorp.love_and_hate_suit": "Love and Hate Dress"
+  "item.lobcorp.love_and_hate_suit": "Love and Hate Dress",
+  "entity.lobcorp.knight_of_despair": "The Knight of Despair",
+  "item.lobcorp.tears_sword": "The Sword Sharpened with Tears",
+  "item.lobcorp.tears_sword_suit": "Sword Sharpened with Tears Armor"
 }

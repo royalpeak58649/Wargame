@@ -100,5 +100,8 @@
   "item.lobcorp.justitia_suit": "유스티티아의 옷",
   "entity.lobcorp.queen_of_hatred": "증오의 여왕",
   "item.lobcorp.love_and_hate": "사랑과 증오의 이름으로",
-  "item.lobcorp.love_and_hate_suit": "사랑과 증오의 드레스"
+  "item.lobcorp.love_and_hate_suit": "사랑과 증오의 드레스",
+  "entity.lobcorp.knight_of_despair": "절망의 기사",
+  "item.lobcorp.tears_sword": "눈물로 벼려낸 검",
+  "item.lobcorp.tears_sword_suit": "눈물로 벼려낸 검의 갑주"
 }

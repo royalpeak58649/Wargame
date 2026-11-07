@@ -13,6 +13,7 @@ import kr.lobcorp.client.model.FreischutzModel;
 import kr.lobcorp.client.model.FuneralModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.JudgementBirdModel;
+import kr.lobcorp.client.model.KnightDespairModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
 import kr.lobcorp.client.model.LaetitiaModel;
@@ -49,6 +50,7 @@ import kr.lobcorp.entity.FreischutzEntity;
 import kr.lobcorp.entity.FuneralEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.JudgementBirdEntity;
+import kr.lobcorp.entity.KnightDespairEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
@@ -932,6 +934,32 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(QueenHatredModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class KnightDespair extends MobRenderer<KnightDespairEntity, KnightDespairModel.State, KnightDespairModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/knight_of_despair.png");
+
+        public KnightDespair(EntityRendererProvider.Context ctx) {
+            super(ctx, new KnightDespairModel(ctx.bakeLayer(KnightDespairModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public KnightDespairModel.State createRenderState() {
+            return new KnightDespairModel.State();
+        }
+
+        @Override
+        public void extractRenderState(KnightDespairEntity e, KnightDespairModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.throwAnim = e.throwT > 0 ? (e.throwT - pt) / 30f : 0f;
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 검이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(KnightDespairModel.State s) {
             return TEX;
         }
     }

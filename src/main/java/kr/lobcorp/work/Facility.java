@@ -6,6 +6,7 @@ import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -55,6 +56,11 @@ public final class Facility {
                 p.hurtServer(p.level(), p.level().damageSources().magic(), 1000f);
             }
         }
+        for (ServerLevel l : server.getAllLevels()) {
+            for (net.minecraft.world.entity.Entity e : l.getAllEntities()) {
+                if (e instanceof kr.lobcorp.entity.KnightDespairEntity k) k.clearBlessing();
+            }
+        }
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {
             EmployeeData d = Employees.get(p);
             d.panicTicks = 0;
@@ -63,6 +69,7 @@ public final class Facility {
             d.pebble = false;
             d.frost = 0;
             d.frozenAt = null;
+            d.blessed = false;
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal("에너지 할당량 " + f.quota).withStyle(s -> s.withColor(0x55FF55))));
             p.connection.send(new ClientboundSetTitleTextPacket(Component.literal("Day " + f.day)));
         }

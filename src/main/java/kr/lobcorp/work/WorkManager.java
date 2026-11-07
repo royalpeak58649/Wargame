@@ -79,6 +79,7 @@ public final class WorkManager {
         if (d.possessTicks > 0) { actionbar(p, red("홀린 상태로는 작업할 수 없습니다.")); return; }
         if (d.frost == 2) { actionbar(p, red("얼어붙어 움직일 수 없습니다.")); return; }
         if (d.frost == 2) { actionbar(p, red("얼어붙어 움직일 수 없습니다.")); return; }
+        if (d.blessed) { actionbar(p, red("가호를 받은 몸으로는 작업할 수 없습니다.")); return; }
         if (a.isBreached()) { actionbar(p, red("탈출한 환상체에게는 작업할 수 없습니다. 제압하세요!")); return; }
         if (isAbnoBusy(a)) { actionbar(p, red("다른 직원이 작업 중인 환상체입니다.")); return; }
 
@@ -318,7 +319,8 @@ public final class WorkManager {
             () -> ModItems.GAZE_SUIT,
             () -> ModItems.LAMP_SUIT,
             () -> ModItems.JUSTITIA_SUIT,
-            () -> ModItems.LOVE_AND_HATE_SUIT);
+            () -> ModItems.LOVE_AND_HATE_SUIT,
+            () -> ModItems.TEARS_SWORD_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.REGRET_SUIT,
@@ -340,7 +342,8 @@ public final class WorkManager {
             () -> ModItems.GAZE_SUIT,
             () -> ModItems.LAMP_SUIT,
             () -> ModItems.JUSTITIA_SUIT,
-            () -> ModItems.LOVE_AND_HATE_SUIT);
+            () -> ModItems.LOVE_AND_HATE_SUIT,
+            () -> ModItems.TEARS_SWORD_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.FROST_SPLINTER_SUIT,
@@ -353,7 +356,8 @@ public final class WorkManager {
             () -> ModItems.SOLEMN_LAMENT_SUIT,
             () -> ModItems.LAMP_SUIT,
             () -> ModItems.JUSTITIA_SUIT,
-            () -> ModItems.LOVE_AND_HATE_SUIT);
+            () -> ModItems.LOVE_AND_HATE_SUIT,
+            () -> ModItems.TEARS_SWORD_SUIT);
 
     static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
         for (var s : suits) if (wearing(p, s.get())) return true;

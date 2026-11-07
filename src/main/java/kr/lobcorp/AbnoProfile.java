@@ -548,6 +548,21 @@ public record AbnoProfile(
                     "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
             ));
 
+    public static final AbnoProfile KNIGHT_DESPAIR = new AbnoProfile(
+            "knight_of_despair", "절망의 기사", "O-01-73", "WAW", 0xAA55FF,
+            new int[]{0, 45, 50, 40}, 22, 14, 8,
+            DamageColor.WHITE, 4, 6,
+            0,
+            () -> ModItems.TEARS_SWORD, 70,
+            () -> ModItems.TEARS_SWORD_SUIT, 60,
+            "tears_sword", "눈물로 벼려낸 검", "최대 SP +2, 이동 속도 +4%", 3,
+            new float[]{1.2f, 1.0f, 0.8f, 0.5f},
+            List.of(
+                    "푸른 머리카락이 검게 물들어 가는 여성 기사. 찢어진 망토 뒤로 수많은 검이 떠 있고, 그녀는 조용히 운다.",
+                    "매일 처음으로 좋음 결과를 낸 직원에게 가호를 내린다. 가호는 하루에 한 사람만 받을 수 있다.",
+                    "가호를 받은 직원은 더 이상 작업을 할 수 없고, 오직 싸울 수만 있다. 그 직원이 쓰러지거나 패닉에 빠지면 기사가 격리실을 나온다."
+            ));
+
     public static final AbnoProfile QUEEN_HATRED = new AbnoProfile(
             "queen_of_hatred", "증오의 여왕", "O-01-04", "WAW", 0xAA55FF,
             new int[]{30, 45, 50, 20}, 22, 16, 10,
@@ -582,6 +597,7 @@ public record AbnoProfile(
             Map.entry(BIG_BIRD.id, BIG_BIRD),
             Map.entry(JUDGEMENT_BIRD.id, JUDGEMENT_BIRD),
             Map.entry(QUEEN_HATRED.id, QUEEN_HATRED),
+            Map.entry(KNIGHT_DESPAIR.id, KNIGHT_DESPAIR),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),
