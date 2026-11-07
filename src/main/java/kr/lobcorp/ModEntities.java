@@ -21,6 +21,7 @@ import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
+import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
@@ -56,6 +57,7 @@ public final class ModEntities {
     public static EntityType<LaetitiaEntity> LAETITIA;
     public static EntityType<LaetitiaFriendEntity> LAETITIA_FRIEND;
     public static EntityType<AllAroundHelperEntity> ALL_AROUND_HELPER;
+    public static EntityType<TreeSapEntity> TREE_SAP;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -109,6 +111,8 @@ public final class ModEntities {
                 .sized(0.9f, 1.2f).clientTrackingRange(10));
         ALL_AROUND_HELPER = register("all_around_helper", EntityType.Builder.of(AllAroundHelperEntity::new, MobCategory.MISC)
                 .sized(0.9f, 1.2f).clientTrackingRange(10));
+        TREE_SAP = register("tree_sap", EntityType.Builder.of(TreeSapEntity::new, MobCategory.MISC)
+                .sized(0.8f, 1.3f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -132,5 +136,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(LAETITIA, LaetitiaEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(LAETITIA_FRIEND, LaetitiaFriendEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(ALL_AROUND_HELPER, AllAroundHelperEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(TREE_SAP, TreeSapEntity.createAttributes());
     }
 }

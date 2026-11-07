@@ -257,6 +257,16 @@ public final class Employees {
             if (d.laetitiaHeart && p.tickCount % 20 == 0) {
                 p.level().sendParticles(ParticleTypes.CHERRY_LEAVES, p.getX(), p.getY() + 2.2, p.getZ(), 1, 0.2, 0.1, 0.2, 0);
             }
+            if (d.sapTicks > 0) {
+                d.sapTicks--;
+                if (d.sapTicks == 100) {
+                    p.level().sendParticles(ParticleTypes.FALLING_HONEY, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.4, 0.6, 0.4, 0.02);
+                    WorkManager.actionbar(p, Component.literal("몸속에서 무언가 끓어오른다…").withStyle(s -> s.withColor(0xFFC040)));
+                }
+                if (d.sapTicks == 0) {
+                    explodeSap(p);
+                }
+            }
             if (d.sleepTicks > 0) {
                 d.sleepTicks--;
                 p.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 10, false, false));
@@ -291,6 +301,24 @@ public final class Employees {
                 sync(p);
             }
         }
+    }
+
+    /** 거대한 나무 수액: 몸속의 수액이 터진다 */
+    private static void explodeSap(ServerPlayer p) {
+        ServerLevel sl = p.level();
+        sl.sendParticles(ParticleTypes.EXPLOSION_EMITTER, p.getX(), p.getY() + 1, p.getZ(), 1, 0, 0, 0, 0);
+        sl.sendParticles(ParticleTypes.DRIPPING_HONEY, p.getX(), p.getY() + 1, p.getZ(), 40, 0.6, 0.8, 0.6, 0.05);
+        sl.playSound(null, p.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.HOSTILE, 1.5f, 0.7f);
+        for (ServerPlayer o : sl.players()) {
+            if (o != p && o.distanceTo(p) <= 8) {
+                damageSp(o, 15);
+            }
+        }
+        Facility.broadcast(sl.getServer(), Component.literal("[관제] ").withStyle(s -> s.withColor(0xAA0000))
+                .append(p.getDisplayName())
+                .append(Component.literal(" 직원이 수액에 삼켜졌습니다.").withStyle(s -> s.withColor(0xFF5555))));
+        ToolState.sapChance = 0;
+        p.hurtServer(sl, sl.damageSources().magic(), 1000f);
     }
 
     public static Component statsText(EmployeeData d) {

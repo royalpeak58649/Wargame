@@ -30,6 +30,16 @@ public class WorkScreen extends Screen {
     protected void init() {
         panelX = (width - PW) / 2;
         panelY = (height - PH) / 2;
+        if (prof.isTool()) {
+            int tw = 160;
+            Button use = Button.builder(Component.literal("사용"), btn -> send(0))
+                    .bounds(panelX + (PW - tw) / 2, panelY + 112, tw, 20)
+                    .tooltip(Tooltip.create(Component.literal(prof.name())))
+                    .build();
+            use.active = !data.busy();
+            addRenderableWidget(use);
+            return;
+        }
         int bw = 68, gap = 6;
         int rowX = panelX + (PW - (bw * 4 + gap * 3)) / 2;
         int rowY = panelY + 112;
@@ -75,17 +85,22 @@ public class WorkScreen extends Screen {
         g.text(font, prof.risk(), x + 8 + codeW, y + 8, 0xFF000000 | prof.riskColor(), false);
         g.text(font, prof.name(), x + 8, y + 20, 0xFFF0E6C8, true);
 
-        String peLine = "추출 가능 PE " + data.pe() + "    최대 PE-BOX " + prof.maxBox()
-                + "    피해 " + prof.workDamage().label + " " + prof.dmgMin() + "~" + prof.dmgMax();
-        g.text(font, peLine, x + 8, y + 34, 0xFF55FFFF, false);
-        if (prof.canBreach()) {
-            int col = data.qliphoth() <= 0 ? 0xFFFF5555 : 0xFFFFAA00;
-            g.text(font, "클리포트 카운터 " + data.qliphoth() + " / " + prof.qliphothMax(), x + 8, y + 46, col, false);
+        if (prof.isTool()) {
+            g.text(font, "도구형 환상체", x + 8, y + 34, 0xFF55FFFF, false);
+            g.text(font, "작업도 PE-BOX도 없습니다. 직접 사용해 보십시오.", x + 8, y + 46, 0xFF777777, false);
         } else {
-            g.text(font, "클리포트 카운터 없음", x + 8, y + 46, 0xFF777777, false);
+            String peLine = "추출 가능 PE " + data.pe() + "    최대 PE-BOX " + prof.maxBox()
+                    + "    피해 " + prof.workDamage().label + " " + prof.dmgMin() + "~" + prof.dmgMax();
+            g.text(font, peLine, x + 8, y + 34, 0xFF55FFFF, false);
+            if (prof.canBreach()) {
+                int col = data.qliphoth() <= 0 ? 0xFFFF5555 : 0xFFFFAA00;
+                g.text(font, "클리포트 카운터 " + data.qliphoth() + " / " + prof.qliphothMax(), x + 8, y + 46, col, false);
+            } else {
+                g.text(font, "클리포트 카운터 없음", x + 8, y + 46, 0xFF777777, false);
+            }
+            g.text(font, "결과  좋음 " + prof.goodMin() + "~" + prof.maxBox() + "  /  보통 " + prof.normalMin() + "~" + (prof.goodMin() - 1)
+                    + "  /  나쁨 0~" + (prof.normalMin() - 1), x + 8, y + 58, 0xFFAAAAAA, false);
         }
-        g.text(font, "결과  좋음 " + prof.goodMin() + "~" + prof.maxBox() + "  /  보통 " + prof.normalMin() + "~" + (prof.goodMin() - 1)
-                + "  /  나쁨 0~" + (prof.normalMin() - 1), x + 8, y + 58, 0xFFAAAAAA, false);
         int ny = y + 72;
         for (String note : prof.notes()) {
             g.text(font, "· " + note, x + 8, ny, 0xFFCCCCCC, false);

@@ -62,6 +62,7 @@ public class LobCorp implements ModInitializer {
             Employees.get(newP).possessLabel = "";
             Employees.get(newP).possessHeal = false;
             Employees.get(newP).laetitiaHeart = false;
+            Employees.get(newP).sapTicks = 0;
             Employees.apply(newP);
             Employees.restoreSp(newP);
         });
@@ -81,6 +82,7 @@ public class LobCorp implements ModInitializer {
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && Employees.get(p).possessTicks > 0) {
                 Employees.release(p, "  홀림이 풀렸다.");
             }
+            kr.lobcorp.work.ToolState.onDeath(entity, source);
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, env) -> LobCorpCommands.register(dispatcher));

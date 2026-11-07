@@ -63,6 +63,10 @@ public final class WorkManager {
             actionbar(p, Component.literal("환상체와 너무 멀리 떨어져 있습니다.").withStyle(s -> s.withColor(0xFF5555)));
             return;
         }
+        if (a.profile().isTool()) {
+            if (action == 0) a.useTool(p);
+            return;
+        }
         if (action >= 0 && action <= 3) start(p, a, WorkType.byIndex(action));
         else if (action == 11 || action == 12) extractEgo(p, a, action == 11);
     }

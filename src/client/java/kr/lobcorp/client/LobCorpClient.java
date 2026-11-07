@@ -61,6 +61,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.LAETITIA_FRIEND, kr.lobcorp.client.render.NewAbnoRenderers.LaetitiaFriend::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.AllAroundHelperModel.LAYER, kr.lobcorp.client.model.AllAroundHelperModel::createLayer);
         EntityRendererRegistry.register(ModEntities.ALL_AROUND_HELPER, kr.lobcorp.client.render.NewAbnoRenderers.AllAroundHelper::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.TreeSapModel.LAYER, kr.lobcorp.client.model.TreeSapModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.TREE_SAP, kr.lobcorp.client.render.NewAbnoRenderers.TreeSap::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

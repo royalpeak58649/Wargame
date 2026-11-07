@@ -68,6 +68,9 @@ public abstract class AbnormalityEntity extends PathfinderMob {
         return true;
     }
 
+    /** 도구형 환상체를 사용했을 때 (작업 대신) */
+    public void useTool(ServerPlayer p) {}
+
     public void onWorkStart(ServerPlayer worker, WorkType type) {}
 
     public void onWorkFinished(ServerPlayer worker, WorkManager.Result result, WorkSession session) {}

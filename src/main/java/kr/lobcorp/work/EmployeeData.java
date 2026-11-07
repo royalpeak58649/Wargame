@@ -33,6 +33,8 @@ public class EmployeeData {
     public boolean possessHeal = false;
     /** 라티샤의 선물을 지니고 있는가 (저장 안 함) */
     public boolean laetitiaHeart = false;
+    /** 거대한 나무 수액을 마셔 몸속에서 터질 때까지 남은 틱 (저장 안 함) */
+    public int sapTicks = 0;
     public Set<String> gifts = new HashSet<>();
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(

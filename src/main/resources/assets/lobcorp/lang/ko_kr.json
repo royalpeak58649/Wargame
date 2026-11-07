@@ -62,5 +62,6 @@
   "item.lobcorp.laetitia": "라티샤",
   "item.lobcorp.laetitia_suit": "라티샤 (방호복)",
   "item.lobcorp.grinder": "그라인더 Mk4",
-  "item.lobcorp.grinder_suit": "그라인더 Mk4 (방호복)"
+  "item.lobcorp.grinder_suit": "그라인더 Mk4 (방호복)",
+  "entity.lobcorp.tree_sap": "거대한 나무 수액"
 }

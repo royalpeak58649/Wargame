@@ -338,6 +338,21 @@ public record AbnoProfile(
                     "돌진이 끝나면 동력이 떨어져 한동안 멈춰 선다. 그때가 공격할 기회다."
             ));
 
+    public static final AbnoProfile TREE_SAP = new AbnoProfile(
+            "tree_sap", "거대한 나무 수액", "T-09-80", "HE", 0xFFAA00,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "도구형 환상체. 작업도, PE-BOX도, E.G.O도 없다.",
+                    "국자로 수액을 떠서 마시면 HP가 모두 회복되고 한동안 재생된다.",
+                    "마실 때마다 항아리가 터질 확률이 15%씩 오른다 (최대 60%). 터지면 20초 뒤 마신 직원이 터지고, 주변 8블록의 직원이 정신 피해를 입는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -359,11 +374,17 @@ public record AbnoProfile(
             Map.entry(SINGING_MACHINE.id, SINGING_MACHINE),
             Map.entry(PORCCUBUS.id, PORCCUBUS),
             Map.entry(LAETITIA.id, LAETITIA),
-            Map.entry(HELPER.id, HELPER)
+            Map.entry(HELPER.id, HELPER),
+            Map.entry(TREE_SAP.id, TREE_SAP)
     );
 
     public boolean canBreach() {
         return qliphothMax > 0;
+    }
+
+    /** 도구형 환상체: 작업도 PE-BOX도 없다 */
+    public boolean isTool() {
+        return maxBox == 0;
     }
 
     public float resistTo(DamageColor c) {

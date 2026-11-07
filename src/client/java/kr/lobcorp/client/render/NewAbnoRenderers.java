@@ -20,6 +20,7 @@ import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.SingingMachineModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
+import kr.lobcorp.client.model.TreeSapModel;
 import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
@@ -40,6 +41,7 @@ import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
+import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -510,6 +512,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(AllAroundHelperModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class TreeSap extends MobRenderer<TreeSapEntity, LivingEntityRenderState, TreeSapModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/tree_sap.png");
+
+        public TreeSap(EntityRendererProvider.Context ctx) {
+            super(ctx, new TreeSapModel(ctx.bakeLayer(TreeSapModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(TreeSapEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
             return TEX;
         }
     }

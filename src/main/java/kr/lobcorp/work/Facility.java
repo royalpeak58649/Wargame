@@ -40,6 +40,7 @@ public final class Facility {
     }
 
     public static void nextDay(MinecraftServer server) {
+        ToolState.nextDay(server);
         FacilityData f = get(server);
         f.day++;
         f.energy = 0;

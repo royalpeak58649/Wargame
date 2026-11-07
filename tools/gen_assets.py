@@ -2573,4 +2573,97 @@ all_around_helper()
 print("assets helper ok")
 
 
-merge_lang({}, {})
+# ═════════════ 19차: 거대한 나무 수액 (T-09-80) ═════════════
+def tree_sap():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    clay = hexc("#a0603a")
+    clay_hi = hexc("#b87448")
+    clay_dark = hexc("#7a4428")
+    band = hexc("#5e3218")
+    amber = hexc("#e09a20")
+    amber_hi = hexc("#ffc44a")
+    amber_dark = hexc("#a86a10")
+    wood = hexc("#8a6a3a")
+    wood_dark = hexc("#5e4622")
+
+    # 받침 (u0 v0, 8x2x8)
+    b = box(img, 0, 0, 8, 2, 8, clay, 8, top=clay_hi)
+    bx, by = b["front"]
+    for x in range(8):
+        px(img, bx + x, by + 1, clay_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(2):
+            for x in range(0, 8, 3):
+                px(img, sx + x, sy + y, clay_dark)
+
+    # 배 (u0 v10, 10x8x10)
+    be = box(img, 0, 10, 10, 8, 10, clay, 8, top=clay_hi)
+    bex, bey = be["front"]
+    # 점토 띠: 가로 두 줄
+    for x in range(10):
+        px(img, bex + x, bey + 2, band)
+        px(img, bex + x, bey + 6, band)
+    # 세로 균열
+    for y in range(8):
+        if y % 3 != 0:
+            px(img, bex + 4, bey + y, clay_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = be[side]
+        for x in range(10):
+            px(img, sx + x, sy + 2, band)
+            px(img, sx + x, sy + 6, band)
+        for y in range(8):
+            if y % 3 != 0:
+                px(img, sx + 5, sy + y, clay_dark)
+
+    # 목 (u0 v28, 6x3x6)
+    n = box(img, 0, 28, 6, 3, 6, clay, 8, top=clay_hi)
+    nx, ny = n["front"]
+    for x in range(6):
+        px(img, nx + x, ny + 2, band)
+    for side in ("right", "left", "back"):
+        sx, sy = n[side]
+        for x in range(6):
+            px(img, sx + x, sy + 2, band)
+
+    # 수액 표면 (u0 v38, 5x1x5)
+    s = box(img, 0, 38, 5, 1, 5, amber, 6, top=amber_hi)
+    sx, sy = s["front"]
+    for x in range(5):
+        px(img, sx + x, sy, amber_hi if x % 2 == 0 else amber_dark)
+    tx, ty = s["top"]
+    for x in range(5):
+        for y in range(5):
+            if (x + y) % 3 == 0:
+                px(img, tx + x, ty + y, amber_hi)
+            elif (x * 2 + y) % 5 == 0:
+                px(img, tx + x, ty + y, amber_dark)
+
+    # 국자 자루 (u24 v38, 1x8x1)
+    h = box(img, 24, 38, 1, 8, 1, wood, 6)
+    hx, hy = h["front"]
+    for y in range(8):
+        px(img, hx, hy + y, wood_dark if y % 2 == 0 else wood)
+
+    # 국자 오목한 부분 (u30 v38, 2x1x2)
+    bw = box(img, 30, 38, 2, 1, 2, wood, 6, top=hexc("#a88a5a"))
+    bwx, bwy = bw["front"]
+    px(img, bwx, bwy, wood_dark)
+    px(img, bwx + 1, bwy, wood_dark)
+    tx2, ty2 = bw["top"]
+    for x in range(2):
+        for y in range(2):
+            px(img, tx2 + x, ty2 + y, amber_dark if (x + y) % 2 == 0 else amber)
+
+    save(img, "textures/entity/tree_sap.png")
+
+
+tree_sap()
+print("assets sap ok")
+
+merge_lang({
+    "entity.lobcorp.tree_sap": "거대한 나무 수액",
+}, {
+    "entity.lobcorp.tree_sap": "Giant Tree Sap",
+})
