@@ -398,6 +398,21 @@ public record AbnoProfile(
                     "얼어붙은 직원은 하루가 끝날 때까지 구출되지 않으면 죽는다. 얼어붙은 이가 있는 동안 누군가 그녀와 작업을 시작하면, 그 직원은 대신 결투를 벌인다."
             ));
 
+    public static final AbnoProfile WOODSMAN = new AbnoProfile(
+            "woodsman", "따뜻한 마음의 나무꾼", "F-05-32", "HE", 0xFFAA00,
+            new int[]{45, 45, 50, 45}, 18, 15, 9,
+            DamageColor.WHITE, 3, 5,
+            1,
+            () -> ModItems.LOGGING, 40,
+            () -> ModItems.LOGGING_SUIT, 30,
+            "logging", "벌목", "최대 HP +2, 작업 성공률 +2%, 작업 속도 +2%", 4,
+            new float[]{1.5f, 0.8f, 0.8f, 1.0f},
+            List.of(
+                    "주석으로 된 몸을 가진 나무꾼. 가슴에는 심장이 들어갈 자리가 비어 있다.",
+                    "작업 결과가 나쁨이거나, 자제 II등급(30 이상)인 직원이 작업을 마치면 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되어도 스스로 탈출하지 않는다. 다음에 격리실에 들어온 직원을 베어 버린 뒤에야 문을 연다."
+            ));
+
     public static final AbnoProfile TREE_SAP = new AbnoProfile(
             "tree_sap", "거대한 나무 수액", "T-09-80", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -484,6 +499,7 @@ public record AbnoProfile(
             Map.entry(FREISCHUTZ.id, FREISCHUTZ),
             Map.entry(FETUS.id, FETUS),
             Map.entry(SNOW_QUEEN.id, SNOW_QUEEN),
+            Map.entry(WOODSMAN.id, WOODSMAN),
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),

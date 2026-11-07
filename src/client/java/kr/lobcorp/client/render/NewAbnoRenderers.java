@@ -29,6 +29,7 @@ import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.TreeSapModel;
 import kr.lobcorp.client.model.VoidDreamModel;
+import kr.lobcorp.client.model.WoodsmanModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
@@ -57,6 +58,7 @@ import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
+import kr.lobcorp.entity.WoodsmanEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -714,6 +716,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class Woodsman extends MobRenderer<WoodsmanEntity, WoodsmanModel.State, WoodsmanModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/woodsman.png");
+
+        public Woodsman(EntityRendererProvider.Context ctx) {
+            super(ctx, new WoodsmanModel(ctx.bakeLayer(WoodsmanModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public WoodsmanModel.State createRenderState() {
+            return new WoodsmanModel.State();
+        }
+
+        @Override
+        public void extractRenderState(WoodsmanEntity e, WoodsmanModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.swing = e.swingTicks > 0 ? (e.swingTicks - pt) / 12f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(WoodsmanModel.State s) {
             return TEX;
         }
     }

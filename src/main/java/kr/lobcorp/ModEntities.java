@@ -30,6 +30,7 @@ import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
+import kr.lobcorp.entity.WoodsmanEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -72,6 +73,7 @@ public final class ModEntities {
     public static EntityType<FreischutzEntity> FREISCHUTZ;
     public static EntityType<FetusEntity> NAMELESS_FETUS;
     public static EntityType<SnowQueenEntity> SNOW_QUEEN;
+    public static EntityType<WoodsmanEntity> WOODSMAN;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -141,6 +143,8 @@ public final class ModEntities {
                 .sized(1.6f, 1.2f).clientTrackingRange(10));
         SNOW_QUEEN = register("snow_queen", EntityType.Builder.of(SnowQueenEntity::new, MobCategory.MISC)
                 .sized(0.8f, 2.2f).clientTrackingRange(10));
+        WOODSMAN = register("woodsman", EntityType.Builder.of(WoodsmanEntity::new, MobCategory.MISC)
+                .sized(0.9f, 2.0f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -172,5 +176,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(FREISCHUTZ, FreischutzEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(NAMELESS_FETUS, FetusEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SNOW_QUEEN, SnowQueenEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(WOODSMAN, WoodsmanEntity.createAttributes());
     }
 }

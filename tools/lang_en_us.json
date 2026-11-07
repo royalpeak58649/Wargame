@@ -76,5 +76,8 @@
   "item.lobcorp.syrinx_suit": "Syrinx Garb",
   "entity.lobcorp.snow_queen": "The Snow Queen",
   "item.lobcorp.frost_splinter": "Frost Splinter",
-  "item.lobcorp.frost_splinter_suit": "Frost Splinter Garb"
+  "item.lobcorp.frost_splinter_suit": "Frost Splinter Garb",
+  "entity.lobcorp.woodsman": "Warm-Hearted Woodsman",
+  "item.lobcorp.logging": "Logging",
+  "item.lobcorp.logging_suit": "Logging Garb"
 }

@@ -3641,3 +3641,185 @@ merge_lang({
     "item.lobcorp.syrinx": "Syrinx",
     "item.lobcorp.syrinx_suit": "Syrinx Garb",
 })
+
+
+# ═════════════ 27차: 따뜻한 마음의 나무꾼 (F-05-32) ═════════════
+def woodsman():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    tin = hexc("#a8acae")
+    tin_hi = hexc("#c0c4c6")
+    tin_dark = hexc("#7a7e82")
+    rust = hexc("#8a5a3a")
+    rust_dark = hexc("#5e3a22")
+    hollow = hexc("#141212")
+    hollow_hi = hexc("#2a2422")
+    steel = hexc("#7a7e82")
+    steel_hi = hexc("#9aa0a4")
+    steel_dark = hexc("#4a4e52")
+    wood = hexc("#6b4a2a")
+    wood_dark = hexc("#4a3220")
+    eye = hexc("#e8a030")
+
+    # 몸통 (u0 v0, 8x9x5)
+    b = box(img, 0, 0, 8, 9, 5, tin, 6, top=tin_hi)
+    bx, by = b["front"]
+    # 녹슨 얼룩
+    for (x, y) in [(0, 1), (1, 1), (0, 2), (6, 4), (7, 4), (6, 5), (2, 7), (3, 7), (7, 0)]:
+        px(img, bx + x, by + y, rust)
+    for (x, y) in [(1, 2), (6, 6), (2, 8)]:
+        px(img, bx + x, by + y, rust_dark)
+    # 가슴의 빈자리: 어두운 구멍 + 안쪽 그늘
+    rect(img, bx + 2, by + 2, 3, 3, hollow, 2)
+    px(img, bx + 2, by + 2, hollow_hi)
+    px(img, bx + 4, by + 4, hollow_hi)
+    # 이음매
+    for x in range(8):
+        px(img, bx + x, by + 8, tin_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(9):
+            if y % 3 == 0:
+                px(img, sx + 1, sy + y, tin_dark)
+        for (x, y) in [(0, 2), (3, 6)]:
+            px(img, sx + x, sy + y, rust)
+        for x in range(5):
+            px(img, sx + x, sy + 8, tin_dark)
+
+    # 머리 (u0 v16, 6x7x6)
+    h = box(img, 0, 16, 6, 7, 6, tin, 6, top=tin_hi)
+    hx, hy = h["front"]
+    # 깔때기 모자 그늘
+    for x in range(6):
+        px(img, hx + x, hy, tin_dark)
+    # 눈: 작고 노란 점
+    px(img, hx + 1, hy + 2, eye)
+    px(img, hx + 4, hy + 2, eye)
+    px(img, hx + 1, hy + 3, hexc("#8a5a10"))
+    px(img, hx + 4, hy + 3, hexc("#8a5a10"))
+    # 입: 가로로 난 틈
+    for x in range(2, 4):
+        px(img, hx + x, hy + 5, hollow)
+    # 볼의 녹
+    px(img, hx, hy + 4, rust)
+    px(img, hx + 5, hy + 4, rust)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(7):
+            if y % 3 == 0:
+                px(img, sx + 2, sy + y, tin_dark)
+        px(img, sx + 1, sy + 4, rust)
+
+    # 깔때기 챙 (u28 v16, 4x1x4)
+    br = box(img, 28, 16, 4, 1, 4, tin, 6, top=tin_hi)
+    brx, bry = br["front"]
+    for x in range(4):
+        px(img, brx + x, bry, tin_dark)
+    # 깔때기 꼭대기 (u28 v22, 2x3x2)
+    tp = box(img, 28, 22, 2, 3, 2, tin, 6, top=tin_hi)
+    tpx, tpy = tp["front"]
+    for y in range(3):
+        px(img, tpx, tpy + y, tin_dark)
+    for x in range(2):
+        px(img, tpx + x, tpy, tin_hi)
+
+    # 팔 (u24 v0, 3x9x3)
+    a = box(img, 24, 0, 3, 9, 3, tin, 6, top=tin_hi)
+    ax, ay = a["front"]
+    for y in range(9):
+        px(img, ax + 1, ay + y, tin_dark if y % 3 == 0 else tin)
+    for (x, y) in [(0, 2), (2, 5)]:
+        px(img, ax + x, ay + y, rust)
+    for x in range(3):
+        px(img, ax + x, ay + 8, tin_dark)
+
+    # 다리 (u36 v0, 3x10x3)
+    l = box(img, 36, 0, 3, 10, 3, tin, 6, top=tin_hi)
+    lx, ly = l["front"]
+    for y in range(10):
+        px(img, lx + 1, ly + y, tin_dark if y % 4 == 0 else tin)
+    for (x, y) in [(0, 3), (2, 7)]:
+        px(img, lx + x, ly + y, rust)
+    for x in range(3):
+        px(img, lx + x, ly + 9, hexc("#3a3a3e"))
+
+    # 도끼 자루 (u0 v32, 1x16x1)
+    hd = box(img, 0, 32, 1, 16, 1, wood, 6)
+    hdx, hdy = hd["front"]
+    for y in range(16):
+        px(img, hdx, hdy + y, wood_dark if y % 4 == 0 else wood)
+
+    # 도끼날 (u8 v32, 5x4x1)
+    bl = box(img, 8, 32, 5, 4, 1, steel, 6, top=steel_hi)
+    blx, bly = bl["front"]
+    # 날: 왼쪽으로 갈수록 밝은 날카로운 선
+    for y in range(4):
+        px(img, blx, bly + y, hexc("#e8eef2"))
+        px(img, blx + 1, bly + y, steel_hi)
+        px(img, blx + 4, bly + y, steel_dark)
+    for x in range(5):
+        px(img, blx + x, bly + 3, steel_dark)
+    # 날의 녹
+    px(img, blx + 3, bly + 1, rust)
+    px(img, blx + 2, bly + 2, rust_dark)
+
+    save(img, "textures/entity/woodsman.png")
+
+
+LG = {"t": "#a8acae", "h": "#c0c4c6", "d": "#7a7e82", "r": "#8a5a3a", "k": "#141212", "w": "#6b4a2a"}
+icon([
+    "................",
+    "..............tt",
+    ".............tt.",
+    "............tt..",
+    "...........tt...",
+    "..........tt....",
+    ".........tt.....",
+    "........tt......",
+    ".......tt.......",
+    "......tt........",
+    ".....tt.........",
+    "....ww..........",
+    "...ww...........",
+    "..rr............",
+    "..r.............",
+    "................",
+], LG, "textures/item/logging.png")
+icon([
+    "................",
+    "...tt......tt...",
+    "..tttt....tttt..",
+    "..tttttttttttt..",
+    "...tttttttttt...",
+    "....ttkkkktt....",
+    "....ttkkkktt....",
+    "....ttkkkktt....",
+    "....ttkkkktt....",
+    "....tttttttt....",
+    "....ttrrrrtt....",
+    "....tttttttt....",
+    "....tttttttt....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], LG, "textures/item/logging_suit.png")
+
+armor(hexc("#a8acae"), "#7a7e82", "#8a5a3a", "textures/entity/equipment/humanoid/logging.png")
+
+for item, parent in [("logging", "minecraft:item/handheld"), ("logging_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/logging.json", {"layers": {"humanoid": [{"texture": "lobcorp:logging"}]}})
+
+
+woodsman()
+print("assets woodsman ok")
+
+merge_lang({
+    "entity.lobcorp.woodsman": "따뜻한 마음의 나무꾼",
+    "item.lobcorp.logging": "벌목",
+    "item.lobcorp.logging_suit": "벌목의 옷",
+}, {
+    "entity.lobcorp.woodsman": "Warm-Hearted Woodsman",
+    "item.lobcorp.logging": "Logging",
+    "item.lobcorp.logging_suit": "Logging Garb",
+})
