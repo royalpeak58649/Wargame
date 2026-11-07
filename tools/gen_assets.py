@@ -3095,3 +3095,227 @@ wjson("lang/en_us.json", {
 
 singing_machine()
 print("assets machine ok")
+
+
+# ═════════════ 16차: 포큐버스 (O-02-98) ═════════════
+def porccubus():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    stem = hexc("#3f8f3a")
+    stem_dark = hexc("#2a6a28")
+    stem_hi = hexc("#5ab04a")
+    spine = hexc("#e8e09a")
+    petal = hexc("#c8102e")
+    petal_dark = hexc("#8a0a20")
+    center = hexc("#f2c400")
+    center_hi = hexc("#ffe36a")
+    black = hexc("#0a0a0a")
+
+    # 줄기 다섯 마디 (u0 v0 / v6 / v12 / v18 / v24, 각 3x6x3)
+    for i in range(5):
+        s = box(img, 0, i * 6, 3, 6, 3, stem, 8, top=stem_hi)
+        sx, sy = s["front"]
+        # 세로 결
+        for y in range(6):
+            px(img, sx + 1, sy + y, stem_dark)
+        # 가시: 노란 점
+        for (x, y) in [(0, 1), (2, 2), (0, 4), (2, 5)]:
+            px(img, sx + x, sy + y, spine)
+        # 옆면 가시
+        for side in ("right", "left", "back"):
+            ox, oy = s[side]
+            for y in range(0, 6, 2):
+                px(img, ox + 1, oy + y, spine)
+        # 마디 경계
+        for x in range(3):
+            px(img, sx + x, sy + 5, stem_dark)
+
+    # 꽃 중심 (u24 v0, 4x4x2)
+    c = box(img, 24, 0, 4, 4, 2, center, 6, top=center_hi)
+    cx, cy = c["front"]
+    px(img, cx + 1, cy + 1, center_hi)
+    px(img, cx + 2, cy + 2, hexc("#c09a00"))
+    # 작고 동그란 검은 눈 두 개
+    px(img, cx + 1, cy + 2, black)
+    px(img, cx + 2, cy + 2, black)
+
+    # 꽃잎 네 장 (u24 v8, 4x1x4 / 1x4x4)
+    for u, v, w, h, d in ((24, 8, 4, 1, 4), (24, 8, 4, 1, 4), (24, 8, 1, 4, 4), (24, 8, 1, 4, 4)):
+        p = box(img, u, v, w, h, d, petal, 8, top=hexc("#e02a44"))
+        px_, py_ = p["front"]
+        for x in range(w):
+            for y in range(h):
+                if (x + y) % 3 == 0:
+                    px(img, px_ + x, py_ + y, petal_dark)
+
+    # 눈 픽셀용 여분 (u40 v0, 1x1x1)
+    e = box(img, 40, 0, 1, 1, 1, black, 0)
+
+    save(img, "textures/entity/porccubus.png")
+
+
+PL = {"g": "#3f8f3a", "d": "#2a6a28", "s": "#e8e09a", "r": "#c8102e", "y": "#f2c400", "k": "#0a0a0a"}
+icon([
+    "................",
+    "..............gg",
+    ".............gg.",
+    "............gg..",
+    "...........gg...",
+    "..........gg....",
+    ".........gg.....",
+    "........gg......",
+    ".......gg.......",
+    "......gg........",
+    ".....gg.........",
+    "....gg..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], PL, "textures/item/pleasure.png")
+icon([
+    "................",
+    "...gg......gg...",
+    "..gggg....gggg..",
+    "..gggggggggggg..",
+    "...gggggggggg...",
+    "....ggrrrrgg....",
+    "....ggrrrrgg....",
+    "....ggrrrrgg....",
+    "....ggrrrrgg....",
+    "....gggggggg....",
+    "....ggyyyygg....",
+    "....gggggggg....",
+    "....gggggggg....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], PL, "textures/item/pleasure_suit.png")
+
+armor(hexc("#3f8f3a"), "#2a6a28", "#e8e09a", "textures/entity/equipment/humanoid/pleasure.png")
+
+for item, parent in [("pleasure", "minecraft:item/handheld"), ("pleasure_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/pleasure.json", {"layers": {"humanoid": [{"texture": "lobcorp:pleasure"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
+    "entity.lobcorp.old_lady": "늙은 여인",
+    "entity.lobcorp.spider_bud": "거미 봉오리",
+    "entity.lobcorp.void_dream": "공허한 꿈",
+    "entity.lobcorp.beauty_and_the_beast": "미녀와 야수",
+    "entity.lobcorp.meat_lantern": "고기 등불",
+    "entity.lobcorp.fragment_of_universe": "우주의 파편",
+    "entity.lobcorp.mhz": "1.76 MHz",
+    "entity.lobcorp.red_shoes": "붉은 구두",
+    "entity.lobcorp.singing_machine": "노래하는 기계",
+    "entity.lobcorp.porccubus": "포큐버스",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+    "item.lobcorp.daredevil": "만용",
+    "item.lobcorp.daredevil_suit": "만용 (방어구)",
+    "item.lobcorp.solitude": "고독",
+    "item.lobcorp.solitude_suit": "고독 (방어구)",
+    "item.lobcorp.red_eyes": "붉은 눈",
+    "item.lobcorp.red_eyes_suit": "붉은 눈 (방어구)",
+    "item.lobcorp.engulfing_dream": "집어삼키는 꿈",
+    "item.lobcorp.engulfing_dream_suit": "집어삼키는 꿈 (방어구)",
+    "item.lobcorp.horn": "뿔",
+    "item.lobcorp.horn_suit": "뿔 (방호복)",
+    "item.lobcorp.lantern": "등불",
+    "item.lobcorp.lantern_suit": "등불 (방호복)",
+    "item.lobcorp.fragments": "어딘가의 파편",
+    "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)",
+    "item.lobcorp.noise": "잡음",
+    "item.lobcorp.noise_suit": "잡음 (방호복)",
+    "item.lobcorp.sanguine_desire": "선혈의 욕망",
+    "item.lobcorp.sanguine_desire_suit": "선혈의 욕망 (방호복)",
+    "item.lobcorp.harmony": "화음",
+    "item.lobcorp.harmony_suit": "화음 (방호복)",
+    "item.lobcorp.pleasure": "쾌락",
+    "item.lobcorp.pleasure_suit": "쾌락 (방호복)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "entity.lobcorp.crumbling_armor": "Crumbling Armor",
+    "entity.lobcorp.old_lady": "Old Lady",
+    "entity.lobcorp.spider_bud": "Spider Bud",
+    "entity.lobcorp.void_dream": "Void Dream",
+    "entity.lobcorp.beauty_and_the_beast": "Beauty and the Beast",
+    "entity.lobcorp.meat_lantern": "Meat Lantern",
+    "entity.lobcorp.fragment_of_universe": "Fragment of the Universe",
+    "entity.lobcorp.mhz": "1.76 MHz",
+    "entity.lobcorp.red_shoes": "Red Shoes",
+    "entity.lobcorp.singing_machine": "Singing Machine",
+    "entity.lobcorp.porccubus": "Porccubus",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+    "item.lobcorp.daredevil": "Daredevil",
+    "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
+    "item.lobcorp.solitude": "Solitude",
+    "item.lobcorp.solitude_suit": "Solitude (Suit)",
+    "item.lobcorp.red_eyes": "Red Eyes",
+    "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)",
+    "item.lobcorp.engulfing_dream": "Engulfing Dream",
+    "item.lobcorp.engulfing_dream_suit": "Engulfing Dream (Suit)",
+    "item.lobcorp.horn": "Horn",
+    "item.lobcorp.horn_suit": "Horn Suit",
+    "item.lobcorp.lantern": "Lantern",
+    "item.lobcorp.lantern_suit": "Lantern Suit",
+    "item.lobcorp.fragments": "Fragments from Somewhere",
+    "item.lobcorp.fragments_suit": "Fragments from Somewhere (Suit)",
+    "item.lobcorp.noise": "Noise",
+    "item.lobcorp.noise_suit": "Noise Suit",
+    "item.lobcorp.sanguine_desire": "Sanguine Desire",
+    "item.lobcorp.sanguine_desire_suit": "Sanguine Desire (Suit)",
+    "item.lobcorp.harmony": "Harmony",
+    "item.lobcorp.harmony_suit": "Harmony (Suit)",
+    "item.lobcorp.pleasure": "Pleasure",
+    "item.lobcorp.pleasure_suit": "Pleasure (Suit)",
+})
+
+porccubus()
+print("assets porccubus ok")

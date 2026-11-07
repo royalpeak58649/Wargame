@@ -10,6 +10,7 @@ import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.OldLadyModel;
+import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
@@ -26,6 +27,7 @@ import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.OldLadyEntity;
+import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
@@ -407,6 +409,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(SingingMachineModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Porccubus extends MobRenderer<PorccubusEntity, PorccubusModel.State, PorccubusModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/porccubus.png");
+
+        public Porccubus(EntityRendererProvider.Context ctx) {
+            super(ctx, new PorccubusModel(ctx.bakeLayer(PorccubusModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public PorccubusModel.State createRenderState() {
+            return new PorccubusModel.State();
+        }
+
+        @Override
+        public void extractRenderState(PorccubusEntity e, PorccubusModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+        }
+
+        @Override
+        public Identifier getTextureLocation(PorccubusModel.State s) {
             return TEX;
         }
     }

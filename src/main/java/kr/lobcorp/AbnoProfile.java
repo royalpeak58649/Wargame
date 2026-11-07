@@ -293,6 +293,21 @@ public record AbnoProfile(
                     "자제 III 미만이거나 용기 IV 이상인 직원도 작업을 마치면 기계 속으로 빨려 든다. 누군가 갈릴 때마다 아름다운 연주가 흘러나와, 다른 직원 한 명이 음악에 홀린다."
             ));
 
+    public static final AbnoProfile PORCCUBUS = new AbnoProfile(
+            "porccubus", "포큐버스", "O-02-98", "HE", 0xFFAA00,
+            new int[]{60, 40, 50, 30}, 18, 15, 9,
+            DamageColor.BLACK, 1, 5,
+            2,
+            () -> ModItems.PLEASURE, 45,
+            () -> ModItems.PLEASURE_SUIT, 30,
+            "pleasure", "쾌락", "최대 SP +10, 성공률 -6%, 작업 속도 -6%", 4,
+            new float[]{1.0f, 0.5f, 1.0f, 1.5f},
+            List.of(
+                    "작업 결과가 좋음이면 클리포트 카운터가 1 회복된다 (최대 2). 나쁨이면 1 감소한다.",
+                    "자제 IV 미만인 직원이 좋음 결과를 내면, 그 쾌락을 견디지 못하고 격리실에서 죽는다.",
+                    "탈출하면 시설 어딘가에 숨어 있다가 다가오는 직원을 덮친다. 가시에 찔린 직원은 자제가 낮을수록 더 큰 정신 피해를 입고, 패닉에 빠지면 머리가 터진다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -311,7 +326,8 @@ public record AbnoProfile(
             Map.entry(FRAGMENT.id, FRAGMENT),
             Map.entry(MHZ.id, MHZ),
             Map.entry(RED_SHOES.id, RED_SHOES),
-            Map.entry(SINGING_MACHINE.id, SINGING_MACHINE)
+            Map.entry(SINGING_MACHINE.id, SINGING_MACHINE),
+            Map.entry(PORCCUBUS.id, PORCCUBUS)
     );
 
     public boolean canBreach() {

@@ -44,7 +44,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("fragment_of_universe").executes(c -> build(c, ModEntities.FRAGMENT, false)))
                         .then(Commands.literal("mhz").executes(c -> build(c, ModEntities.MHZ, false)))
                         .then(Commands.literal("red_shoes").executes(c -> build(c, ModEntities.RED_SHOES, false)))
-                        .then(Commands.literal("singing_machine").executes(c -> build(c, ModEntities.SINGING_MACHINE, false))))
+                        .then(Commands.literal("singing_machine").executes(c -> build(c, ModEntities.SINGING_MACHINE, false)))
+                        .then(Commands.literal("porccubus").executes(c -> build(c, ModEntities.PORCCUBUS, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

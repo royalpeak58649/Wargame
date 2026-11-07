@@ -17,6 +17,7 @@
   "entity.lobcorp.mhz": "1.76 MHz",
   "entity.lobcorp.red_shoes": "Red Shoes",
   "entity.lobcorp.singing_machine": "Singing Machine",
+  "entity.lobcorp.porccubus": "Porccubus",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -52,5 +53,7 @@
   "item.lobcorp.sanguine_desire": "Sanguine Desire",
   "item.lobcorp.sanguine_desire_suit": "Sanguine Desire (Suit)",
   "item.lobcorp.harmony": "Harmony",
-  "item.lobcorp.harmony_suit": "Harmony (Suit)"
+  "item.lobcorp.harmony_suit": "Harmony (Suit)",
+  "item.lobcorp.pleasure": "Pleasure",
+  "item.lobcorp.pleasure_suit": "Pleasure (Suit)"
 }

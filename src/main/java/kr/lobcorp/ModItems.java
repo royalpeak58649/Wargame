@@ -46,6 +46,7 @@ public final class ModItems {
     public static final ArmorMaterial NOISE_MAT = material("noise", 5);
     public static final ArmorMaterial SANGUINE_DESIRE_MAT = material("sanguine_desire", 6);
     public static final ArmorMaterial HARMONY_MAT = material("harmony", 6);
+    public static final ArmorMaterial PLEASURE_MAT = material("pleasure", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -83,6 +84,8 @@ public final class ModItems {
     public static Item SANGUINE_DESIRE_SUIT;
     public static Item HARMONY;
     public static Item HARMONY_SUIT;
+    public static Item PLEASURE;
+    public static Item PLEASURE_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -216,6 +219,10 @@ public final class ModItems {
                 "O-05-30 · HE", "WHITE 피해 대형 둔기, 매우 느리고 묵직함", "휘두를 때마다 나무 상자 속에서 낮은 화음이 새어 나온다.");
         HARMONY_SUIT = suit("harmony_suit", HARMONY_MAT,
                 "O-05-30 · HE", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+        PLEASURE = weapon("pleasure", DamageColor.BLACK, 3.0, -1.8,
+                "O-02-98 · HE", "BLACK 피해 채찍, 빠른 연타", "가시 돋친 초록 줄기. 휘두를 때마다 손끝이 저릿하다.");
+        PLEASURE_SUIT = suit("pleasure_suit", PLEASURE_MAT,
+                "O-02-98 · HE", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -225,6 +232,6 @@ public final class ModItems {
                 DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT, RED_EYES, RED_EYES_SUIT,
                 ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
                 FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT, SANGUINE_DESIRE, SANGUINE_DESIRE_SUIT,
-                HARMONY, HARMONY_SUIT);
+                HARMONY, HARMONY_SUIT, PLEASURE, PLEASURE_SUIT);
     }
 }

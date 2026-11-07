@@ -17,6 +17,7 @@
   "entity.lobcorp.mhz": "1.76 MHz",
   "entity.lobcorp.red_shoes": "붉은 구두",
   "entity.lobcorp.singing_machine": "노래하는 기계",
+  "entity.lobcorp.porccubus": "포큐버스",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -52,5 +53,7 @@
   "item.lobcorp.sanguine_desire": "선혈의 욕망",
   "item.lobcorp.sanguine_desire_suit": "선혈의 욕망 (방호복)",
   "item.lobcorp.harmony": "화음",
-  "item.lobcorp.harmony_suit": "화음 (방호복)"
+  "item.lobcorp.harmony_suit": "화음 (방호복)",
+  "item.lobcorp.pleasure": "쾌락",
+  "item.lobcorp.pleasure_suit": "쾌락 (방호복)"
 }
