@@ -40,6 +40,10 @@ public final class LobCorpHud {
         }
         if (ClientState.heart()) {
             g.text(font, "♥ 라티샤의 선물 · 다른 환상체 작업 시 위험", x, line, 0xFFFF9AD0, true);
+            line += 10;
+        }
+        if (ClientState.sheltered()) {
+            g.text(font, "대피소 안 · 피해 무효", x, line, 0xFF7CFFE0, true);
         }
 
         // ── 작업 진행 ──

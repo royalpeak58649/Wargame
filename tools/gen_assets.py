@@ -2667,3 +2667,92 @@ merge_lang({
 }, {
     "entity.lobcorp.tree_sap": "Giant Tree Sap",
 })
+
+
+# ═════════════ 20차: 3월 27일의 대피소 (T-09-82) ═════════════
+def shelter():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    concrete = hexc("#8a8a8a")
+    concrete_hi = hexc("#9a9a9a")
+    concrete_dark = hexc("#6a6a6a")
+    steel = hexc("#5a6066")
+    steel_hi = hexc("#6e757c")
+    steel_dark = hexc("#3a4046")
+    hazard_y = hexc("#e8c020")
+    hazard_k = hexc("#1a1a1a")
+    bar = hexc("#8a9096")
+    bar_dark = hexc("#5a6066")
+    bulb = hexc("#c8a840")
+    bulb_hi = hexc("#e8d070")
+    bulb_dark = hexc("#8a7020")
+
+    # 바닥 테두리 (u0 v0, 14x1x14)
+    f = box(img, 0, 0, 14, 1, 14, concrete, 6, top=concrete_hi)
+    fx, fy = f["front"]
+    for x in range(14):
+        px(img, fx + x, fy, concrete_dark)
+    tx, ty = f["top"]
+    for x in range(14):
+        for y in range(14):
+            if (x * 5 + y * 3) % 13 == 0:
+                px(img, tx + x, ty + y, concrete_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = f[side]
+        for x in range(14):
+            px(img, sx + x, sy, concrete_dark)
+
+    # 둥근 해치 (u0 v16, 10x1x10)
+    h = box(img, 0, 16, 10, 1, 10, steel, 6, top=steel_hi)
+    hx, hy = h["front"]
+    for x in range(10):
+        px(img, hx + x, hy, steel_dark)
+    # 위험 표시 줄무늬 테두리
+    htx, hty = h["top"]
+    for x in range(10):
+        for y in range(10):
+            if x == 0 or y == 0 or x == 9 or y == 9:
+                px(img, htx + x, hty + y, hazard_y if (x + y) % 2 == 0 else hazard_k)
+            elif (x + y) % 7 == 0:
+                px(img, htx + x, hty + y, steel_dark)
+    # 가운데 손잡이 자리
+    for x in range(4, 6):
+        for y in range(4, 6):
+            px(img, htx + x, hty + y, steel_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for x in range(10):
+            px(img, sx + x, sy, steel_dark)
+
+    # 손잡이 막대 (u0 v32, 4x1x1)
+    hb = box(img, 0, 32, 4, 1, 1, bar, 4, top=hexc("#a8aeb4"))
+    hbx, hby = hb["front"]
+    for x in range(4):
+        px(img, hbx + x, hby, bar_dark)
+
+    # 등불 기둥 (u0 v40, 1x6x1)
+    p = box(img, 0, 40, 1, 6, 1, bar, 4)
+    px_, py_ = p["front"]
+    for y in range(6):
+        px(img, px_, py_ + y, bar_dark if y % 2 == 0 else bar)
+
+    # 희미한 전구 (u8 v40, 2x2x2)
+    b = box(img, 8, 40, 2, 2, 2, bulb, 6, top=bulb_hi)
+    bx, by = b["front"]
+    px(img, bx, by, bulb_hi)
+    px(img, bx + 1, by + 1, bulb_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        px(img, sx, sy, bulb_hi)
+        px(img, sx + 1, sy + 1, bulb_dark)
+
+    save(img, "textures/entity/shelter.png")
+
+
+shelter()
+print("assets shelter ok")
+
+merge_lang({
+    "entity.lobcorp.shelter": "3월 27일의 대피소",
+}, {
+    "entity.lobcorp.shelter": "Shelter from the 27th of March",
+})

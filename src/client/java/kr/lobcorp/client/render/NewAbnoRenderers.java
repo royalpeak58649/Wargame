@@ -17,6 +17,7 @@ import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
+import kr.lobcorp.client.model.ShelterModel;
 import kr.lobcorp.client.model.SingingMachineModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
@@ -38,6 +39,7 @@ import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
+import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -530,6 +532,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public void extractRenderState(TreeSapEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class Shelter extends MobRenderer<ShelterEntity, LivingEntityRenderState, ShelterModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/shelter.png");
+
+        public Shelter(EntityRendererProvider.Context ctx) {
+            super(ctx, new ShelterModel(ctx.bakeLayer(ShelterModel.LAYER)), 0.0f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(ShelterEntity e, LivingEntityRenderState s, float pt) {
             super.extractRenderState(e, s, pt);
         }
 

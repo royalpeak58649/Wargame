@@ -2,6 +2,7 @@ package kr.lobcorp.entity;
 
 import kr.lobcorp.item.EgoWeaponItem;
 import kr.lobcorp.work.Facility;
+import kr.lobcorp.work.ToolState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -113,7 +114,11 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
 
             @Override
             public void start() {
-                if (level() instanceof ServerLevel sl) setTarget(sl.getNearestPlayer(cond, BreachingAbnormality.this));
+                if (level() instanceof ServerLevel sl) {
+                    Player found = sl.getNearestPlayer(cond, BreachingAbnormality.this);
+                    if (found instanceof ServerPlayer sp && ToolState.isSheltered(sp)) found = null;
+                    setTarget(found);
+                }
             }
 
             @Override
@@ -243,6 +248,8 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         }
         if (isBreached()) {
             breachTicks++;
+            // 대피소로 숨은 직원은 추격 대상에서 제외된다
+            if (getTarget() instanceof ServerPlayer tp && ToolState.isSheltered(tp)) setTarget(null);
             if (bossBar == null) bossBar = newBossBar(); // 서버 재시작 직후 등
             bossBar.setProgress(getHealth() / getMaxHealth());
             for (ServerPlayer p : sl.players()) {

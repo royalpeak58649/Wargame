@@ -353,6 +353,21 @@ public record AbnoProfile(
                     "마실 때마다 항아리가 터질 확률이 15%씩 오른다 (최대 60%). 터지면 20초 뒤 마신 직원이 터지고, 주변 8블록의 직원이 정신 피해를 입는다."
             ));
 
+    public static final AbnoProfile SHELTER = new AbnoProfile(
+            "shelter", "3월 27일의 대피소", "T-09-82", "HE", 0xFFAA00,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "도구형 환상체. 작업도, PE-BOX도, E.G.O도 없다.",
+                    "해치를 열고 들어가면 한 번에 한 사람만 머무를 수 있다. 안에 있는 동안 어떤 피해도 받지 않고, 5초마다 HP와 SP가 회복된다.",
+                    "30초를 넘겨 머물면 시설 곳곳의 격리가 무너지기 시작한다. 다시 사용하거나 3블록 밖으로 나가면 나온다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -375,7 +390,8 @@ public record AbnoProfile(
             Map.entry(PORCCUBUS.id, PORCCUBUS),
             Map.entry(LAETITIA.id, LAETITIA),
             Map.entry(HELPER.id, HELPER),
-            Map.entry(TREE_SAP.id, TREE_SAP)
+            Map.entry(TREE_SAP.id, TREE_SAP),
+            Map.entry(SHELTER.id, SHELTER)
     );
 
     public boolean canBreach() {

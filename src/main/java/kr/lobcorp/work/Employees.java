@@ -64,6 +64,7 @@ public final class Employees {
         v[13] = d.sleepTicks;
         v[14] = d.possessTicks;
         v[15] = d.laetitiaHeart ? 1 : 0;
+        v[16] = ToolState.isSheltered(p) ? 1 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -222,6 +223,7 @@ public final class Employees {
 
     /** SP 피해. 0 이하가 되면 패닉 */
     public static void damageSp(ServerPlayer p, int amount) {
+        if (ToolState.isSheltered(p)) return;
         EmployeeData d = get(p);
         d.sp -= amount;
         if (d.sp <= 0) panic(p);

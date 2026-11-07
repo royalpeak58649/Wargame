@@ -66,6 +66,13 @@ public class LobCorp implements ModInitializer {
             Employees.apply(newP);
             Employees.restoreSp(newP);
         });
+        // 대피소 안의 직원은 어떤 피해도 받지 않는다
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isSheltered(p)) {
+                return false;
+            }
+            return true;
+        });
         // 잠든 직원은 피해를 받으면 깨고, 홀린 직원은 동료에게 세 번 맞으면 정신을 차린다
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
             if (entity instanceof net.minecraft.server.level.ServerPlayer p) {
