@@ -58,6 +58,7 @@ public final class ModItems {
     public static final ArmorMaterial CHRISTMAS_MAT = material("christmas", 6);
     public static final ArmorMaterial SOLEMN_LAMENT_MAT = material("solemn_lament", 6);
     public static final ArmorMaterial GAZE_MAT = material("gaze", 6);
+    public static final ArmorMaterial LAMP_MAT = material("lamp", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -119,6 +120,8 @@ public final class ModItems {
     public static Item SOLEMN_LAMENT_SUIT;
     public static Item GAZE;
     public static Item GAZE_SUIT;
+    public static Item LAMP;
+    public static Item LAMP_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -300,6 +303,10 @@ public final class ModItems {
                 "O-05-76 · HE", "RED 피해, 빠른 연타", "자물쇠에 가려진 열쇠 구멍. 들여다보면 안쪽에서 무언가가 되돌아본다.");
         GAZE_SUIT = suit("gaze_suit", GAZE_MAT,
                 "O-05-76 · HE", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+        LAMP = weapon("lamp", DamageColor.BLACK, 9.0, -3.2,
+                "O-02-40 · WAW", "BLACK 피해 대형 둔기, 느리고 묵직함", "수십 개의 눈이 박힌 등불. 휘두를 때마다 노란 빛이 흔들린다.");
+        LAMP_SUIT = suit("lamp_suit", LAMP_MAT,
+                "O-02-40 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -313,6 +320,6 @@ public final class ModItems {
                 GRINDER, GRINDER_SUIT, OUR_GALAXY, OUR_GALAXY_SUIT, MAGIC_BULLET, MAGIC_BULLET_SUIT,
                 SYRINX, SYRINX_SUIT, FROST_SPLINTER, FROST_SPLINTER_SUIT, LOGGING, LOGGING_SUIT,
                 HARVEST, HARVEST_SUIT, CHRISTMAS, CHRISTMAS_SUIT, SOLEMN_LAMENT, SOLEMN_LAMENT_SUIT,
-                GAZE, GAZE_SUIT);
+                GAZE, GAZE_SUIT, LAMP, LAMP_SUIT);
     }
 }

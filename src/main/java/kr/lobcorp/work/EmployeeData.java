@@ -42,6 +42,8 @@ public class EmployeeData {
     /** 얼어붙은 자리 (저장 안 함) */
     public net.minecraft.world.phys.Vec3 frozenAt = null;
     public Set<String> gifts = new HashSet<>();
+    /** 마지막으로 작업한 환상체 id (저장 안 함) */
+    public String lastWorked = "";
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.INT.fieldOf("fortitude").forGetter(d -> d.fortitude),
@@ -99,6 +101,7 @@ public class EmployeeData {
             java.util.Map.entry("christmas", new int[]{-4, 8, 0, 0}),
             java.util.Map.entry("solemn_lament", new int[]{1, 1, 1, 1}),
             java.util.Map.entry("gaze", new int[]{4, 0, 0, 0}),
+            java.util.Map.entry("lamp", new int[]{3, 0, 3, 3}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

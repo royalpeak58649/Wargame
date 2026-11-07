@@ -3,6 +3,7 @@ package kr.lobcorp.client.render;
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.AllAroundHelperModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
+import kr.lobcorp.client.model.BigBirdModel;
 import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
@@ -36,6 +37,7 @@ import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.client.model.WoodsmanModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
+import kr.lobcorp.entity.BigBirdEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -849,6 +851,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(SchadenfreudeModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class BigBird extends MobRenderer<BigBirdEntity, BigBirdModel.State, BigBirdModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/big_bird.png");
+
+        public BigBird(EntityRendererProvider.Context ctx) {
+            super(ctx, new BigBirdModel(ctx.bakeLayer(BigBirdModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public BigBirdModel.State createRenderState() {
+            return new BigBirdModel.State();
+        }
+
+        @Override
+        public void extractRenderState(BigBirdEntity e, BigBirdModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.lamp = e.isBreached() ? 1f : 0f;
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 수십 개의 눈과 등불이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(BigBirdModel.State s) {
             return TEX;
         }
     }

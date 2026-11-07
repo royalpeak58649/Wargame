@@ -94,6 +94,15 @@ public abstract class AbnormalityEntity extends PathfinderMob {
     /** PE-BOX 하나가 판정된 직후 */
     public void onBoxResult(ServerPlayer worker, boolean success) {}
 
+    /** 다른 환상체가 탈출했을 때 (자신은 제외) */
+    public void onAnyBreach(BreachingAbnormality who) {}
+
+    /** 시설의 직원이 죽었을 때 */
+    public void onAnyEmployeeDeath(ServerPlayer p) {}
+
+    /** 시설의 직원이 패닉에 빠졌을 때 */
+    public void onAnyPanic(ServerPlayer p) {}
+
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;

@@ -533,7 +533,23 @@ public record AbnoProfile(
                     "멈춰 세우려면 눈을 돌리고, 싸우려면 다시 바라봐야 한다. 그 사이에 톱날이 돌기 시작한다."
             ));
 
+    public static final AbnoProfile BIG_BIRD = new AbnoProfile(
+            "big_bird", "큰 새", "O-02-40", "WAW", 0xAA55FF,
+            new int[]{45, 35, 40, 25}, 20, 14, 8,
+            DamageColor.BLACK, 2, 6,
+            5,
+            () -> ModItems.LAMP, 70,
+            () -> ModItems.LAMP_SUIT, 60,
+            "lamp", "램프", "최대 HP +3, 작업 성공률 +3%, 작업 속도 +3%", 3,
+            new float[]{0.8f, 1.2f, 0.5f, 1.5f},
+            List.of(
+                    "온몸이 노란 눈으로 뒤덮인 거대한 검은 새. 긴 목 끝의 부리는 새장처럼 갈라져 있고, 발톱에는 낡은 등불이 매달려 있다.",
+                    "작업 결과가 좋음이면 클리포트 카운터가 1 회복된다 (최대 5). 나쁨이면 1 감소한다.",
+                    "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(BIG_BIRD.id, BIG_BIRD),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),

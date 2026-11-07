@@ -121,6 +121,7 @@ public final class ToolState {
     public static void onDeath(LivingEntity entity, DamageSource source) {
         if (!(entity instanceof ServerPlayer p)) return;
         if (isNotesHolder(p)) clearNotes();
+        AbnoEvents.death(p);
         // 따뜻한 마음의 나무꾼: 곁에서 죽은 직원의 심장을 가슴에 밀어 넣는다
         kr.lobcorp.entity.WoodsmanEntity.onPlayerDeath(p);
         // 은하수의 아이: 조약돌을 지닌 직원이 죽으면 아이가 무너진다

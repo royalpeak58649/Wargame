@@ -26,6 +26,13 @@ public final class Employees {
     public static final int PANIC_TICKS = 400;
     public static final int REGEN_INTERVAL = 300; // 15초마다 SP 1
 
+    /** 서버에서 플레이어 속도를 바꾸고 클라이언트에 즉시 전송한다 (플레이어 이동은 클라이언트 권한이라 패킷이 필요). */
+    public static void push(ServerPlayer p, double x, double y, double z) {
+        p.setDeltaMovement(x, y, z);
+        p.connection.send(new net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket(p));
+    }
+
+
     public static EmployeeData get(ServerPlayer p) {
         EmployeeData d = p.getAttachedOrCreate(ModAttachments.EMPLOYEE);
         if (d.sp < 0) d.sp = d.maxSp();
@@ -211,7 +218,7 @@ public final class Employees {
         }
         double vy = p.getDeltaMovement().y;
         if (p.onGround() && target.getY() - p.getY() > 1.0) vy = 0.42;
-        p.setDeltaMovement(horiz.x, vy, horiz.z);
+        push(p, horiz.x, vy, horiz.z);
         if (p.distanceTo(target) < 2.6 && p.tickCount % 20 == 0) {
             target.hurtServer(sl, sl.damageSources().playerAttack(p), 4 + p.getRandom().nextInt(3));
             p.swing(InteractionHand.MAIN_HAND, net.minecraft.world.item.component.SwingAnimation.DEFAULT, true);
@@ -271,6 +278,7 @@ public final class Employees {
                 .append(p.getDisplayName())
                 .append(Component.literal(" 직원이 패닉 상태에 빠졌습니다!").withStyle(s -> s.withColor(0xFF5555))));
         kr.lobcorp.entity.PunishingBirdEntity.onAnyPanic(p.level());
+        AbnoEvents.panic(p);
     }
 
     /** 매 틱 호출 */

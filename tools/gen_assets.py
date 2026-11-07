@@ -4623,3 +4623,200 @@ merge_lang({
     "item.lobcorp.gaze": "Gaze",
     "item.lobcorp.gaze_suit": "Gaze Garb",
 })
+
+
+# ═════════════ 32차: 큰 새 (O-02-40) ═════════════
+def big_bird():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    black = hexc("#101014")
+    black_hi = hexc("#1a1a20")
+    black_dark = hexc("#08080a")
+    eye = hexc("#ffd040")
+    eye_dim = hexc("#c09a20")
+    brass = hexc("#b08840")
+    brass_hi = hexc("#d0a860")
+    brass_dark = hexc("#7a5a20")
+    core = hexc("#ffcc55")
+    core_hi = hexc("#fff0b0")
+    beak = hexc("#2a2a30")
+    beak_hi = hexc("#4a4a52")
+
+    # 몸통 (u0 v0, 16x16x14)
+    b = box(img, 0, 0, 16, 16, 14, black, 4, top=black_hi)
+    bx, by = b["front"]
+    # 온몸의 노란 눈: 앞면
+    for (x, y) in [(1, 1), (4, 2), (7, 1), (10, 3), (13, 1),
+                   (2, 4), (5, 5), (8, 4), (11, 5), (14, 4),
+                   (0, 7), (3, 8), (6, 7), (9, 8), (12, 7), (15, 8),
+                   (1, 10), (4, 11), (7, 10), (10, 11), (13, 10),
+                   (2, 13), (5, 14), (8, 13), (11, 14), (14, 13)]:
+        px(img, bx + x, by + y, eye)
+    # 눈의 그늘
+    for (x, y) in [(1, 2), (7, 2), (13, 2), (3, 9), (9, 9), (15, 9), (5, 15), (11, 15)]:
+        px(img, bx + x, by + y, eye_dim)
+    # 옆면·뒷면·윗면에도 눈
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(16):
+            for x in range(14):
+                if (x * 3 + y * 5) % 7 == 0:
+                    px(img, sx + x, sy + y, eye)
+                elif (x * 5 + y * 3) % 11 == 0:
+                    px(img, sx + x, sy + y, eye_dim)
+                elif (x + y) % 9 == 0:
+                    px(img, sx + x, sy + y, black_hi)
+        for x in range(14):
+            px(img, sx + x, sy + 15, black_dark)
+    tx, ty = b["top"]
+    for x in range(16):
+        for y in range(14):
+            if (x * 7 + y * 3) % 13 == 0:
+                px(img, tx + x, ty + y, eye)
+            elif (x + y * 2) % 17 == 0:
+                px(img, tx + x, ty + y, black_hi)
+
+    # 다리 (u0 v30, 3x6x3)
+    l = box(img, 0, 30, 3, 6, 3, black, 4, top=black_hi)
+    lx, ly = l["front"]
+    for y in range(6):
+        px(img, lx + 1, ly + y, black_dark if y % 2 == 0 else black)
+    for x in range(3):
+        px(img, lx + x, ly + 5, hexc("#2a2a30"))
+    for side in ("right", "left", "back"):
+        sx, sy = l[side]
+        for y in range(6):
+            if y % 3 == 0:
+                px(img, sx + 1, sy + y, black_dark)
+
+    # 목 (u0 v40, 4x14x4)
+    n = box(img, 0, 40, 4, 14, 4, black, 4, top=black_hi)
+    nx, ny = n["front"]
+    for y in range(14):
+        if y % 3 == 0:
+            px(img, nx + 1, ny + y, eye)
+        elif y % 5 == 0:
+            px(img, nx + 2, ny + y, eye_dim)
+    for side in ("right", "left", "back"):
+        sx, sy = n[side]
+        for y in range(14):
+            if y % 4 == 0:
+                px(img, sx + 1, sy + y, eye)
+            elif y % 7 == 0:
+                px(img, sx + 2, sy + y, black_dark)
+
+    # 머리 (u16 v40, 6x6x8)
+    h = box(img, 16, 40, 6, 6, 8, black, 4, top=black_hi)
+    hx, hy = h["front"]
+    # 머리 앞면의 큰 눈 두 개
+    for (x, y) in [(1, 1), (2, 1), (1, 2), (2, 2)]:
+        px(img, hx + x, hy + y, eye)
+    for (x, y) in [(3, 1), (4, 1), (3, 2), (4, 2)]:
+        px(img, hx + x, hy + y, eye)
+    px(img, hx + 1, hy + 2, eye_dim)
+    px(img, hx + 4, hy + 2, eye_dim)
+    for (x, y) in [(0, 4), (5, 4), (2, 5), (3, 5)]:
+        px(img, hx + x, hy + y, eye_dim)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(6):
+            for x in range(8):
+                if (x * 3 + y * 5) % 9 == 0:
+                    px(img, sx + x, sy + y, eye)
+                elif (x + y) % 7 == 0:
+                    px(img, sx + x, sy + y, black_hi)
+
+    # 새장 같은 부리: 위판 (u44 v40, 4x1x6)
+    bt = box(img, 44, 40, 4, 1, 6, beak, 4, top=beak_hi)
+    btx, bty = bt["front"]
+    for x in range(4):
+        px(img, btx + x, bty, beak_hi)
+    # 창살
+    for x in (1, 2):
+        px(img, btx + x, bty, hexc("#8a8a92"))
+    # 아래판 (u44 v48, 4x1x6)
+    bb = box(img, 44, 48, 4, 1, 6, beak, 4, top=beak_hi)
+    bbx, bby = bb["front"]
+    for x in range(4):
+        px(img, bbx + x, bby, hexc("#8a8a92") if x % 2 == 0 else beak_hi)
+
+    # 등불 (u48 v0, 3x4x3)
+    lp = box(img, 48, 0, 3, 4, 3, brass, 6, top=brass_hi)
+    lpx, lpy = lp["front"]
+    # 유리창: 안쪽에서 새어 나오는 빛
+    for y in range(1, 3):
+        for x in range(1, 2):
+            px(img, lpx + x, lpy + y, core)
+    px(img, lpx + 1, lpy + 1, core_hi)
+    px(img, lpx + 1, lpy + 2, hexc("#e0a030"))
+    for x in range(3):
+        px(img, lpx + x, lpy, brass_hi)
+        px(img, lpx + x, lpy + 3, brass_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = lp[side]
+        for y in range(4):
+            px(img, sx + 1, sy + y, core if 0 < y < 3 else brass_dark)
+        px(img, sx + 1, sy + 1, core_hi)
+    # 손잡이 고리
+    for x in range(3):
+        px(img, lpx + x, lpy - 1, brass_dark)
+
+    save(img, "textures/entity/big_bird.png")
+
+
+big_bird()
+print("assets bigbird ok")
+
+LP = {"k": "#101014", "h": "#1a1a20", "d": "#08080a", "y": "#ffd040", "b": "#b08840", "c": "#ffcc55"}
+icon([
+    "................",
+    "..............kk",
+    ".............kk.",
+    "............kk..",
+    "...........kk...",
+    "..........kk....",
+    ".........kk.....",
+    "........kk......",
+    ".......kk.......",
+    "......kk........",
+    ".....kk.........",
+    "....bb..........",
+    "...bb...........",
+    "..cc............",
+    "..c.............",
+    "................",
+], LP, "textures/item/lamp.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkyyyykk....",
+    "....kkyyyykk....",
+    "....kkyyyykk....",
+    "....kkyyyykk....",
+    "....kkkkkkkk....",
+    "....kkbbbbkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], LP, "textures/item/lamp_suit.png")
+
+armor(hexc("#101014"), "#08080a", "#ffd040", "textures/entity/equipment/humanoid/lamp.png")
+
+for item, parent in [("lamp", "minecraft:item/handheld"), ("lamp_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/lamp.json", {"layers": {"humanoid": [{"texture": "lobcorp:lamp"}]}})
+
+merge_lang({
+    "entity.lobcorp.big_bird": "큰 새",
+    "item.lobcorp.lamp": "램프",
+    "item.lobcorp.lamp_suit": "램프의 옷",
+}, {
+    "entity.lobcorp.big_bird": "Big Bird",
+    "item.lobcorp.lamp": "Lamp",
+    "item.lobcorp.lamp_suit": "Lamp Garb",
+})

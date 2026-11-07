@@ -91,5 +91,8 @@
   "item.lobcorp.solemn_lament_suit": "Solemn Lament Suit",
   "entity.lobcorp.schadenfreude": "Schadenfreude",
   "item.lobcorp.gaze": "Gaze",
-  "item.lobcorp.gaze_suit": "Gaze Garb"
+  "item.lobcorp.gaze_suit": "Gaze Garb",
+  "entity.lobcorp.big_bird": "Big Bird",
+  "item.lobcorp.lamp": "Lamp",
+  "item.lobcorp.lamp_suit": "Lamp Garb"
 }

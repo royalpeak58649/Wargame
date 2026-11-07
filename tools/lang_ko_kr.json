@@ -91,5 +91,8 @@
   "item.lobcorp.solemn_lament_suit": "엄숙한 애도의 상복",
   "entity.lobcorp.schadenfreude": "샤덴프로이데",
   "item.lobcorp.gaze": "응시",
-  "item.lobcorp.gaze_suit": "응시의 옷"
+  "item.lobcorp.gaze_suit": "응시의 옷",
+  "entity.lobcorp.big_bird": "큰 새",
+  "item.lobcorp.lamp": "램프",
+  "item.lobcorp.lamp_suit": "램프의 옷"
 }

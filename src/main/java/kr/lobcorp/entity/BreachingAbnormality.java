@@ -163,6 +163,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
                 .withStyle(st -> st.withColor(0xFF5555)));
         sl.sendParticles(ParticleTypes.LARGE_SMOKE, getX(), getY() + 1, getZ(), 30, 0.5, 0.5, 0.5, 0.02);
         onBreach(sl);
+        kr.lobcorp.work.AbnoEvents.breach(this);
     }
 
     protected String breachAdvice() {
