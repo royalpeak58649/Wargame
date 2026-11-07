@@ -63,6 +63,7 @@ public final class Employees {
         v[12] = d.fairyTicks;
         v[13] = d.sleepTicks;
         v[14] = d.possessTicks;
+        v[15] = d.laetitiaHeart ? 1 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -252,6 +253,9 @@ public final class Employees {
             kr.lobcorp.entity.FairyFestivalEntity.tickBlessing(p, d);
             if (d.possessTicks > 0) {
                 tickPossession(p, d);
+            }
+            if (d.laetitiaHeart && p.tickCount % 20 == 0) {
+                p.level().sendParticles(ParticleTypes.CHERRY_LEAVES, p.getX(), p.getY() + 2.2, p.getZ(), 1, 0.2, 0.1, 0.2, 0);
             }
             if (d.sleepTicks > 0) {
                 d.sleepTicks--;

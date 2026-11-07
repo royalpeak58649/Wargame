@@ -7,6 +7,8 @@ import kr.lobcorp.entity.ForsakenMurdererEntity;
 import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
+import kr.lobcorp.entity.LaetitiaEntity;
+import kr.lobcorp.entity.LaetitiaFriendEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
@@ -50,6 +52,8 @@ public final class ModEntities {
     public static EntityType<RedShoesEntity> RED_SHOES;
     public static EntityType<SingingMachineEntity> SINGING_MACHINE;
     public static EntityType<PorccubusEntity> PORCCUBUS;
+    public static EntityType<LaetitiaEntity> LAETITIA;
+    public static EntityType<LaetitiaFriendEntity> LAETITIA_FRIEND;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -97,6 +101,10 @@ public final class ModEntities {
                 .sized(1.2f, 1.4f).clientTrackingRange(10));
         PORCCUBUS = register("porccubus", EntityType.Builder.of(PorccubusEntity::new, MobCategory.MISC)
                 .sized(1.0f, 2.0f).clientTrackingRange(10));
+        LAETITIA = register("laetitia", EntityType.Builder.of(LaetitiaEntity::new, MobCategory.MISC)
+                .sized(0.6f, 1.4f).clientTrackingRange(10));
+        LAETITIA_FRIEND = register("laetitia_friend", EntityType.Builder.of(LaetitiaFriendEntity::new, MobCategory.MONSTER)
+                .sized(0.9f, 1.2f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -117,5 +125,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(RED_SHOES, RedShoesEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SINGING_MACHINE, SingingMachineEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(PORCCUBUS, PorccubusEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(LAETITIA, LaetitiaEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(LAETITIA_FRIEND, LaetitiaFriendEntity.createAttributes());
     }
 }

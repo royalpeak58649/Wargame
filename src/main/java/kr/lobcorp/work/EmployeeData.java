@@ -31,6 +31,8 @@ public class EmployeeData {
     public String possessLabel = "";
     /** 홀림 중 동료를 쓰러뜨리면 회복하는가 */
     public boolean possessHeal = false;
+    /** 라티샤의 선물을 지니고 있는가 (저장 안 함) */
+    public boolean laetitiaHeart = false;
     public Set<String> gifts = new HashSet<>();
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -77,7 +79,8 @@ public class EmployeeData {
             java.util.Map.entry("noise", new int[]{0, 0, 0, 3}),
             java.util.Map.entry("sanguine_desire", new int[]{3, 0, 0, 0}),
             java.util.Map.entry("harmony", new int[]{8, -4, 0, 0}),
-            java.util.Map.entry("pleasure", new int[]{0, 10, -6, -6})
+            java.util.Map.entry("pleasure", new int[]{0, 10, -6, -6}),
+            java.util.Map.entry("laetitia", new int[]{0, 4, 0, 0})
     );
 
     private int giftSum(int idx) {

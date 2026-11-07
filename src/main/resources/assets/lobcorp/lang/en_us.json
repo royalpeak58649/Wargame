@@ -18,6 +18,8 @@
   "entity.lobcorp.red_shoes": "Red Shoes",
   "entity.lobcorp.singing_machine": "Singing Machine",
   "entity.lobcorp.porccubus": "Porccubus",
+  "entity.lobcorp.laetitia": "Laetitia",
+  "entity.lobcorp.laetitia_friend": "Laetitia's Friend",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -55,5 +57,7 @@
   "item.lobcorp.harmony": "Harmony",
   "item.lobcorp.harmony_suit": "Harmony (Suit)",
   "item.lobcorp.pleasure": "Pleasure",
-  "item.lobcorp.pleasure_suit": "Pleasure (Suit)"
+  "item.lobcorp.pleasure_suit": "Pleasure (Suit)",
+  "item.lobcorp.laetitia": "Laetitia",
+  "item.lobcorp.laetitia_suit": "Laetitia (Suit)"
 }

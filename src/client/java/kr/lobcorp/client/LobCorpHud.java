@@ -36,6 +36,10 @@ public final class LobCorpHud {
         }
         if (ClientState.possess() > 0) {
             g.text(font, "홀림 " + (ClientState.possess() / 20 + 1) + "초 · 다른 직원이 세 번 때리면 풀립니다", x, line, 0xFFFF5555, true);
+            line += 10;
+        }
+        if (ClientState.heart()) {
+            g.text(font, "♥ 라티샤의 선물 · 다른 환상체 작업 시 위험", x, line, 0xFFFF9AD0, true);
         }
 
         // ── 작업 진행 ──

@@ -7,6 +7,8 @@ import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.FragmentModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
+import kr.lobcorp.client.model.LaetitiaFriendModel;
+import kr.lobcorp.client.model.LaetitiaModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.OldLadyModel;
@@ -24,6 +26,8 @@ import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
+import kr.lobcorp.entity.LaetitiaEntity;
+import kr.lobcorp.entity.LaetitiaFriendEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.OldLadyEntity;
@@ -433,6 +437,52 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(PorccubusModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Laetitia extends MobRenderer<LaetitiaEntity, LivingEntityRenderState, LaetitiaModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/laetitia.png");
+
+        public Laetitia(EntityRendererProvider.Context ctx) {
+            super(ctx, new LaetitiaModel(ctx.bakeLayer(LaetitiaModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(LaetitiaEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class LaetitiaFriend extends MobRenderer<LaetitiaFriendEntity, LivingEntityRenderState, LaetitiaFriendModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/laetitia_friend.png");
+
+        public LaetitiaFriend(EntityRendererProvider.Context ctx) {
+            super(ctx, new LaetitiaFriendModel(ctx.bakeLayer(LaetitiaFriendModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(LaetitiaFriendEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
             return TEX;
         }
     }

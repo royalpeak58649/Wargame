@@ -49,6 +49,7 @@ public final class Facility {
             EmployeeData d = Employees.get(p);
             d.panicTicks = 0;
             d.sp = d.maxSp();
+            d.laetitiaHeart = false;
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal("에너지 할당량 " + f.quota).withStyle(s -> s.withColor(0x55FF55))));
             p.connection.send(new ClientboundSetTitleTextPacket(Component.literal("Day " + f.day)));
         }

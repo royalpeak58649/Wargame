@@ -45,13 +45,15 @@ public final class LobCorpCommands {
                         .then(Commands.literal("mhz").executes(c -> build(c, ModEntities.MHZ, false)))
                         .then(Commands.literal("red_shoes").executes(c -> build(c, ModEntities.RED_SHOES, false)))
                         .then(Commands.literal("singing_machine").executes(c -> build(c, ModEntities.SINGING_MACHINE, false)))
-                        .then(Commands.literal("porccubus").executes(c -> build(c, ModEntities.PORCCUBUS, false))))
+                        .then(Commands.literal("porccubus").executes(c -> build(c, ModEntities.PORCCUBUS, false)))
+                        .then(Commands.literal("laetitia").executes(c -> build(c, ModEntities.LAETITIA, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());
                             for (ServerLevel l : c.getSource().getServer().getAllLevels())
                                 for (Entity e : l.getAllEntities())
                                     if (e instanceof AbnormalityEntity a) a.resetQliphoth();
+                            discardFriends(c.getSource().getServer());
                             return 1;
                         })))
                 .then(Commands.literal("breach").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -108,6 +110,14 @@ public final class LobCorpCommands {
         return 1;
     }
 
+    private static void discardFriends(net.minecraft.server.MinecraftServer server) {
+        for (ServerLevel l : server.getAllLevels()) {
+            for (Entity e : l.getAllEntities()) {
+                if (e instanceof kr.lobcorp.entity.LaetitiaFriendEntity) e.discard();
+            }
+        }
+    }
+
     private static int clear(CommandContext<CommandSourceStack> c) {
         int n = 0;
         for (ServerLevel l : c.getSource().getServer().getAllLevels()) {
@@ -118,6 +128,7 @@ public final class LobCorpCommands {
                 }
             }
         }
+        discardFriends(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;

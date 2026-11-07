@@ -6,6 +6,7 @@ import kr.lobcorp.ModItems;
 import kr.lobcorp.entity.AbnormalityEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
+import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.net.Payloads;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -101,6 +102,9 @@ public final class WorkManager {
         a.level().playSound(null, a.blockPosition(), SoundEvents.BEACON_AMBIENT, SoundSource.HOSTILE, 1f, 0.6f);
         p.level().playSound(null, p.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 0.5f, 1.4f);
         a.onWorkStart(p, type);
+        if (d.laetitiaHeart && !(a instanceof LaetitiaEntity)) {
+            actionbar(p, Component.literal("선물이 금 가기 시작했다…").withStyle(s -> s.withColor(0xFF9AD0)));
+        }
         Employees.sync(p);
     }
 
@@ -132,6 +136,16 @@ public final class WorkManager {
     private static void processBox(ServerPlayer p, WorkSession s) {
         s.box++;
         ServerLevel level = p.level();
+        // 라티샤의 선물: 다른 환상체와의 작업이 절반을 넘으면 배가 터진다
+        EmployeeData heartData = Employees.get(p);
+        if (heartData.laetitiaHeart && !(s.abno instanceof LaetitiaEntity)) {
+            level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 2.2, p.getZ(), 2, 0.2, 0.1, 0.2, 0);
+            level.sendParticles(ParticleTypes.CRIMSON_SPORE, p.getX(), p.getY() + 2.2, p.getZ(), 6, 0.3, 0.2, 0.3, 0.01);
+            if (s.box * 2 >= s.maxBox) {
+                LaetitiaEntity.burst(p);
+                return;
+            }
+        }
         boolean near = p.distanceTo(s.abno) <= WORK_RANGE;
         int roll = 1 + level.getRandom().nextInt(100);
         if (near && roll <= s.chance) {
@@ -152,7 +166,7 @@ public final class WorkManager {
                         || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)
                         || wearing(p, ModItems.HORN_SUIT) || wearing(p, ModItems.LANTERN_SUIT)
                         || wearing(p, ModItems.NOISE_SUIT) || wearing(p, ModItems.HARMONY_SUIT)
-                        || wearing(p, ModItems.PLEASURE_SUIT)) dmg--;
+                        || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
@@ -169,7 +183,8 @@ public final class WorkManager {
                 if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
                         || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)
                         || wearing(p, ModItems.RED_EYES_SUIT) || wearing(p, ModItems.HORN_SUIT)
-                        || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)) dmg--;
+                        || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)
+                        || wearing(p, ModItems.LAETITIA_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }
@@ -265,7 +280,7 @@ public final class WorkManager {
     /** BLACK 저항 방호복 착용 여부 (작업 실패 시 HP·SP 피해 -1) */
     private static boolean blackSuit(ServerPlayer p) {
         return wearing(p, ModItems.FRAGMENTS_SUIT) || wearing(p, ModItems.NOISE_SUIT)
-                || wearing(p, ModItems.PLEASURE_SUIT);
+                || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT);
     }
 
     public static MutableComponent red(String s) {

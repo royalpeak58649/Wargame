@@ -308,6 +308,21 @@ public record AbnoProfile(
                     "탈출하면 시설 어딘가에 숨어 있다가 다가오는 직원을 덮친다. 가시에 찔린 직원은 자제가 낮을수록 더 큰 정신 피해를 입고, 패닉에 빠지면 머리가 터진다."
             ));
 
+    public static final AbnoProfile LAETITIA = new AbnoProfile(
+            "laetitia", "라티샤", "O-01-67", "HE", 0xFFAA00,
+            new int[]{40, 40, 60, 0}, 16, 11, 7,
+            DamageColor.BLACK, 2, 4,
+            0,
+            () -> ModItems.LAETITIA, 40,
+            () -> ModItems.LAETITIA_SUIT, 45,
+            "laetitia", "라티샤", "최대 SP +4", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "작업 결과가 보통이면, 라티샤가 작업자에게 하트 모양의 작은 선물을 건넨다.",
+                    "선물을 지닌 채 다른 환상체와 작업을 시작하면 선물에 금이 간다. 그 작업이 절반을 넘는 순간 배가 터져 무언가 기어 나온다.",
+                    "금이 간 선물을 안고 있는 작업을 절반 전에 포기하면, 선물은 멀쩡한 채로 남는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -327,7 +342,8 @@ public record AbnoProfile(
             Map.entry(MHZ.id, MHZ),
             Map.entry(RED_SHOES.id, RED_SHOES),
             Map.entry(SINGING_MACHINE.id, SINGING_MACHINE),
-            Map.entry(PORCCUBUS.id, PORCCUBUS)
+            Map.entry(PORCCUBUS.id, PORCCUBUS),
+            Map.entry(LAETITIA.id, LAETITIA)
     );
 
     public boolean canBreach() {

@@ -3319,3 +3319,366 @@ wjson("lang/en_us.json", {
 
 porccubus()
 print("assets porccubus ok")
+
+
+# ═════════════ 17차: 라티샤 (O-01-67) + 라티샤의 친구 ═════════════
+def laetitia():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    skin = hexc("#f6e2d8")
+    skin_shade = hexc("#e0c8bc")
+    dress = hexc("#f6a6c8")
+    dress_dark = hexc("#d87aa4")
+    lace = hexc("#fbf4f8")
+    hat = hexc("#202020")
+    hat_hi = hexc("#2e2e2e")
+    band = hexc("#ff6aa0")
+    hair = hexc("#c98a4a")
+    hair_dark = hexc("#a06a34")
+    black = hexc("#1a1014")
+    box_white = hexc("#f4f0f2")
+    ribbon = hexc("#d8203a")
+
+    # 다리 (u0 v0, 2x5x2)
+    l = box(img, 0, 0, 2, 5, 2, hexc("#fbf4f8"), 4)
+    lx, ly = l["front"]
+    for y in range(5):
+        px(img, lx, ly + y, hexc("#e8dce4"))
+    # 신발
+    for x in range(2):
+        px(img, lx + x, ly + 4, black)
+
+    # 드레스 (u0 v8, 8x7x6)
+    d = box(img, 0, 8, 8, 7, 6, dress, 6, top=dress_dark)
+    dx, dy = d["front"]
+    # 흰 레이스 줄무늬
+    for y in (1, 3, 5):
+        for x in range(8):
+            px(img, dx + x, dy + y, lace)
+    for x in range(8):
+        px(img, dx + x, dy + 6, dress_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = d[side]
+        for y in (1, 3, 5):
+            for x in range(6):
+                px(img, sx + x, sy + y, lace)
+
+    # 몸통 (u28 v8, 6x5x4)
+    b = box(img, 28, 8, 6, 5, 4, dress, 6)
+    bx, by = b["front"]
+    for x in range(6):
+        px(img, bx + x, by, lace)
+    px(img, bx + 2, by + 2, ribbon)
+    px(img, bx + 3, by + 2, ribbon)
+
+    # 팔 (u0 v22, 2x5x2)
+    a = box(img, 0, 22, 2, 5, 2, skin, 4)
+    ax, ay = a["front"]
+    for y in range(5):
+        px(img, ax, ay + y, skin_shade)
+    for x in range(2):
+        px(img, ax + x, ay + 4, skin_shade)
+
+    # 선물 상자 (u12 v22, 3x3x3)
+    p = box(img, 12, 22, 3, 3, 3, box_white, 4, top=hexc("#fbf8fa"))
+    px_, py_ = p["front"]
+    for x in range(3):
+        px(img, px_ + x, py_ + 1, ribbon)
+    for y in range(3):
+        px(img, px_ + 1, py_ + y, ribbon)
+    tx, ty = p["top"]
+    for x in range(3):
+        px(img, tx + x, ty + 1, ribbon)
+    for y in range(3):
+        px(img, tx + 1, ty + y, ribbon)
+
+    # 머리 (u0 v32, 6x6x6)
+    h = box(img, 0, 32, 6, 6, 6, skin, 4, top=hair)
+    hx, hy = h["front"]
+    # 큰 미소
+    for x in range(1, 5):
+        px(img, hx + x, hy + 4, black)
+    px(img, hx, hy + 3, black)
+    px(img, hx + 5, hy + 3, black)
+    for x in (2, 3):
+        px(img, hx + x, hy + 5, hexc("#c86a7a"))
+    # 눈: 반짝이는 점
+    px(img, hx + 1, hy + 2, black)
+    px(img, hx + 4, hy + 2, black)
+    px(img, hx + 1, hy + 1, hexc("#5a3a2a"))
+    px(img, hx + 4, hy + 1, hexc("#5a3a2a"))
+    # 볼터치
+    px(img, hx, hy + 3, hexc("#f0a0a8"))
+    px(img, hx + 5, hy + 3, hexc("#f0a8b0"))
+    # 앞머리
+    for x in range(6):
+        px(img, hx + x, hy, hair)
+    for x in (0, 2, 5):
+        px(img, hx + x, hy + 1, hair_dark)
+    # 옆머리
+    for side in ("right", "left"):
+        sx, sy = h[side]
+        for y in range(6):
+            px(img, sx + 2, sy + y, hair if y < 4 else hair_dark)
+
+    # 모자 챙 (u24 v32, 8x1x8)
+    br = box(img, 24, 32, 8, 1, 8, hat, 4, top=hat_hi)
+    brx, bry = br["front"]
+    for x in range(8):
+        px(img, brx + x, bry, hat_hi)
+    # 모자 원뿔 (u24 v42, 4x5x4)
+    co = box(img, 24, 42, 4, 5, 4, hat, 4, top=hat_hi)
+    cox, coy = co["front"]
+    for x in range(4):
+        px(img, cox + x, coy + 4, band)
+    for side in ("right", "left", "back"):
+        sx, sy = co[side]
+        for x in range(4):
+            px(img, sx + x, sy + 4, band)
+    # 모자 끝 (u40 v42, 2x2x2)
+    tp = box(img, 40, 42, 2, 2, 2, hat, 4, top=hat_hi)
+    tpx, tpy = tp["front"]
+    px(img, tpx, tpy, band)
+
+    save(img, "textures/entity/laetitia.png")
+
+
+def laetitia_friend():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    flesh = hexc("#e8b8c8")
+    flesh_shade = hexc("#c894a8")
+    stitch = hexc("#5a0010")
+    mouth = hexc("#5a0010")
+    mouth_dark = hexc("#3a0008")
+    tooth = hexc("#fbf6f0")
+    leg = hexc("#d8a8b8")
+    leg_dark = hexc("#a87a8a")
+    bow = hexc("#ff6aa0")
+    bow_dark = hexc("#c04a78")
+
+    # 몸통 (u0 v0, 8x5x8)
+    b = box(img, 0, 0, 8, 5, 8, flesh, 6, top=hexc("#f4ccd8"))
+    bx, by = b["front"]
+    # 꿰맨 자국
+    for x in range(8):
+        if x % 2 == 0:
+            px(img, bx + x, by + 1, stitch)
+    for (x, y) in [(1, 3), (2, 3), (5, 3), (6, 3), (3, 4), (4, 4)]:
+        px(img, bx + x, by + y, stitch)
+    for x in range(8):
+        px(img, bx + x, by + 4, flesh_shade)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(5):
+            if y % 2 == 0:
+                px(img, sx + 2, sy + y, stitch)
+                px(img, sx + 5, sy + y, stitch)
+
+    # 아가리 판 (u0 v16, 6x4x1)
+    m = box(img, 0, 16, 6, 4, 1, mouth, 6)
+    mx, my = m["front"]
+    # 이빨: 위아래 한 줄씩
+    for x in range(6):
+        px(img, mx + x, my, tooth)
+        px(img, mx + x, my + 3, tooth)
+        if x % 2 == 0:
+            px(img, mx + x, my + 1, tooth)
+            px(img, mx + x, my + 2, tooth)
+    for x in range(6):
+        px(img, mx + x, my + 1, mouth_dark if x % 2 == 1 else tooth)
+    # 목구멍
+    px(img, mx + 2, my + 2, hexc("#1a0004"))
+    px(img, mx + 3, my + 2, hexc("#1a0004"))
+
+    # 리본 (u32 v16, 4x2x2)
+    bw = box(img, 32, 16, 4, 2, 2, bow, 6, top=hexc("#ff9ac0"))
+    bwx, bwy = bw["front"]
+    px(img, bwx + 1, bwy, bow_dark)
+    px(img, bwx + 2, bwy, bow_dark)
+    px(img, bwx + 1, bwy + 1, bow_dark)
+    px(img, bwx + 2, bwy + 1, bow_dark)
+
+    # 다리 (u0 v24, 1x6x1 / u4 v24, 1x6x1)
+    for u in (0, 4):
+        l = box(img, u, 24, 1, 6, 1, leg, 5)
+        lx, ly = l["front"]
+        for y in range(6):
+            px(img, lx, ly + y, leg_dark if y % 2 == 0 else leg)
+
+    save(img, "textures/entity/laetitia_friend.png")
+
+
+LT2 = {"p": "#f6a6c8", "d": "#d87aa4", "w": "#fbf4f8", "k": "#202020", "r": "#d8203a", "s": "#f6e2d8"}
+icon([
+    "................",
+    "..............pp",
+    ".............pp.",
+    "............pp..",
+    "...........pp...",
+    "..........pp....",
+    ".........pp.....",
+    "........pp......",
+    ".......pp.......",
+    "......pp........",
+    ".....pp.........",
+    "....pp..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], LT2, "textures/item/laetitia.png")
+icon([
+    "................",
+    "...pp......pp...",
+    "..pppp....pppp..",
+    "..pppppppppppp..",
+    "...pppppppppp...",
+    "....ppwwwwpp....",
+    "....ppwwwwpp....",
+    "....ppwwwwpp....",
+    "....ppwwwwpp....",
+    "....pppppppp....",
+    "....pprrrrpp....",
+    "....pppppppp....",
+    "....pppppppp....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], LT2, "textures/item/laetitia_suit.png")
+
+armor(hexc("#f6a6c8"), "#d87aa4", "#fbf4f8", "textures/entity/equipment/humanoid/laetitia.png")
+
+for item, parent in [("laetitia", "minecraft:item/handheld"), ("laetitia_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/laetitia.json", {"layers": {"humanoid": [{"texture": "lobcorp:laetitia"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
+    "entity.lobcorp.old_lady": "늙은 여인",
+    "entity.lobcorp.spider_bud": "거미 봉오리",
+    "entity.lobcorp.void_dream": "공허한 꿈",
+    "entity.lobcorp.beauty_and_the_beast": "미녀와 야수",
+    "entity.lobcorp.meat_lantern": "고기 등불",
+    "entity.lobcorp.fragment_of_universe": "우주의 파편",
+    "entity.lobcorp.mhz": "1.76 MHz",
+    "entity.lobcorp.red_shoes": "붉은 구두",
+    "entity.lobcorp.singing_machine": "노래하는 기계",
+    "entity.lobcorp.porccubus": "포큐버스",
+    "entity.lobcorp.laetitia": "라티샤",
+    "entity.lobcorp.laetitia_friend": "라티샤의 친구",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+    "item.lobcorp.daredevil": "만용",
+    "item.lobcorp.daredevil_suit": "만용 (방어구)",
+    "item.lobcorp.solitude": "고독",
+    "item.lobcorp.solitude_suit": "고독 (방어구)",
+    "item.lobcorp.red_eyes": "붉은 눈",
+    "item.lobcorp.red_eyes_suit": "붉은 눈 (방어구)",
+    "item.lobcorp.engulfing_dream": "집어삼키는 꿈",
+    "item.lobcorp.engulfing_dream_suit": "집어삼키는 꿈 (방어구)",
+    "item.lobcorp.horn": "뿔",
+    "item.lobcorp.horn_suit": "뿔 (방호복)",
+    "item.lobcorp.lantern": "등불",
+    "item.lobcorp.lantern_suit": "등불 (방호복)",
+    "item.lobcorp.fragments": "어딘가의 파편",
+    "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)",
+    "item.lobcorp.noise": "잡음",
+    "item.lobcorp.noise_suit": "잡음 (방호복)",
+    "item.lobcorp.sanguine_desire": "선혈의 욕망",
+    "item.lobcorp.sanguine_desire_suit": "선혈의 욕망 (방호복)",
+    "item.lobcorp.harmony": "화음",
+    "item.lobcorp.harmony_suit": "화음 (방호복)",
+    "item.lobcorp.pleasure": "쾌락",
+    "item.lobcorp.pleasure_suit": "쾌락 (방호복)",
+    "item.lobcorp.laetitia": "라티샤",
+    "item.lobcorp.laetitia_suit": "라티샤 (방호복)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "entity.lobcorp.crumbling_armor": "Crumbling Armor",
+    "entity.lobcorp.old_lady": "Old Lady",
+    "entity.lobcorp.spider_bud": "Spider Bud",
+    "entity.lobcorp.void_dream": "Void Dream",
+    "entity.lobcorp.beauty_and_the_beast": "Beauty and the Beast",
+    "entity.lobcorp.meat_lantern": "Meat Lantern",
+    "entity.lobcorp.fragment_of_universe": "Fragment of the Universe",
+    "entity.lobcorp.mhz": "1.76 MHz",
+    "entity.lobcorp.red_shoes": "Red Shoes",
+    "entity.lobcorp.singing_machine": "Singing Machine",
+    "entity.lobcorp.porccubus": "Porccubus",
+    "entity.lobcorp.laetitia": "Laetitia",
+    "entity.lobcorp.laetitia_friend": "Laetitia's Friend",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+    "item.lobcorp.daredevil": "Daredevil",
+    "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
+    "item.lobcorp.solitude": "Solitude",
+    "item.lobcorp.solitude_suit": "Solitude (Suit)",
+    "item.lobcorp.red_eyes": "Red Eyes",
+    "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)",
+    "item.lobcorp.engulfing_dream": "Engulfing Dream",
+    "item.lobcorp.engulfing_dream_suit": "Engulfing Dream (Suit)",
+    "item.lobcorp.horn": "Horn",
+    "item.lobcorp.horn_suit": "Horn Suit",
+    "item.lobcorp.lantern": "Lantern",
+    "item.lobcorp.lantern_suit": "Lantern Suit",
+    "item.lobcorp.fragments": "Fragments from Somewhere",
+    "item.lobcorp.fragments_suit": "Fragments from Somewhere (Suit)",
+    "item.lobcorp.noise": "Noise",
+    "item.lobcorp.noise_suit": "Noise Suit",
+    "item.lobcorp.sanguine_desire": "Sanguine Desire",
+    "item.lobcorp.sanguine_desire_suit": "Sanguine Desire (Suit)",
+    "item.lobcorp.harmony": "Harmony",
+    "item.lobcorp.harmony_suit": "Harmony (Suit)",
+    "item.lobcorp.pleasure": "Pleasure",
+    "item.lobcorp.pleasure_suit": "Pleasure (Suit)",
+    "item.lobcorp.laetitia": "Laetitia",
+    "item.lobcorp.laetitia_suit": "Laetitia (Suit)",
+})
+
+laetitia()
+laetitia_friend()
+print("assets laetitia ok")

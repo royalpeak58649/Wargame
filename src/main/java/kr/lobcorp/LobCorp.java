@@ -61,6 +61,7 @@ public class LobCorp implements ModInitializer {
             Employees.get(newP).possessHits = 0;
             Employees.get(newP).possessLabel = "";
             Employees.get(newP).possessHeal = false;
+            Employees.get(newP).laetitiaHeart = false;
             Employees.apply(newP);
             Employees.restoreSp(newP);
         });
