@@ -72,7 +72,38 @@ public final class LobCorpCommands {
                         .then(Commands.literal("queen_bee").executes(c -> build(c, ModEntities.QUEEN_BEE, false)))
                         .then(Commands.literal("black_swan").executes(c -> build(c, ModEntities.BLACK_SWAN, false))))
                 .then(Commands.literal("facility").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                        .executes(LobCorpCommands::facility))
+                        .executes(c -> facility(c, false))
+                        .then(Commands.literal("full").executes(c -> facility(c, true))))
+                .then(Commands.literal("extract").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .executes(c -> {
+                            var server = c.getSource().getServer();
+                            if (!kr.lobcorp.work.Extraction.hasFacility(server)) {
+                                c.getSource().sendFailure(Component.literal("먼저 /lobcorp facility 로 시설을 지으세요."));
+                                return 0;
+                            }
+                            if (Facility.get(server).offers.isEmpty()) kr.lobcorp.work.Extraction.offer(server);
+                            else kr.lobcorp.work.Extraction.announce(server);
+                            return 1;
+                        })
+                        .then(Commands.argument("id", com.mojang.brigadier.arguments.StringArgumentType.word())
+                                .suggests((c, b) -> {
+                                    var have = kr.lobcorp.work.Extraction.placed(c.getSource().getServer());
+                                    for (String id : kr.lobcorp.work.FacilityBuilder.catalog().keySet())
+                                        if (!have.contains(id) && id.startsWith(b.getRemainingLowerCase())) b.suggest(id);
+                                    return b.buildFuture();
+                                })
+                                .executes(c -> {
+                                    String id = com.mojang.brigadier.arguments.StringArgumentType.getString(c, "id");
+                                    var out = kr.lobcorp.work.Extraction.place(c.getSource().getServer(), id);
+                                    switch (out) {
+                                        case OK -> { return 1; }
+                                        case NO_FACILITY -> c.getSource().sendFailure(Component.literal("먼저 /lobcorp facility 로 시설을 지으세요."));
+                                        case FULL -> c.getSource().sendFailure(Component.literal("빈 격리실이 없습니다."));
+                                        case ALREADY -> c.getSource().sendFailure(Component.literal("이미 수용한 환상체입니다."));
+                                        default -> c.getSource().sendFailure(Component.literal("알 수 없는 환상체입니다: " + id));
+                                    }
+                                    return 0;
+                                })))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());
@@ -81,6 +112,7 @@ public final class LobCorpCommands {
                                     if (e instanceof AbnormalityEntity a) a.resetQliphoth();
                             discardFriends(c.getSource().getServer());
                             discardBees(c.getSource().getServer());
+                            kr.lobcorp.work.Extraction.offer(c.getSource().getServer());
                             return 1;
                         })))
                 .then(Commands.literal("breach").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -119,15 +151,24 @@ public final class LobCorpCommands {
         return 1;
     }
 
-    private static int facility(CommandContext<CommandSourceStack> c) {
+    private static int facility(CommandContext<CommandSourceStack> c, boolean full) {
         ServerLevel level = c.getSource().getLevel();
+        var server = c.getSource().getServer();
+        if (kr.lobcorp.work.Extraction.hasFacility(server)) {
+            c.getSource().sendFailure(Component.literal("이미 시설이 있습니다. (한 월드에 하나만 지을 수 있습니다)"));
+            return 0;
+        }
         BlockPos o = BlockPos.containing(c.getSource().getPosition());
         c.getSource().sendSuccess(() -> Component.literal("시설을 짓는 중입니다… (잠시 멈출 수 있습니다)").withStyle(s -> s.withColor(0xAAAAAA)), true);
-        var r = kr.lobcorp.work.FacilityBuilder.build(level, o);
+        var r = kr.lobcorp.work.FacilityBuilder.build(level, o, full);
+        Facility.get(server).slots = new java.util.ArrayList<>(r.slots());
+        Facility.get(server).offers.clear();
+        if (!full) kr.lobcorp.work.Extraction.place(server, "one_sin");
         if (c.getSource().getEntity() instanceof ServerPlayer p)
             p.teleportTo(level, r.spawn().getX() + 0.5, r.spawn().getY(), r.spawn().getZ() + 0.5, java.util.Set.of(), -90f, 0f, false);
-        c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 10개, 격리실 " + r.units() + "개. 상층 바닥 높이 Y=" + r.topY()
-                + ". 중앙제어팀 홀로 이동했습니다.").withStyle(s -> s.withColor(0x55FF55)), true);
+        c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 10개, 격리실 " + r.slots().size() + "칸. 상층 바닥 높이 Y=" + r.topY()
+                + ". 중앙제어팀 홀로 이동했습니다." + (full ? " (환상체 전부 수용)" : " 첫 환상체를 수용했습니다. 하루가 끝나면(/lobcorp day next) 다음 후보가 나옵니다."))
+                .withStyle(s -> s.withColor(0x55FF55)), true);
         return 1;
     }
 

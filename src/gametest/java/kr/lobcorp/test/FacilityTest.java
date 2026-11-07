@@ -2,6 +2,9 @@ package kr.lobcorp.test;
 
 import kr.lobcorp.entity.AbnormalityEntity;
 import kr.lobcorp.work.FacilityBuilder;
+import kr.lobcorp.work.Facility;
+import kr.lobcorp.work.Extraction;
+import kr.lobcorp.AbnoProfile;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
@@ -62,7 +65,36 @@ public class FacilityTest implements FabricClientGameTest {
             sv.runCommand("forceload add " + (b[0] - 40) + " " + (b[2] - 60) + " " + (b[0] + 200) + " " + (b[2] + 60));
             ctx.waitTicks(60);
             abnos = sv.computeOnServer(s -> { int n = 0; for (Entity e : s.overworld().getAllEntities()) if (e instanceof AbnormalityEntity) n++; return n; });
-            log("facility built: topY=" + topY + " abnormalities=" + abnos);
+            log("facility built: topY=" + topY + " abnormalities=" + abnos + " slots=" + sv.computeOnServer(s -> Facility.get(s).slots.size())
+                    + " first=" + sv.computeOnServer(s -> Facility.get(s).slots.get(0).abno));
+            sv.runCommand("lobcorp facility");
+            log("second facility refused: slots=" + sv.computeOnServer(s -> Facility.get(s).slots.size()));
+
+            // 하루가 끝나면 후보 3종
+            sv.runCommand("lobcorp day next");
+            ctx.waitTicks(5);
+            String offers = sv.computeOnServer(s -> { StringBuilder sb = new StringBuilder();
+                for (String id : Facility.get(s).offers) sb.append(id).append('(').append(AbnoProfile.BY_ID.get(id).risk()).append(") ");
+                return sb.toString(); });
+            log("day 2 offers: " + offers);
+            String pick = sv.computeOnServer(s -> Facility.get(s).offers.get(0));
+            sv.runCommand("lobcorp extract " + pick);
+            ctx.waitTicks(5);
+            log("picked " + pick + ": placed=" + sv.computeOnServer(s -> Extraction.placed(s).size()) + " slot1=" + sv.computeOnServer(s -> Facility.get(s).slots.get(1).abno)
+                    + " offers cleared=" + sv.computeOnServer(s -> Facility.get(s).offers.isEmpty()));
+            sv.runCommand("lobcorp extract " + pick);
+            log("duplicate refused: placed=" + sv.computeOnServer(s -> Extraction.placed(s).size()));
+            // 진행도: 8종 넘기면 HE, 20종 넘기면 WAW 후보가 섞인다
+            StringBuilder prog = new StringBuilder();
+            for (int day = 0; day < 22; day++) {
+                sv.runCommand("lobcorp day next");
+                String o = sv.computeOnServer(s -> { int n = Extraction.placed(s).size(); StringBuilder sb = new StringBuilder(n + ":");
+                    for (String id : Facility.get(s).offers) sb.append(AbnoProfile.BY_ID.get(id).risk().charAt(0));
+                    return sb.toString(); });
+                prog.append(o).append(' ');
+                sv.runOnServer(s -> Extraction.place(s, Facility.get(s).offers.get(0)));
+            }
+            log("progression (placed:offer risks) " + prog);
 
             // 각 부서 홀 도달 여부
             String r = sv.computeOnServer(s -> {

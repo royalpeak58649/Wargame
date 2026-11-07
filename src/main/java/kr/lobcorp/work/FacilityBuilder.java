@@ -33,7 +33,7 @@ public final class FacilityBuilder {
     public static final int DEPT_SPACING = 48;
     private static final int UNIT_SPACING = 10;
 
-    record Unit(String id, EntityType<? extends AbnormalityEntity> type, boolean corner) {}
+    public record Unit(String id, EntityType<? extends AbnormalityEntity> type, boolean corner) {}
 
     record Dept(String name, String sephirah, DyeColor color, List<Unit> north, List<Unit> south) {}
 
@@ -80,10 +80,11 @@ public final class FacilityBuilder {
         return List.of(upper, middle, lower);
     }
 
-    public record Result(BlockPos spawn, int units, int topY) {}
+    public record Result(BlockPos spawn, int units, int topY, List<FacilityData.Slot> slots) {}
 
     /** top = 상층 바닥 위 첫 칸(서 있는 높이). 하층이 월드 바닥 아래로 내려가면 전체를 위로 올린다. */
-    public static Result build(ServerLevel level, BlockPos requested) {
+    public static Result build(ServerLevel level, BlockPos requested, boolean fill) {
+        List<FacilityData.Slot> slots = new ArrayList<>();
         int topY = requested.getY();
         int lowest = topY - 2 * FLOOR_GAP - 2;
         if (lowest < level.getMinY() + 1) topY += (level.getMinY() + 1) - lowest;
@@ -98,19 +99,20 @@ public final class FacilityBuilder {
                 int cx = ox + i * DEPT_SPACING;
                 boolean westDoor = i > 0 || f == 0 || f == 1;         // 상층·중층 첫 부서는 서쪽 계단실과 연결
                 boolean eastDoor = i < depts.size() - 1 || f == 1 || f == 2; // 중층·하층 마지막 부서는 동쪽 계단실과 연결
-                units += department(level, cx, fy, oz, depts.get(i), f, westDoor, eastDoor);
+                units += department(level, cx, fy, oz, depts.get(i), f, westDoor, eastDoor, fill, slots);
                 if (i < depts.size() - 1) corridorX(level, cx + 8, cx + DEPT_SPACING - 8, fy, oz, depts.get(i).color());
             }
         }
         // 상층 → 중층: 첫 부서 서쪽, 중층 → 하층: 마지막 부서 동쪽
         stairwell(level, ox, topY, oz, -1);
         stairwell(level, ox + (floors.get(1).size() - 1) * DEPT_SPACING, topY - FLOOR_GAP, oz, +1);
-        return new Result(new BlockPos(ox + 3, topY, oz + 3), units, topY);
+        return new Result(new BlockPos(ox + 3, topY, oz + 3), units, topY, slots);
     }
 
     // ───────────────────────── 부서 ─────────────────────────
 
-    private static int department(ServerLevel level, int cx, int fy, int oz, Dept d, int floor, boolean westDoor, boolean eastDoor) {
+    private static int department(ServerLevel level, int cx, int fy, int oz, Dept d, int floor, boolean westDoor, boolean eastDoor,
+                                  boolean fill, List<FacilityData.Slot> slots) {
         BlockState wall = Blocks.CONCRETE.white().defaultBlockState();
         BlockState band = Blocks.CONCRETE.pick(d.color()).defaultBlockState();
         BlockState glass = Blocks.STAINED_GLASS.pick(d.color()).defaultBlockState();
@@ -144,13 +146,14 @@ public final class FacilityBuilder {
         if (eastDoor) opening(level, cx + 7, fy, oz - 1, cx + 7, fy + 2, oz + 1);
 
         int n = 0;
-        n += hallway(level, cx, fy, oz, d, d.north(), -1);
-        n += hallway(level, cx, fy, oz, d, d.south(), +1);
+        n += hallway(level, cx, fy, oz, d, d.north(), -1, fill, slots);
+        n += hallway(level, cx, fy, oz, d, d.south(), +1, fill, slots);
         return n;
     }
 
     /** dir = -1 북쪽(z 감소), +1 남쪽. 복도 내부 x cx-1..cx+1, 격리실은 복도 동쪽(문이 서쪽). */
-    private static int hallway(ServerLevel level, int cx, int fy, int oz, Dept d, List<Unit> units, int dir) {
+    private static int hallway(ServerLevel level, int cx, int fy, int oz, Dept d, List<Unit> units, int dir,
+                               boolean fill, List<FacilityData.Slot> slots) {
         int len = 1 + units.size() * UNIT_SPACING;               // 중앙 홀 벽 바깥부터 끝벽까지
         int zStart = oz + dir * 8, zEnd = oz + dir * (7 + len);
         int z0 = Math.min(zStart, zEnd), z1 = Math.max(zStart, zEnd);
@@ -167,12 +170,18 @@ public final class FacilityBuilder {
         for (int k = 0; k < units.size(); k++) {
             Unit unit = units.get(k);
             int uz = oz + dir * (13 + k * UNIT_SPACING);
-            AbnormalityEntity a = RoomBuilder.build(level, new BlockPos(cx, fy, uz), unit.type(), unit.corner());
+            BlockPos origin = new BlockPos(cx, fy, uz);
+            RoomBuilder.shell(level, origin);
+            if (!fill) {
+                slots.add(new FacilityData.Slot(origin, d.name(), ""));
+                labelSlot(level, origin, null, d.name());
+                continue;
+            }
+            AbnormalityEntity a = RoomBuilder.spawn(level, origin, unit.type(), unit.corner());
             if (a == null) continue;
             placed++;
-            var p = a.profile();
-            // 문 맞은편(복도 서쪽 벽)에 표찰
-            sign(level, cx - 1, fy + 1, uz, Direction.EAST, p.code(), p.name(), p.risk(), "");
+            slots.add(new FacilityData.Slot(origin, d.name(), unit.id()));
+            labelSlot(level, origin, a.profile(), d.name());
         }
         return placed;
     }
@@ -246,6 +255,23 @@ public final class FacilityBuilder {
                 }
         for (int x = x0; x <= x1; x++) for (int z = z0; z <= z1; z++)
             if (Math.floorMod(x + z, 6) == 0) set(level, x, y + 4, z, Blocks.SEA_LANTERN.defaultBlockState());
+    }
+
+    /** 격리실 문 맞은편(복도 서쪽 벽)의 표찰. profile == null 이면 빈 격리실. */
+    public static void labelSlot(ServerLevel level, BlockPos origin, kr.lobcorp.AbnoProfile p, String dept) {
+        int x = origin.getX() - 1, y = origin.getY() + 1, z = origin.getZ();
+        if (p == null) sign(level, x, y, z, Direction.EAST, "빈 격리실", dept, "", "");
+        else sign(level, x, y, z, Direction.EAST, p.code(), p.name(), p.risk(), dept);
+    }
+
+    /** 모든 부서 배치를 한 줄로 편 목록 (환상체 id → 엔티티 종류·구석 배치). */
+    public static java.util.Map<String, Unit> catalog() {
+        java.util.Map<String, Unit> m = new java.util.LinkedHashMap<>();
+        for (List<Dept> floor : layout()) for (Dept d : floor) {
+            for (Unit x : d.north()) m.put(x.id(), x);
+            for (Unit x : d.south()) m.put(x.id(), x);
+        }
+        return m;
     }
 
     // ───────────────────────── 도우미 ─────────────────────────

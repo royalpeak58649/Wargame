@@ -20,6 +20,12 @@ public final class RoomBuilder {
     private RoomBuilder() {}
 
     public static <T extends AbnormalityEntity> T build(ServerLevel level, BlockPos o, EntityType<T> type, boolean corner) {
+        shell(level, o);
+        return spawn(level, o, type, corner);
+    }
+
+    /** 빈 격리실(벽·창·문·조명)만 짓는다. */
+    public static void shell(ServerLevel level, BlockPos o) {
         // 외벽 (속은 비움)
         for (int x = 2; x <= 10; x++)
             for (int y = -1; y <= 4; y++)
@@ -51,7 +57,10 @@ public final class RoomBuilder {
         BlockState button = Blocks.STONE_BUTTON.defaultBlockState().setValue(ButtonBlock.FACE, AttachFace.WALL);
         set(level, o.offset(1, 1, 1), button.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST));
         set(level, o.offset(3, 1, -1), button.setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST));
+    }
 
+    /** shell()로 지은 격리실 o에 환상체를 들인다. */
+    public static <T extends AbnormalityEntity> T spawn(ServerLevel level, BlockPos o, EntityType<T> type, boolean corner) {
         T abno = type.create(level, EntitySpawnReason.COMMAND);
         if (abno == null) return null;
         // 중앙(정면=서쪽, yaw 90) 또는 안쪽 구석(벽을 보고 섬)
