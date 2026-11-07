@@ -4406,3 +4406,220 @@ merge_lang({
     "item.lobcorp.solemn_lament": "Solemn Lament",
     "item.lobcorp.solemn_lament_suit": "Solemn Lament Suit",
 })
+
+
+# ═════════════ 31차: 샤덴프로이데 (O-05-76) ═════════════
+def schadenfreude():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    iron = hexc("#3a3a40")
+    iron_hi = hexc("#4a4a52")
+    iron_dark = hexc("#26262c")
+    chain = hexc("#8a8a90")
+    chain_hi = hexc("#b0b0b8")
+    chain_dark = hexc("#5a5a62")
+    lock = hexc("#c8a040")
+    lock_hi = hexc("#e8c060")
+    lock_dark = hexc("#8a6a20")
+    keyhole = hexc("#0a0a0c")
+    pupil = hexc("#ffd040")
+    pupil_hi = hexc("#fff0a0")
+    blade = hexc("#c8c8d0")
+    blade_hi = hexc("#eef0f4")
+    blade_dark = hexc("#7a7a84")
+    tooth = hexc("#9a9aa4")
+
+    # 몸통 (u0 v0, 10x12x6)
+    b = box(img, 0, 0, 10, 12, 6, iron, 6, top=iron_hi)
+    bx, by = b["front"]
+    # 철판 이음매
+    for x in range(10):
+        px(img, bx + x, by + 3, iron_dark)
+        px(img, bx + x, by + 8, iron_dark)
+    for y in range(12):
+        px(img, bx, by + y, iron_dark)
+        px(img, bx + 9, by + y, iron_dark)
+    # 리벳
+    for (x, y) in [(1, 1), (8, 1), (1, 6), (8, 6), (1, 10), (8, 10)]:
+        px(img, bx + x, by + y, iron_hi)
+        px(img, bx + x, by + y + 1, iron_dark)
+    # 사슬: 대각선으로 감긴 고리
+    for i in range(10):
+        y = 1 + i
+        if y >= 12:
+            break
+        px(img, bx + i, by + y, chain if i % 2 == 0 else chain_dark)
+        if i % 2 == 0:
+            px(img, bx + i, by + y + 1, chain_hi)
+    # 매달린 자물쇠 두 개
+    for (x, y) in [(2, 5), (6, 9)]:
+        rect(img, bx + x, by + y, 2, 2, lock, 4)
+        px(img, bx + x, by + y, lock_hi)
+        px(img, bx + x + 1, by + y + 1, lock_dark)
+        px(img, bx + x, by + y - 1, chain_dark)
+    # 옆면·뒷면·윗면에도 사슬과 자물쇠
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(12):
+            for x in range(6):
+                if (x * 3 + y * 5) % 11 == 0:
+                    px(img, sx + x, sy + y, chain)
+                elif (x + y) % 7 == 0:
+                    px(img, sx + x, sy + y, iron_dark)
+        for x in range(6):
+            px(img, sx + x, sy + 11, iron_dark)
+        rect(img, sx + 2, sy + 4, 2, 2, lock, 4)
+    tx, ty = b["top"]
+    for x in range(10):
+        for y in range(6):
+            if (x + y * 2) % 5 == 0:
+                px(img, tx + x, ty + y, chain)
+            elif (x * 3 + y) % 9 == 0:
+                px(img, tx + x, ty + y, iron_dark)
+
+    # 가슴의 열쇠 구멍 눈 판 (u32 v0, 4x6x1)
+    c = box(img, 32, 0, 4, 6, 1, iron_hi, 4)
+    cx, cy = c["front"]
+    # 열쇠 구멍: 위는 둥근 구멍, 아래는 쐐기
+    for (x, y) in [(1, 1), (2, 1), (1, 2), (2, 2)]:
+        px(img, cx + x, cy + y, keyhole)
+    for y in range(3, 6):
+        px(img, cx + 1, cy + y, keyhole)
+        px(img, cx + 2, cy + y, keyhole)
+    px(img, cx + 1, cy + 5, keyhole)
+    # 테두리
+    for x in range(4):
+        px(img, cx + x, cy, iron_dark)
+        px(img, cx + x, cy + 5, iron_dark)
+    for y in range(6):
+        px(img, cx, cy + y, iron_dark)
+        px(img, cx + 3, cy + y, iron_dark)
+
+    # 눈동자 (u42 v0, 2x2x1) — 바라볼 때만 보인다
+    p = box(img, 42, 0, 2, 2, 1, pupil, 4)
+    px_, py_ = p["front"]
+    px(img, px_, py_, pupil_hi)
+    px(img, px_ + 1, py_ + 1, hexc("#c09a10"))
+
+    # 사슬에 감긴 머리 (u0 v20, 5x4x5)
+    h = box(img, 0, 20, 5, 4, 5, iron, 6, top=iron_hi)
+    hx, hy = h["front"]
+    # 사슬 띠
+    for x in range(5):
+        px(img, hx + x, hy + 1, chain if x % 2 == 0 else chain_dark)
+        px(img, hx + x, hy + 2, chain_dark if x % 2 == 0 else chain)
+    # 틈으로 보이는 어두운 눈
+    px(img, hx + 1, hy + 2, hexc("#0a0a0c"))
+    px(img, hx + 3, hy + 2, hexc("#0a0a0c"))
+    for x in range(5):
+        px(img, hx + x, hy + 3, iron_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(4):
+            for x in range(5):
+                if (x + y) % 3 == 0:
+                    px(img, sx + x, sy + y, chain)
+                elif (x * 2 + y) % 5 == 0:
+                    px(img, sx + x, sy + y, iron_dark)
+
+    # 팔 (u20 v20, 3x11x3)
+    a = box(img, 20, 20, 3, 11, 3, iron, 6, top=iron_hi)
+    ax, ay = a["front"]
+    for y in range(11):
+        px(img, ax + 1, ay + y, iron_dark if y % 4 == 0 else iron)
+    for (x, y) in [(0, 2), (2, 6)]:
+        px(img, ax + x, ay + y, chain)
+    for x in range(3):
+        px(img, ax + x, ay + 10, iron_dark)
+
+    # 둥근 톱날 (u32 v20, 6x6x1)
+    bl = box(img, 32, 20, 6, 6, 1, blade, 4, top=blade_hi)
+    blx, bly = bl["front"]
+    # 톱니: 테두리를 따라
+    for x in range(6):
+        px(img, blx + x, bly, tooth)
+        px(img, blx + x, bly + 5, tooth)
+    for y in range(6):
+        px(img, blx, bly + y, tooth)
+        px(img, blx + 5, bly + y, tooth)
+    # 날: 중심에서 뻗은 선
+    for i in range(6):
+        px(img, blx + i, bly + i, blade_hi)
+        px(img, blx + 5 - i, bly + i, blade_dark)
+    for (x, y) in [(2, 2), (3, 3)]:
+        px(img, blx + x, bly + y, blade_dark)
+    # 축
+    px(img, blx + 2, bly + 2, hexc("#3a3a40"))
+    px(img, blx + 3, bly + 3, hexc("#3a3a40"))
+
+    # 다리 (u0 v32, 3x10x3 / u12 v32, 3x10x3)
+    for u in (0, 12):
+        l = box(img, u, 32, 3, 10, 3, iron, 6, top=iron_hi)
+        lx, ly = l["front"]
+        for y in range(10):
+            px(img, lx + 1, ly + y, iron_dark if y % 5 == 0 else iron)
+        for (x, y) in [(0, 3), (2, 7)]:
+            px(img, lx + x, ly + y, chain)
+        for x in range(3):
+            px(img, lx + x, ly + 9, hexc("#1a1a1e"))
+
+    save(img, "textures/entity/schadenfreude.png")
+
+
+GZ = {"k": "#3a3a40", "h": "#4a4a52", "d": "#26262c", "c": "#8a8a90", "y": "#ffd040", "s": "#c8c8d0"}
+icon([
+    "................",
+    "..............ss",
+    ".............ss.",
+    "............ss..",
+    "...........ss...",
+    "..........ss....",
+    ".........ss.....",
+    "........ss......",
+    ".......ss.......",
+    "......ss........",
+    ".....ss.........",
+    "....kk..........",
+    "...kk...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], GZ, "textures/item/gaze.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkcccckk....",
+    "....kkcccckk....",
+    "....kkcccckk....",
+    "....kkcccckk....",
+    "....kkkkkkkk....",
+    "....kkyyyykk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], GZ, "textures/item/gaze_suit.png")
+
+armor(hexc("#3a3a40"), "#26262c", "#8a8a90", "textures/entity/equipment/humanoid/gaze.png")
+
+for item, parent in [("gaze", "minecraft:item/handheld"), ("gaze_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/gaze.json", {"layers": {"humanoid": [{"texture": "lobcorp:gaze"}]}})
+
+
+schadenfreude()
+print("assets schadenfreude ok")
+
+merge_lang({
+    "entity.lobcorp.schadenfreude": "샤덴프로이데",
+    "item.lobcorp.gaze": "응시",
+    "item.lobcorp.gaze_suit": "응시의 옷",
+}, {
+    "entity.lobcorp.schadenfreude": "Schadenfreude",
+    "item.lobcorp.gaze": "Gaze",
+    "item.lobcorp.gaze_suit": "Gaze Garb",
+})

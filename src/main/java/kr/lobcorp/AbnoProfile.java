@@ -518,6 +518,21 @@ public record AbnoProfile(
                     "3초마다 몸에서 피를 쏟아낸다. 10블록 안의 직원은 정신력을 잃는다. 멀리서 제압하십시오."
             ));
 
+    public static final AbnoProfile SCHADENFREUDE = new AbnoProfile(
+            "schadenfreude", "샤덴프로이데", "O-05-76", "HE", 0xFFAA00,
+            new int[]{0, 30, 40, 40}, 18, 11, 6,
+            DamageColor.RED, 3, 6,
+            2,
+            () -> ModItems.GAZE, 40,
+            () -> ModItems.GAZE_SUIT, 35,
+            "gaze", "응시", "최대 HP +4", 4,
+            new float[]{1.0f, 1.0f, 1.0f, 1.5f},
+            List.of(
+                    "누군가 자신을 바라보는 동안, 5초마다 클리포트 카운터가 1 감소한다. 작업자는 끝까지 눈을 돌려야 한다.",
+                    "탈출하면 누군가 바라볼 때만 움직인다. 아무도 보지 않으면 완전히 멈춰 선다.",
+                    "멈춰 세우려면 눈을 돌리고, 싸우려면 다시 바라봐야 한다. 그 사이에 톱날이 돌기 시작한다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -551,7 +566,8 @@ public record AbnoProfile(
             Map.entry(NOTES.id, NOTES),
             Map.entry(SCARECROW.id, SCARECROW),
             Map.entry(RUDOLTA.id, RUDOLTA),
-            Map.entry(FUNERAL.id, FUNERAL)
+            Map.entry(FUNERAL.id, FUNERAL),
+            Map.entry(SCHADENFREUDE.id, SCHADENFREUDE)
     );
 
     public boolean canBreach() {

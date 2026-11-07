@@ -24,6 +24,7 @@ import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.RudoltaModel;
 import kr.lobcorp.client.model.ScarecrowModel;
+import kr.lobcorp.client.model.SchadenfreudeModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.ShelterModel;
 import kr.lobcorp.client.model.SingingMachineModel;
@@ -56,6 +57,7 @@ import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.RudoltaEntity;
 import kr.lobcorp.entity.ScarecrowEntity;
+import kr.lobcorp.entity.SchadenfreudeEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
@@ -821,6 +823,32 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(FuneralModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Schadenfreude extends MobRenderer<SchadenfreudeEntity, SchadenfreudeModel.State, SchadenfreudeModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/schadenfreude.png");
+
+        public Schadenfreude(EntityRendererProvider.Context ctx) {
+            super(ctx, new SchadenfreudeModel(ctx.bakeLayer(SchadenfreudeModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public SchadenfreudeModel.State createRenderState() {
+            return new SchadenfreudeModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SchadenfreudeEntity e, SchadenfreudeModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.watched = e.isWatched();
+            s.breached = e.isBreached();
+            s.spin = e.getSpinTicks() > 0 ? 1f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(SchadenfreudeModel.State s) {
             return TEX;
         }
     }

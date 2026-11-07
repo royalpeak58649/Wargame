@@ -59,7 +59,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("woodsman").executes(c -> build(c, ModEntities.WOODSMAN, false)))
                         .then(Commands.literal("scarecrow").executes(c -> build(c, ModEntities.SCARECROW, false)))
                         .then(Commands.literal("rudolta").executes(c -> build(c, ModEntities.RUDOLTA, false)))
-                        .then(Commands.literal("funeral").executes(c -> build(c, ModEntities.FUNERAL, false))))
+                        .then(Commands.literal("funeral").executes(c -> build(c, ModEntities.FUNERAL, false)))
+                        .then(Commands.literal("schadenfreude").executes(c -> build(c, ModEntities.SCHADENFREUDE, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

@@ -88,5 +88,8 @@
   "item.lobcorp.christmas_suit": "Christmas Garb",
   "entity.lobcorp.funeral": "The Funeral of the Dead Butterflies",
   "item.lobcorp.solemn_lament": "Solemn Lament",
-  "item.lobcorp.solemn_lament_suit": "Solemn Lament Suit"
+  "item.lobcorp.solemn_lament_suit": "Solemn Lament Suit",
+  "entity.lobcorp.schadenfreude": "Schadenfreude",
+  "item.lobcorp.gaze": "Gaze",
+  "item.lobcorp.gaze_suit": "Gaze Garb"
 }
