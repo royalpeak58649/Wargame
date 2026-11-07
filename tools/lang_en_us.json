@@ -103,5 +103,8 @@
   "item.lobcorp.love_and_hate_suit": "Love and Hate Dress",
   "entity.lobcorp.knight_of_despair": "The Knight of Despair",
   "item.lobcorp.tears_sword": "The Sword Sharpened with Tears",
-  "item.lobcorp.tears_sword_suit": "Sword Sharpened with Tears Armor"
+  "item.lobcorp.tears_sword_suit": "Sword Sharpened with Tears Armor",
+  "entity.lobcorp.king_of_greed": "The King of Greed",
+  "item.lobcorp.gold_rush": "Gold Rush",
+  "item.lobcorp.gold_rush_suit": "Gold Rush Dress"
 }

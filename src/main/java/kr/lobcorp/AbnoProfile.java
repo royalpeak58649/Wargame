@@ -548,6 +548,21 @@ public record AbnoProfile(
                     "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
             ));
 
+    public static final AbnoProfile KING_GREED = new AbnoProfile(
+            "king_of_greed", "탐욕의 왕", "O-01-64", "WAW", 0xAA55FF,
+            new int[]{25, 0, 0, 0}, 22, 16, 8,
+            DamageColor.RED, 5, 7,
+            1,
+            () -> ModItems.GOLD_RUSH, 100,
+            () -> ModItems.GOLD_RUSH_SUIT, 60,
+            "gold_rush", "골드러시", "최대 HP +6", 3,
+            new float[]{0.0f, 0.5f, 1.2f, 1.5f},
+            List.of(
+                    "황금 드레스를 입은 마법소녀. 온몸을 장식한 보석들이 조명을 받아 눈부시게 빛난다.",
+                    "작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 거대한 황금빛 아가리가 되어 시설 어딘가에 나타난다. 앞으로만 느릿하게 나아가며, 부딪힌 벽은 문이 되어 다른 곳으로 이어진다. 정면에 선 직원은 통째로 삼켜진다. 뒤나 옆에서 때리십시오."
+            ));
+
     public static final AbnoProfile KNIGHT_DESPAIR = new AbnoProfile(
             "knight_of_despair", "절망의 기사", "O-01-73", "WAW", 0xAA55FF,
             new int[]{0, 45, 50, 40}, 22, 14, 8,
@@ -598,6 +613,7 @@ public record AbnoProfile(
             Map.entry(JUDGEMENT_BIRD.id, JUDGEMENT_BIRD),
             Map.entry(QUEEN_HATRED.id, QUEEN_HATRED),
             Map.entry(KNIGHT_DESPAIR.id, KNIGHT_DESPAIR),
+            Map.entry(KING_GREED.id, KING_GREED),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),

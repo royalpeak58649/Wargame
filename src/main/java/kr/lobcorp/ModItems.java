@@ -62,6 +62,7 @@ public final class ModItems {
     public static final ArmorMaterial JUSTITIA_MAT = material("justitia", 9);
     public static final ArmorMaterial LOVE_AND_HATE_MAT = material("love_and_hate", 7);
     public static final ArmorMaterial TEARS_SWORD_MAT = material("tears_sword", 7);
+    public static final ArmorMaterial GOLD_RUSH_MAT = material("gold_rush", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -131,6 +132,8 @@ public final class ModItems {
     public static Item LOVE_AND_HATE_SUIT;
     public static Item TEARS_SWORD;
     public static Item TEARS_SWORD_SUIT;
+    public static Item GOLD_RUSH;
+    public static Item GOLD_RUSH_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -328,6 +331,10 @@ public final class ModItems {
                 "O-01-73 · WAW", "WHITE 피해 검, 빠른 연타", "눈물을 식혀 벼려 낸 날. 아직 마르지 않았다.");
         TEARS_SWORD_SUIT = suit("tears_sword_suit", TEARS_SWORD_MAT,
                 "O-01-73 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
+        GOLD_RUSH = weapon("gold_rush", DamageColor.RED, 4.0, -1.4,
+                "O-01-64 · WAW", "RED 피해 황금 건틀릿, 빠른 연타", "손등을 덮은 황금 장갑. 주먹을 쥘 때마다 보석이 작게 울린다.");
+        GOLD_RUSH_SUIT = suit("gold_rush_suit", GOLD_RUSH_MAT,
+                "O-01-64 · WAW", "RED 저항: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -342,6 +349,7 @@ public final class ModItems {
                 SYRINX, SYRINX_SUIT, FROST_SPLINTER, FROST_SPLINTER_SUIT, LOGGING, LOGGING_SUIT,
                 HARVEST, HARVEST_SUIT, CHRISTMAS, CHRISTMAS_SUIT, SOLEMN_LAMENT, SOLEMN_LAMENT_SUIT,
                 GAZE, GAZE_SUIT, LAMP, LAMP_SUIT, JUSTITIA, JUSTITIA_SUIT,
-                LOVE_AND_HATE, LOVE_AND_HATE_SUIT, TEARS_SWORD, TEARS_SWORD_SUIT);
+                LOVE_AND_HATE, LOVE_AND_HATE_SUIT, TEARS_SWORD, TEARS_SWORD_SUIT,
+                GOLD_RUSH, GOLD_RUSH_SUIT);
     }
 }

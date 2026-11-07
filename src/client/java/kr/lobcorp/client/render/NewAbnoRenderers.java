@@ -13,6 +13,7 @@ import kr.lobcorp.client.model.FreischutzModel;
 import kr.lobcorp.client.model.FuneralModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.JudgementBirdModel;
+import kr.lobcorp.client.model.KingGreedModel;
 import kr.lobcorp.client.model.KnightDespairModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
@@ -50,6 +51,7 @@ import kr.lobcorp.entity.FreischutzEntity;
 import kr.lobcorp.entity.FuneralEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.JudgementBirdEntity;
+import kr.lobcorp.entity.KingGreedEntity;
 import kr.lobcorp.entity.KnightDespairEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
@@ -960,6 +962,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(KnightDespairModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class KingGreed extends MobRenderer<KingGreedEntity, KingGreedModel.State, KingGreedModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/king_of_greed.png");
+
+        public KingGreed(EntityRendererProvider.Context ctx) {
+            super(ctx, new KingGreedModel(ctx.bakeLayer(KingGreedModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public KingGreedModel.State createRenderState() {
+            return new KingGreedModel.State();
+        }
+
+        @Override
+        public void extractRenderState(KingGreedEntity e, KingGreedModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            if (s.breached) s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 황금빛 아가리가 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(KingGreedModel.State s) {
             return TEX;
         }
     }

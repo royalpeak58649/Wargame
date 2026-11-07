@@ -5478,3 +5478,231 @@ merge_lang({
     "item.lobcorp.tears_sword": "The Sword Sharpened with Tears",
     "item.lobcorp.tears_sword_suit": "Sword Sharpened with Tears Armor",
 })
+
+
+# ═════════════ 36차: 탐욕의 왕 (O-01-64) ═════════════
+def king_of_greed():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    gold = hexc("#e8b830")
+    gold_hi = hexc("#f8d868")
+    gold_dark = hexc("#b08a18")
+    jewel = hexc("#d02040")
+    jewel_hi = hexc("#ff6a80")
+    skin = hexc("#7a4a30")
+    skin_shade = hexc("#5e3620")
+    hair = hexc("#f4f0e8")
+    hair_shade = hexc("#d0c8bc")
+    crown = hexc("#f8d868")
+    crown_dark = hexc("#b08a18")
+    mouth = hexc("#100808")
+    mouth_hi = hexc("#2a1414")
+    tooth = hexc("#fbf6ea")
+    tooth_dark = hexc("#c8c0b0")
+
+    # ── 마법소녀 ──
+    # 다리 (u0 v0, 2x8x2 / u8 v0, 2x8x2)
+    for u in (0, 8):
+        l = box(img, u, 0, 2, 8, 2, gold, 6, top=gold_hi)
+        lx, ly = l["front"]
+        for y in range(8):
+            px(img, lx, ly + y, gold_dark if y % 3 == 0 else gold)
+        for x in range(2):
+            px(img, lx + x, ly + 7, hexc("#8a6a10"))
+
+    # 드레스 (u0 v10, 8x7x6)
+    d = box(img, 0, 10, 8, 7, 6, gold, 6, top=gold_hi)
+    dx, dy = d["front"]
+    # 붉은 보석 세 개
+    for (x, y) in [(1, 1), (6, 1)]:
+        px(img, dx + x, dy + y, jewel)
+        px(img, dx + x, dy + y + 1, jewel_hi)
+    for (x, y) in [(3, 4), (4, 4), (3, 5), (4, 5)]:
+        px(img, dx + x, dy + y, jewel)
+    px(img, dx + 3, dy + 4, jewel_hi)
+    # 드레스 주름
+    for y in range(7):
+        px(img, dx + 2, dy + y, gold_dark)
+        px(img, dx + 5, dy + y, gold_dark)
+    for x in range(8):
+        px(img, dx + x, dy + 6, gold_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = d[side]
+        for y in range(7):
+            if y % 2 == 0:
+                px(img, sx + 2, sy + y, gold_dark)
+        for x in range(6):
+            px(img, sx + x, sy + 6, gold_dark)
+        px(img, sx + 3, sy + 2, jewel)
+
+    # 몸통 (u28 v10, 5x5x3)
+    b = box(img, 28, 10, 5, 5, 3, gold, 6)
+    bx, by = b["front"]
+    for x in range(5):
+        px(img, bx + x, by, gold_hi)
+    px(img, bx + 2, by + 2, jewel)
+    px(img, bx + 2, by + 3, jewel_hi)
+
+    # 팔 (u0 v24, 2x6x2)
+    a = box(img, 0, 24, 2, 6, 2, skin, 4)
+    ax, ay = a["front"]
+    for y in range(6):
+        px(img, ax, ay + y, skin_shade if y % 3 == 0 else skin)
+    # 팔찌
+    for x in range(2):
+        px(img, ax + x, ay + 4, gold)
+        px(img, ax + x, ay + 5, gold_dark)
+
+    # 머리 (u0 v32, 6x6x6)
+    h = box(img, 0, 32, 6, 6, 6, skin, 4, top=hair)
+    hx, hy = h["front"]
+    # 눈
+    px(img, hx + 1, hy + 2, hexc("#1a0e08"))
+    px(img, hx + 4, hy + 2, hexc("#1a0e08"))
+    px(img, hx + 1, hy + 1, skin_shade)
+    px(img, hx + 4, hy + 1, skin_shade)
+    # 입
+    px(img, hx + 2, hy + 4, hexc("#3a1a14"))
+    px(img, hx + 3, hy + 4, hexc("#3a1a14"))
+    # 앞머리
+    for x in range(6):
+        px(img, hx + x, hy, hair)
+    for x in (0, 2, 5):
+        px(img, hx + x, hy + 1, hair_shade)
+    for side in ("right", "left"):
+        sx, sy = h[side]
+        for y in range(6):
+            px(img, sx + 2, sy + y, hair if y < 4 else hair_shade)
+
+    # 긴 흰 머리 (u0 v44, 6x10x2)
+    hr = box(img, 0, 44, 6, 10, 2, hair, 4, top=hexc("#ffffff"))
+    hrx, hry = hr["front"]
+    for y in range(10):
+        px(img, hrx + 1, hry + y, hair_shade if y % 3 == 0 else hair)
+        px(img, hrx + 4, hry + y, hair_shade if y % 4 == 0 else hair)
+    for x in range(6):
+        px(img, hrx + x, hry + 9, hair_shade)
+    for side in ("right", "left", "back"):
+        sx, sy = hr[side]
+        for y in range(10):
+            if y % 3 == 0:
+                px(img, sx + 1, sy + y, hair_shade)
+
+    # 작은 왕관 (u24 v32, 4x2x4)
+    cr = box(img, 24, 32, 4, 2, 4, crown, 4, top=hexc("#fff0b0"))
+    crx, cry = cr["front"]
+    for x in range(4):
+        px(img, crx + x, cry + 1, crown_dark)
+    px(img, crx + 1, cry, jewel)
+    px(img, crx + 2, cry, jewel_hi)
+    ctx, cty = cr["top"]
+    for x in range(4):
+        for y in range(4):
+            if (x + y) % 3 == 0:
+                px(img, ctx + x, cty + y, crown_dark)
+
+    # ── 탈출: 거대한 황금빛 아가리 ──
+    # 구체 (u0 v0, 16x16x16) — 64x64 텍스처에 꼭 맞는 크기 (2*d + 2*w = 64)
+    o = box(img, 0, 0, 16, 16, 16, gold, 6, top=gold_hi)
+    ox, oy = o["front"]
+    # 어두운 띠
+    for y in range(16):
+        if y % 4 == 0:
+            for x in range(16):
+                px(img, ox + x, oy + y, gold_dark)
+    for (x, y) in [(2, 2), (13, 3), (4, 13), (11, 12), (7, 6)]:
+        px(img, ox + x, oy + y, gold_hi)
+    for side in ("right", "left", "back"):
+        sx, sy = o[side]
+        for y in range(16):
+            if y % 4 == 0:
+                for x in range(16):
+                    px(img, sx + x, sy + y, gold_dark)
+        for (x, y) in [(3, 4), (10, 11)]:
+            px(img, sx + x, sy + y, gold_hi)
+    tx, ty = o["top"]
+    for x in range(16):
+        for y in range(16):
+            if (x + y) % 7 == 0:
+                px(img, tx + x, ty + y, gold_dark)
+            elif (x * 3 + y) % 11 == 0:
+                px(img, tx + x, ty + y, gold_hi)
+
+    # 아가리 판 (u0 v40, 16x9x1) — 64x64 텍스처의 아래 경계에 걸치므로 16x9로 줄여 그린다
+    m = box(img, 0, 40, 16, 9, 1, mouth, 4)
+    mx, my = m["front"]
+    # 톱니 같은 이빨: 위아래 한 줄씩
+    for x in range(16):
+        if x % 2 == 0:
+            px(img, mx + x, my, tooth)
+            px(img, mx + x, my + 1, tooth_dark)
+        if x % 2 == 1:
+            px(img, mx + x, my + 8, tooth)
+            px(img, mx + x, my + 7, tooth_dark)
+    # 목구멍의 그늘
+    for y in range(3, 6):
+        for x in range(4, 12):
+            if (x + y) % 3 == 0:
+                px(img, mx + x, my + y, mouth_hi)
+    for x in range(16):
+        px(img, mx + x, my + 4, hexc("#1a0a0a"))
+
+    save(img, "textures/entity/king_of_greed.png")
+
+
+king_of_greed()
+print("assets king ok")
+
+GR2 = {"g": "#e8b830", "h": "#f8d868", "d": "#b08a18", "r": "#d02040", "k": "#7a4a30", "w": "#f4f0e8"}
+icon([
+    "................",
+    "..............gg",
+    ".............gg.",
+    "............gg..",
+    "...........gg...",
+    "..........gg....",
+    ".........gg.....",
+    "........gg......",
+    ".......gg.......",
+    "......gg........",
+    ".....gg.........",
+    "....gg..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], GR2, "textures/item/gold_rush.png")
+icon([
+    "................",
+    "...gg......gg...",
+    "..gggg....gggg..",
+    "..gggggggggggg..",
+    "...gggggggggg...",
+    "....ggrrrrgg....",
+    "....ggrrrrgg....",
+    "....ggrrrrgg....",
+    "....ggrrrrgg....",
+    "....gggggggg....",
+    "....gghhhhgg....",
+    "....gggggggg....",
+    "....gggggggg....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], GR2, "textures/item/gold_rush_suit.png")
+
+armor(hexc("#e8b830"), "#b08a18", "#d02040", "textures/entity/equipment/humanoid/gold_rush.png")
+
+for item, parent in [("gold_rush", "minecraft:item/handheld"), ("gold_rush_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/gold_rush.json", {"layers": {"humanoid": [{"texture": "lobcorp:gold_rush"}]}})
+
+merge_lang({
+    "entity.lobcorp.king_of_greed": "탐욕의 왕",
+    "item.lobcorp.gold_rush": "골드러시",
+    "item.lobcorp.gold_rush_suit": "골드러시의 드레스",
+}, {
+    "entity.lobcorp.king_of_greed": "The King of Greed",
+    "item.lobcorp.gold_rush": "Gold Rush",
+    "item.lobcorp.gold_rush_suit": "Gold Rush Dress",
+})
