@@ -64,6 +64,7 @@ public final class ModItems {
     public static final ArmorMaterial TEARS_SWORD_MAT = material("tears_sword", 7);
     public static final ArmorMaterial GOLD_RUSH_MAT = material("gold_rush", 7);
     public static final ArmorMaterial CRIMSON_SCAR_MAT = material("crimson_scar", 7);
+    public static final ArmorMaterial COBALT_SCAR_MAT = material("cobalt_scar", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -137,6 +138,8 @@ public final class ModItems {
     public static Item GOLD_RUSH_SUIT;
     public static Item CRIMSON_SCAR;
     public static Item CRIMSON_SCAR_SUIT;
+    public static Item COBALT_SCAR;
+    public static Item COBALT_SCAR_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -342,6 +345,10 @@ public final class ModItems {
                 "F-01-57 · WAW", "RED 피해 대형 도끼, 빠른 연타", "붉은 두건 아래에서 아직 식지 않은 피가 뚝뚝 떨어진다.");
         CRIMSON_SCAR_SUIT = suit("crimson_scar_suit", CRIMSON_SCAR_MAT,
                 "F-01-57 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
+        COBALT_SCAR = weapon("cobalt_scar", DamageColor.RED, 5.0, -1.6,
+                "F-02-58 · WAW", "RED 피해 발톱, 빠른 연타", "푸른 강철로 벼려 낸 발톱. 쥐고 있으면 손끝이 짐승처럼 저릿하다.");
+        COBALT_SCAR_SUIT = suit("cobalt_scar_suit", COBALT_SCAR_MAT,
+                "F-02-58 · WAW", "RED 저항, WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -357,6 +364,7 @@ public final class ModItems {
                 HARVEST, HARVEST_SUIT, CHRISTMAS, CHRISTMAS_SUIT, SOLEMN_LAMENT, SOLEMN_LAMENT_SUIT,
                 GAZE, GAZE_SUIT, LAMP, LAMP_SUIT, JUSTITIA, JUSTITIA_SUIT,
                 LOVE_AND_HATE, LOVE_AND_HATE_SUIT, TEARS_SWORD, TEARS_SWORD_SUIT,
-                GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT);
+                GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
+                COBALT_SCAR, COBALT_SCAR_SUIT);
     }
 }

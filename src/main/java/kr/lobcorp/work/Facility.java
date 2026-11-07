@@ -70,6 +70,9 @@ public final class Facility {
             d.frost = 0;
             d.frozenAt = null;
             d.blessed = false;
+            d.devoured = false;
+            d.devouredAt = null;
+            d.sheepTicks = false;
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal("에너지 할당량 " + f.quota).withStyle(s -> s.withColor(0x55FF55))));
             p.connection.send(new ClientboundSetTitleTextPacket(Component.literal("Day " + f.day)));
         }

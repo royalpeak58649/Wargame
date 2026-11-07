@@ -69,6 +69,10 @@ public final class LobCorpHud {
             g.text(font, "✦ 절망의 기사의 가호 · 작업 불가", x, line, 0xFF9AD0FF, true);
             line += 10;
         }
+        if (ClientState.devoured()) {
+            g.text(font, "늑대의 뱃속 · 제압되거나 하루가 끝나야 나올 수 있습니다", x, line, 0xFFAA55FF, true);
+            line += 10;
+        }
         if (ClientState.portrait() == 1) {
             g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
         } else if (ClientState.portrait() == 2) {

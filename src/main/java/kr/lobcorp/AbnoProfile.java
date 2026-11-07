@@ -548,6 +548,21 @@ public record AbnoProfile(
                     "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
             ));
 
+    public static final AbnoProfile BIG_BAD_WOLF = new AbnoProfile(
+            "big_bad_wolf", "크고 나빠질 늑대", "F-02-58", "WAW", 0xAA55FF,
+            new int[]{45, 30, 45, 0}, 22, 18, 10,
+            DamageColor.RED, 4, 8,
+            2,
+            () -> ModItems.COBALT_SCAR, 70,
+            () -> ModItems.COBALT_SCAR_SUIT, 60,
+            "cobalt_scar", "흑청빛 상처", "최대 HP +4, 이동 속도 +2%", 3,
+            new float[]{1.0f, 0.7f, 0.7f, 1.0f},
+            List.of(
+                    "두 발로 선 거대한 회색 늑대. 목덜미의 털은 유난히 복슬복슬하고, 입에는 양털이 한 움큼 물려 있다.",
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소하고, 작업자는 늑대에게 통째로 삼켜진다.",
+                    "빨간 두건 용병과 작업한 직원이 이 늑대 앞에 서면, 늑대는 그 냄새를 기억하고 삼켜 버린다. 용병이 격리실 밖에서 늑대의 곁에 다가가면 카운터가 곧바로 0이 된다."
+            ));
+
     public static final AbnoProfile LITTLE_RED = new AbnoProfile(
             "little_red", "빨간 두건 용병", "F-01-57", "WAW", 0xAA55FF,
             new int[]{0, 45, 0, 30}, 20, 17, 9,
@@ -630,6 +645,7 @@ public record AbnoProfile(
             Map.entry(KNIGHT_DESPAIR.id, KNIGHT_DESPAIR),
             Map.entry(KING_GREED.id, KING_GREED),
             Map.entry(LITTLE_RED.id, LITTLE_RED),
+            Map.entry(BIG_BAD_WOLF.id, BIG_BAD_WOLF),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),

@@ -3,6 +3,7 @@ package kr.lobcorp.client.render;
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.AllAroundHelperModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
+import kr.lobcorp.client.model.BigBadWolfModel;
 import kr.lobcorp.client.model.BigBirdModel;
 import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
@@ -42,6 +43,7 @@ import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.client.model.WoodsmanModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
+import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
@@ -1015,6 +1017,32 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LittleRedModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class BigBadWolf extends MobRenderer<BigBadWolfEntity, BigBadWolfModel.State, BigBadWolfModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/big_bad_wolf.png");
+
+        public BigBadWolf(EntityRendererProvider.Context ctx) {
+            super(ctx, new BigBadWolfModel(ctx.bakeLayer(BigBadWolfModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public BigBadWolfModel.State createRenderState() {
+            return new BigBadWolfModel.State();
+        }
+
+        @Override
+        public void extractRenderState(BigBadWolfEntity e, BigBadWolfModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.howl = e.howlAnimTicks > 0 ? (e.howlAnimTicks - pt) / 20f : 0f;
+            s.bite = e.biteAnimTicks > 0 ? (e.biteAnimTicks - pt) / 10f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(BigBadWolfModel.State s) {
             return TEX;
         }
     }

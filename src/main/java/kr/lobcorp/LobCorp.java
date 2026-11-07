@@ -82,6 +82,9 @@ public class LobCorp implements ModInitializer {
             Employees.get(newP).frost = 0;
             Employees.get(newP).frozenAt = null;
             Employees.get(newP).blessed = false;
+            Employees.get(newP).devoured = false;
+            Employees.get(newP).devouredAt = null;
+            Employees.get(newP).sheepTicks = false;
             if (kr.lobcorp.work.ToolState.isNotesHolder(oldP)) kr.lobcorp.work.ToolState.clearNotes();
             if (kr.lobcorp.work.ToolState.isEtched(newP) || kr.lobcorp.work.ToolState.isVictim(newP)) {
                 kr.lobcorp.work.ToolState.resetPortrait();

@@ -109,5 +109,8 @@
   "item.lobcorp.gold_rush_suit": "Gold Rush Dress",
   "entity.lobcorp.little_red": "Little Red Riding Hooded Mercenary",
   "item.lobcorp.crimson_scar": "Crimson Scar",
-  "item.lobcorp.crimson_scar_suit": "Crimson Scar Garb"
+  "item.lobcorp.crimson_scar_suit": "Crimson Scar Garb",
+  "entity.lobcorp.big_bad_wolf": "Big and Will be Bad Wolf",
+  "item.lobcorp.cobalt_scar": "Cobalt Scar",
+  "item.lobcorp.cobalt_scar_suit": "Cobalt Scar Garb"
 }

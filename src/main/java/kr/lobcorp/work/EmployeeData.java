@@ -43,6 +43,12 @@ public class EmployeeData {
     public boolean blessed = false;
     /** 얼어붙은 자리 (저장 안 함) */
     public net.minecraft.world.phys.Vec3 frozenAt = null;
+    /** 크고 나빠질 늑대에게 삼켜졌는가 (저장 안 함) */
+    public boolean devoured = false;
+    /** 늑대의 뱃속에 갇힌 자리 (저장 안 함) */
+    public net.minecraft.world.phys.Vec3 devouredAt = null;
+    /** 빨간 두건 용병이 늑대를 베어 넘겨 받은 양의 가호 (저장 안 함, 하루가 끝나면 사라진다) */
+    public boolean sheepTicks = false;
     public Set<String> gifts = new HashSet<>();
     /** 마지막으로 작업한 환상체 id (저장 안 함) */
     public String lastWorked = "";
@@ -109,6 +115,7 @@ public class EmployeeData {
             java.util.Map.entry("tears_sword", new int[]{0, 2, 0, 4}),
             java.util.Map.entry("gold_rush", new int[]{6, 0, 0, 0}),
             java.util.Map.entry("crimson_scar", new int[]{2, 0, 0, 2}),
+            java.util.Map.entry("cobalt_scar", new int[]{4, 0, 0, 2}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})
@@ -128,7 +135,7 @@ public class EmployeeData {
     }
 
     public int maxHp() {
-        return fortitude + 5 + giftSum(0);
+        return fortitude + 5 + giftSum(0) + (sheepTicks ? 9 : 0);
     }
 
     public int giftChanceBonus() {

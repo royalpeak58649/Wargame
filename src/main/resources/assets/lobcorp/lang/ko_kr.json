@@ -109,5 +109,8 @@
   "item.lobcorp.gold_rush_suit": "골드러시의 드레스",
   "entity.lobcorp.little_red": "빨간 두건 용병",
   "item.lobcorp.crimson_scar": "진홍빛 상처",
-  "item.lobcorp.crimson_scar_suit": "진홍빛 상처의 옷"
+  "item.lobcorp.crimson_scar_suit": "진홍빛 상처의 옷",
+  "entity.lobcorp.big_bad_wolf": "크고 나빠질 늑대",
+  "item.lobcorp.cobalt_scar": "흑청빛 상처",
+  "item.lobcorp.cobalt_scar_suit": "흑청빛 상처의 옷"
 }

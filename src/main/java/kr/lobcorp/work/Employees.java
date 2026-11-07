@@ -77,6 +77,7 @@ public final class Employees {
         v[19] = d.pebble ? 1 : 0;
         v[20] = d.frost;
         v[21] = d.blessed ? 1 : 0;
+        v[22] = d.devoured ? 1 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -308,6 +309,18 @@ public final class Employees {
             }
             if (d.blessed) {
                 p.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 40, 2, false, false));
+            }
+            if (d.devoured) {
+                if (d.devouredAt == null) d.devouredAt = p.position();
+                if (p.position().distanceToSqr(d.devouredAt) > 0.05 * 0.05) {
+                    p.connection.teleport(d.devouredAt.x, d.devouredAt.y, d.devouredAt.z, p.getYRot(), p.getXRot());
+                    p.setDeltaMovement(0, 0, 0);
+                }
+                p.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 10, false, false));
+                p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, false));
+                if (p.tickCount % 10 == 0) {
+                    p.level().sendParticles(ParticleTypes.CRIMSON_SPORE, p.getX(), p.getY() + 1.2, p.getZ(), 6, 0.4, 0.6, 0.4, 0.01);
+                }
             }
             if (d.frost == 2) {
                 if (d.frozenAt == null) d.frozenAt = p.position();

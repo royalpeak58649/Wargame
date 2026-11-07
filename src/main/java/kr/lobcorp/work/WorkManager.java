@@ -78,7 +78,7 @@ public final class WorkManager {
         if (d.isPanicking()) { actionbar(p, red("패닉 상태에서는 작업할 수 없습니다.")); return; }
         if (d.possessTicks > 0) { actionbar(p, red("홀린 상태로는 작업할 수 없습니다.")); return; }
         if (d.frost == 2) { actionbar(p, red("얼어붙어 움직일 수 없습니다.")); return; }
-        if (d.frost == 2) { actionbar(p, red("얼어붙어 움직일 수 없습니다.")); return; }
+        if (d.devoured) { actionbar(p, red("늑대의 뱃속에서는 아무것도 할 수 없습니다.")); return; }
         if (d.blessed) { actionbar(p, red("가호를 받은 몸으로는 작업할 수 없습니다.")); return; }
         if (a.isBreached()) { actionbar(p, red("탈출한 환상체에게는 작업할 수 없습니다. 제압하세요!")); return; }
         if (isAbnoBusy(a)) { actionbar(p, red("다른 직원이 작업 중인 환상체입니다.")); return; }
@@ -299,6 +299,7 @@ public final class WorkManager {
     /** WHITE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> WHITE_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
+            () -> ModItems.COBALT_SCAR_SUIT,
             () -> ModItems.PENITENCE_SUIT,
             () -> ModItems.BEAR_PAWS_SUIT,
             () -> ModItems.SCREAMING_WEDGE_SUIT,
@@ -326,6 +327,7 @@ public final class WorkManager {
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
+            () -> ModItems.COBALT_SCAR_SUIT,
             () -> ModItems.REGRET_SUIT,
             () -> ModItems.MATCH_FLAME_SUIT,
             () -> ModItems.WINGBEAT_SUIT,
@@ -351,6 +353,7 @@ public final class WorkManager {
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
+            () -> ModItems.COBALT_SCAR_SUIT,
             () -> ModItems.FROST_SPLINTER_SUIT,
             () -> ModItems.FRAGMENTS_SUIT,
             () -> ModItems.NOISE_SUIT,

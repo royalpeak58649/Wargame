@@ -5913,3 +5913,231 @@ merge_lang({
     "item.lobcorp.crimson_scar": "Crimson Scar",
     "item.lobcorp.crimson_scar_suit": "Crimson Scar Garb",
 })
+
+
+# ═════════════ 38차: 크고 나빠질 늑대 (F-02-58) ═════════════
+def big_bad_wolf():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    fur = hexc("#7a7a80")
+    fur_hi = hexc("#8e8e96")
+    fur_dark = hexc("#5a5a60")
+    chest = hexc("#c8c8c8")
+    chest_shade = hexc("#a8a8a8")
+    nose = hexc("#1a1a1e")
+    eye = hexc("#e8d060")
+    eye_dim = hexc("#a89030")
+    claw = hexc("#e8e4d8")
+    fleece = hexc("#f4f0e6")
+    fleece_shade = hexc("#d8d2c4")
+    tongue = hexc("#c05a6a")
+
+    # 몸통 (u0 v0, 10x10x6)
+    b = box(img, 0, 0, 10, 10, 6, fur, 8, top=fur_hi)
+    bx, by = b["front"]
+    # 가슴의 밝은 털
+    for y in range(2, 9):
+        for x in range(2, 8):
+            px(img, bx + x, by + y, chest if (x + y) % 5 else chest_shade)
+    # 털 결
+    for y in range(10):
+        for x in range(10):
+            if (x * 3 + y * 5) % 13 == 0:
+                px(img, bx + x, by + y, fur_dark)
+    for x in range(10):
+        px(img, bx + x, by + 9, fur_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(10):
+            for x in range(6):
+                if (x * 5 + y * 3) % 11 == 0:
+                    px(img, sx + x, sy + y, fur_dark)
+                elif (x + y) % 7 == 0:
+                    px(img, sx + x, sy + y, fur_hi)
+        for x in range(6):
+            px(img, sx + x, sy + 9, fur_dark)
+    tx, ty = b["top"]
+    for x in range(10):
+        for y in range(6):
+            if (x + y * 2) % 9 == 0:
+                px(img, tx + x, ty + y, fur_dark)
+            elif (x * 3 + y) % 13 == 0:
+                px(img, tx + x, ty + y, fur_hi)
+
+    # 가슴 덧판 (u32 v0, 8x7x2)
+    c = box(img, 32, 0, 8, 7, 2, chest, 6, top=hexc("#dcdcdc"))
+    cx, cy = c["front"]
+    for y in range(7):
+        for x in range(8):
+            if (x * 3 + y) % 7 == 0:
+                px(img, cx + x, cy + y, chest_shade)
+    for x in range(8):
+        px(img, cx + x, cy + 6, chest_shade)
+
+    # 머리 (u0 v16, 6x6x7)
+    h = box(img, 0, 16, 6, 6, 7, fur, 8, top=fur_hi)
+    hx, hy = h["front"]
+    # 슬픈 노란 눈: 눈꼬리가 처진다
+    for (x, y) in [(1, 2), (2, 2), (1, 3)]:
+        px(img, hx + x, hy + y, eye)
+    for (x, y) in [(3, 2), (4, 2), (4, 3)]:
+        px(img, hx + x, hy + y, eye)
+    px(img, hx + 1, hy + 3, eye_dim)
+    px(img, hx + 4, hy + 3, eye_dim)
+    px(img, hx + 1, hy + 1, fur_dark)
+    px(img, hx + 4, hy + 1, fur_dark)
+    for x in range(6):
+        px(img, hx + x, hy + 5, fur_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(6):
+            for x in range(7):
+                if (x * 3 + y * 5) % 9 == 0:
+                    px(img, sx + x, sy + y, fur_dark)
+                elif (x + y) % 6 == 0:
+                    px(img, sx + x, sy + y, fur_hi)
+        for x in range(7):
+            px(img, sx + x, sy + 5, fur_dark)
+
+    # 주둥이 (u26 v16, 4x3x4)
+    s = box(img, 26, 16, 4, 3, 4, fur, 8, top=fur_hi)
+    sx, sy = s["front"]
+    # 코
+    px(img, sx + 1, sy, nose)
+    px(img, sx + 2, sy, nose)
+    # 벌린 아가리와 혀
+    for x in range(4):
+        px(img, sx + x, sy + 2, hexc("#3a1a20"))
+    px(img, sx + 1, sy + 2, tongue)
+    px(img, sx + 2, sy + 2, tongue)
+    # 이빨
+    px(img, sx, sy + 1, claw)
+    px(img, sx + 3, sy + 1, claw)
+    for side in ("right", "left", "back"):
+        ox, oy = s[side]
+        for y in range(3):
+            for x in range(4):
+                if (x + y) % 4 == 0:
+                    px(img, ox + x, oy + y, fur_dark)
+
+    # 귀 (u42 v16, 2x3x1)
+    e = box(img, 42, 16, 2, 3, 1, fur, 8, top=fur_hi)
+    ex, ey = e["front"]
+    for y in range(3):
+        px(img, ex, ey + y, fur_dark)
+        px(img, ex + 1, ey + y, fur_hi if y == 0 else fur)
+
+    # 입에 물린 양털 (u48 v16, 4x3x2)
+    f = box(img, 48, 16, 4, 3, 2, fleece, 4, top=hexc("#fbf8f0"))
+    fx, fy = f["front"]
+    for y in range(3):
+        for x in range(4):
+            if (x + y) % 3 == 0:
+                px(img, fx + x, fy + y, fleece_shade)
+    for x in range(4):
+        px(img, fx + x, fy + 2, fleece_shade)
+    for side in ("right", "left", "back"):
+        ox, oy = f[side]
+        for y in range(3):
+            for x in range(2):
+                if (x + y) % 2 == 0:
+                    px(img, ox + x, oy + y, fleece_shade)
+
+    # 팔 (u0 v30, 3x11x3)
+    a = box(img, 0, 30, 3, 11, 3, fur, 8, top=fur_hi)
+    ax, ay = a["front"]
+    for y in range(11):
+        px(img, ax + 1, ay + y, fur_dark if y % 4 == 0 else fur)
+    for (x, y) in [(0, 3), (2, 7)]:
+        px(img, ax + x, ay + y, fur_hi)
+    for x in range(3):
+        px(img, ax + x, ay + 10, fur_dark)
+
+    # 발톱 (u12 v30, 4x1x4)
+    cl = box(img, 12, 30, 4, 1, 4, claw, 4, top=hexc("#fbf8f0"))
+    clx, cly = cl["front"]
+    for x in range(4):
+        px(img, clx + x, cly, hexc("#c8c4b8") if x % 2 == 0 else claw)
+
+    # 다리 (u24 v30, 3x10x3)
+    l = box(img, 24, 30, 3, 10, 3, fur, 8, top=fur_hi)
+    lx, ly = l["front"]
+    for y in range(10):
+        px(img, lx + 1, ly + y, fur_dark if y % 5 == 0 else fur)
+    for x in range(3):
+        px(img, lx + x, ly + 9, fur_dark)
+
+    # 발 (u36 v30, 4x1x5)
+    ft = box(img, 36, 30, 4, 1, 5, fur_dark, 6, top=fur)
+    ftx, fty = ft["front"]
+    for x in range(4):
+        px(img, ftx + x, fty, claw if x % 2 == 0 else fur_dark)
+
+    # 꼬리 (u48 v30, 2x6x2)
+    t = box(img, 48, 30, 2, 6, 2, fur, 8, top=fur_hi)
+    tx2, ty2 = t["front"]
+    for y in range(6):
+        px(img, tx2, ty2 + y, fur_dark if y % 2 == 0 else fur)
+        px(img, tx2 + 1, ty2 + y, fur_hi if y % 3 == 0 else fur)
+    for x in range(2):
+        px(img, tx2 + x, ty2 + 5, fur_dark)
+
+    save(img, "textures/entity/big_bad_wolf.png")
+
+
+big_bad_wolf()
+print("assets wolf ok")
+
+CS2 = {"g": "#7a7a80", "h": "#8e8e96", "d": "#5a5a60", "c": "#c8c8c8", "k": "#1a1a1e", "y": "#e8d060"}
+icon([
+    "................",
+    "..............gg",
+    ".............gg.",
+    "............gg..",
+    "...........gg...",
+    "..........gg....",
+    ".........gg.....",
+    "........gg......",
+    ".......gg.......",
+    "......gg........",
+    ".....gg.........",
+    "....gg..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], CS2, "textures/item/cobalt_scar.png")
+icon([
+    "................",
+    "...gg......gg...",
+    "..gggg....gggg..",
+    "..gggggggggggg..",
+    "...gggggggggg...",
+    "....ggccccgg....",
+    "....ggccccgg....",
+    "....ggccccgg....",
+    "....ggccccgg....",
+    "....gggggggg....",
+    "....ggyyyygg....",
+    "....gggggggg....",
+    "....gggggggg....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], CS2, "textures/item/cobalt_scar_suit.png")
+
+armor(hexc("#7a7a80"), "#5a5a60", "#c8c8c8", "textures/entity/equipment/humanoid/cobalt_scar.png")
+
+for item, parent in [("cobalt_scar", "minecraft:item/handheld"), ("cobalt_scar_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/cobalt_scar.json", {"layers": {"humanoid": [{"texture": "lobcorp:cobalt_scar"}]}})
+
+merge_lang({
+    "entity.lobcorp.big_bad_wolf": "크고 나빠질 늑대",
+    "item.lobcorp.cobalt_scar": "흑청빛 상처",
+    "item.lobcorp.cobalt_scar_suit": "흑청빛 상처의 옷",
+}, {
+    "entity.lobcorp.big_bad_wolf": "Big and Will be Bad Wolf",
+    "item.lobcorp.cobalt_scar": "Cobalt Scar",
+    "item.lobcorp.cobalt_scar_suit": "Cobalt Scar Garb",
+})
