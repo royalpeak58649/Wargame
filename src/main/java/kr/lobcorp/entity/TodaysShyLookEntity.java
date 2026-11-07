@@ -61,7 +61,7 @@ public class TodaysShyLookEntity extends AbnormalityEntity {
         return entityData.get(FACE);
     }
 
-    private void setFace(int f) {
+    public void setFace(int f) {
         entityData.set(FACE, Math.max(0, Math.min(4, f)));
     }
 

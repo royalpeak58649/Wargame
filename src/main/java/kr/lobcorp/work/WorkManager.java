@@ -162,7 +162,7 @@ public final class WorkManager {
             }
             default -> {
                 if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
-                        || wearing(p, ModItems.BEAK_SUIT)) dmg--;
+                        || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }

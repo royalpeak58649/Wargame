@@ -5,7 +5,7 @@
   "name": "LobCorp Client Test",
   "environment": "client",
   "entrypoints": {
-    "fabric-client-gametest": ["kr.lobcorp.test.PunishingBirdTest", "kr.lobcorp.test.LobCorpClientTest"]
+    "fabric-client-gametest": ["kr.lobcorp.test.TethTest"]
   },
   "depends": { "lobcorp": "*" }
 }

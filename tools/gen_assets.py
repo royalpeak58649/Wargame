@@ -699,56 +699,66 @@ def todays_shy_look():
     blue = hexc("#5aa8e0")
     red = hexc("#c8102e")
 
-    # 밧줄 (u0 v0, 14x1x1)
-    box(img, 0, 0, 14, 1, 1, hexc("#8a7a5a"), 8)
+    # 가로대 (u0 v0, 24x1x1) — 모델의 bar
+    box(img, 0, 0, 24, 1, 1, hexc("#8a7a5a"), 8)
+    # 기둥 (u0 v2, 1x25x1) — 모델의 post_right / post_left
+    box(img, 0, 2, 1, 25, 1, hexc("#6b5c42"), 8)
 
-    # 얼굴 판 다섯 개 (u = i*4, v = 8, 3x4x1)
+    # 얼굴 판 다섯 개 (u = i*4, v = 8, 4x6x1) — 모델의 face0..face4
     # 0: 활짝 웃는 얼굴
-    f = box(img, 0, 8, 3, 4, 1, cloth, 5)
+    f = box(img, 0, 8, 4, 6, 1, cloth, 5)
     fx, fy = f["front"]
-    for x in range(3):
-        px(img, fx + x, fy + 2, dark)
-    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
-    px(img, fx, fy + 3, dark); px(img, fx + 2, fy + 3, dark)
-    px(img, fx + 1, fy + 3, dark)
+    px(img, fx + 1, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    for x in range(4):
+        px(img, fx + x, fy + 3, dark)
+    px(img, fx, fy + 2, dark); px(img, fx + 3, fy + 2, dark)
+    px(img, fx, fy + 4, dark); px(img, fx + 3, fy + 4, dark)
+    px(img, fx + 1, fy + 4, dark); px(img, fx + 2, fy + 4, dark)
     # 1: 웃는 얼굴
-    f = box(img, 4, 8, 3, 4, 1, cloth, 5)
+    f = box(img, 4, 8, 4, 6, 1, cloth, 5)
     fx, fy = f["front"]
-    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
-    for x in range(3):
-        px(img, fx + x, fy + 2, dark)
+    px(img, fx + 1, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    for x in range(4):
+        px(img, fx + x, fy + 3, dark)
+    px(img, fx, fy + 2, dark); px(img, fx + 3, fy + 2, dark)
     # 2: 무표정
-    f = box(img, 8, 8, 3, 4, 1, cloth, 5)
+    f = box(img, 8, 8, 4, 6, 1, cloth, 5)
     fx, fy = f["front"]
-    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
-    for x in range(3):
-        px(img, fx + x, fy + 2, dark)
+    px(img, fx + 1, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    for x in range(4):
+        px(img, fx + x, fy + 3, dark)
     # 3: 슬픈 얼굴 + 눈물
-    f = box(img, 12, 8, 3, 4, 1, cloth, 5)
+    f = box(img, 12, 8, 4, 6, 1, cloth, 5)
     fx, fy = f["front"]
-    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
-    px(img, fx, fy + 3, dark); px(img, fx + 2, fy + 3, dark)
-    px(img, fx + 1, fy + 2, dark)
-    px(img, fx, fy + 2, blue); px(img, fx + 2, fy + 2, blue)
+    px(img, fx + 1, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    px(img, fx, fy + 4, dark); px(img, fx + 3, fy + 4, dark)
+    px(img, fx + 1, fy + 3, dark); px(img, fx + 2, fy + 3, dark)
+    px(img, fx + 1, fy + 2, blue); px(img, fx + 2, fy + 2, blue)
     # 4: 화난 얼굴 + 벌린 입
-    f = box(img, 16, 8, 3, 4, 1, cloth, 5)
+    f = box(img, 16, 8, 4, 6, 1, cloth, 5)
     fx, fy = f["front"]
-    px(img, fx, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
-    px(img, fx + 1, fy + 1, dark)
-    px(img, fx + 1, fy + 2, red); px(img, fx + 1, fy + 3, red)
+    px(img, fx + 1, fy + 1, dark); px(img, fx + 2, fy + 1, dark)
+    px(img, fx + 1, fy + 2, dark); px(img, fx + 2, fy + 2, dark)
+    px(img, fx + 1, fy + 3, red); px(img, fx + 2, fy + 3, red)
+    px(img, fx + 1, fy + 4, red); px(img, fx + 2, fy + 4, red)
 
-    # 천 뒤의 형체: 갈색 두루마기 (u0 v16, 4x8x3)
-    b = box(img, 0, 16, 4, 8, 3, robe, 8)
+    # 천 뒤의 형체: 갈색 두루마기 (u0 v16, 4x10x3) — 모델의 figure
+    b = box(img, 0, 16, 4, 10, 3, robe, 8)
     bx, by = b["front"]
-    for y in range(8):
+    for y in range(10):
         px(img, bx + 1, by + y, robe_dark)
         px(img, bx + 2, by + y, robe_dark)
-    # 머리 (u20 v16, 3x3x3)
-    h = box(img, 20, 16, 3, 3, 3, robe, 8)
+    # 머리 (u20 v16, 4x4x4) — 모델의 head
+    h = box(img, 20, 16, 4, 4, 4, robe, 8)
     hx, hy = h["front"]
-    px(img, hx, hy + 1, dark); px(img, hx + 2, hy + 1, dark)
-    # 다리 (u32 v16, 1x5x1)
-    box(img, 32, 16, 1, 5, 1, leg, 8)
+    px(img, hx + 1, hy + 1, dark); px(img, hx + 2, hy + 1, dark)
+    # 팔 (u36 v16, 2x9x2) — 모델의 right_arm / left_arm
+    a = box(img, 36, 16, 2, 9, 2, robe, 8)
+    ax, ay = a["front"]
+    for y in range(9):
+        px(img, ax, ay + y, robe_dark)
+    # 다리 (u44 v16, 2x8x2) — 모델의 right_leg / left_leg
+    box(img, 44, 16, 2, 8, 2, leg, 8)
 
     save(img, "textures/entity/todays_shy_look.png")
 
