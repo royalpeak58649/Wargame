@@ -1,6 +1,7 @@
 package kr.lobcorp.client.render;
 
 import kr.lobcorp.LobCorp;
+import kr.lobcorp.client.model.AllAroundHelperModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
@@ -20,6 +21,7 @@ import kr.lobcorp.client.model.SingingMachineModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.VoidDreamModel;
+import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -483,6 +485,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class AllAroundHelper extends MobRenderer<AllAroundHelperEntity, AllAroundHelperModel.State, AllAroundHelperModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/all_around_helper.png");
+
+        public AllAroundHelper(EntityRendererProvider.Context ctx) {
+            super(ctx, new AllAroundHelperModel(ctx.bakeLayer(AllAroundHelperModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public AllAroundHelperModel.State createRenderState() {
+            return new AllAroundHelperModel.State();
+        }
+
+        @Override
+        public void extractRenderState(AllAroundHelperEntity e, AllAroundHelperModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.phase = e.getPhase();
+            s.breached = e.isBreached();
+        }
+
+        @Override
+        public Identifier getTextureLocation(AllAroundHelperModel.State s) {
             return TEX;
         }
     }

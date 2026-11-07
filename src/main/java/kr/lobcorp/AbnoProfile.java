@@ -323,6 +323,21 @@ public record AbnoProfile(
                     "금이 간 선물을 안고 있는 작업을 절반 전에 포기하면, 선물은 멀쩡한 채로 남는다."
             ));
 
+    public static final AbnoProfile HELPER = new AbnoProfile(
+            "all_around_helper", "만능 도우미", "T-05-41", "HE", 0xFFAA00,
+            new int[]{50, 0, 35, 50}, 16, 10, 6,
+            DamageColor.RED, 3, 5,
+            2,
+            () -> ModItems.GRINDER, 50,
+            () -> ModItems.GRINDER_SUIT, 35,
+            "grinder", "그라인더 Mk4", "작업 성공률 +4%, 작업 속도 +4%", 4,
+            new float[]{0.5f, 1.0f, 2.0f, 2.0f},
+            List.of(
+                    "작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 격리실을 탈출해 제자리에서 칼날을 펼친 뒤, 직선으로 돌진해 지나가는 길의 모두를 벤다.",
+                    "돌진이 끝나면 동력이 떨어져 한동안 멈춰 선다. 그때가 공격할 기회다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -343,7 +358,8 @@ public record AbnoProfile(
             Map.entry(RED_SHOES.id, RED_SHOES),
             Map.entry(SINGING_MACHINE.id, SINGING_MACHINE),
             Map.entry(PORCCUBUS.id, PORCCUBUS),
-            Map.entry(LAETITIA.id, LAETITIA)
+            Map.entry(LAETITIA.id, LAETITIA),
+            Map.entry(HELPER.id, HELPER)
     );
 
     public boolean canBreach() {

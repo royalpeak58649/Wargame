@@ -20,6 +20,7 @@
   "entity.lobcorp.porccubus": "포큐버스",
   "entity.lobcorp.laetitia": "라티샤",
   "entity.lobcorp.laetitia_friend": "라티샤의 친구",
+  "entity.lobcorp.all_around_helper": "만능 도우미",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -59,5 +60,7 @@
   "item.lobcorp.pleasure": "쾌락",
   "item.lobcorp.pleasure_suit": "쾌락 (방호복)",
   "item.lobcorp.laetitia": "라티샤",
-  "item.lobcorp.laetitia_suit": "라티샤 (방호복)"
+  "item.lobcorp.laetitia_suit": "라티샤 (방호복)",
+  "item.lobcorp.grinder": "그라인더 Mk4",
+  "item.lobcorp.grinder_suit": "그라인더 Mk4 (방호복)"
 }

@@ -1,5 +1,6 @@
 package kr.lobcorp;
 
+import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -54,6 +55,7 @@ public final class ModEntities {
     public static EntityType<PorccubusEntity> PORCCUBUS;
     public static EntityType<LaetitiaEntity> LAETITIA;
     public static EntityType<LaetitiaFriendEntity> LAETITIA_FRIEND;
+    public static EntityType<AllAroundHelperEntity> ALL_AROUND_HELPER;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -105,6 +107,8 @@ public final class ModEntities {
                 .sized(0.6f, 1.4f).clientTrackingRange(10));
         LAETITIA_FRIEND = register("laetitia_friend", EntityType.Builder.of(LaetitiaFriendEntity::new, MobCategory.MONSTER)
                 .sized(0.9f, 1.2f).clientTrackingRange(10));
+        ALL_AROUND_HELPER = register("all_around_helper", EntityType.Builder.of(AllAroundHelperEntity::new, MobCategory.MISC)
+                .sized(0.9f, 1.2f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -127,5 +131,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(PORCCUBUS, PorccubusEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(LAETITIA, LaetitiaEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(LAETITIA_FRIEND, LaetitiaFriendEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ALL_AROUND_HELPER, AllAroundHelperEntity.createAttributes());
     }
 }

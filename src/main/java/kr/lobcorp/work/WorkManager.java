@@ -184,7 +184,7 @@ public final class WorkManager {
                         || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)
                         || wearing(p, ModItems.RED_EYES_SUIT) || wearing(p, ModItems.HORN_SUIT)
                         || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)
-                        || wearing(p, ModItems.LAETITIA_SUIT)) dmg--;
+                        || wearing(p, ModItems.LAETITIA_SUIT) || wearing(p, ModItems.GRINDER_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }

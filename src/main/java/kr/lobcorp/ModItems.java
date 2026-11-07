@@ -48,6 +48,7 @@ public final class ModItems {
     public static final ArmorMaterial HARMONY_MAT = material("harmony", 6);
     public static final ArmorMaterial PLEASURE_MAT = material("pleasure", 6);
     public static final ArmorMaterial LAETITIA_MAT = material("laetitia", 7);
+    public static final ArmorMaterial GRINDER_MAT = material("grinder", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -89,6 +90,8 @@ public final class ModItems {
     public static Item PLEASURE_SUIT;
     public static Item LAETITIA;
     public static Item LAETITIA_SUIT;
+    public static Item GRINDER;
+    public static Item GRINDER_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -230,6 +233,10 @@ public final class ModItems {
                 "O-01-67 · HE", "BLACK 피해 장난감 총, 빠른 연타", "귀여운 장난감 총. 방아쇠를 당기면 이빨이 튀어나온다.");
         LAETITIA_SUIT = suit("laetitia_suit", LAETITIA_MAT,
                 "O-01-67 · HE", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+        GRINDER = weapon("grinder", DamageColor.RED, 4.0, -1.6,
+                "T-05-41 · HE", "RED 피해, 빠른 연타", "청소용 팔 사이에서 낮게 돌아가는 칼날. 아직 닦는 소리가 난다.");
+        GRINDER_SUIT = suit("grinder_suit", GRINDER_MAT,
+                "T-05-41 · HE", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -239,6 +246,7 @@ public final class ModItems {
                 DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT, RED_EYES, RED_EYES_SUIT,
                 ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
                 FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT, SANGUINE_DESIRE, SANGUINE_DESIRE_SUIT,
-                HARMONY, HARMONY_SUIT, PLEASURE, PLEASURE_SUIT, LAETITIA, LAETITIA_SUIT);
+                HARMONY, HARMONY_SUIT, PLEASURE, PLEASURE_SUIT, LAETITIA, LAETITIA_SUIT,
+                GRINDER, GRINDER_SUIT);
     }
 }
