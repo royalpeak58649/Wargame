@@ -1,0 +1,134 @@
+package kr.lobcorp;
+
+import kr.lobcorp.item.EgoWeaponItem;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Unit;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.ItemLore;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAssets;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+public final class ModItems {
+    private ModItems() {}
+
+    public static final ArmorMaterial PENITENCE_MAT = material("penitence", 5);
+    public static final ArmorMaterial REGRET_MAT = material("regret", 6);
+    public static final ArmorMaterial MATCH_FLAME_MAT = material("match_flame", 6);
+    public static final ArmorMaterial BEAR_PAWS_MAT = material("bear_paws", 7);
+    public static final ArmorMaterial WINGBEAT_MAT = material("wingbeat", 5);
+
+    public static Item PENITENCE;
+    public static Item PENITENCE_SUIT;
+    public static Item REGRET;
+    public static Item REGRET_SUIT;
+    public static Item MATCH_FLAME;
+    public static Item MATCH_FLAME_SUIT;
+    public static Item BEAR_PAWS;
+    public static Item BEAR_PAWS_SUIT;
+    public static Item WINGBEAT;
+    public static Item WINGBEAT_SUIT;
+
+    private static ArmorMaterial material(String name, int chestDefense) {
+        return new ArmorMaterial(
+                30,
+                Map.of(ArmorType.HELMET, 1, ArmorType.CHESTPLATE, chestDefense, ArmorType.LEGGINGS, 2,
+                        ArmorType.BOOTS, 1, ArmorType.BODY, chestDefense),
+                10, SoundEvents.ARMOR_EQUIP_LEATHER, 0f, 0f, ItemTags.REPAIRS_LEATHER_ARMOR,
+                ResourceKey.create(EquipmentAssets.ROOT_ID, LobCorp.id(name)));
+    }
+
+    private static ItemAttributeModifiers weaponStats(String name, double damage, double speed) {
+        return ItemAttributeModifiers.builder()
+                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(LobCorp.id(name + "_damage"), damage,
+                        AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(LobCorp.id(name + "_speed"), speed,
+                        AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .build();
+    }
+
+    private static Item register(String name, Function<Item.Properties, Item> factory, Item.Properties props) {
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, LobCorp.id(name));
+        Item item = factory.apply(props.setId(key));
+        return Registry.register(BuiltInRegistries.ITEM, key, item);
+    }
+
+    private static ItemLore lore(String... lines) {
+        return new ItemLore(java.util.Arrays.stream(lines).map(l -> (Component) Component.literal(l)
+                .withStyle(s -> s.withColor(0xAAAAAA).withItalic(false))).toList());
+    }
+
+    public static void init() {
+        PENITENCE = register("penitence", p -> new EgoWeaponItem(p, DamageColor.WHITE),
+                new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
+                        .attributes(weaponStats("penitence", 5.0, -3.0))
+                        .component(DataComponents.LORE, lore("O-03-03 · ZAYIN", "WHITE 피해 둔기", "죄를 짊어진 자의 무게.")));
+
+        PENITENCE_SUIT = register("penitence_suit", Item::new,
+                new Item.Properties().humanoidArmor(PENITENCE_MAT, ArmorType.CHESTPLATE)
+                        .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                        .component(DataComponents.LORE, lore("O-03-03 · ZAYIN", "WHITE 저항: 작업 실패 시 SP 피해 -1")));
+
+        REGRET = register("regret", p -> new EgoWeaponItem(p, DamageColor.RED),
+                new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
+                        .attributes(weaponStats("regret", 7.0, -3.2))
+                        .component(DataComponents.LORE, lore("T-01-54 · TETH", "RED 피해 둔기", "쇠가 되어 가는 머리로 벽을 두드리던 소리.")));
+
+        REGRET_SUIT = register("regret_suit", Item::new,
+                new Item.Properties().humanoidArmor(REGRET_MAT, ArmorType.CHESTPLATE)
+                        .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                        .component(DataComponents.LORE, lore("T-01-54 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1")));
+        initMore();
+    }
+
+    private static Item weapon(String id, DamageColor c, double dmg, double speed, String... lore) {
+        return register(id, p -> new EgoWeaponItem(p, c),
+                new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
+                        .attributes(weaponStats(id, dmg, speed))
+                        .component(DataComponents.LORE, lore(lore)));
+    }
+
+    private static Item suit(String id, ArmorMaterial mat, String... lore) {
+        return register(id, Item::new,
+                new Item.Properties().humanoidArmor(mat, ArmorType.CHESTPLATE)
+                        .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
+                        .component(DataComponents.LORE, lore(lore)));
+    }
+
+    /** 신규 E.G.O (수치는 임의) */
+    public static void initMore() {
+        MATCH_FLAME = weapon("match_flame", DamageColor.RED, 8.0, -3.4,
+                "F-01-02 · TETH", "RED 피해 대형 무기", "꺼지지 않는 불씨를 쥔 손.");
+        MATCH_FLAME_SUIT = suit("match_flame_suit", MATCH_FLAME_MAT,
+                "F-01-02 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
+        BEAR_PAWS = weapon("bear_paws", DamageColor.RED, 4.0, -1.6,
+                "T-04-06 · HE", "RED 피해 주먹, 빠른 연타", "보드라운 털 아래 단단한 무언가.");
+        BEAR_PAWS_SUIT = suit("bear_paws_suit", BEAR_PAWS_MAT,
+                "T-04-06 · HE", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+        WINGBEAT = weapon("wingbeat", DamageColor.RED, 4.0, -2.4,
+                "F-04-83 · ZAYIN", "RED 피해", "작은 날개들이 한꺼번에 퍼덕이는 소리.");
+        WINGBEAT_SUIT = suit("wingbeat_suit", WINGBEAT_MAT,
+                "F-04-83 · ZAYIN", "RED 저항: 작업 실패 시 HP 피해 -1");
+    }
+
+    public static List<Item> all() {
+        return List.of(PENITENCE, PENITENCE_SUIT, REGRET, REGRET_SUIT, MATCH_FLAME, MATCH_FLAME_SUIT,
+                BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT);
+    }
+}

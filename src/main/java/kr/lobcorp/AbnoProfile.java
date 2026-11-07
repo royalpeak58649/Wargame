@@ -1,0 +1,116 @@
+package kr.lobcorp;
+
+import net.minecraft.world.item.Item;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+/**
+ * 환상체 관리 정보. 수치 조정은 여기서.
+ * chances 순서: 본능, 통찰, 애착, 억압 (기본 성공률 %)
+ * resist 순서: RED, WHITE, BLACK, PALE (받는 피해 배율, 탈출형만 의미 있음)
+ */
+public record AbnoProfile(
+        String id, String name, String code, String risk, int riskColor,
+        int[] chances, int maxBox, int goodMin, int normalMin,
+        DamageColor workDamage, int dmgMin, int dmgMax,
+        int qliphothMax,
+        Supplier<Item> weapon, int weaponCost,
+        Supplier<Item> suit, int suitCost,
+        String giftId, String giftName, String giftDesc, int giftChance,
+        float[] resist,
+        List<String> notes
+) {
+    public static final AbnoProfile ONE_SIN = new AbnoProfile(
+            "one_sin", "단 한 번의 악과 수백 가지의 선행", "O-03-03", "ZAYIN", 0x55FF55,
+            new int[]{40, 60, 70, 40}, 10, 8, 5,
+            DamageColor.WHITE, 1, 2,
+            0,
+            () -> ModItems.PENITENCE, 15,
+            () -> ModItems.PENITENCE_SUIT, 20,
+            "penitence", "참회", "최대 SP +2, 작업 성공률 +3%", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "특수 능력 「고해」: 작업 결과가 좋음이면 작업자의 SP를 모두 회복시킨다.",
+                    "PE-BOX를 최대치로 생산하면 부서 내 모든 직원의 SP가 회복된다.",
+                    "격리실을 탈출하지 않는다."
+            ));
+
+    public static final AbnoProfile FORSAKEN_MURDERER = new AbnoProfile(
+            "forsaken_murderer", "버려진 살인마", "T-01-54", "TETH", 0x5599FF,
+            new int[]{60, 40, 50, 30}, 12, 9, 5,
+            DamageColor.RED, 1, 2,
+            1,
+            () -> ModItems.REGRET, 25,
+            () -> ModItems.REGRET_SUIT, 30,
+            "regret", "후회", "최대 HP +2", 5,
+            new float[]{1.0f, 1.2f, 1.2f, 1.5f},
+            List.of(
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다.",
+                    "클리포트 카운터가 0이 되면 격리실을 탈출해 직원을 공격한다.",
+                    "E.G.O가 아닌 무기로는 피해가 절반만 들어간다."
+            ));
+
+
+    public static final AbnoProfile SCORCHED_GIRL = new AbnoProfile(
+            "scorched_girl", "불타버린 소녀", "F-01-02", "TETH", 0x5599FF,
+            new int[]{50, 40, 30, 60}, 12, 9, 5,
+            DamageColor.RED, 1, 3,
+            2,
+            () -> ModItems.MATCH_FLAME, 30,
+            () -> ModItems.MATCH_FLAME_SUIT, 30,
+            "match_flame", "4번째 성냥불", "최대 HP +3", 5,
+            new float[]{1.0f, 0.8f, 1.2f, 1.5f},
+            List.of(
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다.",
+                    "작업 결과가 보통이면 50% 확률로 클리포트 카운터가 1 감소한다.",
+                    "탈출하면 가장 가까운 직원에게 달려가 자폭한 뒤 격리실로 돌아온다."
+            ));
+
+    public static final AbnoProfile HAPPY_TEDDY = new AbnoProfile(
+            "happy_teddy_bear", "행복한 테디베어", "T-04-06", "HE", 0xFFCC33,
+            new int[]{40, 50, 60, 30}, 14, 11, 6,
+            DamageColor.WHITE, 1, 2,
+            0,
+            () -> ModItems.BEAR_PAWS, 30,
+            () -> ModItems.BEAR_PAWS_SUIT, 35,
+            "bear_paws", "곰 발바닥", "최대 SP +3", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "같은 직원이 연달아 두 번 작업하면, 두 번째에 그 직원을 꽉 끌어안는다.",
+                    "끌어안긴 직원은 살아남지 못한다. 작업자를 번갈아 보내야 한다.",
+                    "격리실을 탈출하지 않는다."
+            ));
+
+    public static final AbnoProfile FAIRY_FESTIVAL = new AbnoProfile(
+            "fairy_festival", "요정의 축제", "F-04-83", "ZAYIN", 0x55FF55,
+            new int[]{50, 60, 70, 40}, 10, 8, 5,
+            DamageColor.RED, 1, 2,
+            0,
+            () -> ModItems.WINGBEAT, 15,
+            () -> ModItems.WINGBEAT_SUIT, 20,
+            "wingbeat", "날갯짓", "작업 성공률 +3%", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "작업을 마친 직원은 요정들의 축복을 받아 60초 동안 HP와 SP가 회복된다.",
+                    "축복을 받은 채 다른 환상체를 작업하면, 요정들이 그 직원을 먹어 치운다.",
+                    "격리실을 탈출하지 않는다."
+            ));
+
+    public static final Map<String, AbnoProfile> BY_ID = Map.of(
+            ONE_SIN.id, ONE_SIN,
+            FORSAKEN_MURDERER.id, FORSAKEN_MURDERER,
+            SCORCHED_GIRL.id, SCORCHED_GIRL,
+            HAPPY_TEDDY.id, HAPPY_TEDDY,
+            FAIRY_FESTIVAL.id, FAIRY_FESTIVAL
+    );
+
+    public boolean canBreach() {
+        return qliphothMax > 0;
+    }
+
+    public float resistTo(DamageColor c) {
+        return resist[c.ordinal()];
+    }
+}

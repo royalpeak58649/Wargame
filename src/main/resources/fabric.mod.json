@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "lobcorp",
+  "version": "${version}",
+  "name": "LobCorp Daily Life",
+  "description": "로보토미 코퍼레이션 직원의 하루를 1인칭으로. 단 한 번의 악과 수백 가지의 선행, 버려진 살인마.",
+  "authors": ["dohyeon"],
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["kr.lobcorp.LobCorp"],
+    "client": ["kr.lobcorp.client.LobCorpClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

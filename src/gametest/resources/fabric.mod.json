@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "lobcorp-test",
+  "version": "1.0.0",
+  "name": "LobCorp Client Test",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": ["kr.lobcorp.test.LobCorpClientTest"]
+  },
+  "depends": { "lobcorp": "*" }
+}

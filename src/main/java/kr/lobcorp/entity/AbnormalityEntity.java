@@ -1,0 +1,138 @@
+package kr.lobcorp.entity;
+
+import kr.lobcorp.AbnoProfile;
+import kr.lobcorp.work.WorkManager;
+import kr.lobcorp.work.WorkSession;
+import kr.lobcorp.work.WorkType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+
+/** 모든 환상체의 공통 기반: 작업 대상, PE 저장, 격리 위치 고정 */
+public abstract class AbnormalityEntity extends PathfinderMob {
+    protected int pe = 0;
+    protected int qliphoth;
+    protected BlockPos home = null;
+    protected float homeYaw = 0;
+
+    protected AbnormalityEntity(EntityType<? extends PathfinderMob> type, Level level) {
+        super(type, level);
+        this.qliphoth = profile().qliphothMax();
+        this.setPersistenceRequired();
+    }
+
+    public abstract AbnoProfile profile();
+
+    public boolean isBreached() {
+        return false;
+    }
+
+    public int getPe() {
+        return pe;
+    }
+
+    public void addPe(int amount) {
+        pe = Math.max(0, pe + amount);
+    }
+
+    public int getQliphoth() {
+        return qliphoth;
+    }
+
+    public void resetQliphoth() {
+        qliphoth = profile().qliphothMax();
+    }
+
+    public void setHome(BlockPos pos, float yaw) {
+        this.home = pos;
+        this.homeYaw = yaw;
+    }
+
+    /** 작업 시작 직전. false면 작업이 시작되지 않는다. */
+    public boolean beforeWorkStart(ServerPlayer worker, WorkType type) {
+        return true;
+    }
+
+    public void onWorkStart(ServerPlayer worker, WorkType type) {}
+
+    public void onWorkFinished(ServerPlayer worker, WorkManager.Result result, WorkSession session) {}
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
+        if (player instanceof ServerPlayer sp) WorkManager.openScreen(sp, this);
+        return InteractionResult.SUCCESS;
+    }
+
+    /** 격리 중인 환상체는 피해를 받지 않는다 */
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        if (!isBreached() && !source.isCreativePlayer()) return false;
+        return super.hurtServer(level, source, amount);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!level().isClientSide() && home != null && !isBreached() && tickCount % 10 == 0) {
+            double hx = home.getX() + 0.5, hz = home.getZ() + 0.5;
+            if (distanceToSqr(hx, home.getY(), hz) > 0.3) {
+                snapTo(hx, home.getY(), hz, homeYaw, 0);
+                getNavigation().stop();
+            }
+            setYRot(homeYaw);
+            setYBodyRot(homeYaw);
+            setYHeadRot(homeYaw);
+        }
+    }
+
+    @Override
+    public boolean isPushable() {
+        return isBreached();
+    }
+
+    @Override
+    public void push(Entity entity) {
+        if (isBreached()) super.push(entity);
+    }
+
+    @Override
+    public boolean removeWhenFarAway(double distance) {
+        return false;
+    }
+
+    @Override
+    protected void addAdditionalSaveData(ValueOutput out) {
+        super.addAdditionalSaveData(out);
+        out.putInt("lc_pe", pe);
+        out.putInt("lc_qliphoth", qliphoth);
+        if (home != null) {
+            out.putBoolean("lc_has_home", true);
+            out.putInt("lc_hx", home.getX());
+            out.putInt("lc_hy", home.getY());
+            out.putInt("lc_hz", home.getZ());
+            out.putInt("lc_hyaw", (int) homeYaw);
+        }
+    }
+
+    @Override
+    protected void readAdditionalSaveData(ValueInput in) {
+        super.readAdditionalSaveData(in);
+        pe = in.getIntOr("lc_pe", 0);
+        qliphoth = in.getIntOr("lc_qliphoth", profile().qliphothMax());
+        if (in.getBooleanOr("lc_has_home", false)) {
+            home = new BlockPos(in.getIntOr("lc_hx", 0), in.getIntOr("lc_hy", 0), in.getIntOr("lc_hz", 0));
+            homeYaw = in.getIntOr("lc_hyaw", 0);
+        }
+    }
+}
