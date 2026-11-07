@@ -383,6 +383,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 태아가 울기 시작한다. 울음소리는 24블록 안의 정신을 갉아먹고, 가까운 환상체들의 격리까지 무너뜨린다. 누군가 먹이가 되어야 그친다."
             ));
 
+    public static final AbnoProfile SNOW_QUEEN = new AbnoProfile(
+            "snow_queen", "눈의 여왕", "F-01-37", "HE", 0xFFAA00,
+            new int[]{30, 50, 40, 0}, 18, 14, 8,
+            DamageColor.WHITE, 4, 5,
+            0,
+            () -> ModItems.FROST_SPLINTER, 35,
+            () -> ModItems.FROST_SPLINTER_SUIT, 35,
+            "frost_splinter", "서리 조각", "최대 HP +6, 최대 SP +6", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "작업 결과가 보통이면 50%, 나쁨이면 반드시 저주가 한 단계 진행된다.",
+                    "한 번 저주받은 직원의 심장에는 얼음 조각이 박힌다. 두 번째에는 그 자리에서 얼어붙어 움직일 수 없다.",
+                    "얼어붙은 직원은 하루가 끝날 때까지 구출되지 않으면 죽는다. 얼어붙은 이가 있는 동안 누군가 그녀와 작업을 시작하면, 그 직원은 대신 결투를 벌인다."
+            ));
+
     public static final AbnoProfile TREE_SAP = new AbnoProfile(
             "tree_sap", "거대한 나무 수액", "T-09-80", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -468,6 +483,7 @@ public record AbnoProfile(
             Map.entry(CHILD_GALAXY.id, CHILD_GALAXY),
             Map.entry(FREISCHUTZ.id, FREISCHUTZ),
             Map.entry(FETUS.id, FETUS),
+            Map.entry(SNOW_QUEEN.id, SNOW_QUEEN),
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),

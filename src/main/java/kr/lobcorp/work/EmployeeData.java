@@ -37,6 +37,10 @@ public class EmployeeData {
     public int sapTicks = 0;
     /** 은하수의 아이가 건넨 우정의 조약돌을 지니고 있는가 (저장 안 함) */
     public boolean pebble = false;
+    /** 눈의 여왕의 저주: 0 없음, 1 심장의 얼음 조각, 2 얼어붙음 (저장 안 함) */
+    public int frost = 0;
+    /** 얼어붙은 자리 (저장 안 함) */
+    public net.minecraft.world.phys.Vec3 frozenAt = null;
     public Set<String> gifts = new HashSet<>();
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -89,6 +93,7 @@ public class EmployeeData {
             java.util.Map.entry("our_galaxy", new int[]{0, 0, 3, 3}),
             java.util.Map.entry("magic_bullet", new int[]{-5, -5, 0, 10}),
             java.util.Map.entry("syrinx", new int[]{-2, -2, 0, 6}),
+            java.util.Map.entry("frost_splinter", new int[]{6, 6, 0, 0}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

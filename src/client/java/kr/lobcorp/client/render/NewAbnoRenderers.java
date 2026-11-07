@@ -24,6 +24,7 @@ import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.ShelterModel;
 import kr.lobcorp.client.model.SingingMachineModel;
+import kr.lobcorp.client.model.SnowQueenModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.TreeSapModel;
@@ -51,6 +52,7 @@ import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
+import kr.lobcorp.entity.SnowQueenEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
@@ -688,6 +690,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(FetusModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class SnowQueen extends MobRenderer<SnowQueenEntity, LivingEntityRenderState, SnowQueenModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/snow_queen.png");
+
+        public SnowQueen(EntityRendererProvider.Context ctx) {
+            super(ctx, new SnowQueenModel(ctx.bakeLayer(SnowQueenModel.LAYER)), 0.7f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(SnowQueenEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 얼음과 왕관이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
             return TEX;
         }
     }

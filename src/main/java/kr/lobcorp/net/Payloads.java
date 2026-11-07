@@ -46,10 +46,10 @@ public final class Payloads {
      * 0 sp, 1 spMax, 2 용기, 3 신중, 4 자제, 5 정의, 6 패닉틱,
      * 7 작업중(0/1), 8 박스, 9 최대박스, 10 성공, 11 작업종류, 12 요정 축복 틱, 13 수면 틱, 14 홀림 틱, 15 라티샤의 선물(0/1),
      * 16 대피소 안(0/1), 17 초상(0=없음, 1=새겨진 자, 2=대신하는 자), 18 노트 보유 초(0=없음),
-     * 19 우정의 조약돌(0/1)
+     * 19 우정의 조약돌(0/1), 20 눈의 여왕의 저주(0=없음, 1=얼음 조각, 2=얼어붙음)
      */
     public record EmployeeSync(int[] v) implements CustomPacketPayload {
-        public static final int SIZE = 20;
+        public static final int SIZE = 21;
         public static final Type<EmployeeSync> TYPE = new Type<>(LobCorp.id("employee_sync"));
         public static final StreamCodec<RegistryFriendlyByteBuf, EmployeeSync> CODEC = StreamCodec.of(
                 (buf, p) -> {

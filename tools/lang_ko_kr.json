@@ -73,5 +73,8 @@
   "item.lobcorp.magic_bullet_suit": "마탄의 코트",
   "entity.lobcorp.nameless_fetus": "이름 없는 태아",
   "item.lobcorp.syrinx": "시링크스",
-  "item.lobcorp.syrinx_suit": "시링크스의 옷"
+  "item.lobcorp.syrinx_suit": "시링크스의 옷",
+  "entity.lobcorp.snow_queen": "눈의 여왕",
+  "item.lobcorp.frost_splinter": "서리 조각",
+  "item.lobcorp.frost_splinter_suit": "서리 조각의 옷"
 }

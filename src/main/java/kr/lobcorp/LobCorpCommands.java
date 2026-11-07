@@ -54,7 +54,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("notes").executes(c -> build(c, ModEntities.NOTES, false)))
                         .then(Commands.literal("child_galaxy").executes(c -> build(c, ModEntities.CHILD_GALAXY, false)))
                         .then(Commands.literal("freischutz").executes(c -> build(c, ModEntities.FREISCHUTZ, false)))
-                        .then(Commands.literal("nameless_fetus").executes(c -> build(c, ModEntities.NAMELESS_FETUS, false))))
+                        .then(Commands.literal("nameless_fetus").executes(c -> build(c, ModEntities.NAMELESS_FETUS, false)))
+                        .then(Commands.literal("snow_queen").executes(c -> build(c, ModEntities.SNOW_QUEEN, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

@@ -68,6 +68,7 @@ public final class Employees {
         v[17] = ToolState.isEtched(p) ? 1 : ToolState.isVictim(p) ? 2 : 0;
         v[18] = ToolState.isNotesHolder(p) ? ToolState.notesTicks / 20 : 0;
         v[19] = d.pebble ? 1 : 0;
+        v[20] = d.frost;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -293,6 +294,18 @@ public final class Employees {
                     p.heal(n);
                     if (d.sp < d.maxSp()) d.sp = Math.min(d.maxSp(), d.sp + n);
                     p.level().sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1.2, p.getZ(), 2, 0.3, 0.4, 0.3, 0.01);
+                }
+            }
+            if (d.frost == 2) {
+                if (d.frozenAt == null) d.frozenAt = p.position();
+                if (p.position().distanceToSqr(d.frozenAt) > 0.05 * 0.05) {
+                    p.connection.teleport(d.frozenAt.x, d.frozenAt.y, d.frozenAt.z, p.getYRot(), p.getXRot());
+                    p.setDeltaMovement(0, 0, 0);
+                }
+                p.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 10, false, false));
+                p.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 40, 5, false, false));
+                if (p.tickCount % 10 == 0) {
+                    p.level().sendParticles(ParticleTypes.SNOWFLAKE, p.getX(), p.getY() + 1.2, p.getZ(), 8, 0.4, 0.7, 0.4, 0.01);
                 }
             }
             if (d.sapTicks > 0) {

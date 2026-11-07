@@ -58,6 +58,13 @@ public final class LobCorpHud {
             g.text(font, "★ 우정의 조약돌 · 다른 환상체 작업 시 위험", x, line, 0xFF9AD0FF, true);
             line += 10;
         }
+        if (ClientState.frost() == 1) {
+            g.text(font, "❄ 심장의 얼음 조각", x, line, 0xFF7CFFE0, true);
+            line += 10;
+        } else if (ClientState.frost() == 2) {
+            g.text(font, "❄ 얼어붙음 · 누군가 눈의 여왕과 결투해야 합니다", x, line, 0xFF7CFFE0, true);
+            line += 10;
+        }
         if (ClientState.portrait() == 1) {
             g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
         } else if (ClientState.portrait() == 2) {

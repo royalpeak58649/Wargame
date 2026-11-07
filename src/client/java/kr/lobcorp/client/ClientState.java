@@ -4,7 +4,7 @@ package kr.lobcorp.client;
 public final class ClientState {
     private ClientState() {}
 
-    public static int[] v = new int[20];
+    public static int[] v = new int[21];
     public static boolean received = false;
 
     public static int sp() { return v[0]; }
@@ -23,4 +23,5 @@ public final class ClientState {
     public static int portrait() { return v.length > 17 ? v[17] : 0; }
     public static int notes() { return v.length > 18 ? v[18] : 0; }
     public static boolean pebble() { return v.length > 19 && v[19] == 1; }
+    public static int frost() { return v.length > 20 ? v[20] : 0; }
 }

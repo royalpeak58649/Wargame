@@ -3445,6 +3445,193 @@ wjson("equipment/syrinx.json", {"layers": {"humanoid": [{"texture": "lobcorp:syr
 nameless_fetus()
 print("assets fetus ok")
 
+
+# ═════════════ 26차: 눈의 여왕 (F-01-37) ═════════════
+def snow_queen():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    ice = hexc("#bfe8ff")
+    ice_hi = hexc("#e8f8ff")
+    ice_dark = hexc("#7ab8d8")
+    gown = hexc("#e8f6ff")
+    gown_shade = hexc("#c0dcee")
+    gown_blue = hexc("#5a9ad0")
+    skin = hexc("#fbfdff")
+    skin_shade = hexc("#dce8f0")
+    lip = hexc("#c8a0b8")
+    hair = hexc("#dff0fa")
+    hair_dark = hexc("#a8c8dc")
+    crown = hexc("#d8f4ff")
+    crown_dark = hexc("#8ac8e8")
+
+    # 왕좌 좌판 (u0 v0, 10x2x8)
+    s = box(img, 0, 0, 10, 2, 8, ice, 6, top=ice_hi)
+    sx, sy = s["front"]
+    for x in range(10):
+        px(img, sx + x, sy + 1, ice_dark)
+    for side in ("right", "left", "back"):
+        ox, oy = s[side]
+        for y in range(2):
+            for x in range(0, 8, 3):
+                px(img, ox + x, oy + y, ice_dark)
+
+    # 왕좌 등받이 (u0 v10, 10x14x2)
+    b = box(img, 0, 10, 10, 14, 2, ice, 6, top=ice_hi)
+    bx, by = b["front"]
+    # 얼음 결정 무늬
+    for y in range(14):
+        for x in range(10):
+            if (x * 3 + y * 5) % 11 == 0:
+                px(img, bx + x, by + y, ice_hi)
+            elif (x * 7 + y) % 13 == 0:
+                px(img, bx + x, by + y, ice_dark)
+    for x in range(10):
+        px(img, bx + x, by + 13, ice_dark)
+    # 등받이 꼭대기의 고드름
+    for x in (1, 4, 7):
+        px(img, bx + x, by, ice_hi)
+        px(img, bx + x, by + 1, ice_hi)
+
+    # 팔걸이 (u24 v10, 1x3x8)
+    for u in (24, 28):
+        a = box(img, u, 10, 1, 3, 8, ice, 6, top=ice_hi)
+        ax, ay = a["front"]
+        for y in range(3):
+            px(img, ax, ay + y, ice_dark if y == 2 else ice)
+
+    # 드레스 (u0 v26, 8x10x6)
+    g = box(img, 0, 26, 8, 10, 6, gown, 4, top=hexc("#f4fbff"))
+    gx, gy = g["front"]
+    # 푸른 무늬: 세로 줄기와 눈꽃
+    for y in range(10):
+        px(img, gx + 3, gy + y, gown_blue)
+        px(img, gx + 4, gy + y, gown_blue)
+    for (x, y) in [(1, 2), (2, 2), (1, 3), (6, 4), (5, 4), (6, 5), (2, 7), (5, 7)]:
+        px(img, gx + x, gy + y, gown_blue)
+    for x in range(8):
+        px(img, gx + x, gy + 9, gown_shade)
+    for side in ("right", "left", "back"):
+        ox, oy = g[side]
+        for y in range(10):
+            for x in range(0, 6, 2):
+                if (x + y) % 4 == 0:
+                    px(img, ox + x, oy + y, gown_shade)
+        for x in range(6):
+            px(img, ox + x, oy + 9, gown_shade)
+
+    # 몸통 (u28 v26, 6x6x3)
+    bo = box(img, 28, 26, 6, 6, 3, gown, 4)
+    box_, boy = bo["front"]
+    for y in range(6):
+        px(img, box_ + 2, boy + y, gown_blue)
+        px(img, box_ + 3, boy + y, gown_blue)
+    for x in range(6):
+        px(img, box_ + x, boy, gown_shade)
+
+    # 팔 (u46 v26, 2x8x2)
+    a = box(img, 46, 26, 2, 8, 2, gown, 4)
+    ax, ay = a["front"]
+    for y in range(8):
+        px(img, ax, ay + y, gown_shade)
+    for x in range(2):
+        px(img, ax + x, ay + 7, skin)
+
+    # 머리 (u0 v42, 5x5x5)
+    h = box(img, 0, 42, 5, 5, 5, skin, 3, top=hair)
+    hx, hy = h["front"]
+    # 창백한 입술
+    px(img, hx + 1, hy + 4, lip)
+    px(img, hx + 2, hy + 4, lip)
+    px(img, hx + 3, hy + 4, lip)
+    # 차가운 눈
+    px(img, hx + 1, hy + 2, hexc("#3a7aa8"))
+    px(img, hx + 3, hy + 2, hexc("#3a7aa8"))
+    px(img, hx + 1, hy + 1, hair_dark)
+    px(img, hx + 3, hy + 1, hair_dark)
+    # 앞머리
+    for x in range(5):
+        px(img, hx + x, hy, hair)
+    for x in (0, 2, 4):
+        px(img, hx + x, hy + 1, hair_dark)
+    # 옆머리
+    for side in ("right", "left"):
+        ox, oy = h[side]
+        for y in range(5):
+            px(img, ox + 2, oy + y, hair if y < 3 else hair_dark)
+
+    # 고드름 왕관 (u20 v42, 1x3x1 다섯 개)
+    c = box(img, 20, 42, 1, 3, 1, crown, 4, top=ice_hi)
+    cx, cy = c["front"]
+    for y in range(3):
+        px(img, cx, cy + y, crown_dark if y == 2 else crown)
+    # 왕관 띠 (u28 v42, 5x1x5)
+    cb = box(img, 28, 42, 5, 1, 5, crown, 4, top=ice_hi)
+    cbx, cby = cb["front"]
+    for x in range(5):
+        px(img, cbx + x, cby, crown_dark)
+
+    save(img, "textures/entity/snow_queen.png")
+
+
+FS = {"i": "#bfe8ff", "h": "#e8f8ff", "d": "#7ab8d8", "w": "#e8f6ff", "b": "#5a9ad0", "k": "#3a7aa8"}
+icon([
+    "................",
+    "..............hh",
+    ".............hh.",
+    "............hh..",
+    "...........hh...",
+    "..........hh....",
+    ".........hh.....",
+    "........hh......",
+    ".......hh.......",
+    "......hh........",
+    ".....hh.........",
+    "....ii..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], FS, "textures/item/frost_splinter.png")
+icon([
+    "................",
+    "...ii......ii...",
+    "..iiii....iiii..",
+    "..iiiiiiiiiiii..",
+    "...iiiiiiiiii...",
+    "....iiwwwwii....",
+    "....iiwwwwii....",
+    "....iiwwwwii....",
+    "....iiwwwwii....",
+    "....iiiiiiii....",
+    "....iibbbbi.....",
+    "....iiiiiiii....",
+    "....iiiiiiii....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], FS, "textures/item/frost_splinter_suit.png")
+
+armor(hexc("#bfe8ff"), "#7ab8d8", "#e8f8ff", "textures/entity/equipment/humanoid/frost_splinter.png")
+
+for item, parent in [("frost_splinter", "minecraft:item/handheld"),
+                     ("frost_splinter_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/frost_splinter.json", {"layers": {"humanoid": [{"texture": "lobcorp:frost_splinter"}]}})
+
+
+snow_queen()
+print("assets snowqueen ok")
+
+merge_lang({
+    "entity.lobcorp.snow_queen": "눈의 여왕",
+    "item.lobcorp.frost_splinter": "서리 조각",
+    "item.lobcorp.frost_splinter_suit": "서리 조각의 옷",
+}, {
+    "entity.lobcorp.snow_queen": "The Snow Queen",
+    "item.lobcorp.frost_splinter": "Frost Splinter",
+    "item.lobcorp.frost_splinter_suit": "Frost Splinter Garb",
+})
+
 merge_lang({
     "entity.lobcorp.nameless_fetus": "이름 없는 태아",
     "item.lobcorp.syrinx": "시링크스",

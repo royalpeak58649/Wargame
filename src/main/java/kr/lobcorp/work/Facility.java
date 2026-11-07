@@ -48,10 +48,21 @@ public final class Facility {
         f.quota = 20 + 10 * f.day;
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {
             EmployeeData d = Employees.get(p);
+            if (d.frost == 2) {
+                broadcast(server, Component.literal("[관제] ").withStyle(s -> s.withColor(0xAA0000))
+                        .append(p.getDisplayName())
+                        .append(Component.literal(" 직원이 끝내 녹지 못했습니다.").withStyle(s -> s.withColor(0xFF5555))));
+                p.hurtServer(p.level(), p.level().damageSources().magic(), 1000f);
+            }
+        }
+        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+            EmployeeData d = Employees.get(p);
             d.panicTicks = 0;
             d.sp = d.maxSp();
             d.laetitiaHeart = false;
             d.pebble = false;
+            d.frost = 0;
+            d.frozenAt = null;
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal("에너지 할당량 " + f.quota).withStyle(s -> s.withColor(0x55FF55))));
             p.connection.send(new ClientboundSetTitleTextPacket(Component.literal("Day " + f.day)));
         }
