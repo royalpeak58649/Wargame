@@ -5,7 +5,7 @@
   "name": "LobCorp Client Test",
   "environment": "client",
   "entrypoints": {
-    "fabric-client-gametest": ["kr.lobcorp.test.WawTest", "kr.lobcorp.test.He2Test", "kr.lobcorp.test.HeTest", "kr.lobcorp.test.Teth3Test", "kr.lobcorp.test.Teth2Test", "kr.lobcorp.test.TethTest", "kr.lobcorp.test.PunishingBirdTest", "kr.lobcorp.test.LobCorpClientTest"]
+    "fabric-client-gametest": ["kr.lobcorp.test.FacilityTest", "kr.lobcorp.test.WawTest", "kr.lobcorp.test.He2Test", "kr.lobcorp.test.HeTest", "kr.lobcorp.test.Teth3Test", "kr.lobcorp.test.Teth2Test", "kr.lobcorp.test.TethTest", "kr.lobcorp.test.PunishingBirdTest", "kr.lobcorp.test.LobCorpClientTest"]
   },
   "depends": { "lobcorp": "*" }
 }

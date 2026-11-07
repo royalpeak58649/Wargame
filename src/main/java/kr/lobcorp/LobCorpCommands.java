@@ -71,6 +71,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("alriune").executes(c -> build(c, ModEntities.ALRIUNE, false)))
                         .then(Commands.literal("queen_bee").executes(c -> build(c, ModEntities.QUEEN_BEE, false)))
                         .then(Commands.literal("black_swan").executes(c -> build(c, ModEntities.BLACK_SWAN, false))))
+                .then(Commands.literal("facility").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .executes(LobCorpCommands::facility))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());
@@ -114,6 +116,18 @@ public final class LobCorpCommands {
         T a = RoomBuilder.build(level, o, type, corner);
         if (a == null) return 0;
         c.getSource().sendSuccess(() -> Component.literal("격리실 " + a.profile().code() + " " + a.profile().name() + " 설치 완료."), true);
+        return 1;
+    }
+
+    private static int facility(CommandContext<CommandSourceStack> c) {
+        ServerLevel level = c.getSource().getLevel();
+        BlockPos o = BlockPos.containing(c.getSource().getPosition());
+        c.getSource().sendSuccess(() -> Component.literal("시설을 짓는 중입니다… (잠시 멈출 수 있습니다)").withStyle(s -> s.withColor(0xAAAAAA)), true);
+        var r = kr.lobcorp.work.FacilityBuilder.build(level, o);
+        if (c.getSource().getEntity() instanceof ServerPlayer p)
+            p.teleportTo(level, r.spawn().getX() + 0.5, r.spawn().getY(), r.spawn().getZ() + 0.5, java.util.Set.of(), -90f, 0f, false);
+        c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 10개, 격리실 " + r.units() + "개. 상층 바닥 높이 Y=" + r.topY()
+                + ". 중앙제어팀 홀로 이동했습니다.").withStyle(s -> s.withColor(0x55FF55)), true);
         return 1;
     }
 
