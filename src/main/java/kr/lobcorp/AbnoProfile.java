@@ -368,6 +368,21 @@ public record AbnoProfile(
                     "애착 작업은 의뢰로 바뀐다. 시설 에너지 10%를 바치면, 당신의 눈이 겨눈 방향으로 탄환이 벽을 뚫고 날아간다."
             ));
 
+    public static final AbnoProfile FETUS = new AbnoProfile(
+            "nameless_fetus", "이름 없는 태아", "O-01-15", "HE", 0xFFAA00,
+            new int[]{40, 20, 20, 20}, 18, 14, 7,
+            DamageColor.RED, 4, 6,
+            1,
+            () -> ModItems.SYRINX, 40,
+            () -> ModItems.SYRINX_SUIT, 40,
+            "syrinx", "시링크스", "최대 HP -2, 최대 SP -2, 이동 속도 +6%", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "거대한 살덩어리가 잠들어 있다. 숨을 쉴 때마다 표면 아래로 무언가가 꿈틀거린다.",
+                    "작업 결과가 보통이면 30%, 나쁨이면 90% 확률로 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 태아가 울기 시작한다. 울음소리는 24블록 안의 정신을 갉아먹고, 가까운 환상체들의 격리까지 무너뜨린다. 누군가 먹이가 되어야 그친다."
+            ));
+
     public static final AbnoProfile TREE_SAP = new AbnoProfile(
             "tree_sap", "거대한 나무 수액", "T-09-80", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -452,6 +467,7 @@ public record AbnoProfile(
             Map.entry(HELPER.id, HELPER),
             Map.entry(CHILD_GALAXY.id, CHILD_GALAXY),
             Map.entry(FREISCHUTZ.id, FREISCHUTZ),
+            Map.entry(FETUS.id, FETUS),
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),

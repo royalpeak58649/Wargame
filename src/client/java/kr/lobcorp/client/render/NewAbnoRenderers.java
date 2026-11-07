@@ -6,6 +6,7 @@ import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
+import kr.lobcorp.client.model.FetusModel;
 import kr.lobcorp.client.model.FragmentModel;
 import kr.lobcorp.client.model.FreischutzModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
@@ -32,6 +33,7 @@ import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
+import kr.lobcorp.entity.FetusEntity;
 import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.FreischutzEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
@@ -662,6 +664,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class Fetus extends MobRenderer<FetusEntity, FetusModel.State, FetusModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/nameless_fetus.png");
+
+        public Fetus(EntityRendererProvider.Context ctx) {
+            super(ctx, new FetusModel(ctx.bakeLayer(FetusModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public FetusModel.State createRenderState() {
+            return new FetusModel.State();
+        }
+
+        @Override
+        public void extractRenderState(FetusEntity e, FetusModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.cry = e.getCry() > 0 ? 1f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(FetusModel.State s) {
             return TEX;
         }
     }

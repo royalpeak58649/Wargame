@@ -70,5 +70,8 @@
   "entity.lobcorp.child_galaxy": "Child of the Galaxy",
   "entity.lobcorp.freischutz": "Der Freischütz",
   "item.lobcorp.magic_bullet": "Magic Bullet",
-  "item.lobcorp.magic_bullet_suit": "Magic Bullet Coat"
+  "item.lobcorp.magic_bullet_suit": "Magic Bullet Coat",
+  "entity.lobcorp.nameless_fetus": "Nameless Fetus",
+  "item.lobcorp.syrinx": "Syrinx",
+  "item.lobcorp.syrinx_suit": "Syrinx Garb"
 }

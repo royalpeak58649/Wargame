@@ -3287,3 +3287,170 @@ merge_lang({
     "item.lobcorp.magic_bullet": "Magic Bullet",
     "item.lobcorp.magic_bullet_suit": "Magic Bullet Coat",
 })
+
+
+# ═════════════ 25차: 이름 없는 태아 (O-01-15) ═════════════
+def nameless_fetus():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    flesh = hexc("#d8b8b0")
+    flesh_hi = hexc("#e8ccc4")
+    flesh_dark = hexc("#b89890")
+    vein = hexc("#8a5a6a")
+    vein_dark = hexc("#6a3a4a")
+    mouth = hexc("#401018")
+    mouth_dark = hexc("#2a0810")
+    tooth = hexc("#f4eee4")
+    gum = hexc("#7a2030")
+    eye = hexc("#2a1a20")
+    tear = hexc("#9ad0e8")
+
+    # 몸통 (u0 v0, 16x10x12)
+    b = box(img, 0, 0, 16, 10, 12, flesh, 6, top=flesh_hi)
+    bx, by = b["front"]
+    # 살의 주름
+    for y in range(10):
+        for x in range(16):
+            if (x * 3 + y * 7) % 23 == 0:
+                px(img, bx + x, by + y, flesh_dark)
+    # 표면 아래 혈관
+    for (x, y) in [(1, 1), (2, 1), (3, 2), (4, 2), (12, 1), (13, 2), (14, 2), (15, 3),
+                   (1, 7), (2, 8), (13, 7), (14, 8), (7, 1), (8, 1)]:
+        px(img, bx + x, by + y, vein)
+    for (x, y) in [(2, 2), (13, 3), (2, 9), (13, 8)]:
+        px(img, bx + x, by + y, vein_dark)
+    for x in range(16):
+        px(img, bx + x, by + 9, flesh_dark)
+    # 옆면·뒷면·윗면에도 주름과 혈관
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(10):
+            for x in range(12):
+                if (x * 5 + y * 3) % 19 == 0:
+                    px(img, sx + x, sy + y, flesh_dark)
+                elif (x * 7 + y) % 31 == 0:
+                    px(img, sx + x, sy + y, vein)
+        for x in range(12):
+            px(img, sx + x, sy + 9, flesh_dark)
+    tx, ty = b["top"]
+    for x in range(16):
+        for y in range(12):
+            if (x * 3 + y * 5) % 17 == 0:
+                px(img, tx + x, ty + y, flesh_dark)
+            elif (x + y * 2) % 29 == 0:
+                px(img, tx + x, ty + y, vein)
+
+    # 입 판 (u0 v24, 10x6x1) — 어두운 아가리 + 작은 이빨
+    m = box(img, 0, 24, 10, 6, 1, mouth, 6)
+    mx, my = m["front"]
+    for x in range(10):
+        px(img, mx + x, my, gum)
+        px(img, mx + x, my + 5, gum)
+    for x in range(10):
+        if x % 2 == 0:
+            px(img, mx + x, my + 1, tooth)
+        if x % 2 == 1:
+            px(img, mx + x, my + 4, tooth)
+    for x in range(2, 8):
+        px(img, mx + x, my + 3, mouth_dark)
+    for (x, y) in [(3, 2), (6, 2)]:
+        px(img, mx + x, my + y, hexc("#1a0408"))
+
+    # 머리 (u24 v24, 8x4x8)
+    h = box(img, 24, 24, 8, 4, 8, flesh, 6, top=flesh_hi)
+    hx, hy = h["front"]
+    for x in range(8):
+        px(img, hx + x, hy + 3, flesh_dark)
+    for (x, y) in [(1, 1), (6, 1), (3, 2), (4, 2)]:
+        px(img, hx + x, hy + y, flesh_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for x in range(8):
+            px(img, sx + x, sy + 3, flesh_dark)
+
+    # 눈 (u56 v24, 2x1x1 두 개) — 감긴 눈 / 젖은 눈
+    e = box(img, 56, 24, 2, 1, 1, eye, 0)
+    ex, ey = e["front"]
+    px(img, ex, ey, hexc("#4a3038"))
+    px(img, ex + 1, ey, hexc("#4a3038"))
+
+    # 눈물 (u60 v24, 1x1x1)
+    t = box(img, 60, 24, 1, 1, 1, tear, 0)
+    ttx, tty = t["front"]
+    px(img, ttx, tty, hexc("#d8f0fa"))
+
+    # 팔 (u0 v40, 2x3x2)
+    a = box(img, 0, 40, 2, 3, 2, flesh, 6)
+    ax, ay = a["front"]
+    for y in range(3):
+        px(img, ax, ay + y, flesh_dark)
+    for x in range(2):
+        px(img, ax + x, ay + 2, flesh_dark)
+    # 다리 (u8 v40, 2x3x2)
+    l = box(img, 8, 40, 2, 3, 2, flesh, 6)
+    lx, ly = l["front"]
+    for y in range(3):
+        px(img, lx, ly + y, flesh_dark)
+    for x in range(2):
+        px(img, lx + x, ly + 2, flesh_dark)
+
+    save(img, "textures/entity/nameless_fetus.png")
+
+
+SY = {"w": "#e8e0d0", "s": "#c8c0b0", "d": "#8a8070", "k": "#2a1a20", "r": "#8a2a3a", "h": "#3a2a1a"}
+icon([
+    "................",
+    "..............ww",
+    ".............ww.",
+    "............ww..",
+    "...........ww...",
+    "..........ww....",
+    ".........ww.....",
+    "........ww......",
+    ".......ww.......",
+    "......ww........",
+    ".....ww.........",
+    "....ww..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], SY, "textures/item/syrinx.png")
+icon([
+    "................",
+    "...ww......ww...",
+    "..wwww....wwww..",
+    "..wwwwwwwwwwww..",
+    "...wwwwwwwwww...",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    "....wwwwwwww....",
+    "....wwkkkkww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], SY, "textures/item/syrinx_suit.png")
+
+armor(hexc("#d8b8b0"), "#b89890", "#8a5a6a", "textures/entity/equipment/humanoid/syrinx.png")
+
+for item, parent in [("syrinx", "minecraft:item/handheld"), ("syrinx_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/syrinx.json", {"layers": {"humanoid": [{"texture": "lobcorp:syrinx"}]}})
+
+
+nameless_fetus()
+print("assets fetus ok")
+
+merge_lang({
+    "entity.lobcorp.nameless_fetus": "이름 없는 태아",
+    "item.lobcorp.syrinx": "시링크스",
+    "item.lobcorp.syrinx_suit": "시링크스의 옷",
+}, {
+    "entity.lobcorp.nameless_fetus": "Nameless Fetus",
+    "item.lobcorp.syrinx": "Syrinx",
+    "item.lobcorp.syrinx_suit": "Syrinx Garb",
+})

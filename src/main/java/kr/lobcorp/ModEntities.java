@@ -5,6 +5,7 @@ import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
+import kr.lobcorp.entity.FetusEntity;
 import kr.lobcorp.entity.ForsakenMurdererEntity;
 import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.FreischutzEntity;
@@ -68,6 +69,7 @@ public final class ModEntities {
     public static EntityType<NotesEntity> NOTES;
     public static EntityType<ChildGalaxyEntity> CHILD_GALAXY;
     public static EntityType<FreischutzEntity> FREISCHUTZ;
+    public static EntityType<FetusEntity> NAMELESS_FETUS;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -133,6 +135,8 @@ public final class ModEntities {
                 .sized(0.6f, 1.2f).clientTrackingRange(10));
         FREISCHUTZ = register("freischutz", EntityType.Builder.of(FreischutzEntity::new, MobCategory.MISC)
                 .sized(0.7f, 2.2f).clientTrackingRange(10));
+        NAMELESS_FETUS = register("nameless_fetus", EntityType.Builder.of(FetusEntity::new, MobCategory.MISC)
+                .sized(1.6f, 1.2f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -162,5 +166,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(NOTES, NotesEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CHILD_GALAXY, ChildGalaxyEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FREISCHUTZ, FreischutzEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(NAMELESS_FETUS, FetusEntity.createAttributes());
     }
 }

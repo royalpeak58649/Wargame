@@ -70,5 +70,8 @@
   "entity.lobcorp.child_galaxy": "은하수의 아이",
   "entity.lobcorp.freischutz": "마탄의 사수",
   "item.lobcorp.magic_bullet": "마탄",
-  "item.lobcorp.magic_bullet_suit": "마탄의 코트"
+  "item.lobcorp.magic_bullet_suit": "마탄의 코트",
+  "entity.lobcorp.nameless_fetus": "이름 없는 태아",
+  "item.lobcorp.syrinx": "시링크스",
+  "item.lobcorp.syrinx_suit": "시링크스의 옷"
 }

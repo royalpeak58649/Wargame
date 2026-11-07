@@ -51,6 +51,7 @@ public final class ModItems {
     public static final ArmorMaterial GRINDER_MAT = material("grinder", 6);
     public static final ArmorMaterial OUR_GALAXY_MAT = material("our_galaxy", 6);
     public static final ArmorMaterial MAGIC_BULLET_MAT = material("magic_bullet", 7);
+    public static final ArmorMaterial SYRINX_MAT = material("syrinx", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -98,6 +99,8 @@ public final class ModItems {
     public static Item OUR_GALAXY_SUIT;
     public static Item MAGIC_BULLET;
     public static Item MAGIC_BULLET_SUIT;
+    public static Item SYRINX;
+    public static Item SYRINX_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -251,6 +254,10 @@ public final class ModItems {
                 "F-01-69 · HE", "BLACK 피해 장총, 느리고 묵직함", "한 번도 빗나간 적 없는 총신. 방아쇠는 아직 따뜻하다.");
         MAGIC_BULLET_SUIT = suit("magic_bullet_suit", MAGIC_BULLET_MAT,
                 "F-01-69 · HE", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+        SYRINX = weapon("syrinx", DamageColor.WHITE, 3.0, -2.0,
+                "O-01-15 · HE", "WHITE 피해, 빠른 연타", "뼈로 깎은 피리. 불면 갓난아이의 울음 같은 소리가 새어 나온다.");
+        SYRINX_SUIT = suit("syrinx_suit", SYRINX_MAT,
+                "O-01-15 · HE", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -261,6 +268,7 @@ public final class ModItems {
                 ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
                 FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT, SANGUINE_DESIRE, SANGUINE_DESIRE_SUIT,
                 HARMONY, HARMONY_SUIT, PLEASURE, PLEASURE_SUIT, LAETITIA, LAETITIA_SUIT,
-                GRINDER, GRINDER_SUIT, OUR_GALAXY, OUR_GALAXY_SUIT, MAGIC_BULLET, MAGIC_BULLET_SUIT);
+                GRINDER, GRINDER_SUIT, OUR_GALAXY, OUR_GALAXY_SUIT, MAGIC_BULLET, MAGIC_BULLET_SUIT,
+                SYRINX, SYRINX_SUIT);
     }
 }
