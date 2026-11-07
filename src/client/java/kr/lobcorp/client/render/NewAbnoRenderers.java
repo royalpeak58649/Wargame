@@ -7,6 +7,7 @@ import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.FragmentModel;
+import kr.lobcorp.client.model.FreischutzModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
@@ -32,6 +33,7 @@ import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.FragmentEntity;
+import kr.lobcorp.entity.FreischutzEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
@@ -637,6 +639,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(ChildGalaxyModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Freischutz extends MobRenderer<FreischutzEntity, LivingEntityRenderState, FreischutzModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/freischutz.png");
+
+        public Freischutz(EntityRendererProvider.Context ctx) {
+            super(ctx, new FreischutzModel(ctx.bakeLayer(FreischutzModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(FreischutzEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
             return TEX;
         }
     }

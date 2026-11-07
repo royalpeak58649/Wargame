@@ -67,5 +67,8 @@
   "entity.lobcorp.shelter": "Shelter from the 27th of March",
   "entity.lobcorp.portrait": "Portrait of Another World",
   "entity.lobcorp.notes": "Notes from a Crazed Researcher",
-  "entity.lobcorp.child_galaxy": "Child of the Galaxy"
+  "entity.lobcorp.child_galaxy": "Child of the Galaxy",
+  "entity.lobcorp.freischutz": "Der Freischütz",
+  "item.lobcorp.magic_bullet": "Magic Bullet",
+  "item.lobcorp.magic_bullet_suit": "Magic Bullet Coat"
 }

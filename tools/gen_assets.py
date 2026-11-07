@@ -3108,3 +3108,182 @@ merge_lang({
 }, {
     "entity.lobcorp.child_galaxy": "Child of the Galaxy",
 })
+
+
+# ═════════════ 24차: 마탄의 사수 (F-01-69) ═════════════
+def freischutz():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    coat = hexc("#1e1e24")
+    coat_hi = hexc("#2a2a32")
+    coat_dark = hexc("#121216")
+    skin = hexc("#d8d2c4")
+    skin_shade = hexc("#b8b2a4")
+    hat = hexc("#141418")
+    hat_hi = hexc("#22222a")
+    band = hexc("#3a2a1a")
+    eye = hexc("#ff2a2a")
+    eye_dim = hexc("#8a0a0a")
+    wood = hexc("#4a3220")
+    wood_hi = hexc("#5e4028")
+    steel = hexc("#8a9096")
+    steel_dark = hexc("#5a6066")
+
+    # 다리 (u0 v0, 2x12x2)
+    for u in (0, 8):
+        l = box(img, u, 0, 2, 12, 2, coat_dark, 4)
+        lx, ly = l["front"]
+        for y in range(12):
+            px(img, lx, ly + y, hexc("#0a0a0e"))
+        for x in range(2):
+            px(img, lx + x, ly + 11, hexc("#0a0a0e"))
+
+    # 몸통: 긴 코트 (u0 v16, 6x10x3)
+    b = box(img, 0, 16, 6, 10, 3, coat, 4)
+    bx, by = b["front"]
+    # 코트 여밈 단추
+    for y in (2, 4, 6, 8):
+        px(img, bx + 2, by + y, hexc("#8a7a5a"))
+    for y in range(10):
+        px(img, bx + 3, by + y, coat_dark)
+    for x in range(6):
+        px(img, bx + x, by + 9, coat_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(10):
+            if y % 3 == 0:
+                px(img, sx + 1, sy + y, coat_hi)
+
+    # 코트 자락 (u20 v16, 8x6x4)
+    c = box(img, 20, 16, 8, 6, 4, coat, 4, top=coat_hi)
+    cx, cy = c["front"]
+    for y in range(6):
+        px(img, cx + 3, cy + y, coat_dark)
+        px(img, cx + 4, cy + y, coat_dark)
+    for x in range(8):
+        px(img, cx + x, cy + 5, coat_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = c[side]
+        for y in range(6):
+            if y % 2 == 0:
+                px(img, sx + 2, sy + y, coat_hi)
+
+    # 머리 (u0 v32, 5x6x5)
+    h = box(img, 0, 32, 5, 6, 5, skin, 4, top=hat)
+    hx, hy = h["front"]
+    # 한쪽 눈만 붉게 빛난다
+    px(img, hx + 1, hy + 2, eye)
+    px(img, hx + 1, hy + 3, eye_dim)
+    # 다른 쪽 눈은 그림자에 묻혀 있다
+    px(img, hx + 3, hy + 2, hexc("#3a3430"))
+    # 마른 볼과 입
+    px(img, hx, hy + 3, skin_shade)
+    px(img, hx + 4, hy + 3, skin_shade)
+    for x in (1, 2, 3):
+        px(img, hx + x, hy + 5, hexc("#6a5a50"))
+    # 턱수염 자국
+    for x in range(5):
+        px(img, hx + x, hy + 4, skin_shade if x % 2 == 0 else skin)
+
+    # 챙모자 (u24 v32, 10x1x10 + u24 v44, 5x3x5)
+    ht = box(img, 24, 32, 10, 1, 10, hat, 4, top=hat_hi)
+    htx, hty = ht["front"]
+    for x in range(10):
+        px(img, htx + x, hty, hat_hi)
+    htx2, hty2 = ht["top"]
+    for x in range(10):
+        for y in range(10):
+            if (x + y) % 7 == 0:
+                px(img, htx2 + x, hty2 + y, hat_hi)
+    cr = box(img, 24, 44, 5, 3, 5, hat, 4, top=hat_hi)
+    crx, cry = cr["front"]
+    for x in range(5):
+        px(img, crx + x, cry + 2, band)
+    for side in ("right", "left", "back"):
+        sx, sy = cr[side]
+        for x in range(5):
+            px(img, sx + x, sy + 2, band)
+
+    # 팔 (u44 v0, 2x10x2 / u52 v0, 2x10x2)
+    for u in (44, 52):
+        a = box(img, u, 0, 2, 10, 2, coat, 4)
+        ax, ay = a["front"]
+        for y in range(10):
+            px(img, ax, ay + y, coat_dark)
+        for x in range(2):
+            px(img, ax + x, ay + 9, skin)
+
+    # 장총 (u0 v48, 1x16x1) — 64x64 텍스처의 아래쪽 경계에 걸치므로 1x15로 줄여 그린다
+    m = box(img, 0, 48, 1, 15, 1, wood, 6)
+    mx, my = m["front"]
+    for y in range(15):
+        px(img, mx, my + y, wood_hi if y % 4 == 0 else wood)
+    # 총열
+    for y in range(0, 9):
+        px(img, mx, my + y, steel if y % 3 == 0 else steel_dark)
+    # 개머리판
+    for y in range(11, 15):
+        px(img, mx, my + y, hexc("#2e1e12"))
+    # 방아쇠울
+    px(img, mx, my + 10, hexc("#c8a040"))
+
+    save(img, "textures/entity/freischutz.png")
+
+
+MB = {"k": "#1e1e24", "d": "#121216", "s": "#8a9096", "w": "#4a3220", "r": "#ff2a2a", "g": "#c8a040"}
+icon([
+    "................",
+    "..............ss",
+    ".............ss.",
+    "............ss..",
+    "...........ss...",
+    "..........ss....",
+    ".........ss.....",
+    "........ss......",
+    ".......ss.......",
+    "......ss........",
+    ".....ss.........",
+    "....ww..........",
+    "...ww...........",
+    "..gg............",
+    "..g.............",
+    "................",
+], MB, "textures/item/magic_bullet.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkrrrrkk....",
+    "....kkrrrrkk....",
+    "....kkrrrrkk....",
+    "....kkrrrrkk....",
+    "....kkkkkkkk....",
+    "....kksssskk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], MB, "textures/item/magic_bullet_suit.png")
+
+armor(hexc("#1e1e24"), "#121216", "#ff2a2a", "textures/entity/equipment/humanoid/magic_bullet.png")
+
+for item, parent in [("magic_bullet", "minecraft:item/handheld"), ("magic_bullet_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/magic_bullet.json", {"layers": {"humanoid": [{"texture": "lobcorp:magic_bullet"}]}})
+
+
+freischutz()
+print("assets freischutz ok")
+
+merge_lang({
+    "entity.lobcorp.freischutz": "마탄의 사수",
+    "item.lobcorp.magic_bullet": "마탄",
+    "item.lobcorp.magic_bullet_suit": "마탄의 코트",
+}, {
+    "entity.lobcorp.freischutz": "Der Freischütz",
+    "item.lobcorp.magic_bullet": "Magic Bullet",
+    "item.lobcorp.magic_bullet_suit": "Magic Bullet Coat",
+})

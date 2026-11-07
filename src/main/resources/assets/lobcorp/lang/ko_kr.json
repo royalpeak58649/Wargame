@@ -67,5 +67,8 @@
   "entity.lobcorp.shelter": "3월 27일의 대피소",
   "entity.lobcorp.portrait": "다른 세계의 초상",
   "entity.lobcorp.notes": "미친 연구원의 노트",
-  "entity.lobcorp.child_galaxy": "은하수의 아이"
+  "entity.lobcorp.child_galaxy": "은하수의 아이",
+  "entity.lobcorp.freischutz": "마탄의 사수",
+  "item.lobcorp.magic_bullet": "마탄",
+  "item.lobcorp.magic_bullet_suit": "마탄의 코트"
 }

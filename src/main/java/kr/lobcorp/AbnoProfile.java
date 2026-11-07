@@ -353,6 +353,21 @@ public record AbnoProfile(
                     "조약돌을 지닌 채 다른 환상체를 작업하면 카운터가 1 내려가고, 조약돌을 지닌 이가 죽으면 4 내려간다. 0이 되면 조약돌을 지닌 모두가 함께 무너진다."
             ));
 
+    public static final AbnoProfile FREISCHUTZ = new AbnoProfile(
+            "freischutz", "마탄의 사수", "F-01-69", "HE", 0xFFAA00,
+            new int[]{40, 50, 30, 0}, 18, 12, 7,
+            DamageColor.BLACK, 3, 4,
+            3,
+            () -> ModItems.MAGIC_BULLET, 50,
+            () -> ModItems.MAGIC_BULLET_SUIT, 45,
+            "magic_bullet", "마탄", "최대 HP -5, 최대 SP -5, 이동 속도 +10%", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "정의가 낮은 직원이 작업을 마치거나, 결과가 좋음이 아니면 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 시설 어딘가로 마탄이 날아간다. 그 뒤 카운터는 3으로 돌아온다.",
+                    "애착 작업은 의뢰로 바뀐다. 시설 에너지 10%를 바치면, 당신의 눈이 겨눈 방향으로 탄환이 벽을 뚫고 날아간다."
+            ));
+
     public static final AbnoProfile TREE_SAP = new AbnoProfile(
             "tree_sap", "거대한 나무 수액", "T-09-80", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -436,6 +451,7 @@ public record AbnoProfile(
             Map.entry(LAETITIA.id, LAETITIA),
             Map.entry(HELPER.id, HELPER),
             Map.entry(CHILD_GALAXY.id, CHILD_GALAXY),
+            Map.entry(FREISCHUTZ.id, FREISCHUTZ),
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),

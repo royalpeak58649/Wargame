@@ -46,7 +46,8 @@ public class WorkScreen extends Screen {
         for (int i = 0; i < 4; i++) {
             WorkType t = WorkType.byIndex(i);
             int idx = i;
-            Button b = Button.builder(Component.literal(t.ko).withStyle(s -> s.withColor(t.rgb)), btn -> send(idx))
+            String label = (i == 2 && prof.id().equals("freischutz")) ? "의뢰 (에너지 10%)" : t.ko;
+            Button b = Button.builder(Component.literal(label).withStyle(s -> s.withColor(t.rgb)), btn -> send(idx))
                     .bounds(rowX + i * (bw + gap), rowY, bw, 20)
                     .tooltip(Tooltip.create(Component.literal(STAT_UP[i] + " · 기본 성공률 " + prof.chances()[i] + "%")))
                     .build();
