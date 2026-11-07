@@ -300,6 +300,7 @@ public final class WorkManager {
     public static final List<java.util.function.Supplier<Item>> WHITE_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
             () -> ModItems.COBALT_SCAR_SUIT,
+            () -> ModItems.FAINT_AROMA_SUIT,
             () -> ModItems.PENITENCE_SUIT,
             () -> ModItems.BEAR_PAWS_SUIT,
             () -> ModItems.SCREAMING_WEDGE_SUIT,
@@ -354,6 +355,7 @@ public final class WorkManager {
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
             () -> ModItems.COBALT_SCAR_SUIT,
+            () -> ModItems.FAINT_AROMA_SUIT,
             () -> ModItems.FROST_SPLINTER_SUIT,
             () -> ModItems.FRAGMENTS_SUIT,
             () -> ModItems.NOISE_SUIT,

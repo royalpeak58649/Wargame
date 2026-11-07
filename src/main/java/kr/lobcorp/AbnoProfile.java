@@ -533,6 +533,21 @@ public record AbnoProfile(
                     "멈춰 세우려면 눈을 돌리고, 싸우려면 다시 바라봐야 한다. 그 사이에 톱날이 돌기 시작한다."
             ));
 
+    public static final AbnoProfile ALRIUNE = new AbnoProfile(
+            "alriune", "알리우네", "T-04-53", "WAW", 0xAA55FF,
+            new int[]{45, 45, 50, 35}, 22, 16, 8,
+            DamageColor.WHITE, 4, 6,
+            1,
+            () -> ModItems.FAINT_AROMA, 60,
+            () -> ModItems.FAINT_AROMA_SUIT, 50,
+            "faint_aroma", "희미한 향기", "최대 SP +4, 작업 성공률 +2%, 작업 속도 +2%", 3,
+            new float[]{1.2f, 0.0f, 0.5f, 1.5f},
+            List.of(
+                    "창백한 분홍 꽃잎과 가느다란 가지로 빚은 키 큰 여인. 꽃으로 지은 드레스를 입고, 얼굴에는 아무것도 없다.",
+                    "작업 결과가 좋음이거나 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "탈출하면 걷지 않고 시설 곳곳으로 순간이동한다. 6블록 안에 직원이 머무는 동안 꽃잎이 5초마다 하나씩 피어나고, 세 번째 꽃잎이 필 때 8블록 안의 모든 직원이 향기에 잠긴다. 정신력이 바닥난 직원은 패닉 대신 그대로 쓰러진다."
+            ));
+
     public static final AbnoProfile BIG_BIRD = new AbnoProfile(
             "big_bird", "큰 새", "O-02-40", "WAW", 0xAA55FF,
             new int[]{45, 35, 40, 25}, 20, 14, 8,
@@ -639,6 +654,7 @@ public record AbnoProfile(
             ));
 
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(ALRIUNE.id, ALRIUNE),
             Map.entry(BIG_BIRD.id, BIG_BIRD),
             Map.entry(JUDGEMENT_BIRD.id, JUDGEMENT_BIRD),
             Map.entry(QUEEN_HATRED.id, QUEEN_HATRED),

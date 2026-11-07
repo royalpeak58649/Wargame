@@ -2,6 +2,7 @@ package kr.lobcorp.client.render;
 
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.AllAroundHelperModel;
+import kr.lobcorp.client.model.AlriuneModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.BigBadWolfModel;
 import kr.lobcorp.client.model.BigBirdModel;
@@ -42,6 +43,7 @@ import kr.lobcorp.client.model.TreeSapModel;
 import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.client.model.WoodsmanModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
+import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
@@ -1043,6 +1045,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(BigBadWolfModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Alriune extends MobRenderer<AlriuneEntity, AlriuneModel.State, AlriuneModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/alriune.png");
+
+        public Alriune(EntityRendererProvider.Context ctx) {
+            super(ctx, new AlriuneModel(ctx.bakeLayer(AlriuneModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public AlriuneModel.State createRenderState() {
+            return new AlriuneModel.State();
+        }
+
+        @Override
+        public void extractRenderState(AlriuneEntity e, AlriuneModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.petals = e.getPetals();
+            s.breached = e.isBreached();
+        }
+
+        @Override
+        public Identifier getTextureLocation(AlriuneModel.State s) {
             return TEX;
         }
     }

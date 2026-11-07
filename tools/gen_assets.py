@@ -6141,3 +6141,170 @@ merge_lang({
     "item.lobcorp.cobalt_scar": "Cobalt Scar",
     "item.lobcorp.cobalt_scar_suit": "Cobalt Scar Garb",
 })
+
+
+# ═════════════ 39차: 알리우네 (T-04-53) ═════════════
+def alriune():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    petal = hexc("#f4c0d0")
+    petal_hi = hexc("#fbd8e4")
+    petal_dark = hexc("#d898b0")
+    petal_deep = hexc("#b87090")
+    branch = hexc("#6a4a3a")
+    branch_hi = hexc("#7d5a46")
+    branch_dark = hexc("#4a3226")
+    skin = hexc("#f6e8e4")
+    skin_shade = hexc("#e0ccc8")
+    crown = hexc("#f8d0dc")
+    crown_dark = hexc("#c88aa4")
+
+    # 드레스 (u0 v0, 8x16x6)
+    d = box(img, 0, 0, 8, 16, 6, petal, 6, top=petal_hi)
+    dx, dy = d["front"]
+    # 꽃잎 무늬: 겹겹이 흩어진 분홍 조각
+    for (x, y) in [(1, 1), (2, 1), (1, 2), (5, 3), (6, 3), (5, 4),
+                   (2, 6), (3, 6), (2, 7), (6, 8), (5, 9), (1, 10),
+                   (3, 12), (4, 12), (3, 13), (6, 14), (0, 14)]:
+        px(img, dx + x, dy + y, petal_dark)
+    for (x, y) in [(2, 2), (6, 4), (3, 7), (5, 10), (4, 13)]:
+        px(img, dx + x, dy + y, petal_deep)
+    # 드레스 자락의 꽃잎 결
+    for x in range(8):
+        px(img, dx + x, dy + 15, petal_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = d[side]
+        for y in range(16):
+            for x in range(6):
+                if (x * 3 + y * 5) % 11 == 0:
+                    px(img, sx + x, sy + y, petal_dark)
+                elif (x + y) % 13 == 0:
+                    px(img, sx + x, sy + y, petal_deep)
+        for x in range(6):
+            px(img, sx + x, sy + 15, petal_dark)
+    tx, ty = d["top"]
+    for x in range(8):
+        for y in range(6):
+            if (x + y) % 5 == 0:
+                px(img, tx + x, ty + y, petal_dark)
+
+    # 몸통 (u28 v0, 5x6x3)
+    b = box(img, 28, 0, 5, 6, 3, petal, 6, top=petal_hi)
+    bx, by = b["front"]
+    for y in range(6):
+        px(img, bx + 2, by + y, petal_dark)
+    for (x, y) in [(1, 2), (3, 4)]:
+        px(img, bx + x, by + y, petal_deep)
+    for x in range(5):
+        px(img, bx + x, by + 5, petal_dark)
+
+    # 팔: 가느다란 가지 (u44 v0, 1x10x1)
+    a = box(img, 44, 0, 1, 10, 1, branch, 6, top=branch_hi)
+    ax, ay = a["front"]
+    for y in range(10):
+        px(img, ax, ay + y, branch_dark if y % 3 == 0 else branch)
+    # 가지 끝의 작은 꽃
+    px(img, ax, ay + 9, petal_hi)
+    px(img, ax, ay + 8, petal)
+
+    # 머리: 얼굴이 없다 (u0 v24, 5x6x5)
+    h = box(img, 0, 24, 5, 6, 5, skin, 3, top=crown)
+    hx, hy = h["front"]
+    # 얼굴 대신 옅은 그늘만
+    for y in range(2, 5):
+        for x in range(1, 4):
+            if (x + y) % 3 == 0:
+                px(img, hx + x, hy + y, skin_shade)
+    for x in range(5):
+        px(img, hx + x, hy + 5, skin_shade)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(6):
+            if y % 3 == 0:
+                px(img, sx + 2, sy + y, skin_shade)
+
+    # 꽃잎 왕관 (u20 v24, 6x2x6)
+    c = box(img, 20, 24, 6, 2, 6, crown, 4, top=hexc("#fde8f0"))
+    cx, cy = c["front"]
+    for x in range(6):
+        px(img, cx + x, cy + 1, crown_dark)
+    for (x, y) in [(1, 0), (4, 0)]:
+        px(img, cx + x, cy + y, petal_deep)
+    ctx, cty = c["top"]
+    for x in range(6):
+        for y in range(6):
+            if (x + y) % 4 == 0:
+                px(img, ctx + x, cty + y, crown_dark)
+
+    # 등 뒤의 큰 꽃잎 세 장 (u0 v36, 6x8x1 / u16 v36 / u32 v36)
+    for u in (0, 16, 32):
+        p = box(img, u, 36, 6, 8, 1, petal, 6, top=petal_hi)
+        px_, py_ = p["front"]
+        # 꽃잎의 잎맥
+        for y in range(8):
+            px(img, px_ + 2, py_ + y, petal_dark)
+            px(img, px_ + 3, py_ + y, petal_dark)
+        for (x, y) in [(1, 2), (4, 2), (1, 5), (4, 5), (0, 7), (5, 7)]:
+            px(img, px_ + x, py_ + y, petal_deep)
+        for x in range(6):
+            px(img, px_ + x, py_ + 7, petal_dark)
+
+    save(img, "textures/entity/alriune.png")
+
+
+FA = {"p": "#f4c0d0", "h": "#fbd8e4", "d": "#d898b0", "b": "#6a4a3a", "k": "#b87090", "s": "#f6e8e4"}
+icon([
+    "................",
+    "..............pp",
+    ".............pp.",
+    "............pp..",
+    "...........pp...",
+    "..........pp....",
+    ".........pp.....",
+    "........bb......",
+    ".......bb.......",
+    "......bb........",
+    ".....bb.........",
+    "....bb..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], FA, "textures/item/faint_aroma.png")
+icon([
+    "................",
+    "...pp......pp...",
+    "..pppp....pppp..",
+    "..pppppppppppp..",
+    "...pppppppppp...",
+    "....pphhhhpp....",
+    "....pphhhhpp....",
+    "....pphhhhpp....",
+    "....pphhhhpp....",
+    "....pppppppp....",
+    "....ppkkkkpp....",
+    "....pppppppp....",
+    "....pppppppp....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], FA, "textures/item/faint_aroma_suit.png")
+
+armor(hexc("#f4c0d0"), "#d898b0", "#6a4a3a", "textures/entity/equipment/humanoid/faint_aroma.png")
+
+for item, parent in [("faint_aroma", "minecraft:item/handheld"), ("faint_aroma_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/faint_aroma.json", {"layers": {"humanoid": [{"texture": "lobcorp:faint_aroma"}]}})
+
+alriune()
+print("assets alriune ok")
+
+merge_lang({
+    "entity.lobcorp.alriune": "알리우네",
+    "item.lobcorp.faint_aroma": "희미한 향기",
+    "item.lobcorp.faint_aroma_suit": "희미한 향기의 옷",
+}, {
+    "entity.lobcorp.alriune": "Alriune",
+    "item.lobcorp.faint_aroma": "Faint Aroma",
+    "item.lobcorp.faint_aroma_suit": "Faint Aroma Garb",
+})

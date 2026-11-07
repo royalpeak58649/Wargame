@@ -1,6 +1,7 @@
 package kr.lobcorp;
 
 import kr.lobcorp.entity.AllAroundHelperEntity;
+import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
@@ -96,6 +97,7 @@ public final class ModEntities {
     public static EntityType<KingGreedEntity> KING_GREED;
     public static EntityType<LittleRedEntity> LITTLE_RED;
     public static EntityType<BigBadWolfEntity> BIG_BAD_WOLF;
+    public static EntityType<AlriuneEntity> ALRIUNE;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -189,6 +191,8 @@ public final class ModEntities {
                 .sized(0.6f, 1.8f).clientTrackingRange(10));
         BIG_BAD_WOLF = register("big_bad_wolf", EntityType.Builder.of(BigBadWolfEntity::new, MobCategory.MISC)
                 .sized(1.0f, 2.4f).clientTrackingRange(10));
+        ALRIUNE = register("alriune", EntityType.Builder.of(AlriuneEntity::new, MobCategory.MISC)
+                .sized(0.7f, 2.4f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -232,5 +236,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(KING_GREED, KingGreedEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(LITTLE_RED, LittleRedEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BIG_BAD_WOLF, BigBadWolfEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ALRIUNE, AlriuneEntity.createAttributes());
     }
 }
