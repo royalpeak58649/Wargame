@@ -1,5 +1,6 @@
 package kr.lobcorp.entity;
 
+import kr.lobcorp.DamageColor;
 import kr.lobcorp.item.EgoWeaponItem;
 import kr.lobcorp.work.Facility;
 import kr.lobcorp.work.ToolState;
@@ -41,6 +42,9 @@ import net.minecraft.world.level.storage.ValueOutput;
 public abstract class BreachingAbnormality extends AbnormalityEntity {
     private static final EntityDataAccessor<Boolean> BREACHED =
             SynchedEntityData.defineId(BreachingAbnormality.class, EntityDataSerializers.BOOLEAN);
+    /** 고용/임무 등으로 적대하지 않고 격리실을 나선 상태 (탈출 판정은 유지) */
+    private static final EntityDataAccessor<Boolean> FRIENDLY =
+            SynchedEntityData.defineId(BreachingAbnormality.class, EntityDataSerializers.BOOLEAN);
 
     public static final float NON_EGO_MULT = 0.5f;
     protected static final int BREACH_DELAY = 60;
@@ -57,6 +61,16 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(BREACHED, false);
+        builder.define(FRIENDLY, false);
+    }
+
+    /** 적대하지 않는 탈출 상태인가 (빨간 두건 용병의 고용 등) */
+    public boolean isFriendly() {
+        return entityData.get(FRIENDLY);
+    }
+
+    public void setFriendly(boolean b) {
+        entityData.set(FRIENDLY, b);
     }
 
     @Override
@@ -91,12 +105,12 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
             goalSelector.addGoal(1, new MeleeAttackGoal(this, chaseSpeed(), true) {
                 @Override
                 public boolean canUse() {
-                    return isBreached() && super.canUse();
+                    return isBreached() && !isFriendly() && super.canUse();
                 }
 
                 @Override
                 public boolean canContinueToUse() {
-                    return isBreached() && super.canContinueToUse();
+                    return isBreached() && !isFriendly() && super.canContinueToUse();
                 }
             });
         }
@@ -107,7 +121,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
 
             @Override
             public boolean canUse() {
-                if (!isBreached() || getRandom().nextInt(4) != 0) return false;
+                if (!isBreached() || isFriendly() || getRandom().nextInt(4) != 0) return false;
                 LivingEntity cur = getTarget();
                 return cur == null || !cur.isAlive() || (cur instanceof Player pl && (pl.isCreative() || pl.isSpectator()));
             }
@@ -117,6 +131,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
                 if (level() instanceof ServerLevel sl) {
                     Player found = sl.getNearestPlayer(cond, BreachingAbnormality.this);
                     if (found instanceof ServerPlayer sp && ToolState.isSheltered(sp)) found = null;
+                    if (found instanceof ServerPlayer sp2 && sp2.isCreative()) found = null;
                     setTarget(found);
                 }
             }
@@ -233,6 +248,20 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         return super.hurtServer(level, source, dmg);
     }
 
+    /**
+     * E.G.O 피해를 저항 배율만 적용해 입힌다 (비 E.G.O 절반 감소 없음).
+     * 빨간 두건 용병의 고용 임무 등에서 사용.
+     */
+    public void takeEgoDamage(DamageColor color, float amount, Entity source) {
+        if (!(level() instanceof ServerLevel sl)) return;
+        float dmg = amount * profile().resistTo(color);
+        if (getHealth() - dmg <= 0) {
+            suppress(source);
+            return;
+        }
+        super.hurtServer(sl, sl.damageSources().mobAttack(source instanceof LivingEntity le ? le : this), dmg);
+    }
+
     @Override
     public void die(DamageSource source) {
         // 환상체는 죽지 않는다 — 제압되어 격리실로 돌아갈 뿐
@@ -276,6 +305,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
     protected void addAdditionalSaveData(ValueOutput out) {
         super.addAdditionalSaveData(out);
         out.putBoolean("lc_breached", isBreached());
+        out.putBoolean("lc_friendly", isFriendly());
         out.putInt("lc_breach_cd", breachCountdown);
     }
 
@@ -283,6 +313,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
     protected void readAdditionalSaveData(ValueInput in) {
         super.readAdditionalSaveData(in);
         setBreached(in.getBooleanOr("lc_breached", false));
+        setFriendly(in.getBooleanOr("lc_friendly", false));
         breachCountdown = in.getIntOr("lc_breach_cd", -1);
     }
 }

@@ -5706,3 +5706,210 @@ merge_lang({
     "item.lobcorp.gold_rush": "Gold Rush",
     "item.lobcorp.gold_rush_suit": "Gold Rush Dress",
 })
+
+
+# ═════════════ 37차: 빨간 두건 용병 (F-01-57) ═════════════
+def little_red():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    cloth = hexc("#3a2a2a")
+    cloth_hi = hexc("#4a3636")
+    cloth_dark = hexc("#241818")
+    boot = hexc("#2a1a1a")
+    boot_hi = hexc("#3a2626")
+    skin = hexc("#f0e2d8")
+    skin_shade = hexc("#d4c0b4")
+    scar = hexc("#a04050")
+    eye = hexc("#2a1a1a")
+    hood = hexc("#b01020")
+    hood_hi = hexc("#d02030")
+    hood_dark = hexc("#7a0814")
+    blade = hexc("#c0c0c8")
+    blade_hi = hexc("#eef0f4")
+    blade_dark = hexc("#7a7a84")
+    blood = hexc("#8a0a14")
+    grip = hexc("#4a3220")
+
+    # 다리: 어두운 부츠와 바지 (u0 v0, 2x10x2 / u8 v0, 2x10x2)
+    for u in (0, 8):
+        l = box(img, u, 0, 2, 10, 2, boot, 4, top=boot_hi)
+        lx, ly = l["front"]
+        for y in range(10):
+            px(img, lx, ly + y, boot_hi if y % 4 == 0 else boot)
+            px(img, lx + 1, ly + y, boot if y % 3 == 0 else boot_hi)
+        for x in range(2):
+            px(img, lx + x, ly + 9, hexc("#141010"))
+
+    # 몸통: 가죽 조끼 (u0 v12, 6x8x3)
+    b = box(img, 0, 12, 6, 8, 3, cloth, 4, top=cloth_hi)
+    bx, by = b["front"]
+    # 벨트와 버클
+    for x in range(6):
+        px(img, bx + x, by + 6, hexc("#1a1010"))
+        px(img, bx + x, by + 7, hexc("#1a1010"))
+    px(img, bx + 2, by + 6, hexc("#c8a040"))
+    px(img, bx + 3, by + 6, hexc("#c8a040"))
+    # 조끼 여밈
+    for y in range(8):
+        px(img, bx + 2, by + y, cloth_dark)
+        px(img, bx + 3, by + y, cloth_dark)
+    # 피 묻은 자국
+    for (x, y) in [(1, 2), (4, 3), (5, 4), (0, 5)]:
+        px(img, bx + x, by + y, blood)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(8):
+            if y % 3 == 0:
+                px(img, sx + 1, sy + y, cloth_hi)
+        for x in range(3):
+            px(img, sx + x, sy + 6, hexc("#1a1010"))
+        px(img, sx + 1, sy + 2, blood)
+
+    # 팔 (u24 v0, 2x9x2 / u32 v0, 2x9x2)
+    for u in (24, 32):
+        a = box(img, u, 0, 2, 9, 2, cloth, 4, top=cloth_hi)
+        ax, ay = a["front"]
+        for y in range(9):
+            px(img, ax, ay + y, cloth_dark if y % 3 == 0 else cloth)
+        for x in range(2):
+            px(img, ax + x, ay + 8, skin)
+        px(img, ax, ay + 4, blood)
+
+    # 머리: 창백한 얼굴 + 흉터 (u0 v24, 6x6x6)
+    h = box(img, 0, 24, 6, 6, 6, skin, 3, top=hood)
+    hx, hy = h["front"]
+    # 눈
+    px(img, hx + 1, hy + 2, eye)
+    px(img, hx + 4, hy + 2, eye)
+    px(img, hx + 1, hy + 1, skin_shade)
+    px(img, hx + 4, hy + 1, skin_shade)
+    # 흉터: 왼쪽 뺨을 가로지른다
+    for (x, y) in [(0, 2), (1, 3), (1, 4), (2, 4)]:
+        px(img, hx + x, hy + y, scar)
+    # 입
+    px(img, hx + 2, hy + 5, hexc("#8a5a5a"))
+    px(img, hx + 3, hy + 5, hexc("#8a5a5a"))
+    # 두건 그늘
+    for x in range(6):
+        px(img, hx + x, hy, hood_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(6):
+            px(img, sx + 2, sy + y, hood_dark if y < 2 else skin_shade)
+
+    # 두건 (u0 v36, 7x7x7)
+    hd = box(img, 0, 36, 7, 7, 7, hood, 6, top=hood_hi)
+    hdx, hdy = hd["front"]
+    # 두건 앞면: 얼굴이 드러나는 어두운 구멍
+    rect(img, hdx + 1, hdy + 2, 5, 4, hood_dark, 4)
+    for x in range(7):
+        px(img, hdx + x, hdy, hood_hi)
+        px(img, hdx + x, hdy + 6, hood_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = hd[side]
+        for y in range(7):
+            for x in range(7):
+                if (x * 3 + y * 5) % 11 == 0:
+                    px(img, sx + x, sy + y, hood_hi)
+                elif (x + y) % 7 == 0:
+                    px(img, sx + x, sy + y, hood_dark)
+        for x in range(7):
+            px(img, sx + x, sy + 6, hood_dark)
+    tx, ty = hd["top"]
+    for x in range(7):
+        for y in range(7):
+            if (x + y) % 5 == 0:
+                px(img, tx + x, ty + y, hood_hi)
+
+    # 망토 (u28 v36, 8x14x1)
+    c = box(img, 28, 36, 8, 14, 1, hood, 6, top=hood_hi)
+    cx, cy = c["front"]
+    for y in range(14):
+        for x in range(8):
+            if (x * 5 + y * 3) % 13 == 0:
+                px(img, cx + x, cy + y, hood_hi)
+            elif (x + y) % 9 == 0:
+                px(img, cx + x, cy + y, hood_dark)
+    # 밑단의 찢긴 틈
+    for x in (2, 5):
+        px(img, cx + x, cy + 13, (0, 0, 0, 0))
+        px(img, cx + x, cy + 12, hood_dark)
+    for x in range(8):
+        px(img, cx + x, cy, hood_hi)
+    # 망토에 밴 피
+    for (x, y) in [(1, 4), (2, 5), (6, 8), (5, 9)]:
+        px(img, cx + x, cy + y, blood)
+
+    # 도끼날 (u40 v0, 1x6x3)
+    bl = box(img, 40, 0, 1, 6, 3, blade, 4, top=blade_hi)
+    blx, bly = bl["front"]
+    for y in range(6):
+        px(img, blx, bly + y, blade_hi if y < 4 else blade_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = bl[side]
+        for y in range(6):
+            px(img, sx + 1, sy + y, blade_dark if y % 2 == 0 else blade)
+        px(img, sx + 1, sy + 4, blood)
+    # 자루
+    for y in range(6):
+        px(img, blx, bly + y, grip if y > 3 else blade_hi)
+
+    save(img, "textures/entity/little_red.png")
+
+
+little_red()
+print("assets littlered ok")
+
+CS = {"r": "#b01020", "h": "#d02030", "d": "#7a0814", "s": "#c0c0c8", "l": "#eef0f4", "k": "#2a1a1a"}
+icon([
+    "................",
+    "..............ss",
+    ".............ss.",
+    "............ss..",
+    "...........ss...",
+    "..........ss....",
+    ".........ss.....",
+    "........ss......",
+    ".......ss.......",
+    "......ss........",
+    ".....ss.........",
+    "....rr..........",
+    "...rr...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], CS, "textures/item/crimson_scar.png")
+icon([
+    "................",
+    "...rr......rr...",
+    "..rrrr....rrrr..",
+    "..rrrrrrrrrrrr..",
+    "...rrrrrrrrrr...",
+    "....rrssssrr....",
+    "....rrssssrr....",
+    "....rrssssrr....",
+    "....rrssssrr....",
+    "....rrrrrrrr....",
+    "....rrllllrr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], CS, "textures/item/crimson_scar_suit.png")
+
+armor(hexc("#b01020"), "#7a0814", "#c0c0c8", "textures/entity/equipment/humanoid/crimson_scar.png")
+
+for item, parent in [("crimson_scar", "minecraft:item/handheld"), ("crimson_scar_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/crimson_scar.json", {"layers": {"humanoid": [{"texture": "lobcorp:crimson_scar"}]}})
+
+merge_lang({
+    "entity.lobcorp.little_red": "빨간 두건 용병",
+    "item.lobcorp.crimson_scar": "진홍빛 상처",
+    "item.lobcorp.crimson_scar_suit": "진홍빛 상처의 옷",
+}, {
+    "entity.lobcorp.little_red": "Little Red Riding Hooded Mercenary",
+    "item.lobcorp.crimson_scar": "Crimson Scar",
+    "item.lobcorp.crimson_scar_suit": "Crimson Scar Garb",
+})

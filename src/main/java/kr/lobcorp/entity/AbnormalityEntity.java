@@ -37,6 +37,11 @@ public abstract class AbnormalityEntity extends PathfinderMob {
         return false;
     }
 
+    /** 적대하지 않는 탈출 상태 (고용된 용병 등). 기본은 false. */
+    public boolean isFriendly() {
+        return false;
+    }
+
     public int getPe() {
         return pe;
     }
@@ -120,7 +125,7 @@ public abstract class AbnormalityEntity extends PathfinderMob {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide() && home != null && !isBreached() && tickCount % 10 == 0) {
+        if (!level().isClientSide() && home != null && !isBreached() && !isFriendly() && tickCount % 10 == 0) {
             double hx = home.getX() + 0.5, hz = home.getZ() + 0.5, hy = home.getY() + homeYOffset();
             if (distanceToSqr(hx, hy, hz) > 0.3) {
                 snapTo(hx, hy, hz, homeYaw, 0);

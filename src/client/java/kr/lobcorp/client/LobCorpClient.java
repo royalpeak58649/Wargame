@@ -97,6 +97,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.KNIGHT_DESPAIR, kr.lobcorp.client.render.NewAbnoRenderers.KnightDespair::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.KingGreedModel.LAYER, kr.lobcorp.client.model.KingGreedModel::createLayer);
         EntityRendererRegistry.register(ModEntities.KING_GREED, kr.lobcorp.client.render.NewAbnoRenderers.KingGreed::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.LittleRedModel.LAYER, kr.lobcorp.client.model.LittleRedModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.LITTLE_RED, kr.lobcorp.client.render.NewAbnoRenderers.LittleRed::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

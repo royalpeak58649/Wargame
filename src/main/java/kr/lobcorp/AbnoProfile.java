@@ -548,6 +548,21 @@ public record AbnoProfile(
                     "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
             ));
 
+    public static final AbnoProfile LITTLE_RED = new AbnoProfile(
+            "little_red", "빨간 두건 용병", "F-01-57", "WAW", 0xAA55FF,
+            new int[]{0, 45, 0, 30}, 20, 17, 9,
+            DamageColor.RED, 4, 6,
+            3,
+            () -> ModItems.CRIMSON_SCAR, 70,
+            () -> ModItems.CRIMSON_SCAR_SUIT, 60,
+            "crimson_scar", "진홍빛 상처", "최대 HP +2, 이동 속도 +2%", 3,
+            new float[]{0.9f, 0.6f, 0.8f, 1.2f},
+            List.of(
+                    "다른 환상체가 탈출할 때마다 클리포트 카운터가 1 감소한다. 처벌새는 세지 않는다.",
+                    "애착 작업은 의뢰로 바뀐다. 시설 에너지를 바치면 그녀가 가장 가까운 탈출 환상체를 쫓아가 베어 넘긴다. 고용된 동안 카운터는 줄지 않는다.",
+                    "탈출하면 빠르게 달려들어 도끼를 휘두르고, 가까운 직원을 향해 권총을 쏜다. 늑대의 냄새를 맡으면 이성을 잃는다."
+            ));
+
     public static final AbnoProfile KING_GREED = new AbnoProfile(
             "king_of_greed", "탐욕의 왕", "O-01-64", "WAW", 0xAA55FF,
             new int[]{25, 0, 0, 0}, 22, 16, 8,
@@ -614,6 +629,7 @@ public record AbnoProfile(
             Map.entry(QUEEN_HATRED.id, QUEEN_HATRED),
             Map.entry(KNIGHT_DESPAIR.id, KNIGHT_DESPAIR),
             Map.entry(KING_GREED.id, KING_GREED),
+            Map.entry(LITTLE_RED.id, LITTLE_RED),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),

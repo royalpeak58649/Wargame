@@ -18,6 +18,7 @@ import kr.lobcorp.client.model.KnightDespairModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
 import kr.lobcorp.client.model.LaetitiaModel;
+import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NotesModel;
@@ -56,6 +57,7 @@ import kr.lobcorp.entity.KnightDespairEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
+import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NotesEntity;
@@ -987,6 +989,32 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(KingGreedModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class LittleRed extends MobRenderer<LittleRedEntity, LittleRedModel.State, LittleRedModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/little_red.png");
+
+        public LittleRed(EntityRendererProvider.Context ctx) {
+            super(ctx, new LittleRedModel(ctx.bakeLayer(LittleRedModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public LittleRedModel.State createRenderState() {
+            return new LittleRedModel.State();
+        }
+
+        @Override
+        public void extractRenderState(LittleRedEntity e, LittleRedModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.berserk = e.isBerserk();
+            s.shot = e.shotAnimTicks > 0 ? (e.shotAnimTicks - pt) / 10f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(LittleRedModel.State s) {
             return TEX;
         }
     }

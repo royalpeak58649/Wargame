@@ -106,5 +106,8 @@
   "item.lobcorp.tears_sword_suit": "Sword Sharpened with Tears Armor",
   "entity.lobcorp.king_of_greed": "The King of Greed",
   "item.lobcorp.gold_rush": "Gold Rush",
-  "item.lobcorp.gold_rush_suit": "Gold Rush Dress"
+  "item.lobcorp.gold_rush_suit": "Gold Rush Dress",
+  "entity.lobcorp.little_red": "Little Red Riding Hooded Mercenary",
+  "item.lobcorp.crimson_scar": "Crimson Scar",
+  "item.lobcorp.crimson_scar_suit": "Crimson Scar Garb"
 }

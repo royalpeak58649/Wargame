@@ -298,6 +298,7 @@ public final class WorkManager {
     // ── 방호복 저항 목록: 새 E.G.O 방호복은 해당 목록에 한 줄 추가 ──
     /** WHITE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> WHITE_SUITS = List.of(
+            () -> ModItems.CRIMSON_SCAR_SUIT,
             () -> ModItems.PENITENCE_SUIT,
             () -> ModItems.BEAR_PAWS_SUIT,
             () -> ModItems.SCREAMING_WEDGE_SUIT,
@@ -324,6 +325,7 @@ public final class WorkManager {
             () -> ModItems.GOLD_RUSH_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
+            () -> ModItems.CRIMSON_SCAR_SUIT,
             () -> ModItems.REGRET_SUIT,
             () -> ModItems.MATCH_FLAME_SUIT,
             () -> ModItems.WINGBEAT_SUIT,
@@ -348,6 +350,7 @@ public final class WorkManager {
             () -> ModItems.GOLD_RUSH_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
+            () -> ModItems.CRIMSON_SCAR_SUIT,
             () -> ModItems.FROST_SPLINTER_SUIT,
             () -> ModItems.FRAGMENTS_SUIT,
             () -> ModItems.NOISE_SUIT,
@@ -359,7 +362,8 @@ public final class WorkManager {
             () -> ModItems.LAMP_SUIT,
             () -> ModItems.JUSTITIA_SUIT,
             () -> ModItems.LOVE_AND_HATE_SUIT,
-            () -> ModItems.TEARS_SWORD_SUIT);
+            () -> ModItems.TEARS_SWORD_SUIT,
+            () -> ModItems.CRIMSON_SCAR_SUIT);
 
     static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
         for (var s : suits) if (wearing(p, s.get())) return true;
