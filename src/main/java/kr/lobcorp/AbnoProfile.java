@@ -203,6 +203,51 @@ public record AbnoProfile(
                     "탈출한 꿈을 때리면 공허한 꿈-1로 변이한다. 수탉의 울음은 부서 전체의 정신력을 깎고, 잠든 직원을 패닉에 빠뜨린다."
             ));
 
+    public static final AbnoProfile BEAUTY_BEAST = new AbnoProfile(
+            "beauty_and_the_beast", "미녀와 야수", "F-02-44", "TETH", 0x5599FF,
+            new int[]{40, 50, 30, 65}, 12, 9, 5,
+            DamageColor.WHITE, 2, 4,
+            0,
+            () -> ModItems.HORN, 30,
+            () -> ModItems.HORN_SUIT, 30,
+            "horn", "뿔", "최대 HP +2, 최대 SP +2", 5,
+            new float[]{1.0f, 1.0f, 1.0f, 1.0f},
+            List.of(
+                    "억압 작업은 가장 좋은 결과를 내지만, 야수를 상처 입힌다.",
+                    "다른 종류의 작업은 야수를 달랜다. 상처가 아물면 다시 억압을 시도할 수 있다.",
+                    "상처 입은 야수에게 또 억압 작업을 마치면, 저주가 작업자에게 옮겨 붙는다."
+            ));
+
+    public static final AbnoProfile MEAT_LANTERN = new AbnoProfile(
+            "meat_lantern", "고기 등불", "O-04-84", "TETH", 0x5599FF,
+            new int[]{45, 60, 45, 30}, 14, 11, 7,
+            DamageColor.WHITE, 1, 3,
+            1,
+            () -> ModItems.LANTERN, 25,
+            () -> ModItems.LANTERN_SUIT, 25,
+            "lantern", "등불", "최대 HP +5", 5,
+            new float[]{1.5f, 0.8f, 1.0f, 2.0f},
+            List.of(
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다.",
+                    "작업이 지나치게 빨리 끝나거나 도중에 포기해도 카운터가 1 감소한다.",
+                    "탈출하면 시설 어딘가의 바닥 밑에 숨는다. 빛나는 꽃 주변의 흰 털을 절대 밟지 마십시오."
+            ));
+
+    public static final AbnoProfile FRAGMENT = new AbnoProfile(
+            "fragment_of_universe", "우주의 파편", "O-03-60", "TETH", 0x5599FF,
+            new int[]{30, 40, 60, 50}, 12, 8, 4,
+            DamageColor.BLACK, 1, 3,
+            2,
+            () -> ModItems.FRAGMENTS, 20,
+            () -> ModItems.FRAGMENTS_SUIT, 25,
+            "fragments", "어딘가의 파편", "작업 성공률 +2%, 작업 속도 +2%", 5,
+            new float[]{1.0f, 1.5f, 1.0f, 2.0f},
+            List.of(
+                    "작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "이 환상체와 작업하는 도중 직원이 패닉에 빠지면 클리포트 카운터가 1 감소한다.",
+                    "탈출하면 느릿하게 배회하며 촉수로 직원을 찌른다. 때때로 멈춰 서서 노래를 부르는데, 그 소리를 들은 직원은 정신이 무너진다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -215,7 +260,10 @@ public record AbnoProfile(
             Map.entry(CRUMBLING_ARMOR.id, CRUMBLING_ARMOR),
             Map.entry(OLD_LADY.id, OLD_LADY),
             Map.entry(SPIDER_BUD.id, SPIDER_BUD),
-            Map.entry(VOID_DREAM.id, VOID_DREAM)
+            Map.entry(VOID_DREAM.id, VOID_DREAM),
+            Map.entry(BEAUTY_BEAST.id, BEAUTY_BEAST),
+            Map.entry(MEAT_LANTERN.id, MEAT_LANTERN),
+            Map.entry(FRAGMENT.id, FRAGMENT)
     );
 
     public boolean canBreach() {

@@ -40,6 +40,9 @@ public final class ModItems {
     public static final ArmorMaterial SOLITUDE_MAT = material("solitude", 5);
     public static final ArmorMaterial RED_EYES_MAT = material("red_eyes", 6);
     public static final ArmorMaterial ENGULFING_DREAM_MAT = material("engulfing_dream", 5);
+    public static final ArmorMaterial HORN_MAT = material("horn", 5);
+    public static final ArmorMaterial LANTERN_MAT = material("lantern", 5);
+    public static final ArmorMaterial FRAGMENTS_MAT = material("fragments", 5);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -65,6 +68,12 @@ public final class ModItems {
     public static Item RED_EYES_SUIT;
     public static Item ENGULFING_DREAM;
     public static Item ENGULFING_DREAM_SUIT;
+    public static Item HORN;
+    public static Item HORN_SUIT;
+    public static Item LANTERN;
+    public static Item LANTERN_SUIT;
+    public static Item FRAGMENTS;
+    public static Item FRAGMENTS_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -174,6 +183,18 @@ public final class ModItems {
                 "T-02-99 · TETH", "WHITE 피해", "잠결에 삼킨 것들이 아직도 목구멍에서 몸부림친다.");
         ENGULFING_DREAM_SUIT = suit("engulfing_dream_suit", ENGULFING_DREAM_MAT,
                 "T-02-99 · TETH", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+        HORN = weapon("horn", DamageColor.RED, 4.0, -2.0,
+                "F-02-44 · TETH", "RED 피해 창", "창끝에 박힌 수많은 눈이 아직 깜빡이고, 그 사이로 보랏빛 꽃이 피어 있다.");
+        HORN_SUIT = suit("horn_suit", HORN_MAT,
+                "F-02-44 · TETH", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+        LANTERN = weapon("lantern", DamageColor.BLACK, 7.0, -3.2,
+                "O-04-84 · TETH", "BLACK 피해 대형 둔기, 느리고 묵직함", "머리통만 한 쇠망치 끝에서 푸른 불빛이 새어 나온다.");
+        LANTERN_SUIT = suit("lantern_suit", LANTERN_MAT,
+                "O-04-84 · TETH", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+        FRAGMENTS = weapon("fragments", DamageColor.BLACK, 4.0, -2.0,
+                "O-03-60 · TETH", "BLACK 피해 창, 빠른 찌르기", "밤하늘의 색을 띤 창날 곳곳에 작은 하트가 박혀 있다.");
+        FRAGMENTS_SUIT = suit("fragments_suit", FRAGMENTS_MAT,
+                "O-03-60 · TETH", "BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -181,6 +202,7 @@ public final class ModItems {
                 BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT, BEAK, BEAK_SUIT,
                 TODAYS_EXPRESSION, TODAYS_EXPRESSION_SUIT, SCREAMING_WEDGE, SCREAMING_WEDGE_SUIT,
                 DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT, RED_EYES, RED_EYES_SUIT,
-                ENGULFING_DREAM, ENGULFING_DREAM_SUIT);
+                ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
+                FRAGMENTS, FRAGMENTS_SUIT);
     }
 }

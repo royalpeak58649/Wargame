@@ -62,7 +62,10 @@ public class EmployeeData {
             java.util.Map.entry("courage", new int[]{0, 0, 0, 10}),
             java.util.Map.entry("solitude", new int[]{0, 3, 0, 0}),
             java.util.Map.entry("red_eyes", new int[]{0, 0, 3, 0}),
-            java.util.Map.entry("engulfing_dream", new int[]{0, 4, 0, 0})
+            java.util.Map.entry("engulfing_dream", new int[]{0, 4, 0, 0}),
+            java.util.Map.entry("horn", new int[]{2, 2, 0, 0}),
+            java.util.Map.entry("lantern", new int[]{5, 0, 0, 0}),
+            java.util.Map.entry("fragments", new int[]{0, 0, 2, 2})
     );
 
     private int giftSum(int idx) {

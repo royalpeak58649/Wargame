@@ -72,6 +72,9 @@ public abstract class AbnormalityEntity extends PathfinderMob {
 
     public void onWorkFinished(ServerPlayer worker, WorkManager.Result result, WorkSession session) {}
 
+    /** 작업이 중단되었을 때 (패닉, 수면, 거리 이탈 등). 완료 판정은 일어나지 않는다. */
+    public void onWorkAborted(ServerPlayer worker, WorkSession session, String reason) {}
+
     /** 다른 환상체의 작업이 끝났을 때 (자신이 대상이 아닌 경우) */
     public void onOtherWorkFinished(ServerPlayer worker, AbnormalityEntity other, WorkManager.Result result) {}
 

@@ -38,7 +38,10 @@ public final class LobCorpCommands {
                         .then(Commands.literal("crumbling_armor").executes(c -> build(c, ModEntities.CRUMBLING_ARMOR, false)))
                         .then(Commands.literal("old_lady").executes(c -> build(c, ModEntities.OLD_LADY, false)))
                         .then(Commands.literal("spider_bud").executes(c -> build(c, ModEntities.SPIDER_BUD, false)))
-                        .then(Commands.literal("void_dream").executes(c -> build(c, ModEntities.VOID_DREAM, false))))
+                        .then(Commands.literal("void_dream").executes(c -> build(c, ModEntities.VOID_DREAM, false)))
+                        .then(Commands.literal("beauty_and_the_beast").executes(c -> build(c, ModEntities.BEAUTY_BEAST, false)))
+                        .then(Commands.literal("meat_lantern").executes(c -> build(c, ModEntities.MEAT_LANTERN, false)))
+                        .then(Commands.literal("fragment_of_universe").executes(c -> build(c, ModEntities.FRAGMENT, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

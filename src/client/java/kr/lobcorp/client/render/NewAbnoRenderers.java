@@ -1,20 +1,26 @@
 package kr.lobcorp.client.render;
 
 import kr.lobcorp.LobCorp;
+import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
+import kr.lobcorp.client.model.FragmentModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
+import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.VoidDreamModel;
+import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
+import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
+import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
@@ -246,6 +252,83 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(VoidDreamModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class BeautyBeast extends MobRenderer<BeautyBeastEntity, BeautyBeastModel.State, BeautyBeastModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/beauty_and_the_beast.png");
+
+        public BeautyBeast(EntityRendererProvider.Context ctx) {
+            super(ctx, new BeautyBeastModel(ctx.bakeLayer(BeautyBeastModel.LAYER)), 0.7f);
+        }
+
+        @Override
+        public BeautyBeastModel.State createRenderState() {
+            return new BeautyBeastModel.State();
+        }
+
+        @Override
+        public void extractRenderState(BeautyBeastEntity e, BeautyBeastModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.wounded = e.isWounded();
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 초록 눈이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(BeautyBeastModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class MeatLantern extends MobRenderer<MeatLanternEntity, MeatLanternModel.State, MeatLanternModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/meat_lantern.png");
+
+        public MeatLantern(EntityRendererProvider.Context ctx) {
+            super(ctx, new MeatLanternModel(ctx.bakeLayer(MeatLanternModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public MeatLanternModel.State createRenderState() {
+            return new MeatLanternModel.State();
+        }
+
+        @Override
+        public void extractRenderState(MeatLanternEntity e, MeatLanternModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.bite = e.getBiteTicks() > 0 ? (e.getBiteTicks() - pt) / 30f : 0f;
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 꽃이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(MeatLanternModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Fragment extends MobRenderer<FragmentEntity, FragmentModel.State, FragmentModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/fragment_of_universe.png");
+
+        public Fragment(EntityRendererProvider.Context ctx) {
+            super(ctx, new FragmentModel(ctx.bakeLayer(FragmentModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public FragmentModel.State createRenderState() {
+            return new FragmentModel.State();
+        }
+
+        @Override
+        public void extractRenderState(FragmentEntity e, FragmentModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.singing = e.getSingTicks() > 0;
+            if (s.breached) s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 반점과 하트가 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(FragmentModel.State s) {
             return TEX;
         }
     }

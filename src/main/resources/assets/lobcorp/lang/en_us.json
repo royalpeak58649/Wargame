@@ -11,6 +11,9 @@
   "entity.lobcorp.old_lady": "Old Lady",
   "entity.lobcorp.spider_bud": "Spider Bud",
   "entity.lobcorp.void_dream": "Void Dream",
+  "entity.lobcorp.beauty_and_the_beast": "Beauty and the Beast",
+  "entity.lobcorp.meat_lantern": "Meat Lantern",
+  "entity.lobcorp.fragment_of_universe": "Fragment of the Universe",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -34,5 +37,11 @@
   "item.lobcorp.red_eyes": "Red Eyes",
   "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)",
   "item.lobcorp.engulfing_dream": "Engulfing Dream",
-  "item.lobcorp.engulfing_dream_suit": "Engulfing Dream (Suit)"
+  "item.lobcorp.engulfing_dream_suit": "Engulfing Dream (Suit)",
+  "item.lobcorp.horn": "Horn",
+  "item.lobcorp.horn_suit": "Horn Suit",
+  "item.lobcorp.lantern": "Lantern",
+  "item.lobcorp.lantern_suit": "Lantern Suit",
+  "item.lobcorp.fragments": "Fragments from Somewhere",
+  "item.lobcorp.fragments_suit": "Fragments from Somewhere (Suit)"
 }

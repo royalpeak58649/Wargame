@@ -11,6 +11,9 @@
   "entity.lobcorp.old_lady": "늙은 여인",
   "entity.lobcorp.spider_bud": "거미 봉오리",
   "entity.lobcorp.void_dream": "공허한 꿈",
+  "entity.lobcorp.beauty_and_the_beast": "미녀와 야수",
+  "entity.lobcorp.meat_lantern": "고기 등불",
+  "entity.lobcorp.fragment_of_universe": "우주의 파편",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -34,5 +37,11 @@
   "item.lobcorp.red_eyes": "붉은 눈",
   "item.lobcorp.red_eyes_suit": "붉은 눈 (방어구)",
   "item.lobcorp.engulfing_dream": "집어삼키는 꿈",
-  "item.lobcorp.engulfing_dream_suit": "집어삼키는 꿈 (방어구)"
+  "item.lobcorp.engulfing_dream_suit": "집어삼키는 꿈 (방어구)",
+  "item.lobcorp.horn": "뿔",
+  "item.lobcorp.horn_suit": "뿔 (방호복)",
+  "item.lobcorp.lantern": "등불",
+  "item.lobcorp.lantern_suit": "등불 (방호복)",
+  "item.lobcorp.fragments": "어딘가의 파편",
+  "item.lobcorp.fragments_suit": "어딘가의 파편 (방호복)"
 }

@@ -148,12 +148,14 @@ public final class WorkManager {
         switch (prof.workDamage()) {
             case WHITE -> {
                 if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)
-                        || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)) dmg--;
+                        || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)
+                        || wearing(p, ModItems.HORN_SUIT) || wearing(p, ModItems.LANTERN_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
             }
             case BLACK -> {
+                if (blackSuit(p)) dmg--;
                 // HP를 먼저 깎는다 — damageSp가 패닉을 일으켜 세션을 중단시킬 수 있기 때문
                 level.sendParticles(ParticleTypes.SQUID_INK, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.PLAYERS, 0.8f, 0.6f);
@@ -163,7 +165,8 @@ public final class WorkManager {
             default -> {
                 if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
                         || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)
-                        || wearing(p, ModItems.RED_EYES_SUIT)) dmg--;
+                        || wearing(p, ModItems.RED_EYES_SUIT) || wearing(p, ModItems.HORN_SUIT)
+                        || wearing(p, ModItems.LANTERN_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }
@@ -225,6 +228,7 @@ public final class WorkManager {
         Facility.addEnergy(p.level().getServer(), s.good);
         s.abno.addPe(s.good);
         p.sendSystemMessage(Component.literal("■ 작업 중단 (" + reason + ")  PE-BOX +" + s.good).withStyle(st -> st.withColor(0xAA0000)));
+        s.abno.onWorkAborted(p, s, reason);
     }
 
     public static void clear(ServerPlayer p) {
@@ -253,6 +257,11 @@ public final class WorkManager {
 
     public static boolean wearing(ServerPlayer p, Item item) {
         return p.getItemBySlot(EquipmentSlot.CHEST).is(item);
+    }
+
+    /** BLACK 저항 방호복 착용 여부 (작업 실패 시 HP·SP 피해 -1) */
+    private static boolean blackSuit(ServerPlayer p) {
+        return wearing(p, ModItems.FRAGMENTS_SUIT);
     }
 
     public static MutableComponent red(String s) {
