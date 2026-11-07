@@ -3823,3 +3823,185 @@ merge_lang({
     "item.lobcorp.logging": "Logging",
     "item.lobcorp.logging_suit": "Logging Garb",
 })
+
+
+# ═════════════ 28차: 지혜를 찾는 허수아비 (F-01-87) ═════════════
+def scarecrow():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wood = hexc("#6b4a2a")
+    wood_hi = hexc("#7d5a36")
+    wood_dark = hexc("#4a3220")
+    straw = hexc("#d8b860")
+    straw_hi = hexc("#e8cc80")
+    straw_dark = hexc("#a88a3a")
+    shirt = hexc("#6a5a8a")
+    shirt_dark = hexc("#4a3e64")
+    patch = hexc("#8a7aa8")
+    sack = hexc("#c8b088")
+    sack_hi = hexc("#d8c4a0")
+    sack_dark = hexc("#a08a64")
+    stitch = hexc("#3a2a1a")
+    button = hexc("#1a1414")
+    hat = hexc("#4a3a2a")
+    hat_dark = hexc("#2e2418")
+
+    # 기둥 (u0 v0, 2x24x2)
+    p = box(img, 0, 0, 2, 24, 2, wood, 8, top=wood_hi)
+    px_, py_ = p["front"]
+    for y in range(24):
+        px(img, px_, py_ + y, wood_dark if y % 5 == 0 else wood)
+        px(img, px_ + 1, py_ + y, wood_hi if y % 7 == 0 else wood)
+    for side in ("right", "left", "back"):
+        sx, sy = p[side]
+        for y in range(24):
+            px(img, sx, sy + y, wood_dark if y % 5 == 0 else wood)
+
+    # 몸통: 짚 + 기운 셔츠 (u0 v26, 6x8x4)
+    b = box(img, 0, 26, 6, 8, 4, straw, 8, top=straw_hi)
+    bx, by = b["front"]
+    # 셔츠 자락
+    for y in range(2, 8):
+        for x in range(6):
+            px(img, bx + x, by + y, shirt if (x + y) % 7 else shirt_dark)
+    # 짚이 삐져나온 어깨와 밑단
+    for x in range(6):
+        px(img, bx + x, by, straw_hi if x % 2 == 0 else straw)
+        px(img, bx + x, by + 7, straw_dark if x % 2 == 0 else straw)
+    # 꿰맨 헝겊 조각
+    for (x, y) in [(1, 3), (2, 3), (1, 4), (2, 4), (4, 5), (5, 5), (4, 6)]:
+        px(img, bx + x, by + y, patch)
+    for (x, y) in [(1, 3), (2, 4), (4, 5), (5, 6)]:
+        px(img, bx + x, by + y, stitch)
+    # 세로 짚 결
+    for y in range(8):
+        if y % 3 == 0:
+            px(img, bx + 3, by + y, straw_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(2, 8):
+            for x in range(4):
+                px(img, sx + x, sy + y, shirt if (x * 3 + y) % 5 else shirt_dark)
+        for x in range(4):
+            px(img, sx + x, sy, straw_hi if x % 2 == 0 else straw)
+            px(img, sx + x, sy + 7, straw_dark)
+
+    # 부대 머리 (u20 v26, 6x7x6)
+    h = box(img, 20, 26, 6, 7, 6, sack, 6, top=sack_hi)
+    hx, hy = h["front"]
+    # 단추 눈
+    for (x, y) in [(1, 2), (4, 2)]:
+        px(img, hx + x, hy + y, button)
+        px(img, hx + x, hy + y + 1, hexc("#3a3430"))
+    # 꿰맨 X자 입
+    for i in range(3):
+        px(img, hx + 1 + i, hy + 4 + i, stitch)
+        px(img, hx + 3 - i, hy + 4 + i, stitch)
+    # 부대의 주름과 꿰맨 자국
+    for x in range(6):
+        px(img, hx + x, hy + 6, sack_dark)
+    for (x, y) in [(0, 1), (5, 3), (2, 0)]:
+        px(img, hx + x, hy + y, sack_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(7):
+            if y % 3 == 0:
+                px(img, sx + 2, sy + y, sack_dark)
+        for x in range(6):
+            px(img, sx + x, sy + 6, sack_dark)
+
+    # 찢어진 모자 챙 (u44 v26, 8x1x8)
+    br = box(img, 44, 26, 8, 1, 8, hat, 6, top=hexc("#5a4834"))
+    brx, bry = br["front"]
+    for x in range(8):
+        px(img, brx + x, bry, hat_dark if x % 3 == 0 else hat)
+    # 챙의 찢긴 틈
+    px(img, brx + 2, bry, (0, 0, 0, 0))
+    px(img, brx + 6, bry, (0, 0, 0, 0))
+    # 모자 꼭대기 (u44 v36, 4x3x4)
+    cr = box(img, 44, 36, 4, 3, 4, hat, 6, top=hexc("#5a4834"))
+    crx, cry = cr["front"]
+    for x in range(4):
+        px(img, crx + x, cry + 2, hat_dark)
+    px(img, crx + 1, cry, (0, 0, 0, 0))
+
+    # 팔: 짚 (u0 v40, 2x8x2 / u8 v40, 2x8x2)
+    for u in (0, 8):
+        a = box(img, u, 40, 2, 8, 2, straw, 8, top=straw_hi)
+        ax, ay = a["front"]
+        for y in range(8):
+            px(img, ax, ay + y, straw_dark if y % 3 == 0 else straw)
+            px(img, ax + 1, ay + y, straw_hi if y % 4 == 0 else straw)
+        for x in range(2):
+            px(img, ax + x, ay + 7, straw_dark)
+
+    # 다리: 짚 (u16 v40, 2x10x2 / u24 v40, 2x10x2)
+    for u in (16, 24):
+        l = box(img, u, 40, 2, 10, 2, straw, 8, top=straw_hi)
+        lx, ly = l["front"]
+        for y in range(10):
+            px(img, lx, ly + y, straw_dark if y % 4 == 0 else straw)
+            px(img, lx + 1, ly + y, straw_hi if y % 5 == 0 else straw)
+        for x in range(2):
+            px(img, lx + x, ly + 9, straw_dark)
+
+    save(img, "textures/entity/scarecrow.png")
+
+
+HV = {"s": "#d8b860", "h": "#e8cc80", "d": "#a88a3a", "k": "#3a2a1a", "w": "#6b4a2a", "p": "#6a5a8a"}
+icon([
+    "................",
+    "..............ss",
+    ".............ss.",
+    "............ss..",
+    "...........ss...",
+    "..........ss....",
+    ".........ss.....",
+    "........ss......",
+    ".......ss.......",
+    "......ss........",
+    ".....ss.........",
+    "....ww..........",
+    "...ww...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], HV, "textures/item/harvest.png")
+icon([
+    "................",
+    "...pp......pp...",
+    "..pppp....pppp..",
+    "..pppppppppppp..",
+    "...pppppppppp...",
+    "....ppsssspp....",
+    "....ppsssspp....",
+    "....ppsssspp....",
+    "....ppsssspp....",
+    "....pppppppp....",
+    "....pphhhhpp....",
+    "....pppppppp....",
+    "....pppppppp....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], HV, "textures/item/harvest_suit.png")
+
+armor(hexc("#6a5a8a"), "#4a3e64", "#d8b860", "textures/entity/equipment/humanoid/harvest.png")
+
+for item, parent in [("harvest", "minecraft:item/handheld"), ("harvest_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/harvest.json", {"layers": {"humanoid": [{"texture": "lobcorp:harvest"}]}})
+
+
+scarecrow()
+print("assets scarecrow ok")
+
+merge_lang({
+    "entity.lobcorp.scarecrow": "지혜를 찾는 허수아비",
+    "item.lobcorp.harvest": "수확",
+    "item.lobcorp.harvest_suit": "수확의 옷",
+}, {
+    "entity.lobcorp.scarecrow": "Scarecrow Searching for Wisdom",
+    "item.lobcorp.harvest": "Harvest",
+    "item.lobcorp.harvest_suit": "Harvest Garb",
+})

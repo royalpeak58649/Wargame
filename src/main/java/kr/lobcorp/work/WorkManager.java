@@ -189,7 +189,7 @@ public final class WorkManager {
                         || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT)
                         || wearing(p, ModItems.OUR_GALAXY_SUIT) || wearing(p, ModItems.MAGIC_BULLET_SUIT)
                         || wearing(p, ModItems.SYRINX_SUIT) || wearing(p, ModItems.FROST_SPLINTER_SUIT)
-                        || wearing(p, ModItems.LOGGING_SUIT)) dmg--;
+                        || wearing(p, ModItems.LOGGING_SUIT) || wearing(p, ModItems.HARVEST_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
@@ -209,7 +209,8 @@ public final class WorkManager {
                         || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)
                         || wearing(p, ModItems.LAETITIA_SUIT) || wearing(p, ModItems.GRINDER_SUIT)
                         || wearing(p, ModItems.OUR_GALAXY_SUIT) || wearing(p, ModItems.MAGIC_BULLET_SUIT)
-                        || wearing(p, ModItems.SYRINX_SUIT) || wearing(p, ModItems.LOGGING_SUIT)) dmg--;
+                        || wearing(p, ModItems.SYRINX_SUIT) || wearing(p, ModItems.LOGGING_SUIT)
+                        || wearing(p, ModItems.HARVEST_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }

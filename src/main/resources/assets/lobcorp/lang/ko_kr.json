@@ -79,5 +79,8 @@
   "item.lobcorp.frost_splinter_suit": "서리 조각의 옷",
   "entity.lobcorp.woodsman": "따뜻한 마음의 나무꾼",
   "item.lobcorp.logging": "벌목",
-  "item.lobcorp.logging_suit": "벌목의 옷"
+  "item.lobcorp.logging_suit": "벌목의 옷",
+  "entity.lobcorp.scarecrow": "지혜를 찾는 허수아비",
+  "item.lobcorp.harvest": "수확",
+  "item.lobcorp.harvest_suit": "수확의 옷"
 }

@@ -473,6 +473,21 @@ public record AbnoProfile(
                     "30초를 넘겨 머물면 시설 곳곳의 격리가 무너지기 시작한다. 다시 사용하거나 3블록 밖으로 나가면 나온다."
             ));
 
+    public static final AbnoProfile SCARECROW = new AbnoProfile(
+            "scarecrow", "지혜를 찾는 허수아비", "F-01-87", "HE", 0xFFAA00,
+            new int[]{45, 50, 45, 45}, 18, 15, 9,
+            DamageColor.WHITE, 2, 6,
+            1,
+            () -> ModItems.HARVEST, 35,
+            () -> ModItems.HARVEST_SUIT, 35,
+            "harvest", "수확", "최대 SP +4", 4,
+            new float[]{0.8f, 0.5f, 1.2f, 2.0f},
+            List.of(
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다.",
+                    "신중 II등급(30 이상)인 직원이 작업을 마치면 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 탈출해 마지막으로 본 직원을 쫓는다. 쓰러뜨린 직원의 머릿속에서 지혜를 꺼내 가슴에 채워 넣는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -503,7 +518,8 @@ public record AbnoProfile(
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),
-            Map.entry(NOTES.id, NOTES)
+            Map.entry(NOTES.id, NOTES),
+            Map.entry(SCARECROW.id, SCARECROW)
     );
 
     public boolean canBreach() {

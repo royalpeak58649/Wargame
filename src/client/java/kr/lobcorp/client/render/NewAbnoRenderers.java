@@ -21,6 +21,7 @@ import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PortraitModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.RedShoesModel;
+import kr.lobcorp.client.model.ScarecrowModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.ShelterModel;
 import kr.lobcorp.client.model.SingingMachineModel;
@@ -50,6 +51,7 @@ import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.RedShoesEntity;
+import kr.lobcorp.entity.ScarecrowEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
@@ -741,6 +743,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(WoodsmanModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Scarecrow extends MobRenderer<ScarecrowEntity, ScarecrowModel.State, ScarecrowModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/scarecrow.png");
+
+        public Scarecrow(EntityRendererProvider.Context ctx) {
+            super(ctx, new ScarecrowModel(ctx.bakeLayer(ScarecrowModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public ScarecrowModel.State createRenderState() {
+            return new ScarecrowModel.State();
+        }
+
+        @Override
+        public void extractRenderState(ScarecrowEntity e, ScarecrowModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.swing = e.swingTicks > 0 ? (e.swingTicks - pt) / 12f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(ScarecrowModel.State s) {
             return TEX;
         }
     }

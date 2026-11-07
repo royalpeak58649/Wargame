@@ -79,5 +79,8 @@
   "item.lobcorp.frost_splinter_suit": "Frost Splinter Garb",
   "entity.lobcorp.woodsman": "Warm-Hearted Woodsman",
   "item.lobcorp.logging": "Logging",
-  "item.lobcorp.logging_suit": "Logging Garb"
+  "item.lobcorp.logging_suit": "Logging Garb",
+  "entity.lobcorp.scarecrow": "Scarecrow Searching for Wisdom",
+  "item.lobcorp.harvest": "Harvest",
+  "item.lobcorp.harvest_suit": "Harvest Garb"
 }

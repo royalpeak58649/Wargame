@@ -54,6 +54,7 @@ public final class ModItems {
     public static final ArmorMaterial SYRINX_MAT = material("syrinx", 6);
     public static final ArmorMaterial FROST_SPLINTER_MAT = material("frost_splinter", 6);
     public static final ArmorMaterial LOGGING_MAT = material("logging", 6);
+    public static final ArmorMaterial HARVEST_MAT = material("harvest", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -107,6 +108,8 @@ public final class ModItems {
     public static Item FROST_SPLINTER_SUIT;
     public static Item LOGGING;
     public static Item LOGGING_SUIT;
+    public static Item HARVEST;
+    public static Item HARVEST_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -272,6 +275,10 @@ public final class ModItems {
                 "F-05-32 · HE", "RED 피해 대형 도끼, 느리고 묵직함", "주석으로 된 도끼날. 자루에는 아직 나무 진이 마르지 않았다.");
         LOGGING_SUIT = suit("logging_suit", LOGGING_MAT,
                 "F-05-32 · HE", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+        HARVEST = weapon("harvest", DamageColor.BLACK, 5.0, -2.2,
+                "F-01-87 · HE", "BLACK 피해 낫창", "볏단을 베어 온 낫. 날에 밀짚 한 오라기가 붙어 있다.");
+        HARVEST_SUIT = suit("harvest_suit", HARVEST_MAT,
+                "F-01-87 · HE", "RED·WHITE 저항, BLACK 취약: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -283,6 +290,7 @@ public final class ModItems {
                 FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT, SANGUINE_DESIRE, SANGUINE_DESIRE_SUIT,
                 HARMONY, HARMONY_SUIT, PLEASURE, PLEASURE_SUIT, LAETITIA, LAETITIA_SUIT,
                 GRINDER, GRINDER_SUIT, OUR_GALAXY, OUR_GALAXY_SUIT, MAGIC_BULLET, MAGIC_BULLET_SUIT,
-                SYRINX, SYRINX_SUIT, FROST_SPLINTER, FROST_SPLINTER_SUIT, LOGGING, LOGGING_SUIT);
+                SYRINX, SYRINX_SUIT, FROST_SPLINTER, FROST_SPLINTER_SUIT, LOGGING, LOGGING_SUIT,
+                HARVEST, HARVEST_SUIT);
     }
 }
