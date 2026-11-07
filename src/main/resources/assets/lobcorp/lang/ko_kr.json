@@ -85,5 +85,8 @@
   "item.lobcorp.harvest_suit": "수확의 옷",
   "entity.lobcorp.rudolta": "썰매 탄 루돌타",
   "item.lobcorp.christmas": "크리스마스",
-  "item.lobcorp.christmas_suit": "크리스마스의 옷"
+  "item.lobcorp.christmas_suit": "크리스마스의 옷",
+  "entity.lobcorp.funeral": "죽은 나비들의 장례식",
+  "item.lobcorp.solemn_lament": "엄숙한 애도",
+  "item.lobcorp.solemn_lament_suit": "엄숙한 애도의 상복"
 }

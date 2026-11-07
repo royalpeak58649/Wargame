@@ -488,6 +488,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 마지막으로 본 직원을 쫓는다. 쓰러뜨린 직원의 머릿속에서 지혜를 꺼내 가슴에 채워 넣는다."
             ));
 
+    public static final AbnoProfile FUNERAL = new AbnoProfile(
+            "funeral", "죽은 나비들의 장례식", "T-01-68", "HE", 0xFFAA00,
+            new int[]{50, 50, 0, 0}, 16, 11, 7,
+            DamageColor.WHITE, 4, 6,
+            2,
+            () -> ModItems.SOLEMN_LAMENT, 50,
+            () -> ModItems.SOLEMN_LAMENT_SUIT, 45,
+            "solemn_lament", "엄숙한 애도", "최대 HP·SP +1, 작업 성공률·속도 +1", 4,
+            new float[]{0.5f, 1.5f, 1.0f, 2.0f},
+            List.of(
+                    "검은 상복을 입은 남자. 머리통은 관이고, 그 주위를 흰 나비들이 맴돈다. 두 손에는 검은 총이 쥐여 있다.",
+                    "정의 II등급(45 미만)인 직원이 작업을 마치면 클리포트 카운터가 1 감소한다. 용기 IV등급(65 이상)인 직원도 마찬가지다.",
+                    "작업 결과가 나쁨이면 80% 확률로 카운터가 1 더 감소한다. 카운터가 0이 되면 관이 열리고, 나비 떼가 시설로 흩어진다."
+            ));
+
     public static final AbnoProfile RUDOLTA = new AbnoProfile(
             "rudolta", "썰매 탄 루돌타", "F-02-49", "HE", 0xFFAA00,
             new int[]{20, 50, 40, 0}, 18, 12, 6,
@@ -535,7 +550,8 @@ public record AbnoProfile(
             Map.entry(PORTRAIT.id, PORTRAIT),
             Map.entry(NOTES.id, NOTES),
             Map.entry(SCARECROW.id, SCARECROW),
-            Map.entry(RUDOLTA.id, RUDOLTA)
+            Map.entry(RUDOLTA.id, RUDOLTA),
+            Map.entry(FUNERAL.id, FUNERAL)
     );
 
     public boolean canBreach() {

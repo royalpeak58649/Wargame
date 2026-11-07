@@ -4222,3 +4222,187 @@ merge_lang({
     "item.lobcorp.harvest": "Harvest",
     "item.lobcorp.harvest_suit": "Harvest Garb",
 })
+
+
+# ═════════════ 30차: 죽은 나비들의 장례식 (T-01-68) ═════════════
+def funeral():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    suit = hexc("#141418")
+    suit_hi = hexc("#1e1e24")
+    suit_dark = hexc("#0a0a0e")
+    shirt = hexc("#f0f0f0")
+    shirt_shade = hexc("#d0d0d0")
+    tie = hexc("#2a2a30")
+    wood = hexc("#3a2418")
+    wood_hi = hexc("#4a3020")
+    wood_dark = hexc("#24160e")
+    cross = hexc("#e8e0d0")
+    cross_dark = hexc("#b8b0a0")
+    gun = hexc("#1a1a1e")
+    gun_hi = hexc("#3a3a42")
+    gun_steel = hexc("#8a9096")
+    wing = hexc("#f4f4f4")
+    wing_shade = hexc("#d8d8d8")
+    wing_dark = hexc("#a8a8a8")
+
+    # 몸통: 검은 상복 (u0 v0, 8x12x4)
+    b = box(img, 0, 0, 8, 12, 4, suit, 4, top=suit_hi)
+    bx, by = b["front"]
+    # 흰 셔츠 깃과 단추
+    for y in range(0, 8):
+        px(img, bx + 3, by + y, shirt)
+        px(img, bx + 4, by + y, shirt_shade)
+    for y in (2, 4, 6):
+        px(img, bx + 3, by + y, hexc("#8a8a90"))
+    # 넥타이
+    for y in range(1, 7):
+        px(img, bx + 4, by + y, tie)
+    px(img, bx + 3, by + 1, tie)
+    px(img, bx + 5, by + 1, tie)
+    # 옷깃
+    for y in range(0, 3):
+        px(img, bx + 2, by + y, suit_hi)
+        px(img, bx + 5, by + y, suit_hi)
+    # 밑단
+    for x in range(8):
+        px(img, bx + x, by + 11, suit_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(12):
+            if y % 4 == 0:
+                px(img, sx + 1, sy + y, suit_hi)
+        for x in range(4):
+            px(img, sx + x, sy + 11, suit_dark)
+
+    # 관 머리 (u0 v16, 6x9x4)
+    h = box(img, 0, 16, 6, 9, 4, wood, 6, top=wood_hi)
+    hx, hy = h["front"]
+    # 나뭇결
+    for y in range(9):
+        for x in range(6):
+            if (x * 3 + y * 5) % 11 == 0:
+                px(img, hx + x, hy + y, wood_dark)
+    # 창백한 십자
+    for y in range(2, 7):
+        px(img, hx + 2, hy + y, cross)
+        px(img, hx + 3, hy + y, cross_dark)
+    for x in range(1, 5):
+        px(img, hx + x, hy + 3, cross)
+        px(img, hx + x, hy + 4, cross_dark)
+    # 관 테두리
+    for x in range(6):
+        px(img, hx + x, hy, wood_hi)
+        px(img, hx + x, hy + 8, wood_dark)
+    for y in range(9):
+        px(img, hx, hy + y, wood_hi)
+        px(img, hx + 5, hy + y, wood_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(9):
+            for x in range(4):
+                if (x + y) % 5 == 0:
+                    px(img, sx + x, sy + y, wood_dark)
+        for x in range(4):
+            px(img, sx + x, sy + 8, wood_dark)
+
+    # 팔 (u32 v0, 2x12x2)
+    for u in (32, 36):
+        a = box(img, u, 0, 2, 12, 2, suit, 4)
+        ax, ay = a["front"]
+        for y in range(12):
+            px(img, ax, ay + y, suit_dark if y % 4 == 0 else suit)
+        for x in range(2):
+            px(img, ax + x, ay + 11, suit_dark)
+
+    # 총 (u40 v0, 1x2x4)
+    for u in (40, 44):
+        g = box(img, u, 0, 1, 2, 4, gun, 4, top=gun_hi)
+        gx, gy = g["front"]
+        px(img, gx, gy, gun_hi)
+        px(img, gx, gy + 1, gun_steel)
+        for side in ("right", "left", "back"):
+            sx, sy = g[side]
+            for y in range(2):
+                px(img, sx, sy + y, gun_hi if y == 0 else gun)
+
+    # 다리 (u0 v30, 2x12x2)
+    for u in (0, 4):
+        l = box(img, u, 30, 2, 12, 2, suit, 4)
+        lx, ly = l["front"]
+        for y in range(12):
+            px(img, lx, ly + y, suit_dark if y % 5 == 0 else suit)
+        for x in range(2):
+            px(img, lx + x, ly + 11, hexc("#050508"))
+
+    # 흰 나비 (u48 v0, 2x1x2)
+    bf = box(img, 48, 0, 2, 1, 2, wing, 4, top=hexc("#ffffff"))
+    bfx, bfy = bf["front"]
+    px(img, bfx, bfy, wing_shade)
+    px(img, bfx + 1, bfy, wing_shade)
+    for side in ("right", "left", "back"):
+        sx, sy = bf[side]
+        px(img, sx, sy, wing_dark)
+        px(img, sx + 1, sy, wing_shade)
+
+    save(img, "textures/entity/funeral.png")
+
+
+SL = {"k": "#141418", "h": "#1e1e24", "d": "#0a0a0e", "w": "#f0f0f0", "s": "#8a9096", "g": "#3a3a42"}
+icon([
+    "................",
+    "..............kk",
+    ".............kk.",
+    "............kk..",
+    "...........kk...",
+    "..........kk....",
+    ".........kk.....",
+    "........kk......",
+    ".......kk.......",
+    "......kk........",
+    ".....kk.........",
+    "....ww..........",
+    "...ww...........",
+    "..ss............",
+    "..s.............",
+    "................",
+], SL, "textures/item/solemn_lament.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkwwwwkk....",
+    "....kkwwwwkk....",
+    "....kkwwwwkk....",
+    "....kkwwwwkk....",
+    "....kkkkkkkk....",
+    "....kksssskk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], SL, "textures/item/solemn_lament_suit.png")
+
+armor(hexc("#141418"), "#0a0a0e", "#f0f0f0", "textures/entity/equipment/humanoid/solemn_lament.png")
+
+for item, parent in [("solemn_lament", "minecraft:item/handheld"),
+                     ("solemn_lament_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/solemn_lament.json", {"layers": {"humanoid": [{"texture": "lobcorp:solemn_lament"}]}})
+
+
+funeral()
+print("assets funeral ok")
+
+merge_lang({
+    "entity.lobcorp.funeral": "죽은 나비들의 장례식",
+    "item.lobcorp.solemn_lament": "엄숙한 애도",
+    "item.lobcorp.solemn_lament_suit": "엄숙한 애도의 상복",
+}, {
+    "entity.lobcorp.funeral": "The Funeral of the Dead Butterflies",
+    "item.lobcorp.solemn_lament": "Solemn Lament",
+    "item.lobcorp.solemn_lament_suit": "Solemn Lament Suit",
+})

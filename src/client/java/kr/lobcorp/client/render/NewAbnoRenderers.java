@@ -9,6 +9,7 @@ import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.FetusModel;
 import kr.lobcorp.client.model.FragmentModel;
 import kr.lobcorp.client.model.FreischutzModel;
+import kr.lobcorp.client.model.FuneralModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
@@ -40,6 +41,7 @@ import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.FetusEntity;
 import kr.lobcorp.entity.FragmentEntity;
 import kr.lobcorp.entity.FreischutzEntity;
+import kr.lobcorp.entity.FuneralEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
@@ -795,6 +797,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(RudoltaModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Funeral extends MobRenderer<FuneralEntity, FuneralModel.State, FuneralModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/funeral.png");
+
+        public Funeral(EntityRendererProvider.Context ctx) {
+            super(ctx, new FuneralModel(ctx.bakeLayer(FuneralModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public FuneralModel.State createRenderState() {
+            return new FuneralModel.State();
+        }
+
+        @Override
+        public void extractRenderState(FuneralEntity e, FuneralModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+        }
+
+        @Override
+        public Identifier getTextureLocation(FuneralModel.State s) {
             return TEX;
         }
     }

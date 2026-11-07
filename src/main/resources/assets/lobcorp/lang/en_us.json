@@ -85,5 +85,8 @@
   "item.lobcorp.harvest_suit": "Harvest Garb",
   "entity.lobcorp.rudolta": "Rudolta of the Sleigh",
   "item.lobcorp.christmas": "Christmas",
-  "item.lobcorp.christmas_suit": "Christmas Garb"
+  "item.lobcorp.christmas_suit": "Christmas Garb",
+  "entity.lobcorp.funeral": "The Funeral of the Dead Butterflies",
+  "item.lobcorp.solemn_lament": "Solemn Lament",
+  "item.lobcorp.solemn_lament_suit": "Solemn Lament Suit"
 }
