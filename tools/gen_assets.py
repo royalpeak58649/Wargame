@@ -540,3 +540,149 @@ scorched_girl()
 teddy()
 fairy()
 print("assets v2 ok")
+
+
+# ═════════════ 3차: 처벌새 (O-02-56) ═════════════
+def punishing_bird():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    white = hexc("#f4f1ea")
+    shade = hexc("#d8d3c6")
+    red = hexc("#c8102e")
+    black = hexc("#141414")
+    mouth = hexc("#b0001a")
+    teeth = hexc("#fbf7ef")
+
+    # 몸통 (u0 v0, 4x4x5)
+    b = box(img, 0, 0, 4, 4, 5, white, 6, top=shade)
+    bx, by = b["front"]
+    # 가슴의 붉은 표식
+    for (x, y) in [(1, 1), (2, 1), (1, 2), (2, 2), (1, 3), (2, 3)]:
+        px(img, bx + x, by + y, red)
+    px(img, bx + 1, by + 2, hexc("#8a0a20"))
+    px(img, bx + 2, by + 2, hexc("#8a0a20"))
+
+    # 머리 (u0 v12, 3x3x3)
+    h = box(img, 0, 12, 3, 3, 3, white, 6, top=shade)
+    hx, hy = h["front"]
+    px(img, hx, hy + 1, black)
+    px(img, hx + 2, hy + 1, black)
+
+    # 부리 (u20 v12, 1x1x2)
+    bk = box(img, 20, 12, 1, 1, 2, hexc("#e8b23a"), 6)
+    bkx, bky = bk["front"]
+    px(img, bkx, bky, hexc("#b07a1a"))
+
+    # 날개 (u24 v0, 5x1x4)
+    for u in (24, 24):
+        w = box(img, u, 0, 5, 1, 4, white, 6, top=shade)
+        wx, wy = w["front"]
+        for x in range(5):
+            px(img, wx + x, wy, shade)
+
+    # 꼬리 (u24 v8, 2x1x3)
+    box(img, 24, 8, 2, 1, 3, white, 6, top=shade)
+
+    # 아가리 (u0 v20, 6x5x5)
+    m = box(img, 0, 20, 6, 5, 5, mouth, 8)
+    mx, my = m["front"]
+    for x in range(6):
+        px(img, mx + x, my, teeth)
+        px(img, mx + x, my + 4, teeth)
+    for (x, y) in [(1, 2), (4, 2)]:
+        px(img, mx + x, my + y, hexc("#2a0006"))
+
+    # 횃대 (u0 v40, 1x14x1 + 8x1x1)
+    box(img, 0, 40, 1, 14, 1, black, 4)
+    box(img, 0, 40, 8, 1, 1, black, 4)
+
+    save(img, "textures/entity/punishing_bird.png")
+
+
+BK = {"w": "#f4f1ea", "s": "#d8d3c6", "r": "#c8102e", "d": "#8a0a20", "y": "#e8b23a", "k": "#141414"}
+icon([
+    "................",
+    "..........ww....",
+    ".........wwww...",
+    "........wwwwww..",
+    ".......wwwwwww..",
+    "......wwwwwwww..",
+    ".....wwwwwwww...",
+    "....wwwwwww.....",
+    "...wwwwww.......",
+    "..wwwwww........",
+    "..wwwww.........",
+    "...wwww.........",
+    "....rr..........",
+    "...rrr..........",
+    "..rr............",
+    "................",
+], BK, "textures/item/beak.png")
+icon([
+    "................",
+    "...ww......ww...",
+    "..wwww....wwww..",
+    "..wwwwwwwwwwww..",
+    "...wwwwwwwwww...",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    "....wwwwwwww....",
+    "....wwssssww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    ".....ssssss.....",
+    "................",
+    "................",
+], BK, "textures/item/beak_suit.png")
+
+armor(hexc("#f4f1ea"), "#d8d3c6", "#c8102e", "textures/entity/equipment/humanoid/beak.png")
+
+for item, parent in [("beak", "minecraft:item/handheld"), ("beak_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/beak.json", {"layers": {"humanoid": [{"texture": "lobcorp:beak"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+})
+
+punishing_bird()
+print("assets v3 ok")

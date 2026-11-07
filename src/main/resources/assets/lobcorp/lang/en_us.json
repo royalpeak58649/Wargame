@@ -4,6 +4,7 @@
   "entity.lobcorp.scorched_girl": "Scorched Girl",
   "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
   "entity.lobcorp.fairy_festival": "Fairy Festival",
+  "entity.lobcorp.punishing_bird": "Punishing Bird",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -13,5 +14,7 @@
   "item.lobcorp.bear_paws": "Bear Paws",
   "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
   "item.lobcorp.wingbeat": "Wingbeat",
-  "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)"
+  "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+  "item.lobcorp.beak": "Beak",
+  "item.lobcorp.beak_suit": "Beak (Suit)"
 }

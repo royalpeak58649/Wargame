@@ -31,7 +31,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("forsaken_murderer").executes(c -> build(c, ModEntities.FORSAKEN_MURDERER, true)))
                         .then(Commands.literal("scorched_girl").executes(c -> build(c, ModEntities.SCORCHED_GIRL, true)))
                         .then(Commands.literal("happy_teddy_bear").executes(c -> build(c, ModEntities.HAPPY_TEDDY, false)))
-                        .then(Commands.literal("fairy_festival").executes(c -> build(c, ModEntities.FAIRY_FESTIVAL, false))))
+                        .then(Commands.literal("fairy_festival").executes(c -> build(c, ModEntities.FAIRY_FESTIVAL, false)))
+                        .then(Commands.literal("punishing_bird").executes(c -> build(c, ModEntities.PUNISHING_BIRD, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

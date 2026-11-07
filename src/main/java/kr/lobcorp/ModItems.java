@@ -33,6 +33,7 @@ public final class ModItems {
     public static final ArmorMaterial MATCH_FLAME_MAT = material("match_flame", 6);
     public static final ArmorMaterial BEAR_PAWS_MAT = material("bear_paws", 7);
     public static final ArmorMaterial WINGBEAT_MAT = material("wingbeat", 5);
+    public static final ArmorMaterial BEAK_MAT = material("beak", 5);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -44,6 +45,8 @@ public final class ModItems {
     public static Item BEAR_PAWS_SUIT;
     public static Item WINGBEAT;
     public static Item WINGBEAT_SUIT;
+    public static Item BEAK;
+    public static Item BEAK_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -125,10 +128,14 @@ public final class ModItems {
                 "F-04-83 · ZAYIN", "RED 피해", "작은 날개들이 한꺼번에 퍼덕이는 소리.");
         WINGBEAT_SUIT = suit("wingbeat_suit", WINGBEAT_MAT,
                 "F-04-83 · ZAYIN", "RED 저항: 작업 실패 시 HP 피해 -1");
+        BEAK = weapon("beak", DamageColor.RED, 3.0, -1.0,
+                "O-02-56 · TETH", "RED 피해, 매우 빠른 연타", "작은 부리가 남긴 자국은 오래 남는다.");
+        BEAK_SUIT = suit("beak_suit", BEAK_MAT,
+                "O-02-56 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
         return List.of(PENITENCE, PENITENCE_SUIT, REGRET, REGRET_SUIT, MATCH_FLAME, MATCH_FLAME_SUIT,
-                BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT);
+                BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT, BEAK, BEAK_SUIT);
     }
 }

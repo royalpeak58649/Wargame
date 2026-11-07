@@ -98,12 +98,28 @@ public record AbnoProfile(
                     "격리실을 탈출하지 않는다."
             ));
 
+    public static final AbnoProfile PUNISHING_BIRD = new AbnoProfile(
+            "punishing_bird", "처벌새", "O-02-56", "TETH", 0x5599FF,
+            new int[]{50, 40, 60, 30}, 12, 9, 5,
+            DamageColor.RED, 1, 3,
+            3,
+            () -> ModItems.BEAK, 30,
+            () -> ModItems.BEAK_SUIT, 35,
+            "beak", "부리", "이동 속도 +5%, 작업 성공률 +2%", 5,
+            new float[]{1.0f, 1.2f, 1.0f, 1.5f},
+            List.of(
+                    "다른 환상체에 작업이 시작될 때마다 50% 확률로 클리포트 카운터가 1 감소한다.",
+                    "누군가 패닉에 빠지면 클리포트 카운터가 1 감소한다.",
+                    "탈출한 새를 때리면 격노해 거대한 아가리로 물어뜯는다. 90초가 지나면 스스로 돌아온다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.of(
             ONE_SIN.id, ONE_SIN,
             FORSAKEN_MURDERER.id, FORSAKEN_MURDERER,
             SCORCHED_GIRL.id, SCORCHED_GIRL,
             HAPPY_TEDDY.id, HAPPY_TEDDY,
-            FAIRY_FESTIVAL.id, FAIRY_FESTIVAL
+            FAIRY_FESTIVAL.id, FAIRY_FESTIVAL,
+            PUNISHING_BIRD.id, PUNISHING_BIRD
     );
 
     public boolean canBreach() {

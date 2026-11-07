@@ -3,9 +3,11 @@ package kr.lobcorp.client.render;
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
+import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
+import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -86,6 +88,32 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class PunishingBird extends MobRenderer<PunishingBirdEntity, PunishingBirdModel.State, PunishingBirdModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/punishing_bird.png");
+
+        public PunishingBird(EntityRendererProvider.Context ctx) {
+            super(ctx, new PunishingBirdModel(ctx.bakeLayer(PunishingBirdModel.LAYER)), 0.3f);
+        }
+
+        @Override
+        public PunishingBirdModel.State createRenderState() {
+            return new PunishingBirdModel.State();
+        }
+
+        @Override
+        public void extractRenderState(PunishingBirdEntity e, PunishingBirdModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.angry = e.isAngry();
+            s.peck = e.peckAnimTicks > 0 ? (e.peckAnimTicks - pt) / 8f : 0f;
+        }
+
+        @Override
+        public Identifier getTextureLocation(PunishingBirdModel.State s) {
             return TEX;
         }
     }

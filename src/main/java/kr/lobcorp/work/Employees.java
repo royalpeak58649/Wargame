@@ -39,7 +39,8 @@ public final class Employees {
         }
         AttributeInstance speed = p.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speed != null) {
-            double mult = Math.min(1.4, 1.0 + (d.justice - EmployeeData.BASE_STAT) * 0.004);
+            double mult = Math.min(1.4, (1.0 + (d.justice - EmployeeData.BASE_STAT) * 0.004)
+                    * (1.0 + d.giftSpeedBonus() / 100.0));
             speed.setBaseValue(0.1 * mult);
         }
         if (d.sp > d.maxSp()) d.sp = d.maxSp();
@@ -96,6 +97,7 @@ public final class Employees {
         Facility.broadcast(p.level().getServer(), Component.literal("[관제] ").withStyle(s -> s.withColor(0xAA0000))
                 .append(p.getDisplayName())
                 .append(Component.literal(" 직원이 패닉 상태에 빠졌습니다!").withStyle(s -> s.withColor(0xFF5555))));
+        kr.lobcorp.entity.PunishingBirdEntity.onAnyPanic(p.level());
     }
 
     /** 매 틱 호출 */

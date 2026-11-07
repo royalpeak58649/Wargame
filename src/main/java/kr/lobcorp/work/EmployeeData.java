@@ -47,13 +47,14 @@ public class EmployeeData {
         return gifts.contains(id);
     }
 
-    /** 기프트 효과: {최대 HP, 최대 SP, 작업 성공률 %} — 수치는 임의 */
+    /** 기프트 효과: {최대 HP, 최대 SP, 작업 성공률 %, 이동 속도 %} — 수치는 임의 */
     public static final java.util.Map<String, int[]> GIFT_EFFECTS = java.util.Map.of(
-            "penitence", new int[]{0, 2, 3},
-            "regret", new int[]{2, 0, 0},
-            "match_flame", new int[]{3, 0, 0},
-            "bear_paws", new int[]{0, 3, 0},
-            "wingbeat", new int[]{0, 0, 3}
+            "penitence", new int[]{0, 2, 3, 0},
+            "regret", new int[]{2, 0, 0, 0},
+            "match_flame", new int[]{3, 0, 0, 0},
+            "bear_paws", new int[]{0, 3, 0, 0},
+            "wingbeat", new int[]{0, 0, 3, 0},
+            "beak", new int[]{0, 0, 2, 5}
     );
 
     private int giftSum(int idx) {
@@ -75,6 +76,10 @@ public class EmployeeData {
 
     public int giftChanceBonus() {
         return giftSum(2);
+    }
+
+    public int giftSpeedBonus() {
+        return giftSum(3);
     }
 
     public boolean isPanicking() {

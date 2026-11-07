@@ -5,6 +5,7 @@ import kr.lobcorp.DamageColor;
 import kr.lobcorp.ModItems;
 import kr.lobcorp.entity.AbnormalityEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
+import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.net.Payloads;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.particles.ParticleTypes;
@@ -84,6 +85,7 @@ public final class WorkManager {
         chance = Math.min(95, chance);
         int interval = Math.max(10, 30 - d.temperance / 4);
         SESSIONS.put(p.getUUID(), new WorkSession(a, type, prof.maxBox(), chance, interval));
+        PunishingBirdEntity.onAnyWorkStarted(p.level(), a, p);
 
         p.sendSystemMessage(Component.literal("▶ ").withStyle(s -> s.withColor(0x555555))
                 .append(Component.literal(type.ko).withStyle(s -> s.withColor(type.rgb)))
@@ -140,7 +142,8 @@ public final class WorkManager {
             level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
             if (dmg > 0) Employees.damageSp(p, dmg);
         } else {
-            if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)) dmg--;
+            if (wearing(p, ModItems.REGRET_SUIT) || wearing(p, ModItems.MATCH_FLAME_SUIT) || wearing(p, ModItems.WINGBEAT_SUIT)
+                    || wearing(p, ModItems.BEAK_SUIT)) dmg--;
             level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
             if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
         }

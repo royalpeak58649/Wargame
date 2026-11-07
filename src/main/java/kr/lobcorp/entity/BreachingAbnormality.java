@@ -79,19 +79,26 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         return 1.0;
     }
 
+    /** 지상 추격 대신 직접 비행/조종하는 환상체는 false. (registerGoals는 생성자에서 돌므로 인스턴스 필드에 의존하면 안 된다) */
+    protected boolean usesMeleeGoal() {
+        return true;
+    }
+
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(1, new MeleeAttackGoal(this, chaseSpeed(), true) {
-            @Override
-            public boolean canUse() {
-                return isBreached() && super.canUse();
-            }
+        if (usesMeleeGoal()) {
+            goalSelector.addGoal(1, new MeleeAttackGoal(this, chaseSpeed(), true) {
+                @Override
+                public boolean canUse() {
+                    return isBreached() && super.canUse();
+                }
 
-            @Override
-            public boolean canContinueToUse() {
-                return isBreached() && super.canContinueToUse();
-            }
-        });
+                @Override
+                public boolean canContinueToUse() {
+                    return isBreached() && super.canContinueToUse();
+                }
+            });
+        }
         // 벽 너머의 직원도 찾아낸다 (시야 무시).
         // 주의: Mob의 Goal 판정은 엔티티 ID에 따라 격틱으로만 돌기 때문에 tickCount 모듈러를 쓰면 안 된다.
         targetSelector.addGoal(1, new Goal() {
