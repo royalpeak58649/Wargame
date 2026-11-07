@@ -29,12 +29,12 @@ public class ShelterModel extends EntityModel<LivingEntityRenderState> {
         PartDefinition root = mesh.getRoot();
         // 바닥 테두리
         root.addOrReplaceChild("frame", CubeListBuilder.create().texOffs(0, 0)
-                .addBox(-7, 0, -7, 14, 1, 14), PartPose.ZERO);
+                .addBox(-7, 23, -7, 14, 1, 14), PartPose.ZERO);
         // 둥근 해치
         root.addOrReplaceChild("hatch", CubeListBuilder.create().texOffs(0, 16)
-                .addBox(-5, 1, -5, 10, 1, 10), PartPose.ZERO);
+                .addBox(-5, 22, -5, 10, 1, 10), PartPose.ZERO);
         // 손잡이 링: 네 개의 막대
-        PartDefinition handle = root.addOrReplaceChild("handle", CubeListBuilder.create(), PartPose.offset(0, 2.5f, 0));
+        PartDefinition handle = root.addOrReplaceChild("handle", CubeListBuilder.create(), PartPose.offset(0, 21.5f, 0));
         handle.addOrReplaceChild("bar_n", CubeListBuilder.create().texOffs(0, 32)
                 .addBox(-2, -0.5f, -2, 4, 1, 1), PartPose.ZERO);
         handle.addOrReplaceChild("bar_s", CubeListBuilder.create().texOffs(0, 32)
@@ -45,10 +45,10 @@ public class ShelterModel extends EntityModel<LivingEntityRenderState> {
                 .addBox(1, -0.5f, -1, 1, 1, 2), PartPose.ZERO);
         // 등불 기둥
         root.addOrReplaceChild("post", CubeListBuilder.create().texOffs(0, 40)
-                .addBox(-0.5f, -6, -0.5f, 1, 6, 1), PartPose.offset(6, 1, -6));
+                .addBox(-0.5f, -6, -0.5f, 1, 6, 1), PartPose.offset(6, 23, -6));
         // 우리에 갇힌 희미한 전구
         root.addOrReplaceChild("bulb", CubeListBuilder.create().texOffs(8, 40)
-                .addBox(-1, -8, -1, 2, 2, 2), PartPose.offset(6, 1, -6));
+                .addBox(-1, -8, -1, 2, 2, 2), PartPose.offset(6, 23, -6));
         return LayerDefinition.create(mesh, 64, 64);
     }
 
