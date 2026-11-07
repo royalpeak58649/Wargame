@@ -353,6 +353,21 @@ public record AbnoProfile(
                     "마실 때마다 항아리가 터질 확률이 15%씩 오른다 (최대 60%). 터지면 20초 뒤 마신 직원이 터지고, 주변 8블록의 직원이 정신 피해를 입는다."
             ));
 
+    public static final AbnoProfile NOTES = new AbnoProfile(
+            "notes", "미친 연구원의 노트", "T-09-78", "HE", 0xFFAA00,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "도구형 환상체. 작업도, PE-BOX도, E.G.O도 없다.",
+                    "노트를 들고 있는 동안 작업 성공률 +20, 작업 속도가 빨라진다. 30초가 지나고 한 번이라도 작업을 마쳐야 안전하게 내려놓을 수 있다.",
+                    "그 전에 반납하거나, 든 채로 HP·SP 피해를 60 이상 받으면 머리가 터진다. 주변 5블록의 직원도 함께 휩쓸린다."
+            ));
+
     public static final AbnoProfile PORTRAIT = new AbnoProfile(
             "portrait", "다른 세계의 초상", "O-09-91", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -407,7 +422,8 @@ public record AbnoProfile(
             Map.entry(HELPER.id, HELPER),
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
-            Map.entry(PORTRAIT.id, PORTRAIT)
+            Map.entry(PORTRAIT.id, PORTRAIT),
+            Map.entry(NOTES.id, NOTES)
     );
 
     public boolean canBreach() {

@@ -38,6 +38,7 @@ public class LobCorp implements ModInitializer {
             WorkManager.tick(server);
             Employees.tick(server);
             Facility.tick(server);
+            kr.lobcorp.work.ToolState.tick(server);
         });
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -77,6 +78,7 @@ public class LobCorp implements ModInitializer {
             Employees.get(newP).possessHeal = false;
             Employees.get(newP).laetitiaHeart = false;
             Employees.get(newP).sapTicks = 0;
+            if (kr.lobcorp.work.ToolState.isNotesHolder(oldP)) kr.lobcorp.work.ToolState.clearNotes();
             if (kr.lobcorp.work.ToolState.isEtched(newP) || kr.lobcorp.work.ToolState.isVictim(newP)) {
                 kr.lobcorp.work.ToolState.resetPortrait();
             }
@@ -87,6 +89,10 @@ public class LobCorp implements ModInitializer {
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isSheltered(p)) {
                 return false;
+            }
+            // 미친 연구원의 노트: 든 채로 받은 피해가 쌓인다
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isNotesHolder(p)) {
+                kr.lobcorp.work.ToolState.addNotesDamage(p, amount);
             }
             // 다른 세계의 초상: 새겨진 자가 받을 피해는 대신하는 자에게 옮겨 간다
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isEtched(p)) {

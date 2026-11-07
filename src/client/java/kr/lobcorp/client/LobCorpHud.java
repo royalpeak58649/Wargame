@@ -46,6 +46,14 @@ public final class LobCorpHud {
             g.text(font, "대피소 안 · 피해 무효", x, line, 0xFF7CFFE0, true);
             line += 10;
         }
+        if (ClientState.notes() > 0) {
+            if (ClientState.notes() < 30) {
+                g.text(font, "노트 보유 " + ClientState.notes() + "초 · 30초 전 반납 금지", x, line, 0xFFFFAA00, true);
+            } else {
+                g.text(font, "노트 보유 " + ClientState.notes() + "초 · 반납 가능", x, line, 0xFF55FF55, true);
+            }
+            line += 10;
+        }
         if (ClientState.portrait() == 1) {
             g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
         } else if (ClientState.portrait() == 2) {

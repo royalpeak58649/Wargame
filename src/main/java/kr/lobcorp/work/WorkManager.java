@@ -93,10 +93,12 @@ public final class WorkManager {
         if (!a.beforeWorkStart(p, type)) return;
 
         AbnoProfile prof = a.profile();
+        boolean notes = ToolState.isNotesHolder(p);
         int chance = prof.chances()[type.ordinal()] + d.temperance / 5 + d.giftChanceBonus()
-                + a.workChanceBonus(p, type);
+                + a.workChanceBonus(p, type) + (notes ? 20 : 0);
         chance = Math.max(5, Math.min(95, chance));
         int interval = Math.max(10, 30 - d.temperance / 4);
+        if (notes) interval = Math.max(6, interval * 3 / 4);
         SESSIONS.put(p.getUUID(), new WorkSession(a, type, prof.maxBox(), chance, interval));
         PunishingBirdEntity.onAnyWorkStarted(p.level(), a, p);
 
@@ -227,6 +229,7 @@ public final class WorkManager {
         p.sendSystemMessage(line);
 
         a.onWorkFinished(p, r, s);
+        if (ToolState.isNotesHolder(p)) ToolState.notesWorked = true;
 
         // E.G.O 기프트
         if (r != Result.BAD && !d.hasGift(prof.giftId()) && p.getRandom().nextInt(100) < prof.giftChance()) {

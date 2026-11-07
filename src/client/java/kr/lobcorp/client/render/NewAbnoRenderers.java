@@ -12,6 +12,7 @@ import kr.lobcorp.client.model.LaetitiaFriendModel;
 import kr.lobcorp.client.model.LaetitiaModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
+import kr.lobcorp.client.model.NotesModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PortraitModel;
@@ -35,6 +36,7 @@ import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
+import kr.lobcorp.entity.NotesEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
@@ -580,6 +582,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public void extractRenderState(PortraitEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class Notes extends MobRenderer<NotesEntity, LivingEntityRenderState, NotesModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/notes.png");
+
+        public Notes(EntityRendererProvider.Context ctx) {
+            super(ctx, new NotesModel(ctx.bakeLayer(NotesModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(NotesEntity e, LivingEntityRenderState s, float pt) {
             super.extractRenderState(e, s, pt);
         }
 

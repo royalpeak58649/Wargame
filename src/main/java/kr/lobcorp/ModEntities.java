@@ -12,6 +12,7 @@ import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
+import kr.lobcorp.entity.NotesEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
@@ -62,6 +63,7 @@ public final class ModEntities {
     public static EntityType<TreeSapEntity> TREE_SAP;
     public static EntityType<ShelterEntity> SHELTER;
     public static EntityType<PortraitEntity> PORTRAIT;
+    public static EntityType<NotesEntity> NOTES;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -121,6 +123,8 @@ public final class ModEntities {
                 .sized(1.2f, 0.6f).clientTrackingRange(10));
         PORTRAIT = register("portrait", EntityType.Builder.of(PortraitEntity::new, MobCategory.MISC)
                 .sized(1.0f, 1.6f).clientTrackingRange(10));
+        NOTES = register("notes", EntityType.Builder.of(NotesEntity::new, MobCategory.MISC)
+                .sized(0.8f, 1.2f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -147,5 +151,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(TREE_SAP, TreeSapEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SHELTER, ShelterEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(PORTRAIT, PortraitEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(NOTES, NotesEntity.createAttributes());
     }
 }

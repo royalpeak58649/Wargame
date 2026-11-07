@@ -2840,3 +2840,105 @@ merge_lang({
 }, {
     "entity.lobcorp.portrait": "Portrait of Another World",
 })
+
+
+# ═════════════ 22차: 미친 연구원의 노트 (T-09-78) ═════════════
+def notes():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wood = hexc("#5a3a22")
+    wood_hi = hexc("#6e4a2c")
+    wood_dark = hexc("#3a2416")
+    page = hexc("#e8e0c8")
+    page_hi = hexc("#f4eeda")
+    page_dark = hexc("#c8c0a4")
+    ink = hexc("#2a2018")
+    ink_red = hexc("#8a2a1a")
+    stain = hexc("#a89060")
+
+    # 바닥 받침 (u0 v0, 6x1x6)
+    b = box(img, 0, 0, 6, 1, 6, wood, 8, top=wood_hi)
+    bx, by = b["front"]
+    for x in range(6):
+        px(img, bx + x, by, wood_dark)
+    tx, ty = b["top"]
+    for x in range(6):
+        for y in range(6):
+            if (x * 3 + y * 5) % 7 == 0:
+                px(img, tx + x, ty + y, wood_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for x in range(6):
+            px(img, sx + x, sy, wood_dark)
+
+    # 기둥 (u0 v8, 2x10x2)
+    p = box(img, 0, 8, 2, 10, 2, wood, 8)
+    px_, py_ = p["front"]
+    for y in range(10):
+        px(img, px_, py_ + y, wood_dark if y % 3 == 0 else wood)
+        px(img, px_ + 1, py_ + y, wood_hi if y % 4 == 0 else wood)
+    for side in ("right", "left", "back"):
+        sx, sy = p[side]
+        for y in range(10):
+            px(img, sx, sy + y, wood_dark if y % 3 == 0 else wood)
+
+    # 비스듬한 상판 (u0 v22, 8x1x6)
+    t = box(img, 0, 22, 8, 1, 6, wood, 8, top=wood_hi)
+    tx2, ty2 = t["top"]
+    for x in range(8):
+        for y in range(6):
+            if (x + y * 2) % 5 == 0:
+                px(img, tx2 + x, ty2 + y, wood_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = t[side]
+        for x in range(6):
+            px(img, sx + x, sy, wood_dark)
+
+    # 펼쳐진 노트 (u0 v32, 7x1x5)
+    bk = box(img, 0, 32, 7, 1, 5, page, 4, top=page_hi)
+    bkx, bky = bk["front"]
+    for x in range(7):
+        px(img, bkx + x, bky, page_dark)
+    # 책등
+    for y in range(5):
+        px(img, bkx + 3, bky + y, page_dark)
+    # 페이지 위의 휘갈긴 글씨
+    btx, bty = bk["top"]
+    for y in range(5):
+        for x in range(7):
+            if x == 3:
+                px(img, btx + x, bty + y, page_dark)
+                continue
+            if (x * 5 + y * 3) % 4 == 0:
+                px(img, btx + x, bty + y, ink)
+            elif (x * 7 + y) % 9 == 0:
+                px(img, btx + x, bty + y, ink_red)
+    # 얼룩
+    for (x, y) in [(1, 1), (2, 2), (5, 3), (6, 1)]:
+        px(img, btx + x, bty + y, stain)
+    # 페이지 가장자리
+    for x in range(7):
+        px(img, btx + x, bty, page_dark)
+        px(img, btx + x, bty + 4, page_dark)
+
+    # 표지 (u0 v40, 7x1x5)
+    cv = box(img, 0, 40, 7, 1, 5, wood_dark, 6, top=hexc("#4a3020"))
+    cvx, cvy = cv["front"]
+    for x in range(7):
+        px(img, cvx + x, cvy, hexc("#2a1a10"))
+    ctx, cty = cv["top"]
+    for x in range(7):
+        for y in range(5):
+            if (x + y) % 6 == 0:
+                px(img, ctx + x, cty + y, hexc("#2a1a10"))
+
+    save(img, "textures/entity/notes.png")
+
+
+notes()
+print("assets notes ok")
+
+merge_lang({
+    "entity.lobcorp.notes": "미친 연구원의 노트",
+}, {
+    "entity.lobcorp.notes": "Notes from a Crazed Researcher",
+})

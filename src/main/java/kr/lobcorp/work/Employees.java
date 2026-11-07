@@ -66,6 +66,7 @@ public final class Employees {
         v[15] = d.laetitiaHeart ? 1 : 0;
         v[16] = ToolState.isSheltered(p) ? 1 : 0;
         v[17] = ToolState.isEtched(p) ? 1 : ToolState.isVictim(p) ? 2 : 0;
+        v[18] = ToolState.isNotesHolder(p) ? ToolState.notesTicks / 20 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -248,6 +249,7 @@ public final class Employees {
         }
         EmployeeData d = get(p);
         d.sp -= amount;
+        if (amount > 0) ToolState.addNotesDamage(p, amount);
         if (d.sp <= 0) panic(p);
     }
 

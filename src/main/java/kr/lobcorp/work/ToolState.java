@@ -55,17 +55,72 @@ public final class ToolState {
         portraitTotal = 0;
     }
 
+    // ───────────── 미친 연구원의 노트 (T-09-78) ─────────────
+
+    /** 노트를 들고 있는 직원 */
+    public static UUID notesHolder = null;
+    /** 노트를 들고 있은 지 지난 틱 */
+    public static int notesTicks = 0;
+    /** 노트를 든 채로 작업을 한 번이라도 마쳤는가 */
+    public static boolean notesWorked = false;
+    /** 노트를 든 채로 누적된 HP·SP 피해 */
+    public static float notesDamage = 0;
+
+    public static final int NOTES_SAFE_TICKS = 600;
+    public static final float NOTES_DAMAGE_LIMIT = 60f;
+
+    public static boolean isNotesHolder(ServerPlayer p) {
+        return p != null && notesHolder != null && notesHolder.equals(p.getUUID());
+    }
+
+    public static void clearNotes() {
+        notesHolder = null;
+        notesTicks = 0;
+        notesWorked = false;
+        notesDamage = 0;
+    }
+
+    /** 노트를 든 직원이 피해를 받았다. 누적이 한계를 넘으면 터진다. */
+    public static void addNotesDamage(ServerPlayer p, float amount) {
+        if (!isNotesHolder(p) || amount <= 0) return;
+        notesDamage += amount;
+        if (notesDamage >= NOTES_DAMAGE_LIMIT) {
+            kr.lobcorp.entity.NotesEntity.explode(p);
+        }
+    }
+
+    /** 매 틱: 노트 보유 시간을 센다 */
+    public static void tick(MinecraftServer server) {
+        if (notesHolder == null) return;
+        ServerPlayer p = server.getPlayerList().getPlayer(notesHolder);
+        if (p == null || !p.isAlive()) {
+            clearNotes();
+            return;
+        }
+        notesTicks++;
+    }
+
     public static void nextDay(MinecraftServer server) {
         sapChance = 0;
         shelterUser = null;
         shelterTicks = 0;
         shelterEntityId = -1;
         resetPortrait();
+        // 노트는 폭발하지 않고 그냥 손에서 미끄러진다
+        if (notesHolder != null) {
+            ServerPlayer p = server.getPlayerList().getPlayer(notesHolder);
+            if (p != null) {
+                p.sendSystemMessage(Component.literal("  손에 쥔 노트가 스르륵 미끄러져 바닥에 떨어졌다.")
+                        .withStyle(s -> s.withColor(0xAAAAAA).withItalic(true)));
+            }
+        }
+        clearNotes();
     }
 
     /** 직원이 죽었을 때 (도구형 환상체 관련 후속 처리) */
     public static void onDeath(LivingEntity entity, DamageSource source) {
         if (!(entity instanceof ServerPlayer p)) return;
+        if (isNotesHolder(p)) clearNotes();
         if (isEtched(p)) {
             resetPortrait();
             if (p.level() instanceof net.minecraft.server.level.ServerLevel sl) {
