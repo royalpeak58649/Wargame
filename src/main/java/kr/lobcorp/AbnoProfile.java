@@ -188,6 +188,21 @@ public record AbnoProfile(
                     "작업 결과는 나쁨 또는 보통뿐이다. 좋음은 존재하지 않는다."
             ));
 
+    public static final AbnoProfile VOID_DREAM = new AbnoProfile(
+            "void_dream", "공허한 꿈", "T-02-99", "TETH", 0x5599FF,
+            new int[]{40, 50, 60, 30}, 12, 9, 5,
+            DamageColor.WHITE, 1, 2,
+            2,
+            () -> ModItems.ENGULFING_DREAM, 30,
+            () -> ModItems.ENGULFING_DREAM_SUIT, 30,
+            "engulfing_dream", "집어삼키는 꿈", "최대 SP +4", 8,
+            new float[]{1.0f, 1.0f, 1.2f, 1.5f},
+            List.of(
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다.",
+                    "탈출하면 낮게 떠다니며, 몸에서 흩뿌린 빛무리에 닿은 직원은 잠들어 버린다.",
+                    "탈출한 꿈을 때리면 공허한 꿈-1로 변이한다. 수탉의 울음은 부서 전체의 정신력을 깎고, 잠든 직원을 패닉에 빠뜨린다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -199,7 +214,8 @@ public record AbnoProfile(
             Map.entry(LADY_FACING_THE_WALL.id, LADY_FACING_THE_WALL),
             Map.entry(CRUMBLING_ARMOR.id, CRUMBLING_ARMOR),
             Map.entry(OLD_LADY.id, OLD_LADY),
-            Map.entry(SPIDER_BUD.id, SPIDER_BUD)
+            Map.entry(SPIDER_BUD.id, SPIDER_BUD),
+            Map.entry(VOID_DREAM.id, VOID_DREAM)
     );
 
     public boolean canBreach() {

@@ -21,6 +21,8 @@ public class EmployeeData {
     public int regenTicks = 0;
     /** 요정의 축제 축복 남은 틱 (저장 안 함) */
     public int fairyTicks = 0;
+    /** 공허한 꿈의 빛무리에 닿아 잠든 남은 틱 (저장 안 함) */
+    public int sleepTicks = 0;
     public Set<String> gifts = new HashSet<>();
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -59,7 +61,8 @@ public class EmployeeData {
             java.util.Map.entry("screaming_wedge", new int[]{1, 2, 0, 0}),
             java.util.Map.entry("courage", new int[]{0, 0, 0, 10}),
             java.util.Map.entry("solitude", new int[]{0, 3, 0, 0}),
-            java.util.Map.entry("red_eyes", new int[]{0, 0, 3, 0})
+            java.util.Map.entry("red_eyes", new int[]{0, 0, 3, 0}),
+            java.util.Map.entry("engulfing_dream", new int[]{0, 4, 0, 0})
     );
 
     private int giftSum(int idx) {

@@ -10,6 +10,7 @@
   "entity.lobcorp.crumbling_armor": "Crumbling Armor",
   "entity.lobcorp.old_lady": "Old Lady",
   "entity.lobcorp.spider_bud": "Spider Bud",
+  "entity.lobcorp.void_dream": "Void Dream",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -31,5 +32,7 @@
   "item.lobcorp.solitude": "Solitude",
   "item.lobcorp.solitude_suit": "Solitude (Suit)",
   "item.lobcorp.red_eyes": "Red Eyes",
-  "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)"
+  "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)",
+  "item.lobcorp.engulfing_dream": "Engulfing Dream",
+  "item.lobcorp.engulfing_dream_suit": "Engulfing Dream (Suit)"
 }

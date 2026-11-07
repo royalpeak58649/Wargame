@@ -11,6 +11,7 @@ import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
+import kr.lobcorp.entity.VoidDreamEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -34,6 +35,7 @@ public final class ModEntities {
     public static EntityType<CrumblingArmorEntity> CRUMBLING_ARMOR;
     public static EntityType<OldLadyEntity> OLD_LADY;
     public static EntityType<SpiderBudEntity> SPIDER_BUD;
+    public static EntityType<VoidDreamEntity> VOID_DREAM;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -65,6 +67,8 @@ public final class ModEntities {
                 .sized(0.9f, 1.6f).clientTrackingRange(10));
         SPIDER_BUD = register("spider_bud", EntityType.Builder.of(SpiderBudEntity::new, MobCategory.MISC)
                 .sized(1.2f, 0.9f).clientTrackingRange(10));
+        VOID_DREAM = register("void_dream", EntityType.Builder.of(VoidDreamEntity::new, MobCategory.MISC)
+                .sized(0.9f, 0.9f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -77,5 +81,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(CRUMBLING_ARMOR, CrumblingArmorEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(OLD_LADY, OldLadyEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SPIDER_BUD, SpiderBudEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(VOID_DREAM, VoidDreamEntity.createAttributes());
     }
 }

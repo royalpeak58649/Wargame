@@ -6,6 +6,7 @@ import kr.lobcorp.work.Facility;
 import kr.lobcorp.work.WorkManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -55,8 +56,15 @@ public class LobCorp implements ModInitializer {
         ServerPlayerEvents.AFTER_RESPAWN.register((oldP, newP, alive) -> {
             WorkManager.clear(oldP);
             Employees.get(newP).fairyTicks = 0;
+            Employees.get(newP).sleepTicks = 0;
             Employees.apply(newP);
             Employees.restoreSp(newP);
+        });
+        // 잠든 직원은 피해를 받으면 깬다
+        ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p && Employees.get(p).sleepTicks > 0) {
+                Employees.wake(p, false);
+            }
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, env) -> LobCorpCommands.register(dispatcher));

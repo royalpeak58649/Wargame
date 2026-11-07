@@ -4,7 +4,7 @@ package kr.lobcorp.client;
 public final class ClientState {
     private ClientState() {}
 
-    public static int[] v = new int[13];
+    public static int[] v = new int[14];
     public static boolean received = false;
 
     public static int sp() { return v[0]; }
@@ -16,4 +16,5 @@ public final class ClientState {
     public static int good() { return v[10]; }
     public static int workType() { return v[11]; }
     public static int fairy() { return v.length > 12 ? v[12] : 0; }
+    public static int sleep() { return v.length > 13 ? v[13] : 0; }
 }

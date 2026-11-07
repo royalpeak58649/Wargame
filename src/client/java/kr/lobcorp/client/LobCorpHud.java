@@ -28,6 +28,10 @@ public final class LobCorpHud {
         }
         if (ClientState.fairy() > 0) {
             g.text(font, "요정의 축복 " + (ClientState.fairy() / 20 + 1) + "초 · 다른 환상체 작업 금지", x, line, 0xFF7CFFE0, true);
+            line += 10;
+        }
+        if (ClientState.sleep() > 0) {
+            g.text(font, "잠듦 " + (ClientState.sleep() / 20 + 1) + "초 · 피해를 받으면 깹니다", x, line, 0xFFC9C3E6, true);
         }
 
         // ── 작업 진행 ──

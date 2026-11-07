@@ -10,6 +10,7 @@ import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
+import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
@@ -19,6 +20,7 @@ import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
+import kr.lobcorp.entity.VoidDreamEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -218,6 +220,32 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(SpiderBudModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class VoidDream extends MobRenderer<VoidDreamEntity, VoidDreamModel.State, VoidDreamModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/void_dream.png");
+
+        public VoidDream(EntityRendererProvider.Context ctx) {
+            super(ctx, new VoidDreamModel(ctx.bakeLayer(VoidDreamModel.LAYER)), 0.3f);
+        }
+
+        @Override
+        public VoidDreamModel.State createRenderState() {
+            return new VoidDreamModel.State();
+        }
+
+        @Override
+        public void extractRenderState(VoidDreamEntity e, VoidDreamModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.rooster = e.isRooster();
+            if (s.breached) s.lightCoords = LightCoordsUtil.FULL_BRIGHT;
+        }
+
+        @Override
+        public Identifier getTextureLocation(VoidDreamModel.State s) {
             return TEX;
         }
     }
