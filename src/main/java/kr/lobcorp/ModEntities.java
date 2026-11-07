@@ -31,6 +31,7 @@ import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
+import kr.lobcorp.entity.QueenHatredEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.RudoltaEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -86,6 +87,7 @@ public final class ModEntities {
     public static EntityType<SchadenfreudeEntity> SCHADENFREUDE;
     public static EntityType<BigBirdEntity> BIG_BIRD;
     public static EntityType<JudgementBirdEntity> JUDGEMENT_BIRD;
+    public static EntityType<QueenHatredEntity> QUEEN_HATRED;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -169,6 +171,8 @@ public final class ModEntities {
                 .sized(1.6f, 3.0f).clientTrackingRange(10));
         JUDGEMENT_BIRD = register("judgement_bird", EntityType.Builder.of(JudgementBirdEntity::new, MobCategory.MISC)
                 .sized(0.8f, 3.2f).clientTrackingRange(10));
+        QUEEN_HATRED = register("queen_of_hatred", EntityType.Builder.of(QueenHatredEntity::new, MobCategory.MISC)
+                .sized(0.6f, 1.8f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -207,5 +211,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(SCHADENFREUDE, SchadenfreudeEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BIG_BIRD, BigBirdEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(JUDGEMENT_BIRD, JudgementBirdEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(QUEEN_HATRED, QueenHatredEntity.createAttributes());
     }
 }

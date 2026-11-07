@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lobcorp:item/love_and_hate_suit"
+  }
+}

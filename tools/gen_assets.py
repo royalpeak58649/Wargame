@@ -4988,6 +4988,275 @@ wjson("equipment/justitia.json", {"layers": {"humanoid": [{"texture": "lobcorp:j
 judgement_bird()
 print("assets judgement ok")
 
+
+# ═════════════ 34차: 증오의 여왕 (O-01-04) ═════════════
+def queen_of_hatred():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    dress = hexc("#ff8ac8")
+    dress_hi = hexc("#ffb0dc")
+    dress_dark = hexc("#d86aa4")
+    white = hexc("#fbf6fa")
+    white_shade = hexc("#e0d8e4")
+    skin = hexc("#fbe4d8")
+    skin_shade = hexc("#e0c4b8")
+    hair = hexc("#ffe080")
+    hair_dark = hexc("#d8b850")
+    bow = hexc("#ff5aa8")
+    bow_dark = hexc("#c03a78")
+    star = hexc("#ffe040")
+    star_hi = hexc("#fff6b0")
+    stick = hexc("#f0e0f0")
+    eye = hexc("#3a2a4a")
+
+    # 다리: 흰 부츠 (u0 v0, 2x8x2)
+    l = box(img, 0, 0, 2, 8, 2, white, 4)
+    lx, ly = l["front"]
+    for y in range(8):
+        px(img, lx, ly + y, white_shade if y % 3 == 0 else white)
+    for x in range(2):
+        px(img, lx + x, ly + 7, hexc("#c8b8cc"))
+
+    # 퍼프 드레스 (u0 v10, 8x6x6)
+    d = box(img, 0, 10, 8, 6, 6, dress, 6, top=dress_hi)
+    dx, dy = d["front"]
+    # 흰 레이스 단
+    for x in range(8):
+        px(img, dx + x, dy + 5, white)
+    for y in range(6):
+        px(img, dx + 3, dy + y, dress_dark)
+        px(img, dx + 4, dy + y, dress_dark)
+    for (x, y) in [(1, 1), (6, 2), (2, 3), (5, 4)]:
+        px(img, dx + x, dy + y, dress_hi)
+    for side in ("right", "left", "back"):
+        sx, sy = d[side]
+        for x in range(6):
+            px(img, sx + x, sy + 5, white)
+        for y in range(6):
+            if y % 2 == 0:
+                px(img, sx + 2, sy + y, dress_dark)
+
+    # 몸통 (u28 v10, 5x5x3)
+    b = box(img, 28, 10, 5, 5, 3, dress, 6)
+    bx, by = b["front"]
+    for x in range(5):
+        px(img, bx + x, by, white)
+    px(img, bx + 2, by + 2, bow)
+    px(img, bx + 2, by + 3, bow_dark)
+
+    # 팔 (u0 v22, 2x6x2)
+    a = box(img, 0, 22, 2, 6, 2, skin, 4)
+    ax, ay = a["front"]
+    for y in range(6):
+        px(img, ax, ay + y, skin_shade if y % 3 == 0 else skin)
+    for x in range(2):
+        px(img, ax + x, ay + 5, skin_shade)
+
+    # 머리 (u0 v32, 6x6x6)
+    h = box(img, 0, 32, 6, 6, 6, skin, 4, top=hair)
+    hx, hy = h["front"]
+    # 반짝이는 눈
+    px(img, hx + 1, hy + 2, eye)
+    px(img, hx + 4, hy + 2, eye)
+    px(img, hx + 1, hy + 1, hair_dark)
+    px(img, hx + 4, hy + 1, hair_dark)
+    # 웃는 입
+    for x in (2, 3):
+        px(img, hx + x, hy + 4, hexc("#c86a7a"))
+    px(img, hx + 1, hy + 3, hexc("#c86a7a"))
+    px(img, hx + 4, hy + 3, hexc("#c86a7a"))
+    # 볼터치
+    px(img, hx, hy + 3, hexc("#f0a0a8"))
+    px(img, hx + 5, hy + 3, hexc("#f0a8b0"))
+    # 앞머리
+    for x in range(6):
+        px(img, hx + x, hy, hair)
+    for x in (0, 2, 5):
+        px(img, hx + x, hy + 1, hair_dark)
+    for side in ("right", "left"):
+        sx, sy = h[side]
+        for y in range(6):
+            px(img, sx + 2, sy + y, hair if y < 4 else hair_dark)
+
+    # 트윈테일 (u24 v32, 2x8x2)
+    t = box(img, 24, 32, 2, 8, 2, hair, 6, top=hexc("#fff0b0"))
+    tx, ty = t["front"]
+    for y in range(8):
+        px(img, tx, ty + y, hair_dark if y % 3 == 0 else hair)
+        px(img, tx + 1, ty + y, hair if y % 4 == 0 else hair_dark)
+    for x in range(2):
+        px(img, tx + x, ty + 7, hair_dark)
+
+    # 큰 리본 (u32 v32, 8x3x2)
+    bw = box(img, 32, 32, 8, 3, 2, bow, 6, top=hexc("#ff9ac8"))
+    bwx, bwy = bw["front"]
+    for x in range(8):
+        px(img, bwx + x, bwy + 1, bow_dark if x % 2 == 0 else bow)
+    px(img, bwx + 3, bwy, bow_dark)
+    px(img, bwx + 4, bwy, bow_dark)
+    for x in range(8):
+        px(img, bwx + x, bwy + 2, bow_dark)
+
+    # 지팡이 자루 (u44 v0, 1x6x1)
+    st = box(img, 44, 0, 1, 6, 1, stick, 4)
+    stx, sty = st["front"]
+    for y in range(6):
+        px(img, stx, sty + y, hexc("#d8c8dc") if y % 2 == 0 else stick)
+
+    # 별 (u48 v0, 3x3x1)
+    sr = box(img, 48, 0, 3, 3, 1, star, 4, top=star_hi)
+    srx, sry = sr["front"]
+    px(img, srx + 1, sry, star_hi)
+    px(img, srx, sry + 1, star_hi)
+    px(img, srx + 2, sry + 1, star_hi)
+    px(img, srx + 1, sry + 2, star_hi)
+    px(img, srx + 1, sry + 1, hexc("#e0a020"))
+
+    # ── 뱀 ──
+    snake = hexc("#1a0a20")
+    snake_hi = hexc("#2a1030")
+    snake_dark = hexc("#0a040e")
+    crack = hexc("#c030c0")
+    crack_hi = hexc("#ff70ff")
+    eye_m = hexc("#ff30d0")
+    eye_hi = hexc("#ffb0f0")
+    fang = hexc("#f4f0f4")
+    maw = hexc("#3a0a2a")
+
+    # 몸통 마디 (u0 v44, 6x6x6)
+    sg = box(img, 0, 44, 6, 6, 6, snake, 4, top=snake_hi)
+    sgx, sgy = sg["front"]
+    # 마젠타 균열
+    for (x, y) in [(1, 1), (2, 1), (2, 2), (4, 3), (5, 3), (5, 4), (0, 4), (3, 5)]:
+        px(img, sgx + x, sgy + y, crack)
+    for (x, y) in [(2, 2), (5, 4)]:
+        px(img, sgx + x, sgy + y, crack_hi)
+    for x in range(6):
+        px(img, sgx + x, sgy + 5, snake_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = sg[side]
+        for y in range(6):
+            for x in range(6):
+                if (x * 3 + y * 5) % 7 == 0:
+                    px(img, sx + x, sy + y, crack)
+                elif (x + y) % 5 == 0:
+                    px(img, sx + x, sy + y, snake_hi)
+        for x in range(6):
+            px(img, sx + x, sy + 5, snake_dark)
+    tx, ty = sg["top"]
+    for x in range(6):
+        for y in range(6):
+            if (x * 5 + y * 3) % 9 == 0:
+                px(img, tx + x, ty + y, crack)
+            elif (x + y) % 4 == 0:
+                px(img, tx + x, ty + y, snake_hi)
+
+    # 뱀 머리 (u24 v44, 8x7x8)
+    sh = box(img, 24, 44, 8, 7, 8, snake, 4, top=snake_hi)
+    shx, shy = sh["front"]
+    # 빛나는 마젠타 눈
+    for (x, y) in [(1, 2), (2, 2), (1, 3), (2, 3)]:
+        px(img, shx + x, shy + y, eye_m)
+    for (x, y) in [(5, 2), (6, 2), (5, 3), (6, 3)]:
+        px(img, shx + x, shy + y, eye_m)
+    px(img, shx + 1, shy + 2, eye_hi)
+    px(img, shx + 6, shy + 2, eye_hi)
+    # 머리 균열
+    for (x, y) in [(3, 1), (4, 1), (3, 5), (4, 5), (0, 4), (7, 4)]:
+        px(img, shx + x, shy + y, crack)
+    for x in range(8):
+        px(img, shx + x, shy + 6, snake_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = sh[side]
+        for y in range(7):
+            for x in range(8):
+                if (x * 3 + y) % 8 == 0:
+                    px(img, sx + x, sy + y, crack)
+                elif (x + y) % 6 == 0:
+                    px(img, sx + x, sy + y, snake_hi)
+        for x in range(8):
+            px(img, sx + x, sy + 6, snake_dark)
+    tx, ty = sh["top"]
+    for x in range(8):
+        for y in range(8):
+            if (x + y * 2) % 7 == 0:
+                px(img, tx + x, ty + y, crack)
+            elif (x * 3 + y) % 11 == 0:
+                px(img, tx + x, ty + y, snake_hi)
+
+    # 아가리 (u24 v52, 6x2x8) — 64x64 텍스처의 아래 경계에 걸치지 않도록 v를 올린다
+    j = box(img, 24, 52, 6, 2, 8, maw, 4)
+    jx, jy = j["front"]
+    for x in range(6):
+        px(img, jx + x, jy, fang if x % 2 == 0 else maw)
+        px(img, jx + x, jy + 1, hexc("#1a0410"))
+    for side in ("right", "left", "back"):
+        sx, sy = j[side]
+        for x in range(8):
+            px(img, sx + x, sy, fang if x % 3 == 0 else maw)
+            px(img, sx + x, sy + 1, hexc("#1a0410"))
+
+    save(img, "textures/entity/queen_of_hatred.png")
+
+
+queen_of_hatred()
+print("assets queen ok")
+
+LH = {"p": "#ff8ac8", "h": "#ffb0dc", "d": "#d86aa4", "w": "#fbf6fa", "y": "#ffe040", "s": "#f0e0f0"}
+icon([
+    "................",
+    "..............yy",
+    ".............yy.",
+    "............yy..",
+    "...........yy...",
+    "..........yy....",
+    ".........yy.....",
+    "........ss......",
+    ".......ss.......",
+    "......ss........",
+    ".....ss.........",
+    "....ss..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], LH, "textures/item/love_and_hate.png")
+icon([
+    "................",
+    "...pp......pp...",
+    "..pppp....pppp..",
+    "..pppppppppppp..",
+    "...pppppppppp...",
+    "....ppwwwwpp....",
+    "....ppwwwwpp....",
+    "....ppwwwwpp....",
+    "....ppwwwwpp....",
+    "....pppppppp....",
+    "....ppyyyypp....",
+    "....pppppppp....",
+    "....pppppppp....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], LH, "textures/item/love_and_hate_suit.png")
+
+armor(hexc("#ff8ac8"), "#d86aa4", "#fbf6fa", "textures/entity/equipment/humanoid/love_and_hate.png")
+
+for item, parent in [("love_and_hate", "minecraft:item/handheld"),
+                     ("love_and_hate_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/love_and_hate.json", {"layers": {"humanoid": [{"texture": "lobcorp:love_and_hate"}]}})
+
+merge_lang({
+    "entity.lobcorp.queen_of_hatred": "증오의 여왕",
+    "item.lobcorp.love_and_hate": "사랑과 증오의 이름으로",
+    "item.lobcorp.love_and_hate_suit": "사랑과 증오의 드레스",
+}, {
+    "entity.lobcorp.queen_of_hatred": "Queen of Hatred",
+    "item.lobcorp.love_and_hate": "In the Name of Love and Hate",
+    "item.lobcorp.love_and_hate_suit": "Love and Hate Dress",
+})
+
 merge_lang({
     "entity.lobcorp.judgement_bird": "심판 새",
     "item.lobcorp.justitia": "유스티티아",

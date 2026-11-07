@@ -97,5 +97,8 @@
   "item.lobcorp.lamp_suit": "Lamp Garb",
   "entity.lobcorp.judgement_bird": "Judgement Bird",
   "item.lobcorp.justitia": "Justitia",
-  "item.lobcorp.justitia_suit": "Justitia Garb"
+  "item.lobcorp.justitia_suit": "Justitia Garb",
+  "entity.lobcorp.queen_of_hatred": "Queen of Hatred",
+  "item.lobcorp.love_and_hate": "In the Name of Love and Hate",
+  "item.lobcorp.love_and_hate_suit": "Love and Hate Dress"
 }

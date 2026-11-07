@@ -548,6 +548,21 @@ public record AbnoProfile(
                     "직원이 다섯 명 죽을 때마다 카운터가 1 감소한다. 다른 환상체 세 개가 동시에 탈출하면 스스로 격리실을 나온다."
             ));
 
+    public static final AbnoProfile QUEEN_HATRED = new AbnoProfile(
+            "queen_of_hatred", "증오의 여왕", "O-01-04", "WAW", 0xAA55FF,
+            new int[]{30, 45, 50, 20}, 22, 16, 10,
+            DamageColor.BLACK, 3, 5,
+            2,
+            () -> ModItems.LOVE_AND_HATE, 70,
+            () -> ModItems.LOVE_AND_HATE_SUIT, 60,
+            "love_and_hate", "사랑과 증오의 이름으로", "작업 성공률 +2%, 작업 속도 +2%, 이동 속도 +4%", 3,
+            new float[]{0.7f, 1.2f, 0.3f, 1.5f},
+            List.of(
+                    "분홍빛 드레스를 입은 마법소녀. 별 지팡이를 들고 웃고 있지만, 그 웃음은 오래가지 않는다.",
+                    "작업 결과가 나쁨이면 클리포트 카운터가 1 감소한다. 카운터가 1이 되면 그녀는 히스테리에 빠져 작업 성공률이 20% 떨어진다.",
+                    "히스테리 상태에서 작업을 마쳤을 때 PE-BOX가 16개 이상이면 카운터가 1 회복되고, 그렇지 않으면 1 감소한다. 0이 되면 거대한 검은 뱀이 되어 시설을 옮겨 다니며 레이저를 쏜다."
+            ));
+
     public static final AbnoProfile JUDGEMENT_BIRD = new AbnoProfile(
             "judgement_bird", "심판 새", "O-02-62", "WAW", 0xAA55FF,
             new int[]{20, 20, 20, 0}, 24, 13, 7,
@@ -566,6 +581,7 @@ public record AbnoProfile(
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(BIG_BIRD.id, BIG_BIRD),
             Map.entry(JUDGEMENT_BIRD.id, JUDGEMENT_BIRD),
+            Map.entry(QUEEN_HATRED.id, QUEEN_HATRED),
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
             Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),

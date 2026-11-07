@@ -23,6 +23,7 @@ import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PortraitModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
+import kr.lobcorp.client.model.QueenHatredModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.RudoltaModel;
 import kr.lobcorp.client.model.ScarecrowModel;
@@ -58,6 +59,7 @@ import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
+import kr.lobcorp.entity.QueenHatredEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.RudoltaEntity;
 import kr.lobcorp.entity.ScarecrowEntity;
@@ -903,6 +905,33 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(JudgementBirdModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class QueenHatred extends MobRenderer<QueenHatredEntity, QueenHatredModel.State, QueenHatredModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/queen_of_hatred.png");
+
+        public QueenHatred(EntityRendererProvider.Context ctx) {
+            super(ctx, new QueenHatredModel(ctx.bakeLayer(QueenHatredModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public QueenHatredModel.State createRenderState() {
+            return new QueenHatredModel.State();
+        }
+
+        @Override
+        public void extractRenderState(QueenHatredEntity e, QueenHatredModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.hysteric = e.isHysteric();
+            s.laser = e.getLaserTicks() > 0;
+            if (s.breached) s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 뱀의 눈과 균열이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(QueenHatredModel.State s) {
             return TEX;
         }
     }

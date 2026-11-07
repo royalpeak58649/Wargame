@@ -317,7 +317,8 @@ public final class WorkManager {
             () -> ModItems.SOLEMN_LAMENT_SUIT,
             () -> ModItems.GAZE_SUIT,
             () -> ModItems.LAMP_SUIT,
-            () -> ModItems.JUSTITIA_SUIT);
+            () -> ModItems.JUSTITIA_SUIT,
+            () -> ModItems.LOVE_AND_HATE_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.REGRET_SUIT,
@@ -338,7 +339,8 @@ public final class WorkManager {
             () -> ModItems.CHRISTMAS_SUIT,
             () -> ModItems.GAZE_SUIT,
             () -> ModItems.LAMP_SUIT,
-            () -> ModItems.JUSTITIA_SUIT);
+            () -> ModItems.JUSTITIA_SUIT,
+            () -> ModItems.LOVE_AND_HATE_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.FROST_SPLINTER_SUIT,
@@ -350,7 +352,8 @@ public final class WorkManager {
             () -> ModItems.SYRINX_SUIT,
             () -> ModItems.SOLEMN_LAMENT_SUIT,
             () -> ModItems.LAMP_SUIT,
-            () -> ModItems.JUSTITIA_SUIT);
+            () -> ModItems.JUSTITIA_SUIT,
+            () -> ModItems.LOVE_AND_HATE_SUIT);
 
     static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
         for (var s : suits) if (wearing(p, s.get())) return true;

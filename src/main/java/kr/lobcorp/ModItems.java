@@ -60,6 +60,7 @@ public final class ModItems {
     public static final ArmorMaterial GAZE_MAT = material("gaze", 6);
     public static final ArmorMaterial LAMP_MAT = material("lamp", 7);
     public static final ArmorMaterial JUSTITIA_MAT = material("justitia", 9);
+    public static final ArmorMaterial LOVE_AND_HATE_MAT = material("love_and_hate", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -125,6 +126,8 @@ public final class ModItems {
     public static Item LAMP_SUIT;
     public static Item JUSTITIA;
     public static Item JUSTITIA_SUIT;
+    public static Item LOVE_AND_HATE;
+    public static Item LOVE_AND_HATE_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -314,6 +317,10 @@ public final class ModItems {
                 "O-02-62 · WAW", "PALE 피해 대형 둔기", "금빛 저울이 매달린 둔기. 휘두를 때마다 접시가 조용히 흔들린다.");
         JUSTITIA_SUIT = suit("justitia_suit", JUSTITIA_MAT,
                 "O-02-62 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
+        LOVE_AND_HATE = weapon("love_and_hate", DamageColor.BLACK, 5.0, -2.0,
+                "O-01-04 · WAW", "BLACK 피해 지팡이", "별이 달린 분홍 지팡이. 휘두를 때마다 반짝이는 가루가 흩날린다.");
+        LOVE_AND_HATE_SUIT = suit("love_and_hate_suit", LOVE_AND_HATE_MAT,
+                "O-01-04 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -327,6 +334,7 @@ public final class ModItems {
                 GRINDER, GRINDER_SUIT, OUR_GALAXY, OUR_GALAXY_SUIT, MAGIC_BULLET, MAGIC_BULLET_SUIT,
                 SYRINX, SYRINX_SUIT, FROST_SPLINTER, FROST_SPLINTER_SUIT, LOGGING, LOGGING_SUIT,
                 HARVEST, HARVEST_SUIT, CHRISTMAS, CHRISTMAS_SUIT, SOLEMN_LAMENT, SOLEMN_LAMENT_SUIT,
-                GAZE, GAZE_SUIT, LAMP, LAMP_SUIT, JUSTITIA, JUSTITIA_SUIT);
+                GAZE, GAZE_SUIT, LAMP, LAMP_SUIT, JUSTITIA, JUSTITIA_SUIT,
+                LOVE_AND_HATE, LOVE_AND_HATE_SUIT);
     }
 }

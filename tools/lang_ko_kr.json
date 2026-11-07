@@ -97,5 +97,8 @@
   "item.lobcorp.lamp_suit": "램프의 옷",
   "entity.lobcorp.judgement_bird": "심판 새",
   "item.lobcorp.justitia": "유스티티아",
-  "item.lobcorp.justitia_suit": "유스티티아의 옷"
+  "item.lobcorp.justitia_suit": "유스티티아의 옷",
+  "entity.lobcorp.queen_of_hatred": "증오의 여왕",
+  "item.lobcorp.love_and_hate": "사랑과 증오의 이름으로",
+  "item.lobcorp.love_and_hate_suit": "사랑과 증오의 드레스"
 }
