@@ -148,7 +148,7 @@ public final class WorkManager {
         switch (prof.workDamage()) {
             case WHITE -> {
                 if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)
-                        || wearing(p, ModItems.SCREAMING_WEDGE_SUIT)) dmg--;
+                        || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
@@ -206,6 +206,15 @@ public final class WorkManager {
         }
         p.level().playSound(null, p.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.PLAYERS, 0.5f, 1.4f);
         Employees.sync(p);
+
+        // 다른 환상체들에게 작업 완료를 알린다 (목록을 먼저 모은 뒤 호출)
+        java.util.List<AbnormalityEntity> others = new ArrayList<>();
+        for (Entity e : p.level().getAllEntities()) {
+            if (e instanceof AbnormalityEntity other && other != a) others.add(other);
+        }
+        for (AbnormalityEntity other : others) {
+            if (other.isAlive()) other.onOtherWorkFinished(p, a, r);
+        }
     }
 
     /** 패닉/사망 등으로 작업 중단. 이미 생산한 PE는 반영 */

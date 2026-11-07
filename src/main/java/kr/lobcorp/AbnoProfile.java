@@ -158,6 +158,21 @@ public record AbnoProfile(
                     "「용기」를 가진 직원이 어떤 환상체든 애착 작업을 하면 죽는다."
             ));
 
+    public static final AbnoProfile OLD_LADY = new AbnoProfile(
+            "old_lady", "늙은 여인", "O-01-12", "TETH", 0x5599FF,
+            new int[]{30, 50, 65, 30}, 14, 10, 6,
+            DamageColor.WHITE, 1, 3,
+            4,
+            () -> ModItems.SOLITUDE, 25,
+            () -> ModItems.SOLITUDE_SUIT, 30,
+            "solitude", "고독", "최대 SP +3", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "다른 환상체의 작업이 끝날 때마다 클리포트 카운터가 1 감소한다.",
+                    "자신의 작업 결과가 좋음이나 보통이면 카운터가 1 회복된다 (최대 4).",
+                    "카운터가 0이 되면 격리실이 고독으로 가득 찬다. 작업 성공률 -20%, 실패 피해 2배, 작업 시작 시 SP가 깎인다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -167,7 +182,8 @@ public record AbnoProfile(
             Map.entry(PUNISHING_BIRD.id, PUNISHING_BIRD),
             Map.entry(TODAYS_SHY_LOOK.id, TODAYS_SHY_LOOK),
             Map.entry(LADY_FACING_THE_WALL.id, LADY_FACING_THE_WALL),
-            Map.entry(CRUMBLING_ARMOR.id, CRUMBLING_ARMOR)
+            Map.entry(CRUMBLING_ARMOR.id, CRUMBLING_ARMOR),
+            Map.entry(OLD_LADY.id, OLD_LADY)
     );
 
     public boolean canBreach() {

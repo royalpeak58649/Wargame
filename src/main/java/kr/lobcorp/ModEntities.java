@@ -6,6 +6,7 @@ import kr.lobcorp.entity.ForsakenMurdererEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
+import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -30,6 +31,7 @@ public final class ModEntities {
     public static EntityType<TodaysShyLookEntity> TODAYS_SHY_LOOK;
     public static EntityType<LadyFacingTheWallEntity> LADY_FACING_THE_WALL;
     public static EntityType<CrumblingArmorEntity> CRUMBLING_ARMOR;
+    public static EntityType<OldLadyEntity> OLD_LADY;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -57,6 +59,8 @@ public final class ModEntities {
                 .sized(0.8f, 1.9f).clientTrackingRange(10));
         CRUMBLING_ARMOR = register("crumbling_armor", EntityType.Builder.of(CrumblingArmorEntity::new, MobCategory.MISC)
                 .sized(1.0f, 1.9f).clientTrackingRange(10));
+        OLD_LADY = register("old_lady", EntityType.Builder.of(OldLadyEntity::new, MobCategory.MISC)
+                .sized(0.9f, 1.6f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -67,5 +71,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(TODAYS_SHY_LOOK, TodaysShyLookEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(LADY_FACING_THE_WALL, LadyFacingTheWallEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRUMBLING_ARMOR, CrumblingArmorEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(OLD_LADY, OldLadyEntity.createAttributes());
     }
 }

@@ -67,6 +67,9 @@ public abstract class AbnormalityEntity extends PathfinderMob {
 
     public void onWorkFinished(ServerPlayer worker, WorkManager.Result result, WorkSession session) {}
 
+    /** 다른 환상체의 작업이 끝났을 때 (자신이 대상이 아닌 경우) */
+    public void onOtherWorkFinished(ServerPlayer worker, AbnormalityEntity other, WorkManager.Result result) {}
+
     /** 작업 성공률 보정 (퍼센트 포인트). 오늘의 수줍은 표정 등 */
     public int workChanceBonus(ServerPlayer worker, WorkType type) {
         return 0;

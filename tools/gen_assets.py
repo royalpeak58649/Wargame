@@ -1209,3 +1209,199 @@ wjson("lang/en_us.json", {
 
 crumbling_armor()
 print("assets armor ok")
+
+
+# ═════════════ 7차: 늙은 여인 (O-01-12) ═════════════
+def old_lady():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    skin = hexc("#e6e1d8")
+    bonnet = hexc("#f2f0ea")
+    blouse = hexc("#6e5a7e")
+    skirt = hexc("#5a6e8a")
+    wood = hexc("#6b4a2a")
+    wood_dark = hexc("#4a3220")
+    black = hexc("#141212")
+
+    # 의자 좌판 (u0 v0, 8x1x8)
+    s = box(img, 0, 0, 8, 1, 8, wood, 8, top=hexc("#7d5a36"))
+    sx, sy = s["front"]
+    for x in range(8):
+        px(img, sx + x, sy, wood_dark)
+    # 등받이 (u0 v9, 8x12x1)
+    b = box(img, 0, 9, 8, 12, 1, wood, 8)
+    bx, by = b["front"]
+    for y in range(12):
+        px(img, bx + 3, by + y, wood_dark)
+        px(img, bx + 4, by + y, wood_dark)
+    for x in range(8):
+        px(img, bx + x, by + 5, wood_dark)
+    # 다리 (u18 v9, 1x7x1)
+    box(img, 18, 9, 1, 7, 1, wood_dark, 6)
+    box(img, 22, 9, 1, 7, 1, wood_dark, 6)
+    # 휘어진 발판 (u26 v9, 1x2x10)
+    r = box(img, 26, 9, 1, 2, 10, wood, 8)
+    rx, ry = r["front"]
+    for y in range(2):
+        px(img, rx, ry + y, wood_dark)
+
+    # 머리 (u0 v24, 6x6x6)
+    h = box(img, 0, 24, 6, 6, 6, skin, 5)
+    hx, hy = h["front"]
+    # 꺼진 검은 눈
+    px(img, hx + 1, hy + 2, black); px(img, hx + 2, hy + 2, black)
+    px(img, hx + 3, hy + 2, black); px(img, hx + 4, hy + 2, black)
+    px(img, hx + 1, hy + 3, hexc("#3a3430")); px(img, hx + 4, hy + 3, hexc("#3a3430"))
+    # 깊은 주름
+    for x in range(6):
+        px(img, hx + x, hy + 4, hexc("#cfc8bc"))
+    for (x, y) in [(1, 1), (4, 1), (2, 5), (3, 5)]:
+        px(img, hx + x, hy + y, hexc("#d6d0c4"))
+    # 보닛 (u24 v24, 7x3x7)
+    bn = box(img, 24, 24, 7, 3, 7, bonnet, 4, top=hexc("#fbfaf6"))
+    bnx, bny = bn["front"]
+    for x in range(7):
+        px(img, bnx + x, bny + 2, hexc("#dcd8ce"))
+    for y in range(3):
+        px(img, bnx, bny + y, hexc("#dcd8ce"))
+        px(img, bnx + 6, bny + y, hexc("#dcd8ce"))
+
+    # 몸통: 바랜 보랏빛 블라우스 (u0 v36, 6x7x4)
+    bo = box(img, 0, 36, 6, 7, 4, blouse, 6)
+    box_, boy = bo["front"]
+    for y in range(7):
+        px(img, box_ + 2, boy + y, hexc("#5a4868"))
+        px(img, box_ + 3, boy + y, hexc("#5a4868"))
+    for x in range(6):
+        px(img, box_ + x, boy + 6, hexc("#4a3a56"))
+    # 무릎: 바랜 푸른 치마 (u20 v36, 6x2x5)
+    th = box(img, 20, 36, 6, 2, 5, skirt, 6)
+    thx, thy = th["front"]
+    for x in range(6):
+        px(img, thx + x, thy + 1, hexc("#46586e"))
+    # 정강이 (u36 v36, 2x6x2)
+    sh = box(img, 36, 36, 2, 6, 2, hexc("#3a3a44"), 5)
+    shx, shy = sh["front"]
+    for y in range(6):
+        px(img, shx, shy + y, hexc("#2a2a32"))
+    # 팔: 무릎 위에 얹은 손 (u44 v36, 1x6x2)
+    a = box(img, 44, 36, 1, 6, 2, blouse, 6)
+    ax, ay = a["front"]
+    for y in range(6):
+        px(img, ax, ay + y, hexc("#5a4868"))
+    px(img, ax, ay + 5, skin)
+
+    save(img, "textures/entity/old_lady.png")
+
+
+SL = {"s": "#8a9bb8", "l": "#c3cfe0", "d": "#4a5a72", "h": "#2a2a32", "k": "#141212"}
+icon([
+    "................",
+    "..............ll",
+    ".............ll.",
+    "............ll..",
+    "...........ll...",
+    "..........ll....",
+    ".........ll.....",
+    "........ll......",
+    ".......ll.......",
+    "......ll........",
+    ".....ll.........",
+    "....ll..........",
+    "...ss...........",
+    "..ss............",
+    "..h.............",
+    "................",
+], SL, "textures/item/solitude.png")
+icon([
+    "................",
+    "...dd......dd...",
+    "..dddd....dddd..",
+    "..dddddddddddd..",
+    "...dddddddddd...",
+    "....ddssssdd....",
+    "....ddssssdd....",
+    "....ddssssdd....",
+    "....ddssssdd....",
+    "....dddddddd....",
+    "....ddlllldd....",
+    "....dddddddd....",
+    "....dddddddd....",
+    ".....hhhhhh.....",
+    "................",
+    "................",
+], SL, "textures/item/solitude_suit.png")
+
+armor(hexc("#4a5a72"), "#2a2a32", "#8a9bb8", "textures/entity/equipment/humanoid/solitude.png")
+
+for item, parent in [("solitude", "minecraft:item/handheld"), ("solitude_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/solitude.json", {"layers": {"humanoid": [{"texture": "lobcorp:solitude"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
+    "entity.lobcorp.old_lady": "늙은 여인",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+    "item.lobcorp.daredevil": "만용",
+    "item.lobcorp.daredevil_suit": "만용 (방어구)",
+    "item.lobcorp.solitude": "고독",
+    "item.lobcorp.solitude_suit": "고독 (방어구)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "entity.lobcorp.crumbling_armor": "Crumbling Armor",
+    "entity.lobcorp.old_lady": "Old Lady",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+    "item.lobcorp.daredevil": "Daredevil",
+    "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
+    "item.lobcorp.solitude": "Solitude",
+    "item.lobcorp.solitude_suit": "Solitude (Suit)",
+})
+
+old_lady()
+print("assets oldlady ok")

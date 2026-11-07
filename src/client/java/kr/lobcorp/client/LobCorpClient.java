@@ -35,6 +35,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.LADY_FACING_THE_WALL, kr.lobcorp.client.render.NewAbnoRenderers.WallLady::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CrumblingArmorModel.LAYER, kr.lobcorp.client.model.CrumblingArmorModel::createLayer);
         EntityRendererRegistry.register(ModEntities.CRUMBLING_ARMOR, kr.lobcorp.client.render.NewAbnoRenderers.Armor::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.OldLadyModel.LAYER, kr.lobcorp.client.model.OldLadyModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.OLD_LADY, kr.lobcorp.client.render.NewAbnoRenderers.OldLady::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

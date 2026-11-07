@@ -5,6 +5,7 @@ import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
+import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
@@ -12,6 +13,7 @@ import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
+import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -166,6 +168,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class OldLady extends MobRenderer<OldLadyEntity, OldLadyModel.State, OldLadyModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/old_lady.png");
+
+        public OldLady(EntityRendererProvider.Context ctx) {
+            super(ctx, new OldLadyModel(ctx.bakeLayer(OldLadyModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public OldLadyModel.State createRenderState() {
+            return new OldLadyModel.State();
+        }
+
+        @Override
+        public void extractRenderState(OldLadyEntity e, OldLadyModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.solitude = e.isSolitude();
+        }
+
+        @Override
+        public Identifier getTextureLocation(OldLadyModel.State s) {
             return TEX;
         }
     }
