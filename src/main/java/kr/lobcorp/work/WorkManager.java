@@ -141,7 +141,8 @@ public final class WorkManager {
         if (!near) actionbar(p, red("환상체와 너무 멀리 떨어져 있습니다!"));
         switch (prof.workDamage()) {
             case WHITE -> {
-                if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)) dmg--;
+                if (wearing(p, ModItems.PENITENCE_SUIT) || wearing(p, ModItems.BEAR_PAWS_SUIT)
+                        || wearing(p, ModItems.SCREAMING_WEDGE_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);

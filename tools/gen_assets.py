@@ -847,3 +847,167 @@ wjson("lang/en_us.json", {
 
 todays_shy_look()
 print("assets shy ok")
+
+
+# ═════════════ 5차: 벽을 보는 여자 (F-01-18) ═════════════
+def lady_facing_the_wall():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    skin = hexc("#e8e4dc")
+    hair = hexc("#0b0b0d")
+    strand = hexc("#1d1d22")
+
+    # 몸통 (u0 v0, 6x11x3)
+    b = box(img, 0, 0, 6, 11, 3, skin, 5)
+    bx, by = b["front"]
+    # 낡은 원피스 자락
+    for y in range(6, 11):
+        for x in range(6):
+            px(img, bx + x, by + y, jitter(hexc("#3a3a40"), 6))
+    for x in range(6):
+        px(img, bx + x, by + 6, hexc("#55555e"))
+
+    # 머리 (u24 v0, 6x7x6)
+    h = box(img, 24, 0, 6, 7, 6, skin, 5)
+    hx, hy = h["front"]
+    # 얼굴은 보이지 않는다 — 앞면은 전부 머리카락
+    for y in range(7):
+        for x in range(6):
+            px(img, hx + x, hy + y, jitter(hair, 6))
+    for y in range(7):
+        px(img, hx + 1, hy + y, strand)
+        px(img, hx + 4, hy + y, strand)
+
+    # 뒤로 늘어진 긴 머리 (u0 v32, 8x22x2)
+    hb = box(img, 0, 32, 8, 22, 2, hair, 6)
+    hbx, hby = hb["front"]
+    for y in range(22):
+        if y % 3 == 0:
+            for x in range(8):
+                px(img, hbx + x, hby + y, strand)
+    for x in (1, 4, 6):
+        for y in range(22):
+            px(img, hbx + x, hby + y, jitter(strand, 4))
+
+    # 옆으로 흘러내리는 머리 (u20 v32, 1x16x7)
+    hs = box(img, 20, 32, 1, 16, 7, hair, 6)
+    hsx, hsy = hs["front"]
+    for y in range(16):
+        px(img, hsx, hsy + y, strand)
+
+    # 팔 (u36 v32, 2x11x2)
+    a = box(img, 36, 32, 2, 11, 2, skin, 5)
+    ax, ay = a["front"]
+    for y in range(11):
+        px(img, ax, ay + y, hexc("#d8d3c8"))
+        px(img, ax + 1, ay + y, hexc("#d8d3c8"))
+
+    # 다리 (u44 v32, 2x12x2)
+    l = box(img, 44, 32, 2, 12, 2, hexc("#2a2a30"), 5)
+    lx, ly = l["front"]
+    for y in range(12):
+        px(img, lx, ly + y, hexc("#1a1a1f"))
+
+    save(img, "textures/entity/lady_facing_the_wall.png")
+
+
+SW = {"p": "#e8e4dc", "s": "#c9c4b8", "d": "#8a857a", "k": "#0b0b0d", "h": "#1d1d22"}
+icon([
+    "................",
+    "..............p.",
+    ".............pp.",
+    "............pp..",
+    "...........pp...",
+    "..........pp....",
+    ".........pp.....",
+    "........pp......",
+    ".......pp.......",
+    "......pp........",
+    ".....pp.........",
+    "....pp..........",
+    "...pp...........",
+    "..pp............",
+    ".pp.............",
+    "................",
+], SW, "textures/item/screaming_wedge.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkppppkk....",
+    "....kkppppkk....",
+    "....kkppppkk....",
+    "....kkppppkk....",
+    "....kkkkkkkk....",
+    "....kkppppkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....hhhhhh.....",
+    "................",
+    "................",
+], SW, "textures/item/screaming_wedge_suit.png")
+
+armor(hexc("#0b0b0d"), "#1d1d22", "#e8e4dc", "textures/entity/equipment/humanoid/screaming_wedge.png")
+
+for item, parent in [("screaming_wedge", "minecraft:item/handheld"),
+                     ("screaming_wedge_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/screaming_wedge.json", {"layers": {"humanoid": [{"texture": "lobcorp:screaming_wedge"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+})
+
+lady_facing_the_wall()
+print("assets wall ok")

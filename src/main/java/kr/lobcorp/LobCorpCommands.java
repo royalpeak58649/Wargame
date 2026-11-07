@@ -33,7 +33,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("happy_teddy_bear").executes(c -> build(c, ModEntities.HAPPY_TEDDY, false)))
                         .then(Commands.literal("fairy_festival").executes(c -> build(c, ModEntities.FAIRY_FESTIVAL, false)))
                         .then(Commands.literal("punishing_bird").executes(c -> build(c, ModEntities.PUNISHING_BIRD, false)))
-                        .then(Commands.literal("todays_shy_look").executes(c -> build(c, ModEntities.TODAYS_SHY_LOOK, false))))
+                        .then(Commands.literal("todays_shy_look").executes(c -> build(c, ModEntities.TODAYS_SHY_LOOK, false)))
+                        .then(Commands.literal("lady_facing_the_wall").executes(c -> build(c, ModEntities.LADY_FACING_THE_WALL, true))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());

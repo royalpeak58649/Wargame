@@ -6,6 +6,7 @@
   "entity.lobcorp.fairy_festival": "Fairy Festival",
   "entity.lobcorp.punishing_bird": "Punishing Bird",
   "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+  "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -19,5 +20,7 @@
   "item.lobcorp.beak": "Beak",
   "item.lobcorp.beak_suit": "Beak (Suit)",
   "item.lobcorp.todays_expression": "Today's Expression",
-  "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)"
+  "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+  "item.lobcorp.screaming_wedge": "Screaming Wedge",
+  "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)"
 }

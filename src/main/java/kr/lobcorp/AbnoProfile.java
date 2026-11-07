@@ -128,14 +128,30 @@ public record AbnoProfile(
                     "격리실을 탈출하지 않는다."
             ));
 
-    public static final Map<String, AbnoProfile> BY_ID = Map.of(
-            ONE_SIN.id, ONE_SIN,
-            FORSAKEN_MURDERER.id, FORSAKEN_MURDERER,
-            SCORCHED_GIRL.id, SCORCHED_GIRL,
-            HAPPY_TEDDY.id, HAPPY_TEDDY,
-            FAIRY_FESTIVAL.id, FAIRY_FESTIVAL,
-            PUNISHING_BIRD.id, PUNISHING_BIRD,
-            TODAYS_SHY_LOOK.id, TODAYS_SHY_LOOK
+    public static final AbnoProfile LADY_FACING_THE_WALL = new AbnoProfile(
+            "lady_facing_the_wall", "벽을 보는 여자", "F-01-18", "TETH", 0x5599FF,
+            new int[]{50, 30, 60, 40}, 14, 10, 6,
+            DamageColor.WHITE, 2, 3,
+            2,
+            () -> ModItems.SCREAMING_WEDGE, 30,
+            () -> ModItems.SCREAMING_WEDGE_SUIT, 30,
+            "screaming_wedge", "비명 쐐기", "최대 SP +2, 최대 HP +1", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "애착 작업을 시작할 때마다 클리포트 카운터가 1 감소한다.",
+                    "작업 결과가 보통이면 50%, 나쁨이면 75% 확률로 카운터가 1 더 감소한다.",
+                    "카운터가 0이 되면 부서 전체에 흐느낌이 퍼져 정신력을 깎아먹는다. 자제가 낮은 직원은 뒤를 돌아보고 만다."
+            ));
+
+    public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(ONE_SIN.id, ONE_SIN),
+            Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
+            Map.entry(SCORCHED_GIRL.id, SCORCHED_GIRL),
+            Map.entry(HAPPY_TEDDY.id, HAPPY_TEDDY),
+            Map.entry(FAIRY_FESTIVAL.id, FAIRY_FESTIVAL),
+            Map.entry(PUNISHING_BIRD.id, PUNISHING_BIRD),
+            Map.entry(TODAYS_SHY_LOOK.id, TODAYS_SHY_LOOK),
+            Map.entry(LADY_FACING_THE_WALL.id, LADY_FACING_THE_WALL)
     );
 
     public boolean canBreach() {

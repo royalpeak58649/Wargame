@@ -3,6 +3,7 @@ package kr.lobcorp;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.ForsakenMurdererEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
+import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
@@ -26,6 +27,7 @@ public final class ModEntities {
     public static EntityType<FairyFestivalEntity> FAIRY_FESTIVAL;
     public static EntityType<PunishingBirdEntity> PUNISHING_BIRD;
     public static EntityType<TodaysShyLookEntity> TODAYS_SHY_LOOK;
+    public static EntityType<LadyFacingTheWallEntity> LADY_FACING_THE_WALL;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -49,6 +51,8 @@ public final class ModEntities {
                 .sized(0.6f, 1.2f).clientTrackingRange(10));
         TODAYS_SHY_LOOK = register("todays_shy_look", EntityType.Builder.of(TodaysShyLookEntity::new, MobCategory.MISC)
                 .sized(1.4f, 2.0f).clientTrackingRange(10));
+        LADY_FACING_THE_WALL = register("lady_facing_the_wall", EntityType.Builder.of(LadyFacingTheWallEntity::new, MobCategory.MISC)
+                .sized(0.8f, 1.9f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -57,5 +61,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(FORSAKEN_MURDERER, ForsakenMurdererEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(PUNISHING_BIRD, PunishingBirdEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(TODAYS_SHY_LOOK, TodaysShyLookEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(LADY_FACING_THE_WALL, LadyFacingTheWallEntity.createAttributes());
     }
 }

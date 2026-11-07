@@ -3,11 +3,13 @@ package kr.lobcorp.client.render;
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.HappyTeddyBearModel;
+import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.HappyTeddyBearEntity;
+import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
@@ -116,6 +118,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(PunishingBirdModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class WallLady extends MobRenderer<LadyFacingTheWallEntity, LivingEntityRenderState, LadyFacingTheWallModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/lady_facing_the_wall.png");
+
+        public WallLady(EntityRendererProvider.Context ctx) {
+            super(ctx, new LadyFacingTheWallModel(ctx.bakeLayer(LadyFacingTheWallModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public LivingEntityRenderState createRenderState() {
+            return new LivingEntityRenderState();
+        }
+
+        @Override
+        public void extractRenderState(LadyFacingTheWallEntity e, LivingEntityRenderState s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LivingEntityRenderState s) {
             return TEX;
         }
     }
