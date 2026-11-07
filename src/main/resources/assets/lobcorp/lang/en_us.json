@@ -9,6 +9,7 @@
   "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
   "entity.lobcorp.crumbling_armor": "Crumbling Armor",
   "entity.lobcorp.old_lady": "Old Lady",
+  "entity.lobcorp.spider_bud": "Spider Bud",
   "item.lobcorp.penitence": "Penitence",
   "item.lobcorp.penitence_suit": "Penitence (Suit)",
   "item.lobcorp.regret": "Regret",
@@ -28,5 +29,7 @@
   "item.lobcorp.daredevil": "Daredevil",
   "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
   "item.lobcorp.solitude": "Solitude",
-  "item.lobcorp.solitude_suit": "Solitude (Suit)"
+  "item.lobcorp.solitude_suit": "Solitude (Suit)",
+  "item.lobcorp.red_eyes": "Red Eyes",
+  "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)"
 }

@@ -58,7 +58,7 @@ public final class RoomBuilder {
         BlockPos home = corner ? o.offset(9, 0, 3) : o.offset(6, 0, 0);
         float yaw = corner ? -45f : 90f;
         abno.setHome(home, yaw);
-        abno.snapTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5, yaw, 0);
+        abno.snapTo(home.getX() + 0.5, home.getY() + abno.homeYOffset(), home.getZ() + 0.5, yaw, 0);
         level.addFreshEntity(abno);
         return abno;
     }

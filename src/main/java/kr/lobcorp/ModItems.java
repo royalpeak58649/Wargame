@@ -38,6 +38,7 @@ public final class ModItems {
     public static final ArmorMaterial SCREAMING_WEDGE_MAT = material("screaming_wedge", 5);
     public static final ArmorMaterial DAREDEVIL_MAT = material("daredevil", 6);
     public static final ArmorMaterial SOLITUDE_MAT = material("solitude", 5);
+    public static final ArmorMaterial RED_EYES_MAT = material("red_eyes", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -59,6 +60,8 @@ public final class ModItems {
     public static Item DAREDEVIL_SUIT;
     public static Item SOLITUDE;
     public static Item SOLITUDE_SUIT;
+    public static Item RED_EYES;
+    public static Item RED_EYES_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -160,12 +163,16 @@ public final class ModItems {
                 "O-01-12 · TETH", "WHITE 피해", "아무도 찾아오지 않는 방의 공기가 칼날에 서려 있다.");
         SOLITUDE_SUIT = suit("solitude_suit", SOLITUDE_MAT,
                 "O-01-12 · TETH", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+        RED_EYES = weapon("red_eyes", DamageColor.RED, 5.0, -2.2,
+                "T-02-43 · TETH", "RED 피해", "어둠 속에서 여덟 개의 붉은 점이 천천히 깜빡인다.");
+        RED_EYES_SUIT = suit("red_eyes_suit", RED_EYES_MAT,
+                "T-02-43 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
         return List.of(PENITENCE, PENITENCE_SUIT, REGRET, REGRET_SUIT, MATCH_FLAME, MATCH_FLAME_SUIT,
                 BEAR_PAWS, BEAR_PAWS_SUIT, WINGBEAT, WINGBEAT_SUIT, BEAK, BEAK_SUIT,
                 TODAYS_EXPRESSION, TODAYS_EXPRESSION_SUIT, SCREAMING_WEDGE, SCREAMING_WEDGE_SUIT,
-                DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT);
+                DAREDEVIL, DAREDEVIL_SUIT, SOLITUDE, SOLITUDE_SUIT, RED_EYES, RED_EYES_SUIT);
     }
 }

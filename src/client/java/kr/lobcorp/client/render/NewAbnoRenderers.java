@@ -8,6 +8,7 @@ import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
+import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -16,6 +17,7 @@ import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
+import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -192,6 +194,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(OldLadyModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class SpiderBud extends MobRenderer<SpiderBudEntity, SpiderBudModel.State, SpiderBudModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/spider_bud.png");
+
+        public SpiderBud(EntityRendererProvider.Context ctx) {
+            super(ctx, new SpiderBudModel(ctx.bakeLayer(SpiderBudModel.LAYER)), 0f);
+        }
+
+        @Override
+        public SpiderBudModel.State createRenderState() {
+            return new SpiderBudModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SpiderBudEntity e, SpiderBudModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.cocoons = e.getCocoons();
+        }
+
+        @Override
+        public Identifier getTextureLocation(SpiderBudModel.State s) {
             return TEX;
         }
     }

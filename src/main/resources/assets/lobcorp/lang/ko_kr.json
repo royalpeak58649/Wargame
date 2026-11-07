@@ -9,6 +9,7 @@
   "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
   "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
   "entity.lobcorp.old_lady": "늙은 여인",
+  "entity.lobcorp.spider_bud": "거미 봉오리",
   "item.lobcorp.penitence": "참회",
   "item.lobcorp.penitence_suit": "참회 (방어구)",
   "item.lobcorp.regret": "후회",
@@ -28,5 +29,7 @@
   "item.lobcorp.daredevil": "만용",
   "item.lobcorp.daredevil_suit": "만용 (방어구)",
   "item.lobcorp.solitude": "고독",
-  "item.lobcorp.solitude_suit": "고독 (방어구)"
+  "item.lobcorp.solitude_suit": "고독 (방어구)",
+  "item.lobcorp.red_eyes": "붉은 눈",
+  "item.lobcorp.red_eyes_suit": "붉은 눈 (방어구)"
 }

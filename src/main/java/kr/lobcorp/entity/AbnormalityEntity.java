@@ -58,6 +58,11 @@ public abstract class AbnormalityEntity extends PathfinderMob {
         this.homeYaw = yaw;
     }
 
+    /** 격리 위치의 Y 보정. 천장에 매달리는 환상체는 양수를 돌려준다. */
+    public double homeYOffset() {
+        return 0;
+    }
+
     /** 작업 시작 직전. false면 작업이 시작되지 않는다. */
     public boolean beforeWorkStart(ServerPlayer worker, WorkType type) {
         return true;
@@ -101,9 +106,9 @@ public abstract class AbnormalityEntity extends PathfinderMob {
     public void tick() {
         super.tick();
         if (!level().isClientSide() && home != null && !isBreached() && tickCount % 10 == 0) {
-            double hx = home.getX() + 0.5, hz = home.getZ() + 0.5;
-            if (distanceToSqr(hx, home.getY(), hz) > 0.3) {
-                snapTo(hx, home.getY(), hz, homeYaw, 0);
+            double hx = home.getX() + 0.5, hz = home.getZ() + 0.5, hy = home.getY() + homeYOffset();
+            if (distanceToSqr(hx, hy, hz) > 0.3) {
+                snapTo(hx, hy, hz, homeYaw, 0);
                 getNavigation().stop();
             }
             setYRot(homeYaw);

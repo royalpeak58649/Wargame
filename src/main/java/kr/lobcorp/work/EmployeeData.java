@@ -48,17 +48,18 @@ public class EmployeeData {
     }
 
     /** 기프트 효과: {최대 HP, 최대 SP, 작업 성공률 %, 이동 속도 %} — 수치는 임의 */
-    public static final java.util.Map<String, int[]> GIFT_EFFECTS = java.util.Map.of(
-            "penitence", new int[]{0, 2, 3, 0},
-            "regret", new int[]{2, 0, 0, 0},
-            "match_flame", new int[]{3, 0, 0, 0},
-            "bear_paws", new int[]{0, 3, 0, 0},
-            "wingbeat", new int[]{0, 0, 3, 0},
-            "beak", new int[]{0, 0, 2, 5},
-            "todays_expression", new int[]{0, -2, 4, 0},
-            "screaming_wedge", new int[]{1, 2, 0, 0},
-            "courage", new int[]{0, 0, 0, 10},
-            "solitude", new int[]{0, 3, 0, 0}
+    public static final java.util.Map<String, int[]> GIFT_EFFECTS = java.util.Map.ofEntries(
+            java.util.Map.entry("penitence", new int[]{0, 2, 3, 0}),
+            java.util.Map.entry("regret", new int[]{2, 0, 0, 0}),
+            java.util.Map.entry("match_flame", new int[]{3, 0, 0, 0}),
+            java.util.Map.entry("bear_paws", new int[]{0, 3, 0, 0}),
+            java.util.Map.entry("wingbeat", new int[]{0, 0, 3, 0}),
+            java.util.Map.entry("beak", new int[]{0, 0, 2, 5}),
+            java.util.Map.entry("todays_expression", new int[]{0, -2, 4, 0}),
+            java.util.Map.entry("screaming_wedge", new int[]{1, 2, 0, 0}),
+            java.util.Map.entry("courage", new int[]{0, 0, 0, 10}),
+            java.util.Map.entry("solitude", new int[]{0, 3, 0, 0}),
+            java.util.Map.entry("red_eyes", new int[]{0, 0, 3, 0})
     );
 
     private int giftSum(int idx) {

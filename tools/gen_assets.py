@@ -1405,3 +1405,184 @@ wjson("lang/en_us.json", {
 
 old_lady()
 print("assets oldlady ok")
+
+
+# ═════════════ 8차: 거미 봉오리 (T-02-43) ═════════════
+def spider_bud():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    body = hexc("#2a1a1e")
+    body_dark = hexc("#1a1013")
+    leg = hexc("#1b1012")
+    eye = hexc("#e01b2e")
+    eye_dim = hexc("#8a0f1c")
+    silk = hexc("#d8d8d8")
+    cocoon = hexc("#e8e4da")
+    cocoon_line = hexc("#a8a49a")
+
+    # 배 (u0 v0, 8x7x9)
+    a = box(img, 0, 0, 8, 7, 9, body, 6, top=body_dark)
+    ax, ay = a["front"]
+    # 배의 무늬: 희미한 붉은 점
+    for (x, y) in [(2, 2), (5, 2), (3, 4), (4, 4), (2, 5), (5, 5)]:
+        px(img, ax + x, ay + y, eye_dim)
+    for x in range(8):
+        px(img, ax + x, ay + 6, body_dark)
+
+    # 두흉부 (u0 v16, 6x5x6)
+    c = box(img, 0, 16, 6, 5, 6, body, 6, top=body_dark)
+    cx, cy = c["front"]
+    # 눈 여덟 개: 큰 두 개 + 작은 여섯 개
+    for (x, y) in [(1, 1), (4, 1)]:
+        px(img, cx + x, cy + y, eye)
+        px(img, cx + x, cy + y + 1, eye_dim)
+    for (x, y) in [(0, 2), (2, 2), (3, 2), (5, 2), (1, 3), (4, 3)]:
+        px(img, cx + x, cy + y, eye)
+    # 집게
+    for x in range(6):
+        px(img, cx + x, cy + 4, body_dark)
+
+    # 실 (u34 v0, 1x16x1)
+    t = box(img, 34, 0, 1, 16, 1, silk, 6)
+    tx, ty = t["front"]
+    for y in range(16):
+        if y % 3 == 0:
+            px(img, tx, ty + y, hexc("#b0b0b0"))
+
+    # 다리 (u40 v0, 1x1x8 / u40 v10, 1x1x8)
+    for u, v in ((40, 0), (40, 10)):
+        l = box(img, u, v, 1, 1, 8, leg, 5)
+        lx, ly = l["front"]
+        for x in range(1):
+            px(img, lx, ly, hexc("#2a1a1e"))
+
+    # 고치 (u0 v32, 3x5x3)
+    co = box(img, 0, 32, 3, 5, 3, cocoon, 4)
+    cox, coy = co["front"]
+    for y in range(5):
+        if y % 2 == 0:
+            for x in range(3):
+                px(img, cox + x, coy + y, cocoon_line)
+    for x in range(3):
+        px(img, cox + x, coy, hexc("#f4f1ea"))
+
+    save(img, "textures/entity/spider_bud.png")
+
+
+RE = {"d": "#2a1a1e", "k": "#1a1013", "r": "#e01b2e", "g": "#8a0f1c", "s": "#c9cfd4", "h": "#3a2a1a"}
+icon([
+    "................",
+    "..............rr",
+    ".............rr.",
+    "............rr..",
+    "...........rr...",
+    "..........rr....",
+    ".........rr.....",
+    "........rr......",
+    ".......rr.......",
+    "......rr........",
+    ".....rr.........",
+    "....rr..........",
+    "...gg...........",
+    "..gg............",
+    "..h.............",
+    "................",
+], RE, "textures/item/red_eyes.png")
+icon([
+    "................",
+    "...dd......dd...",
+    "..dddd....dddd..",
+    "..dddddddddddd..",
+    "...dddddddddd...",
+    "....ddrrrrdd....",
+    "....ddrrrrdd....",
+    "....ddrrrrdd....",
+    "....ddrrrrdd....",
+    "....dddddddd....",
+    "....ddggggdd....",
+    "....dddddddd....",
+    "....dddddddd....",
+    ".....hhhhhh.....",
+    "................",
+    "................",
+], RE, "textures/item/red_eyes_suit.png")
+
+armor(hexc("#2a1a1e"), "#1a1013", "#e01b2e", "textures/entity/equipment/humanoid/red_eyes.png")
+
+for item, parent in [("red_eyes", "minecraft:item/handheld"), ("red_eyes_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/red_eyes.json", {"layers": {"humanoid": [{"texture": "lobcorp:red_eyes"}]}})
+
+wjson("lang/ko_kr.json", {
+    "entity.lobcorp.one_sin": "단 한 번의 악과 수백 가지의 선행",
+    "entity.lobcorp.forsaken_murderer": "버려진 살인마",
+    "entity.lobcorp.scorched_girl": "불타버린 소녀",
+    "entity.lobcorp.happy_teddy_bear": "행복한 테디베어",
+    "entity.lobcorp.fairy_festival": "요정의 축제",
+    "entity.lobcorp.punishing_bird": "처벌새",
+    "entity.lobcorp.todays_shy_look": "오늘의 수줍은 표정",
+    "entity.lobcorp.lady_facing_the_wall": "벽을 보는 여자",
+    "entity.lobcorp.crumbling_armor": "부서지는 갑옷",
+    "entity.lobcorp.old_lady": "늙은 여인",
+    "entity.lobcorp.spider_bud": "거미 봉오리",
+    "item.lobcorp.penitence": "참회",
+    "item.lobcorp.penitence_suit": "참회 (방어구)",
+    "item.lobcorp.regret": "후회",
+    "item.lobcorp.regret_suit": "후회 (방어구)",
+    "item.lobcorp.match_flame": "4번째 성냥불",
+    "item.lobcorp.match_flame_suit": "4번째 성냥불 (방어구)",
+    "item.lobcorp.bear_paws": "곰 발바닥",
+    "item.lobcorp.bear_paws_suit": "곰 발바닥 (방어구)",
+    "item.lobcorp.wingbeat": "날갯짓",
+    "item.lobcorp.wingbeat_suit": "날갯짓 (방어구)",
+    "item.lobcorp.beak": "부리",
+    "item.lobcorp.beak_suit": "부리 (방어구)",
+    "item.lobcorp.todays_expression": "오늘의 표정",
+    "item.lobcorp.todays_expression_suit": "오늘의 표정 (방어구)",
+    "item.lobcorp.screaming_wedge": "비명 쐐기",
+    "item.lobcorp.screaming_wedge_suit": "비명 쐐기 (방어구)",
+    "item.lobcorp.daredevil": "만용",
+    "item.lobcorp.daredevil_suit": "만용 (방어구)",
+    "item.lobcorp.solitude": "고독",
+    "item.lobcorp.solitude_suit": "고독 (방어구)",
+    "item.lobcorp.red_eyes": "붉은 눈",
+    "item.lobcorp.red_eyes_suit": "붉은 눈 (방어구)",
+})
+wjson("lang/en_us.json", {
+    "entity.lobcorp.one_sin": "One Sin and Hundreds of Good Deeds",
+    "entity.lobcorp.forsaken_murderer": "Forsaken Murderer",
+    "entity.lobcorp.scorched_girl": "Scorched Girl",
+    "entity.lobcorp.happy_teddy_bear": "Happy Teddy Bear",
+    "entity.lobcorp.fairy_festival": "Fairy Festival",
+    "entity.lobcorp.punishing_bird": "Punishing Bird",
+    "entity.lobcorp.todays_shy_look": "Today's Shy Look",
+    "entity.lobcorp.lady_facing_the_wall": "The Lady Facing the Wall",
+    "entity.lobcorp.crumbling_armor": "Crumbling Armor",
+    "entity.lobcorp.old_lady": "Old Lady",
+    "entity.lobcorp.spider_bud": "Spider Bud",
+    "item.lobcorp.penitence": "Penitence",
+    "item.lobcorp.penitence_suit": "Penitence (Suit)",
+    "item.lobcorp.regret": "Regret",
+    "item.lobcorp.regret_suit": "Regret (Suit)",
+    "item.lobcorp.match_flame": "Fourth Match Flame",
+    "item.lobcorp.match_flame_suit": "Fourth Match Flame (Suit)",
+    "item.lobcorp.bear_paws": "Bear Paws",
+    "item.lobcorp.bear_paws_suit": "Bear Paws (Suit)",
+    "item.lobcorp.wingbeat": "Wingbeat",
+    "item.lobcorp.wingbeat_suit": "Wingbeat (Suit)",
+    "item.lobcorp.beak": "Beak",
+    "item.lobcorp.beak_suit": "Beak (Suit)",
+    "item.lobcorp.todays_expression": "Today's Expression",
+    "item.lobcorp.todays_expression_suit": "Today's Expression (Suit)",
+    "item.lobcorp.screaming_wedge": "Screaming Wedge",
+    "item.lobcorp.screaming_wedge_suit": "Screaming Wedge (Suit)",
+    "item.lobcorp.daredevil": "Daredevil",
+    "item.lobcorp.daredevil_suit": "Daredevil (Suit)",
+    "item.lobcorp.solitude": "Solitude",
+    "item.lobcorp.solitude_suit": "Solitude (Suit)",
+    "item.lobcorp.red_eyes": "Red Eyes",
+    "item.lobcorp.red_eyes_suit": "Red Eyes (Suit)",
+})
+
+spider_bud()
+print("assets spider ok")

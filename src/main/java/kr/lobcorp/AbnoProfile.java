@@ -173,6 +173,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 격리실이 고독으로 가득 찬다. 작업 성공률 -20%, 실패 피해 2배, 작업 시작 시 SP가 깎인다."
             ));
 
+    public static final AbnoProfile SPIDER_BUD = new AbnoProfile(
+            "spider_bud", "거미 봉오리", "T-02-43", "TETH", 0x5599FF,
+            new int[]{60, 20, 50, 40}, 14, 15, 7,
+            DamageColor.RED, 1, 3,
+            0,
+            () -> ModItems.RED_EYES, 30,
+            () -> ModItems.RED_EYES_SUIT, 30,
+            "red_eyes", "붉은 눈", "작업 성공률 +3%", 5,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "통찰 작업을 하거나, 신중 I등급(30 미만)인 직원이 작업을 마치면 고치가 된다.",
+                    "고치 하나당 이 환상체의 작업이 끝날 때마다 PE-BOX가 1씩 더 쌓인다.",
+                    "작업 결과는 나쁨 또는 보통뿐이다. 좋음은 존재하지 않는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(ONE_SIN.id, ONE_SIN),
             Map.entry(FORSAKEN_MURDERER.id, FORSAKEN_MURDERER),
@@ -183,7 +198,8 @@ public record AbnoProfile(
             Map.entry(TODAYS_SHY_LOOK.id, TODAYS_SHY_LOOK),
             Map.entry(LADY_FACING_THE_WALL.id, LADY_FACING_THE_WALL),
             Map.entry(CRUMBLING_ARMOR.id, CRUMBLING_ARMOR),
-            Map.entry(OLD_LADY.id, OLD_LADY)
+            Map.entry(OLD_LADY.id, OLD_LADY),
+            Map.entry(SPIDER_BUD.id, SPIDER_BUD)
     );
 
     public boolean canBreach() {
