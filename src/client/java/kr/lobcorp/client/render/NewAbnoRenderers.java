@@ -28,7 +28,9 @@ import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PortraitModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
+import kr.lobcorp.client.model.QueenBeeModel;
 import kr.lobcorp.client.model.QueenHatredModel;
+import kr.lobcorp.client.model.WorkerBeeModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.RudoltaModel;
 import kr.lobcorp.client.model.ScarecrowModel;
@@ -69,7 +71,9 @@ import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
+import kr.lobcorp.entity.QueenBeeEntity;
 import kr.lobcorp.entity.QueenHatredEntity;
+import kr.lobcorp.entity.WorkerBeeEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.RudoltaEntity;
 import kr.lobcorp.entity.ScarecrowEntity;
@@ -1070,6 +1074,52 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(AlriuneModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class QueenBee extends MobRenderer<QueenBeeEntity, QueenBeeModel.State, QueenBeeModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/queen_bee.png");
+
+        public QueenBee(EntityRendererProvider.Context ctx) {
+            super(ctx, new QueenBeeModel(ctx.bakeLayer(QueenBeeModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public QueenBeeModel.State createRenderState() {
+            return new QueenBeeModel.State();
+        }
+
+        @Override
+        public void extractRenderState(QueenBeeEntity e, QueenBeeModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(QueenBeeModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class WorkerBee extends MobRenderer<WorkerBeeEntity, WorkerBeeModel.State, WorkerBeeModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/worker_bee.png");
+
+        public WorkerBee(EntityRendererProvider.Context ctx) {
+            super(ctx, new WorkerBeeModel(ctx.bakeLayer(WorkerBeeModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public WorkerBeeModel.State createRenderState() {
+            return new WorkerBeeModel.State();
+        }
+
+        @Override
+        public void extractRenderState(WorkerBeeEntity e, WorkerBeeModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(WorkerBeeModel.State s) {
             return TEX;
         }
     }

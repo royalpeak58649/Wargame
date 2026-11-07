@@ -68,7 +68,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("king_of_greed").executes(c -> build(c, ModEntities.KING_GREED, false)))
                         .then(Commands.literal("little_red").executes(c -> build(c, ModEntities.LITTLE_RED, false)))
                         .then(Commands.literal("big_bad_wolf").executes(c -> build(c, ModEntities.BIG_BAD_WOLF, false)))
-                        .then(Commands.literal("alriune").executes(c -> build(c, ModEntities.ALRIUNE, false))))
+                        .then(Commands.literal("alriune").executes(c -> build(c, ModEntities.ALRIUNE, false)))
+                        .then(Commands.literal("queen_bee").executes(c -> build(c, ModEntities.QUEEN_BEE, false))))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("next").executes(c -> {
                             Facility.nextDay(c.getSource().getServer());
@@ -76,6 +77,7 @@ public final class LobCorpCommands {
                                 for (Entity e : l.getAllEntities())
                                     if (e instanceof AbnormalityEntity a) a.resetQliphoth();
                             discardFriends(c.getSource().getServer());
+                            discardBees(c.getSource().getServer());
                             return 1;
                         })))
                 .then(Commands.literal("breach").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -140,6 +142,14 @@ public final class LobCorpCommands {
         }
     }
 
+    private static void discardBees(net.minecraft.server.MinecraftServer server) {
+        for (ServerLevel l : server.getAllLevels()) {
+            for (Entity e : l.getAllEntities()) {
+                if (e instanceof kr.lobcorp.entity.WorkerBeeEntity) e.discard();
+            }
+        }
+    }
+
     private static int clear(CommandContext<CommandSourceStack> c) {
         int n = 0;
         for (ServerLevel l : c.getSource().getServer().getAllLevels()) {
@@ -151,6 +161,7 @@ public final class LobCorpCommands {
             }
         }
         discardFriends(c.getSource().getServer());
+        discardBees(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;

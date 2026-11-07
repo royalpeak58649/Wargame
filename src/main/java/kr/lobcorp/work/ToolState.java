@@ -120,6 +120,16 @@ public final class ToolState {
     /** 직원이 죽었을 때 (도구형 환상체 관련 후속 처리) */
     public static void onDeath(LivingEntity entity, DamageSource source) {
         if (!(entity instanceof ServerPlayer p)) return;
+        // 여왕벌의 포자: 감염된 채 죽은 직원의 몸에서 일벌이 태어난다
+        EmployeeData sporeData = Employees.get(p);
+        if (sporeData.sporeTicks > 0) {
+            sporeData.sporeTicks = 0;
+            kr.lobcorp.entity.WorkerBeeEntity.spawnFrom(p);
+        }
+        // 일벌이 쓰러뜨린 직원도 일벌이 된다
+        if (source.getEntity() instanceof kr.lobcorp.entity.WorkerBeeEntity bee) {
+            kr.lobcorp.entity.WorkerBeeEntity.spawnFrom(p);
+        }
         if (isNotesHolder(p)) clearNotes();
         AbnoEvents.death(p);
         // 따뜻한 마음의 나무꾼: 곁에서 죽은 직원의 심장을 가슴에 밀어 넣는다

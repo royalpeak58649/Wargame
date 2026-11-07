@@ -66,6 +66,7 @@ public final class ModItems {
     public static final ArmorMaterial CRIMSON_SCAR_MAT = material("crimson_scar", 7);
     public static final ArmorMaterial COBALT_SCAR_MAT = material("cobalt_scar", 7);
     public static final ArmorMaterial FAINT_AROMA_MAT = material("faint_aroma", 6);
+    public static final ArmorMaterial HORNET_MAT = material("hornet", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -143,6 +144,8 @@ public final class ModItems {
     public static Item COBALT_SCAR_SUIT;
     public static Item FAINT_AROMA;
     public static Item FAINT_AROMA_SUIT;
+    public static Item HORNET;
+    public static Item HORNET_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -356,6 +359,10 @@ public final class ModItems {
                 "T-04-53 · WAW", "WHITE 피해 활, 빠른 연사", "꽃잎으로 감은 활시위. 당길 때마다 달콤한 냄새가 손끝에 남는다.");
         FAINT_AROMA_SUIT = suit("faint_aroma_suit", FAINT_AROMA_MAT,
                 "T-04-53 · WAW", "WHITE·BLACK 저항: 작업 실패 시 SP·HP 피해 -1");
+        HORNET = weapon("hornet", DamageColor.RED, 3.0, -1.0,
+                "T-04-50 · WAW", "RED 피해 소총, 매우 빠른 연사", "날개가 달린 총신. 방아쇠를 당길 때마다 낮게 윙윙거린다.");
+        HORNET_SUIT = suit("hornet_suit", HORNET_MAT,
+                "T-04-50 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -372,6 +379,7 @@ public final class ModItems {
                 GAZE, GAZE_SUIT, LAMP, LAMP_SUIT, JUSTITIA, JUSTITIA_SUIT,
                 LOVE_AND_HATE, LOVE_AND_HATE_SUIT, TEARS_SWORD, TEARS_SWORD_SUIT,
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
-                COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT);
+                COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
+                HORNET, HORNET_SUIT);
     }
 }

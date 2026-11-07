@@ -115,5 +115,9 @@
   "item.lobcorp.cobalt_scar_suit": "흑청빛 상처의 옷",
   "entity.lobcorp.alriune": "알리우네",
   "item.lobcorp.faint_aroma": "희미한 향기",
-  "item.lobcorp.faint_aroma_suit": "희미한 향기의 옷"
+  "item.lobcorp.faint_aroma_suit": "희미한 향기의 옷",
+  "entity.lobcorp.queen_bee": "여왕벌",
+  "entity.lobcorp.worker_bee": "일벌",
+  "item.lobcorp.hornet": "말벌",
+  "item.lobcorp.hornet_suit": "말벌의 옷"
 }

@@ -36,6 +36,7 @@ import kr.lobcorp.entity.OneSinEntity;
 import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
+import kr.lobcorp.entity.QueenBeeEntity;
 import kr.lobcorp.entity.QueenHatredEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.RudoltaEntity;
@@ -43,6 +44,7 @@ import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import kr.lobcorp.entity.WoodsmanEntity;
+import kr.lobcorp.entity.WorkerBeeEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -98,6 +100,8 @@ public final class ModEntities {
     public static EntityType<LittleRedEntity> LITTLE_RED;
     public static EntityType<BigBadWolfEntity> BIG_BAD_WOLF;
     public static EntityType<AlriuneEntity> ALRIUNE;
+    public static EntityType<QueenBeeEntity> QUEEN_BEE;
+    public static EntityType<WorkerBeeEntity> WORKER_BEE;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -193,6 +197,10 @@ public final class ModEntities {
                 .sized(1.0f, 2.4f).clientTrackingRange(10));
         ALRIUNE = register("alriune", EntityType.Builder.of(AlriuneEntity::new, MobCategory.MISC)
                 .sized(0.7f, 2.4f).clientTrackingRange(10));
+        QUEEN_BEE = register("queen_bee", EntityType.Builder.of(QueenBeeEntity::new, MobCategory.MISC)
+                .sized(1.6f, 1.6f).clientTrackingRange(10));
+        WORKER_BEE = register("worker_bee", EntityType.Builder.of(WorkerBeeEntity::new, MobCategory.MONSTER)
+                .sized(0.8f, 1.4f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -237,5 +245,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(LITTLE_RED, LittleRedEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BIG_BAD_WOLF, BigBadWolfEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(ALRIUNE, AlriuneEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(QUEEN_BEE, QueenBeeEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(WORKER_BEE, WorkerBeeEntity.createAttributes());
     }
 }

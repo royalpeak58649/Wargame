@@ -115,5 +115,9 @@
   "item.lobcorp.cobalt_scar_suit": "Cobalt Scar Garb",
   "entity.lobcorp.alriune": "Alriune",
   "item.lobcorp.faint_aroma": "Faint Aroma",
-  "item.lobcorp.faint_aroma_suit": "Faint Aroma Garb"
+  "item.lobcorp.faint_aroma_suit": "Faint Aroma Garb",
+  "entity.lobcorp.queen_bee": "Queen Bee",
+  "entity.lobcorp.worker_bee": "Worker Bee",
+  "item.lobcorp.hornet": "Hornet",
+  "item.lobcorp.hornet_suit": "Hornet Garb"
 }

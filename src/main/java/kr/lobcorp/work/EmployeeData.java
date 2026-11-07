@@ -47,6 +47,8 @@ public class EmployeeData {
     public boolean devoured = false;
     /** 늑대의 뱃속에 갇힌 자리 (저장 안 함) */
     public net.minecraft.world.phys.Vec3 devouredAt = null;
+    /** 여왕벌의 포자에 감염된 남은 틱 (저장 안 함) */
+    public int sporeTicks = 0;
     /** 빨간 두건 용병이 늑대를 베어 넘겨 받은 양의 가호 (저장 안 함, 하루가 끝나면 사라진다) */
     public boolean sheepTicks = false;
     public Set<String> gifts = new HashSet<>();
@@ -117,6 +119,7 @@ public class EmployeeData {
             java.util.Map.entry("crimson_scar", new int[]{2, 0, 0, 2}),
             java.util.Map.entry("cobalt_scar", new int[]{4, 0, 0, 2}),
             java.util.Map.entry("faint_aroma", new int[]{0, 4, 2, 2}),
+            java.util.Map.entry("hornet", new int[]{2, 4, 0, 0}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

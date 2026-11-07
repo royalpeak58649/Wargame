@@ -653,7 +653,23 @@ public record AbnoProfile(
                     "탈출하면 저울을 들어 올린 뒤 8블록 안의 모든 직원에게 심판을 내린다. 방호복은 아무 소용이 없다. 저울이 빛나는 2초 동안 자리를 벗어나십시오."
             ));
 
+    public static final AbnoProfile QUEEN_BEE = new AbnoProfile(
+            "queen_bee", "여왕벌", "T-04-50", "WAW", 0xAA55FF,
+            new int[]{40, 45, 45, 35}, 22, 17, 10,
+            DamageColor.RED, 4, 6,
+            1,
+            () -> ModItems.HORNET, 60,
+            () -> ModItems.HORNET_SUIT, 50,
+            "hornet", "말벌", "최대 HP +2, 최대 SP +4", 3,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "밀랍과 살로 빚은 거대한 벌집 위에 앉아, 부푼 배를 느리게 움직이는 여왕벌. 더듬이는 왕관처럼 솟아 있다.",
+                    "작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 3초 뒤 격리실에서 포자가 퍼져 나간다. 32블록 안의 직원 셋이 감염되어 20초 동안 피부를 뚫고 자라난다. 감염된 채 죽은 직원의 몸에서는 일벌이 기어 나온다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(QUEEN_BEE.id, QUEEN_BEE),
             Map.entry(ALRIUNE.id, ALRIUNE),
             Map.entry(BIG_BIRD.id, BIG_BIRD),
             Map.entry(JUDGEMENT_BIRD.id, JUDGEMENT_BIRD),

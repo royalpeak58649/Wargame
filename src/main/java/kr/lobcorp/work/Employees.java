@@ -78,6 +78,7 @@ public final class Employees {
         v[20] = d.frost;
         v[21] = d.blessed ? 1 : 0;
         v[22] = d.devoured ? 1 : 0;
+        v[23] = d.sporeTicks / 20;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -332,6 +333,17 @@ public final class Employees {
                 p.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 40, 5, false, false));
                 if (p.tickCount % 10 == 0) {
                     p.level().sendParticles(ParticleTypes.SNOWFLAKE, p.getX(), p.getY() + 1.2, p.getZ(), 8, 0.4, 0.7, 0.4, 0.01);
+                }
+            }
+            if (d.sporeTicks > 0) {
+                d.sporeTicks--;
+                if (d.sporeTicks % 40 == 0) {
+                    p.hurtServer(p.level(), p.level().damageSources().magic(), 6);
+                    p.level().sendParticles(ParticleTypes.FALLING_SPORE_BLOSSOM, p.getX(), p.getY() + 1.2, p.getZ(), 6, 0.4, 0.6, 0.4, 0.01);
+                    WorkManager.actionbar(p, Component.literal("포자가 몸속에서 자란다…").withStyle(s -> s.withColor(0xFFC040)));
+                }
+                if (d.sporeTicks == 0) {
+                    p.sendSystemMessage(Component.literal("  몸속의 포자가 잦아들었다.").withStyle(s -> s.withColor(0xAAAAAA).withItalic(true)));
                 }
             }
             if (d.sapTicks > 0) {

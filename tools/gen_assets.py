@@ -6308,3 +6308,344 @@ merge_lang({
     "item.lobcorp.faint_aroma": "Faint Aroma",
     "item.lobcorp.faint_aroma_suit": "Faint Aroma Garb",
 })
+
+
+# ═════════════ 40차: 여왕벌 (T-04-50) + 일벌 ═════════════
+def queen_bee():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wax = hexc("#d8a840")
+    wax_hi = hexc("#e8c060")
+    wax_dark = hexc("#a87a20")
+    flesh = hexc("#7a1a20")
+    flesh_dark = hexc("#4a0a10")
+    stripe_dark = hexc("#2a1a0a")
+    stripe_light = hexc("#e0a020")
+    stripe_hi = hexc("#f0c050")
+    thorax = hexc("#3a2a14")
+    thorax_hi = hexc("#4e3a1e")
+    eye = hexc("#e01b2e")
+    eye_hi = hexc("#ff7080")
+    antenna = hexc("#1a1208")
+    wing = hexc("#e8f0ff")
+    wing_shade = hexc("#c0d0e8")
+
+    # 벌집 받침 (u0 v0, 16x6x16)
+    h = box(img, 0, 0, 16, 6, 16, wax, 6, top=wax_hi)
+    hx, hy = h["front"]
+    # 벌집무늬: 육각형 격자
+    for y in range(6):
+        for x in range(16):
+            if (x + (y // 2) * 2) % 4 == 0 and y % 2 == 0:
+                px(img, hx + x, hy + y, wax_dark)
+            elif (x + (y // 2) * 2) % 4 == 2 and y % 2 == 1:
+                px(img, hx + x, hy + y, wax_dark)
+    # 살점 반점
+    for (x, y) in [(2, 1), (3, 1), (2, 2), (11, 3), (12, 3), (11, 4), (6, 4), (7, 4)]:
+        px(img, hx + x, hy + y, flesh)
+    for (x, y) in [(3, 2), (12, 4), (7, 5)]:
+        px(img, hx + x, hy + y, flesh_dark)
+    for x in range(16):
+        px(img, hx + x, hy + 5, wax_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(6):
+            for x in range(16):
+                if (x + y) % 4 == 0:
+                    px(img, sx + x, sy + y, wax_dark)
+                elif (x * 3 + y * 5) % 17 == 0:
+                    px(img, sx + x, sy + y, flesh)
+        for x in range(16):
+            px(img, sx + x, sy + 5, wax_dark)
+    tx, ty = h["top"]
+    for x in range(16):
+        for y in range(16):
+            if (x + y) % 4 == 0:
+                px(img, tx + x, ty + y, wax_dark)
+            elif (x * 5 + y * 3) % 23 == 0:
+                px(img, tx + x, ty + y, flesh)
+            elif (x * 3 + y) % 11 == 0:
+                px(img, tx + x, ty + y, wax_hi)
+
+    # 부푼 배 (u0 v24, 10x8x12)
+    a = box(img, 0, 24, 10, 8, 12, stripe_light, 6, top=stripe_hi)
+    ax, ay = a["front"]
+    # 가로 줄무늬
+    for y in range(8):
+        if y % 3 == 0:
+            for x in range(10):
+                px(img, ax + x, ay + y, stripe_dark)
+        elif y % 3 == 1:
+            for x in range(10):
+                px(img, ax + x, ay + y, stripe_hi if x % 2 == 0 else stripe_light)
+    for x in range(10):
+        px(img, ax + x, ay + 7, stripe_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = a[side]
+        for y in range(8):
+            for x in range(12):
+                if y % 3 == 0:
+                    px(img, sx + x, sy + y, stripe_dark)
+                elif y % 3 == 1:
+                    px(img, sx + x, sy + y, stripe_hi if x % 2 == 0 else stripe_light)
+        for x in range(12):
+            px(img, sx + x, sy + 7, stripe_dark)
+    tx, ty = a["top"]
+    for x in range(10):
+        for y in range(12):
+            if y % 3 == 0:
+                px(img, tx + x, ty + y, stripe_dark)
+            elif y % 3 == 1:
+                px(img, tx + x, ty + y, stripe_hi)
+
+    # 가슴 (u0 v44, 6x6x6)
+    t = box(img, 0, 44, 6, 6, 6, thorax, 6, top=thorax_hi)
+    tx2, ty2 = t["front"]
+    for y in range(6):
+        for x in range(6):
+            if (x * 3 + y * 5) % 7 == 0:
+                px(img, tx2 + x, ty2 + y, stripe_light)
+    for x in range(6):
+        px(img, tx2 + x, ty2 + 5, stripe_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = t[side]
+        for y in range(6):
+            for x in range(6):
+                if (x + y) % 5 == 0:
+                    px(img, sx + x, sy + y, stripe_light)
+        for x in range(6):
+            px(img, sx + x, sy + 5, stripe_dark)
+
+    # 머리 (u32 v24, 5x5x5)
+    hd = box(img, 32, 24, 5, 5, 5, thorax, 6, top=thorax_hi)
+    hdx, hdy = hd["front"]
+    # 큰 붉은 눈
+    for (x, y) in [(0, 1), (1, 1), (0, 2), (1, 2), (0, 3), (1, 3)]:
+        px(img, hdx + x, hdy + y, eye)
+    for (x, y) in [(3, 1), (4, 1), (3, 2), (4, 2), (3, 3), (4, 3)]:
+        px(img, hdx + x, hdy + y, eye)
+    px(img, hdx, hdy + 1, eye_hi)
+    px(img, hdx + 4, hdy + 1, eye_hi)
+    # 입
+    for x in (2, 3):
+        px(img, hdx + x, hdy + 4, stripe_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = hd[side]
+        for y in range(5):
+            for x in range(5):
+                if (x + y) % 4 == 0:
+                    px(img, sx + x, sy + y, stripe_light)
+        for x in range(5):
+            px(img, sx + x, sy + 4, stripe_dark)
+
+    # 더듬이 (u48 v24, 1x5x1)
+    an = box(img, 48, 24, 1, 5, 1, antenna, 4)
+    anx, any_ = an["front"]
+    for y in range(5):
+        px(img, anx, any_ + y, hexc("#3a2a14") if y % 2 == 0 else antenna)
+
+    # 날개 (u0 v48, 8x1x12) — 64x64 텍스처의 아래 경계에 걸치지 않도록 v를 올린다
+    w = box(img, 0, 48, 8, 1, 12, wing, 4, top=hexc("#f8fbff"))
+    wx, wy = w["front"]
+    for x in range(8):
+        px(img, wx + x, wy, wing_shade)
+    wtx, wty = w["top"]
+    for x in range(8):
+        for y in range(12):
+            if x == 0 or y == 0 or x == 7 or y == 11:
+                px(img, wtx + x, wty + y, wing_shade)
+            elif (x + y) % 5 == 0:
+                px(img, wtx + x, wty + y, wing_shade)
+
+    save(img, "textures/entity/queen_bee.png")
+
+
+def worker_bee():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    chitin = hexc("#3a2a14")
+    chitin_hi = hexc("#4e3a1e")
+    chitin_dark = hexc("#1a1208")
+    stripe_dark = hexc("#2a1a0a")
+    stripe_light = hexc("#e0a020")
+    stripe_hi = hexc("#f0c050")
+    skin = hexc("#c8b8a0")
+    skin_shade = hexc("#a89880")
+    eye = hexc("#e01b2e")
+    eye_hi = hexc("#ff7080")
+    sting = hexc("#e8e4d8")
+    wing = hexc("#e8f0ff")
+    wing_shade = hexc("#c0d0e8")
+    blood = hexc("#7a1a20")
+
+    # 가슴 (u0 v0, 6x6x4)
+    t = box(img, 0, 0, 6, 6, 4, chitin, 6, top=chitin_hi)
+    tx, ty = t["front"]
+    for y in range(6):
+        for x in range(6):
+            if (x * 3 + y * 5) % 7 == 0:
+                px(img, tx + x, ty + y, stripe_light)
+    for (x, y) in [(1, 2), (4, 3)]:
+        px(img, tx + x, ty + y, blood)
+    for x in range(6):
+        px(img, tx + x, ty + 5, chitin_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = t[side]
+        for y in range(6):
+            for x in range(4):
+                if (x + y) % 5 == 0:
+                    px(img, sx + x, sy + y, stripe_light)
+        for x in range(4):
+            px(img, sx + x, sy + 5, chitin_dark)
+
+    # 줄무늬 배 (u0 v12, 6x6x8)
+    a = box(img, 0, 12, 6, 6, 8, stripe_light, 6, top=stripe_hi)
+    ax, ay = a["front"]
+    for y in range(6):
+        if y % 2 == 0:
+            for x in range(6):
+                px(img, ax + x, ay + y, stripe_dark)
+        else:
+            for x in range(6):
+                px(img, ax + x, ay + y, stripe_hi if x % 2 == 0 else stripe_light)
+    for x in range(6):
+        px(img, ax + x, ay + 5, stripe_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = a[side]
+        for y in range(6):
+            for x in range(8):
+                if y % 2 == 0:
+                    px(img, sx + x, sy + y, stripe_dark)
+                else:
+                    px(img, sx + x, sy + y, stripe_hi if x % 2 == 0 else stripe_light)
+        for x in range(8):
+            px(img, sx + x, sy + 5, stripe_dark)
+    tx2, ty2 = a["top"]
+    for x in range(6):
+        for y in range(8):
+            if y % 2 == 0:
+                px(img, tx2 + x, ty2 + y, stripe_dark)
+            else:
+                px(img, tx2 + x, ty2 + y, stripe_hi)
+
+    # 벌 머리 (u28 v0, 5x5x5)
+    h = box(img, 28, 0, 5, 5, 5, chitin, 6, top=chitin_hi)
+    hx, hy = h["front"]
+    # 눈
+    for (x, y) in [(0, 1), (1, 1), (0, 2), (1, 2)]:
+        px(img, hx + x, hy + y, eye)
+    for (x, y) in [(3, 1), (4, 1), (3, 2), (4, 2)]:
+        px(img, hx + x, hy + y, eye)
+    px(img, hx, hy + 1, eye_hi)
+    px(img, hx + 4, hy + 1, eye_hi)
+    # 사람의 이빨이 남은 입
+    for x in range(1, 4):
+        px(img, hx + x, hy + 4, skin if x % 2 == 0 else skin_shade)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for y in range(5):
+            for x in range(5):
+                if (x + y) % 4 == 0:
+                    px(img, sx + x, sy + y, stripe_light)
+        for x in range(5):
+            px(img, sx + x, sy + 4, chitin_dark)
+
+    # 더듬이 (u44 v0, 1x3x1)
+    an = box(img, 44, 0, 1, 3, 1, chitin_dark, 4)
+    anx, any_ = an["front"]
+    for y in range(3):
+        px(img, anx, any_ + y, chitin if y % 2 == 0 else chitin_dark)
+
+    # 팔 (u0 v28, 2x8x2)
+    for u in (0, 8):
+        ar = box(img, u, 28, 2, 8, 2, chitin, 6, top=chitin_hi)
+        arx, ary = ar["front"]
+        for y in range(8):
+            px(img, arx, ary + y, chitin_dark if y % 3 == 0 else chitin)
+            px(img, arx + 1, ary + y, chitin_hi if y % 4 == 0 else chitin)
+        # 끝의 침
+        for x in range(2):
+            px(img, arx + x, ary + 7, sting)
+
+    # 다리 (u12 v28, 2x8x2)
+    for u in (12, 20):
+        l = box(img, u, 28, 2, 8, 2, chitin, 6, top=chitin_hi)
+        lx, ly = l["front"]
+        for y in range(8):
+            px(img, lx, ly + y, chitin_dark if y % 4 == 0 else chitin)
+            px(img, lx + 1, ly + y, chitin_hi if y % 5 == 0 else chitin)
+        for x in range(2):
+            px(img, lx + x, ly + 7, chitin_dark)
+
+    # 작은 날개 (u24 v28, 5x1x6)
+    w = box(img, 24, 28, 5, 1, 6, wing, 4, top=hexc("#f8fbff"))
+    wx, wy = w["front"]
+    for x in range(5):
+        px(img, wx + x, wy, wing_shade)
+    wtx, wty = w["top"]
+    for x in range(5):
+        for y in range(6):
+            if x == 0 or y == 0 or x == 4 or y == 5:
+                px(img, wtx + x, wty + y, wing_shade)
+
+    save(img, "textures/entity/worker_bee.png")
+
+
+HN = {"y": "#e0a020", "h": "#f0c050", "d": "#2a1a0a", "r": "#e01b2e", "k": "#3a2a14", "w": "#e8f0ff"}
+icon([
+    "................",
+    "..............yy",
+    ".............yy.",
+    "............yy..",
+    "...........yy...",
+    "..........yy....",
+    ".........yy.....",
+    "........yy......",
+    ".......yy.......",
+    "......yy........",
+    ".....yy.........",
+    "....yy..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], HN, "textures/item/hornet.png")
+icon([
+    "................",
+    "...yy......yy...",
+    "..yyyy....yyyy..",
+    "..yyyyyyyyyyyy..",
+    "...yyyyyyyyyy...",
+    "....yyrrrryy....",
+    "....yyrrrryy....",
+    "....yyrrrryy....",
+    "....yyrrrryy....",
+    "....yyyyyyyy....",
+    "....yyhhhh yy...".replace(" ", ""),
+    "....yyyyyyyy....",
+    "....yyyyyyyy....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], HN, "textures/item/hornet_suit.png")
+
+armor(hexc("#e0a020"), "#2a1a0a", "#e01b2e", "textures/entity/equipment/humanoid/hornet.png")
+
+for item, parent in [("hornet", "minecraft:item/handheld"), ("hornet_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/hornet.json", {"layers": {"humanoid": [{"texture": "lobcorp:hornet"}]}})
+
+queen_bee()
+worker_bee()
+print("assets queenbee ok")
+
+merge_lang({
+    "entity.lobcorp.queen_bee": "여왕벌",
+    "entity.lobcorp.worker_bee": "일벌",
+    "item.lobcorp.hornet": "말벌",
+    "item.lobcorp.hornet_suit": "말벌의 옷",
+}, {
+    "entity.lobcorp.queen_bee": "Queen Bee",
+    "entity.lobcorp.worker_bee": "Worker Bee",
+    "item.lobcorp.hornet": "Hornet",
+    "item.lobcorp.hornet_suit": "Hornet Garb",
+})

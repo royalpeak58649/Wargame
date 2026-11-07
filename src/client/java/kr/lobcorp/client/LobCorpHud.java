@@ -73,6 +73,10 @@ public final class LobCorpHud {
             g.text(font, "늑대의 뱃속 · 제압되거나 하루가 끝나야 나올 수 있습니다", x, line, 0xFFAA55FF, true);
             line += 10;
         }
+        if (ClientState.spore() > 0) {
+            g.text(font, "포자 감염 " + ClientState.spore() + "초", x, line, 0xFFFFC040, true);
+            line += 10;
+        }
         if (ClientState.portrait() == 1) {
             g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
         } else if (ClientState.portrait() == 2) {
