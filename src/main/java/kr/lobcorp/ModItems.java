@@ -49,6 +49,7 @@ public final class ModItems {
     public static final ArmorMaterial PLEASURE_MAT = material("pleasure", 6);
     public static final ArmorMaterial LAETITIA_MAT = material("laetitia", 7);
     public static final ArmorMaterial GRINDER_MAT = material("grinder", 6);
+    public static final ArmorMaterial OUR_GALAXY_MAT = material("our_galaxy", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -92,6 +93,8 @@ public final class ModItems {
     public static Item LAETITIA_SUIT;
     public static Item GRINDER;
     public static Item GRINDER_SUIT;
+    public static Item OUR_GALAXY;
+    public static Item OUR_GALAXY_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -237,6 +240,10 @@ public final class ModItems {
                 "T-05-41 · HE", "RED 피해, 빠른 연타", "청소용 팔 사이에서 낮게 돌아가는 칼날. 아직 닦는 소리가 난다.");
         GRINDER_SUIT = suit("grinder_suit", GRINDER_MAT,
                 "T-05-41 · HE", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+        OUR_GALAXY = weapon("our_galaxy", DamageColor.BLACK, 6.0, -3.0,
+                "O-01-55 · HE", "BLACK 피해 대형 둔기", "별가루가 박힌 둔기. 휘두르면 작은 별들이 흩날린다.");
+        OUR_GALAXY_SUIT = suit("our_galaxy_suit", OUR_GALAXY_MAT,
+                "O-01-55 · HE", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -247,6 +254,6 @@ public final class ModItems {
                 ENGULFING_DREAM, ENGULFING_DREAM_SUIT, HORN, HORN_SUIT, LANTERN, LANTERN_SUIT,
                 FRAGMENTS, FRAGMENTS_SUIT, NOISE, NOISE_SUIT, SANGUINE_DESIRE, SANGUINE_DESIRE_SUIT,
                 HARMONY, HARMONY_SUIT, PLEASURE, PLEASURE_SUIT, LAETITIA, LAETITIA_SUIT,
-                GRINDER, GRINDER_SUIT);
+                GRINDER, GRINDER_SUIT, OUR_GALAXY, OUR_GALAXY_SUIT);
     }
 }

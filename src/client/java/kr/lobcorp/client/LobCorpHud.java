@@ -54,6 +54,10 @@ public final class LobCorpHud {
             }
             line += 10;
         }
+        if (ClientState.pebble()) {
+            g.text(font, "★ 우정의 조약돌 · 다른 환상체 작업 시 위험", x, line, 0xFF9AD0FF, true);
+            line += 10;
+        }
         if (ClientState.portrait() == 1) {
             g.text(font, "초상 · 당신의 상처는 다른 사람이 받습니다", x, line, 0xFFB46CFF, true);
         } else if (ClientState.portrait() == 2) {

@@ -67,6 +67,7 @@ public final class Employees {
         v[16] = ToolState.isSheltered(p) ? 1 : 0;
         v[17] = ToolState.isEtched(p) ? 1 : ToolState.isVictim(p) ? 2 : 0;
         v[18] = ToolState.isNotesHolder(p) ? ToolState.notesTicks / 20 : 0;
+        v[19] = d.pebble ? 1 : 0;
         if (s != null) {
             v[7] = 1;
             v[8] = s.box;
@@ -282,6 +283,17 @@ public final class Employees {
             }
             if (d.laetitiaHeart && p.tickCount % 20 == 0) {
                 p.level().sendParticles(ParticleTypes.CHERRY_LEAVES, p.getX(), p.getY() + 2.2, p.getZ(), 1, 0.2, 0.1, 0.2, 0);
+            }
+            if (d.pebble) {
+                kr.lobcorp.entity.ChildGalaxyEntity child = kr.lobcorp.entity.ChildGalaxyEntity.current(server);
+                if (child == null) {
+                    d.pebble = false;
+                } else if (p.tickCount % 100 == 0) {
+                    int n = Math.max(1, child.getQliphoth());
+                    p.heal(n);
+                    if (d.sp < d.maxSp()) d.sp = Math.min(d.maxSp(), d.sp + n);
+                    p.level().sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1.2, p.getZ(), 2, 0.3, 0.4, 0.3, 0.01);
+                }
             }
             if (d.sapTicks > 0) {
                 d.sapTicks--;

@@ -101,6 +101,11 @@ public final class WorkManager {
         if (notes) interval = Math.max(6, interval * 3 / 4);
         SESSIONS.put(p.getUUID(), new WorkSession(a, type, prof.maxBox(), chance, interval));
         PunishingBirdEntity.onAnyWorkStarted(p.level(), a, p);
+        // 은하수의 아이: 조약돌을 지닌 채 다른 환상체를 작업하면 아이가 배신을 알아챈다
+        if (d.pebble && !(a instanceof kr.lobcorp.entity.ChildGalaxyEntity)) {
+            kr.lobcorp.entity.ChildGalaxyEntity child = kr.lobcorp.entity.ChildGalaxyEntity.current(p.level().getServer());
+            if (child != null) child.holderBetrayed(p);
+        }
 
         p.sendSystemMessage(Component.literal("▶ ").withStyle(s -> s.withColor(0x555555))
                 .append(Component.literal(type.ko).withStyle(s -> s.withColor(type.rgb)))
@@ -179,7 +184,8 @@ public final class WorkManager {
                         || wearing(p, ModItems.SCREAMING_WEDGE_SUIT) || wearing(p, ModItems.SOLITUDE_SUIT)
                         || wearing(p, ModItems.HORN_SUIT) || wearing(p, ModItems.LANTERN_SUIT)
                         || wearing(p, ModItems.NOISE_SUIT) || wearing(p, ModItems.HARMONY_SUIT)
-                        || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT)) dmg--;
+                        || wearing(p, ModItems.PLEASURE_SUIT) || wearing(p, ModItems.LAETITIA_SUIT)
+                        || wearing(p, ModItems.OUR_GALAXY_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
@@ -197,7 +203,8 @@ public final class WorkManager {
                         || wearing(p, ModItems.BEAK_SUIT) || wearing(p, ModItems.DAREDEVIL_SUIT)
                         || wearing(p, ModItems.RED_EYES_SUIT) || wearing(p, ModItems.HORN_SUIT)
                         || wearing(p, ModItems.LANTERN_SUIT) || wearing(p, ModItems.SANGUINE_DESIRE_SUIT)
-                        || wearing(p, ModItems.LAETITIA_SUIT) || wearing(p, ModItems.GRINDER_SUIT)) dmg--;
+                        || wearing(p, ModItems.LAETITIA_SUIT) || wearing(p, ModItems.GRINDER_SUIT)
+                        || wearing(p, ModItems.OUR_GALAXY_SUIT)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
             }

@@ -2,6 +2,7 @@ package kr.lobcorp;
 
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
+import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.ForsakenMurdererEntity;
@@ -64,6 +65,7 @@ public final class ModEntities {
     public static EntityType<ShelterEntity> SHELTER;
     public static EntityType<PortraitEntity> PORTRAIT;
     public static EntityType<NotesEntity> NOTES;
+    public static EntityType<ChildGalaxyEntity> CHILD_GALAXY;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -125,6 +127,8 @@ public final class ModEntities {
                 .sized(1.0f, 1.6f).clientTrackingRange(10));
         NOTES = register("notes", EntityType.Builder.of(NotesEntity::new, MobCategory.MISC)
                 .sized(0.8f, 1.2f).clientTrackingRange(10));
+        CHILD_GALAXY = register("child_galaxy", EntityType.Builder.of(ChildGalaxyEntity::new, MobCategory.MISC)
+                .sized(0.6f, 1.2f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -152,5 +156,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(SHELTER, ShelterEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(PORTRAIT, PortraitEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(NOTES, NotesEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(CHILD_GALAXY, ChildGalaxyEntity.createAttributes());
     }
 }

@@ -35,6 +35,8 @@ public class EmployeeData {
     public boolean laetitiaHeart = false;
     /** 거대한 나무 수액을 마셔 몸속에서 터질 때까지 남은 틱 (저장 안 함) */
     public int sapTicks = 0;
+    /** 은하수의 아이가 건넨 우정의 조약돌을 지니고 있는가 (저장 안 함) */
+    public boolean pebble = false;
     public Set<String> gifts = new HashSet<>();
 
     public static final Codec<EmployeeData> CODEC = RecordCodecBuilder.create(i -> i.group(
@@ -84,6 +86,7 @@ public class EmployeeData {
             java.util.Map.entry("pleasure", new int[]{0, 10, -6, -6}),
             java.util.Map.entry("laetitia", new int[]{0, 4, 0, 0}),
             java.util.Map.entry("grinder", new int[]{0, 0, 4, 4}),
+            java.util.Map.entry("our_galaxy", new int[]{0, 0, 3, 3}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

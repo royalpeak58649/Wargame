@@ -3,6 +3,7 @@ package kr.lobcorp.client.render;
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.AllAroundHelperModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
+import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.FragmentModel;
@@ -27,6 +28,7 @@ import kr.lobcorp.client.model.TreeSapModel;
 import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
+import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.FragmentEntity;
@@ -610,6 +612,31 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LivingEntityRenderState s) {
+            return TEX;
+        }
+    }
+
+    public static class ChildGalaxy extends MobRenderer<ChildGalaxyEntity, ChildGalaxyModel.State, ChildGalaxyModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/child_galaxy.png");
+
+        public ChildGalaxy(EntityRendererProvider.Context ctx) {
+            super(ctx, new ChildGalaxyModel(ctx.bakeLayer(ChildGalaxyModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public ChildGalaxyModel.State createRenderState() {
+            return new ChildGalaxyModel.State();
+        }
+
+        @Override
+        public void extractRenderState(ChildGalaxyEntity e, ChildGalaxyModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.counter = e.getQliphoth();
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 조약돌과 별이 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(ChildGalaxyModel.State s) {
             return TEX;
         }
     }

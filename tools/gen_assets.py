@@ -2942,3 +2942,169 @@ merge_lang({
 }, {
     "entity.lobcorp.notes": "Notes from a Crazed Researcher",
 })
+
+
+# ═════════════ 23차: 은하수의 아이 (O-01-55) ═════════════
+def child_galaxy():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    navy = hexc("#141a3a")
+    navy_hi = hexc("#1e2650")
+    navy_dark = hexc("#0a0e22")
+    star_w = hexc("#ffffff")
+    star_b = hexc("#9ad0ff")
+    skin = hexc("#f0e6dc")
+    skin_shade = hexc("#d8c8bc")
+    eye = hexc("#2a2a4a")
+    pebble = hexc("#c0f0ff")
+    pebble_hi = hexc("#f0ffff")
+    pebble_dark = hexc("#6aa8c8")
+
+    # 다리 (u0 v0, 2x4x2)
+    for u in (0, 4):
+        l = box(img, u, 0, 2, 4, 2, navy_dark, 4)
+        lx, ly = l["front"]
+        for y in range(4):
+            px(img, lx, ly + y, hexc("#05081a"))
+        for x in range(2):
+            px(img, lx + x, ly + 3, hexc("#05081a"))
+
+    # 몸통 (u0 v8, 5x5x3)
+    b = box(img, 0, 8, 5, 5, 3, navy, 4)
+    bx, by = b["front"]
+    for (x, y) in [(1, 1), (3, 2), (2, 4)]:
+        px(img, bx + x, by + y, star_b)
+
+    # 망토 (u0 v16, 8x9x5)
+    c = box(img, 0, 16, 8, 9, 5, navy, 4, top=navy_hi)
+    cx, cy = c["front"]
+    # 별가루: 흰 별과 푸른 별
+    for (x, y) in [(1, 1), (4, 2), (6, 1), (2, 4), (5, 5), (0, 6), (7, 4), (3, 7), (6, 7)]:
+        px(img, cx + x, cy + y, star_w)
+    for (x, y) in [(3, 1), (0, 3), (6, 3), (4, 4), (1, 5), (5, 6), (2, 8), (7, 8)]:
+        px(img, cx + x, cy + y, star_b)
+    for x in range(8):
+        px(img, cx + x, cy + 8, navy_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = c[side]
+        for y in range(9):
+            for x in range(0, 5, 2):
+                if (x + y) % 3 == 0:
+                    px(img, sx + x, sy + y, star_b if (x + y) % 2 == 0 else star_w)
+        for x in range(5):
+            px(img, sx + x, sy + 8, navy_dark)
+    tx, ty = c["top"]
+    for x in range(8):
+        for y in range(5):
+            if (x * 3 + y * 5) % 7 == 0:
+                px(img, tx + x, ty + y, star_w)
+
+    # 망토 자락 (u26 v16, 9x2x6)
+    h = box(img, 26, 16, 9, 2, 6, navy, 4, top=navy_hi)
+    hx, hy = h["front"]
+    for (x, y) in [(1, 0), (4, 1), (7, 0)]:
+        px(img, hx + x, hy + y, star_b)
+    for x in range(9):
+        px(img, hx + x, hy + 1, navy_dark)
+
+    # 두건 (u0 v30, 7x6x6)
+    hd = box(img, 0, 30, 7, 6, 6, navy, 4, top=navy_hi)
+    hdx, hdy = hd["front"]
+    for (x, y) in [(0, 0), (6, 1), (1, 5), (5, 5)]:
+        px(img, hdx + x, hdy + y, star_w)
+    for (x, y) in [(3, 0), (0, 3), (6, 3)]:
+        px(img, hdx + x, hdy + y, star_b)
+    for side in ("right", "left", "back"):
+        sx, sy = hd[side]
+        for y in range(6):
+            for x in range(0, 6, 2):
+                if (x + y) % 4 == 0:
+                    px(img, sx + x, sy + y, star_b)
+
+    # 두건 속 얼굴 (u26 v30, 4x4x1)
+    f = box(img, 26, 30, 4, 4, 1, skin, 4)
+    fx, fy = f["front"]
+    # 조용한 눈 두 개
+    px(img, fx + 1, fy + 1, eye)
+    px(img, fx + 2, fy + 1, eye)
+    px(img, fx + 1, fy + 2, hexc("#4a4a6a"))
+    px(img, fx + 2, fy + 2, hexc("#4a4a6a"))
+    # 입
+    px(img, fx + 1, fy + 3, skin_shade)
+    px(img, fx + 2, fy + 3, skin_shade)
+    # 볼
+    px(img, fx, fy + 2, hexc("#e8c8c8"))
+    px(img, fx + 3, fy + 2, hexc("#e8c8c8"))
+
+    # 팔 (u36 v30, 2x4x2)
+    a = box(img, 36, 30, 2, 4, 2, navy, 4)
+    ax, ay = a["front"]
+    for y in range(4):
+        px(img, ax, ay + y, navy_dark)
+    for x in range(2):
+        px(img, ax + x, ay + 3, skin)
+
+    # 조약돌 (u44 v30, 1x1x1)
+    p = box(img, 44, 30, 1, 1, 1, pebble, 0, top=pebble_hi)
+    px_, py_ = p["front"]
+    px(img, px_, py_, pebble_hi)
+    for side in ("right", "left", "back", "bottom"):
+        sx, sy = p[side]
+        px(img, sx, sy, pebble_dark)
+
+    save(img, "textures/entity/child_galaxy.png")
+
+
+OG = {"n": "#141a3a", "h": "#1e2650", "d": "#0a0e22", "w": "#ffffff", "b": "#9ad0ff", "p": "#c0f0ff"}
+icon([
+    "................",
+    "..............nn",
+    ".............nn.",
+    "............nn..",
+    "...........nn...",
+    "..........nn....",
+    ".........nn.....",
+    "........nn......",
+    ".......nn.......",
+    "......nn........",
+    ".....nn.........",
+    "....nn..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], OG, "textures/item/our_galaxy.png")
+icon([
+    "................",
+    "...nn......nn...",
+    "..nnnn....nnnn..",
+    "..nnnnnnnnnnnn..",
+    "...nnnnnnnnnn...",
+    "....nnwwbbnn....",
+    "....nnwwbbnn....",
+    "....nnbbwwnn....",
+    "....nnbbwwnn....",
+    "....nnnnnnnn....",
+    "....nnppppnn....",
+    "....nnnnnnnn....",
+    "....nnnnnnnn....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], OG, "textures/item/our_galaxy_suit.png")
+
+armor(hexc("#141a3a"), "#0a0e22", "#9ad0ff", "textures/entity/equipment/humanoid/our_galaxy.png")
+
+for item, parent in [("our_galaxy", "minecraft:item/handheld"), ("our_galaxy_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/our_galaxy.json", {"layers": {"humanoid": [{"texture": "lobcorp:our_galaxy"}]}})
+
+
+child_galaxy()
+print("assets child ok")
+
+merge_lang({
+    "entity.lobcorp.child_galaxy": "은하수의 아이",
+}, {
+    "entity.lobcorp.child_galaxy": "Child of the Galaxy",
+})

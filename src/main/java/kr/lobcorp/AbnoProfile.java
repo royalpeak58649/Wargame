@@ -338,6 +338,21 @@ public record AbnoProfile(
                     "돌진이 끝나면 동력이 떨어져 한동안 멈춰 선다. 그때가 공격할 기회다."
             ));
 
+    public static final AbnoProfile CHILD_GALAXY = new AbnoProfile(
+            "child_galaxy", "은하수의 아이", "O-01-55", "HE", 0xFFAA00,
+            new int[]{45, 45, 45, 45}, 16, 17, 9,
+            DamageColor.BLACK, 2, 3,
+            5,
+            () -> ModItems.OUR_GALAXY, 45,
+            () -> ModItems.OUR_GALAXY_SUIT, 30,
+            "our_galaxy", "우리의 은하", "작업 성공률 +3%, 작업 속도 +3%", 4,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "작업을 마칠 때마다 클리포트 카운터가 1 오르고, 작업자는 우정의 조약돌을 받는다 (한 사람당 하나).",
+                    "조약돌은 지닌 이의 HP와 SP를 조금씩 회복시킨다. 카운터가 높을수록 더 많이 회복된다.",
+                    "조약돌을 지닌 채 다른 환상체를 작업하면 카운터가 1 내려가고, 조약돌을 지닌 이가 죽으면 4 내려간다. 0이 되면 조약돌을 지닌 모두가 함께 무너진다."
+            ));
+
     public static final AbnoProfile TREE_SAP = new AbnoProfile(
             "tree_sap", "거대한 나무 수액", "T-09-80", "HE", 0xFFAA00,
             new int[]{0, 0, 0, 0}, 0, 0, 0,
@@ -420,6 +435,7 @@ public record AbnoProfile(
             Map.entry(PORCCUBUS.id, PORCCUBUS),
             Map.entry(LAETITIA.id, LAETITIA),
             Map.entry(HELPER.id, HELPER),
+            Map.entry(CHILD_GALAXY.id, CHILD_GALAXY),
             Map.entry(TREE_SAP.id, TREE_SAP),
             Map.entry(SHELTER.id, SHELTER),
             Map.entry(PORTRAIT.id, PORTRAIT),

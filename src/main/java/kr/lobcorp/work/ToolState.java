@@ -121,6 +121,12 @@ public final class ToolState {
     public static void onDeath(LivingEntity entity, DamageSource source) {
         if (!(entity instanceof ServerPlayer p)) return;
         if (isNotesHolder(p)) clearNotes();
+        // 은하수의 아이: 조약돌을 지닌 직원이 죽으면 아이가 무너진다
+        if (Employees.get(p).pebble) {
+            kr.lobcorp.entity.ChildGalaxyEntity child = kr.lobcorp.entity.ChildGalaxyEntity.current(p.level().getServer());
+            if (child != null) child.holderDied(p);
+            Employees.get(p).pebble = false;
+        }
         if (isEtched(p)) {
             resetPortrait();
             if (p.level() instanceof net.minecraft.server.level.ServerLevel sl) {
