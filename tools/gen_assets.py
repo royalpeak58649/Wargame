@@ -6649,3 +6649,255 @@ merge_lang({
     "item.lobcorp.hornet": "Hornet",
     "item.lobcorp.hornet_suit": "Hornet Garb",
 })
+
+
+# ═════════════ 41차: 흑조의 꿈 (F-02-70) ═════════════
+def black_swan():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    water = hexc("#1a2a3a")
+    water_hi = hexc("#24384c")
+    water_dark = hexc("#0e1a26")
+    white = hexc("#f4f4f4")
+    white_shade = hexc("#d8d8d8")
+    black = hexc("#101010")
+    black_hi = hexc("#242424")
+    beak = hexc("#e8a030")
+    feather = hexc("#141418")
+    feather_hi = hexc("#22222a")
+    feather_dark = hexc("#0a0a0e")
+    skin = hexc("#f0e8e4")
+    skin_shade = hexc("#d4c8c4")
+    eye = hexc("#2a1a24")
+    crown = hexc("#0e0e12")
+    crown_hi = hexc("#2a2a34")
+    stick = hexc("#1a1a20")
+    canopy = hexc("#141418")
+    canopy_hi = hexc("#2a2a34")
+    canopy_dark = hexc("#08080a")
+    wing = hexc("#0e0e14")
+    wing_hi = hexc("#2a2a3a")
+
+    # 호수 판 (u0 v0, 20x1x20) — 64x64 텍스처에 맞도록 16x1x16으로 줄여 그린다
+    lk = box(img, 0, 0, 16, 1, 16, water, 6, top=water_hi)
+    lkx, lky = lk["front"]
+    for x in range(16):
+        px(img, lkx + x, lky, water_dark)
+    ltx, lty = lk["top"]
+    for x in range(16):
+        for y in range(16):
+            if (x * 3 + y * 5) % 17 == 0:
+                px(img, ltx + x, lty + y, water_hi)
+            elif (x + y * 2) % 23 == 0:
+                px(img, ltx + x, lty + y, water_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = lk[side]
+        for x in range(16):
+            px(img, sx + x, sy, water_dark)
+
+    # 백조 몸통 (u0 v24, 3x2x4)
+    sw = box(img, 0, 24, 3, 2, 4, white, 4, top=hexc("#ffffff"))
+    swx, swy = sw["front"]
+    for x in range(3):
+        px(img, swx + x, swy + 1, white_shade)
+    # 목 (u14 v24, 1x3x1)
+    nk = box(img, 14, 24, 1, 3, 1, white, 4)
+    nkx, nky = nk["front"]
+    for y in range(3):
+        px(img, nkx, nky + y, white_shade if y % 2 == 0 else white)
+    # 머리 (u18 v24, 2x1x2)
+    hd = box(img, 18, 24, 2, 1, 2, white, 4, top=hexc("#ffffff"))
+    hdx, hdy = hd["front"]
+    px(img, hdx, hdy, white_shade)
+    # 부리 (u26 v24, 1x1x1)
+    bk = box(img, 26, 24, 1, 1, 1, beak, 0)
+    bkx, bky = bk["front"]
+    px(img, bkx, bky, hexc("#b07a1a"))
+
+    # 검게 물든 백조용 어두운 판 (u28 v24, 3x2x4 / u28 v32, 1x3x1 / u28 v38, 2x1x2)
+    bs = box(img, 28, 24, 3, 2, 4, black, 4, top=black_hi)
+    bsx, bsy = bs["front"]
+    for x in range(3):
+        px(img, bsx + x, bsy + 1, black_hi)
+    bn = box(img, 28, 32, 1, 3, 1, black, 4)
+    bnx, bny = bn["front"]
+    for y in range(3):
+        px(img, bnx, bny + y, black_hi if y % 2 == 0 else black)
+    bh = box(img, 28, 38, 2, 1, 2, black, 4, top=black_hi)
+    bhx, bhy = bh["front"]
+    px(img, bhx, bhy, black_hi)
+
+    # 드레스: 검은 깃털 (u0 v32, 8x10x8)
+    g = box(img, 0, 32, 8, 10, 8, feather, 4, top=feather_hi)
+    gx, gy = g["front"]
+    # 깃털 결: 아래로 흐르는 가는 선
+    for y in range(10):
+        for x in range(8):
+            if (x * 3 + y * 5) % 11 == 0:
+                px(img, gx + x, gy + y, feather_hi)
+            elif (x + y) % 7 == 0:
+                px(img, gx + x, gy + y, feather_dark)
+    for x in range(8):
+        px(img, gx + x, gy + 9, feather_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = g[side]
+        for y in range(10):
+            for x in range(8):
+                if (x * 5 + y * 3) % 13 == 0:
+                    px(img, sx + x, sy + y, feather_hi)
+                elif (x + y) % 9 == 0:
+                    px(img, sx + x, sy + y, feather_dark)
+        for x in range(8):
+            px(img, sx + x, sy + 9, feather_dark)
+    tx, ty = g["top"]
+    for x in range(8):
+        for y in range(8):
+            if (x + y) % 5 == 0:
+                px(img, tx + x, ty + y, feather_hi)
+
+    # 몸통 (u32 v32, 5x6x3)
+    b = box(img, 32, 32, 5, 6, 3, feather, 4, top=feather_hi)
+    bx, by = b["front"]
+    for y in range(6):
+        px(img, bx + 2, by + y, feather_dark)
+    for x in range(5):
+        px(img, bx + x, by + 5, feather_dark)
+
+    # 팔 (u48 v32, 2x7x2)
+    a = box(img, 48, 32, 2, 7, 2, feather, 4, top=feather_hi)
+    ax, ay = a["front"]
+    for y in range(7):
+        px(img, ax, ay + y, feather_dark if y % 3 == 0 else feather)
+    for x in range(2):
+        px(img, ax + x, ay + 6, skin)
+
+    # 머리: 창백한 얼굴 (u0 v50, 5x5x5)
+    h = box(img, 0, 50, 5, 5, 5, skin, 3, top=crown)
+    hx, hy = h["front"]
+    # 눈
+    px(img, hx + 1, hy + 2, eye)
+    px(img, hx + 3, hy + 2, eye)
+    px(img, hx + 1, hy + 1, skin_shade)
+    px(img, hx + 3, hy + 1, skin_shade)
+    # 입
+    px(img, hx + 2, hy + 4, hexc("#a07a80"))
+    # 앞머리
+    for x in range(5):
+        px(img, hx + x, hy, crown)
+    for x in (0, 2, 4):
+        px(img, hx + x, hy + 1, crown_hi)
+    for side in ("right", "left"):
+        sx, sy = h[side]
+        for y in range(5):
+            px(img, sx + 2, sy + y, crown if y < 3 else crown_hi)
+
+    # 깃털 왕관 (u20 v50, 6x2x6)
+    cr = box(img, 20, 50, 6, 2, 6, crown, 4, top=crown_hi)
+    crx, cry = cr["front"]
+    for x in range(6):
+        px(img, crx + x, cry + 1, crown_hi)
+    for (x, y) in [(1, 0), (4, 0)]:
+        px(img, crx + x, cry + y, hexc("#3a3a48"))
+    ctx, cty = cr["top"]
+    for x in range(6):
+        for y in range(6):
+            if (x + y) % 4 == 0:
+                px(img, ctx + x, cty + y, crown_hi)
+
+    # 양산 자루 (u40 v50, 1x10x1)
+    st = box(img, 40, 50, 1, 10, 1, stick, 4)
+    stx, sty = st["front"]
+    for y in range(10):
+        px(img, stx, sty + y, hexc("#3a3a44") if y % 3 == 0 else stick)
+
+    # 양산 우산 (u0 v0, 10x2x10) — 호수 판은 16x1x16이라 u0 v0의 16x16 영역만 쓴다.
+    # 우산은 그 아래 v16부터 시작해 겹치지 않게 한다.
+    cp = box(img, 0, 16, 10, 2, 10, canopy, 4, top=canopy_hi)
+    cpx, cpy = cp["front"]
+    for x in range(10):
+        px(img, cpx + x, cpy + 1, canopy_dark)
+    ctx2, cty2 = cp["top"]
+    # 우산살: 중심에서 뻗은 검은 선
+    for x in range(10):
+        for y in range(10):
+            if x == 5 or y == 5 or abs(x - 5) == abs(y - 5):
+                px(img, ctx2 + x, cty2 + y, canopy_dark)
+            elif (x + y) % 7 == 0:
+                px(img, ctx2 + x, cty2 + y, canopy_hi)
+    for side in ("right", "left", "back"):
+        sx, sy = cp[side]
+        for x in range(10):
+            px(img, sx + x, sy, canopy_hi if x % 3 == 0 else canopy)
+            px(img, sx + x, sy + 1, canopy_dark)
+
+    # 검은 날개 (u0 v30, 10x12x1) — 변이 시 펼친다
+    w = box(img, 0, 30, 10, 12, 1, wing, 4, top=wing_hi)
+    wx, wy = w["front"]
+    for y in range(12):
+        for x in range(10):
+            if (x * 3 + y * 5) % 9 == 0:
+                px(img, wx + x, wy + y, wing_hi)
+            elif (x + y) % 6 == 0:
+                px(img, wx + x, wy + y, hexc("#05050a"))
+    for x in range(10):
+        px(img, wx + x, wy + 11, hexc("#05050a"))
+
+    save(img, "textures/entity/black_swan.png")
+
+
+BS = {"k": "#141418", "h": "#22222a", "d": "#0a0a0e", "w": "#f4f4f4", "s": "#1a1a20", "p": "#f0e8e4"}
+icon([
+    "................",
+    "..............kk",
+    ".............kk.",
+    "............kk..",
+    "...........kk...",
+    "..........kk....",
+    ".........kk.....",
+    "........kk......",
+    ".......kk.......",
+    "......kk........",
+    ".....kk.........",
+    "....kk..........",
+    "...dd...........",
+    "..dd............",
+    "..d.............",
+    "................",
+], BS, "textures/item/black_swan.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkwwwwkk....",
+    "....kkwwwwkk....",
+    "....kkwwwwkk....",
+    "....kkwwwwkk....",
+    "....kkkkkkkk....",
+    "....kkhhhhkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], BS, "textures/item/black_swan_suit.png")
+
+armor(hexc("#141418"), "#0a0a0e", "#f4f4f4", "textures/entity/equipment/humanoid/black_swan.png")
+
+for item, parent in [("black_swan", "minecraft:item/handheld"), ("black_swan_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/black_swan.json", {"layers": {"humanoid": [{"texture": "lobcorp:black_swan"}]}})
+
+black_swan()
+print("assets swan ok")
+
+merge_lang({
+    "entity.lobcorp.black_swan": "흑조의 꿈",
+    "item.lobcorp.black_swan": "흑조",
+    "item.lobcorp.black_swan_suit": "흑조의 드레스",
+}, {
+    "entity.lobcorp.black_swan": "Dream of a Black Swan",
+    "item.lobcorp.black_swan": "Black Swan",
+    "item.lobcorp.black_swan_suit": "Black Swan Dress",
+})

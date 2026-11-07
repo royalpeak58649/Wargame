@@ -120,6 +120,7 @@ public class EmployeeData {
             java.util.Map.entry("cobalt_scar", new int[]{4, 0, 0, 2}),
             java.util.Map.entry("faint_aroma", new int[]{0, 4, 2, 2}),
             java.util.Map.entry("hornet", new int[]{2, 4, 0, 0}),
+            java.util.Map.entry("black_swan", new int[]{-4, -4, 10, 10}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

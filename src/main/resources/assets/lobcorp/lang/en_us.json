@@ -119,5 +119,8 @@
   "entity.lobcorp.queen_bee": "Queen Bee",
   "entity.lobcorp.worker_bee": "Worker Bee",
   "item.lobcorp.hornet": "Hornet",
-  "item.lobcorp.hornet_suit": "Hornet Garb"
+  "item.lobcorp.hornet_suit": "Hornet Garb",
+  "entity.lobcorp.black_swan": "Dream of a Black Swan",
+  "item.lobcorp.black_swan": "Black Swan",
+  "item.lobcorp.black_swan_suit": "Black Swan Dress"
 }

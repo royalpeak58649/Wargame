@@ -6,6 +6,7 @@ import kr.lobcorp.client.model.AlriuneModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.BigBadWolfModel;
 import kr.lobcorp.client.model.BigBirdModel;
+import kr.lobcorp.client.model.BlackSwanModel;
 import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
@@ -49,6 +50,7 @@ import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
+import kr.lobcorp.entity.BlackSwanEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -1120,6 +1122,33 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(WorkerBeeModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class BlackSwan extends MobRenderer<BlackSwanEntity, BlackSwanModel.State, BlackSwanModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/black_swan.png");
+
+        public BlackSwan(EntityRendererProvider.Context ctx) {
+            super(ctx, new BlackSwanModel(ctx.bakeLayer(BlackSwanModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public BlackSwanModel.State createRenderState() {
+            return new BlackSwanModel.State();
+        }
+
+        @Override
+        public void extractRenderState(BlackSwanEntity e, BlackSwanModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.changed = e.getChanged();
+            s.transformed = e.isTransformed();
+            if (s.transformed) s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 검은 날개가 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(BlackSwanModel.State s) {
             return TEX;
         }
     }

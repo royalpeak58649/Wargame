@@ -5,6 +5,7 @@ import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
+import kr.lobcorp.entity.BlackSwanEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -102,6 +103,7 @@ public final class ModEntities {
     public static EntityType<AlriuneEntity> ALRIUNE;
     public static EntityType<QueenBeeEntity> QUEEN_BEE;
     public static EntityType<WorkerBeeEntity> WORKER_BEE;
+    public static EntityType<BlackSwanEntity> BLACK_SWAN;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -201,6 +203,8 @@ public final class ModEntities {
                 .sized(1.6f, 1.6f).clientTrackingRange(10));
         WORKER_BEE = register("worker_bee", EntityType.Builder.of(WorkerBeeEntity::new, MobCategory.MONSTER)
                 .sized(0.8f, 1.4f).clientTrackingRange(10));
+        BLACK_SWAN = register("black_swan", EntityType.Builder.of(BlackSwanEntity::new, MobCategory.MISC)
+                .sized(0.7f, 2.0f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -247,5 +251,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(ALRIUNE, AlriuneEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(QUEEN_BEE, QueenBeeEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(WORKER_BEE, WorkerBeeEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BLACK_SWAN, BlackSwanEntity.createAttributes());
     }
 }

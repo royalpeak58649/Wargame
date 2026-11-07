@@ -668,7 +668,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 3초 뒤 격리실에서 포자가 퍼져 나간다. 32블록 안의 직원 셋이 감염되어 20초 동안 피부를 뚫고 자라난다. 감염된 채 죽은 직원의 몸에서는 일벌이 기어 나온다."
             ));
 
+    public static final AbnoProfile BLACK_SWAN = new AbnoProfile(
+            "black_swan", "흑조의 꿈", "F-02-70", "WAW", 0xAA55FF,
+            new int[]{35, 40, 45, 35}, 24, 17, 9,
+            DamageColor.WHITE, 5, 6,
+            5,
+            () -> ModItems.BLACK_SWAN, 60,
+            () -> ModItems.BLACK_SWAN_SUIT, 50,
+            "black_swan", "흑조", "최대 HP -4, 최대 SP -4, 작업 성공률 +10%, 작업 속도 +10%", 3,
+            new float[]{1.0f, 0.8f, 1.5f, 1.0f},
+            List.of(
+                    "검은 깃털 드레스를 입은 여인이 검은 양산을 들고 조용한 호수 위에 서 있다. 그녀를 둘러싼 여섯 마리의 백조는 저주받은 오라비들이다.",
+                    "작업 결과가 보통이거나 나쁘면, 그리고 하루에 직원 다섯이 죽거나 다섯이 패닉에 빠지거나 환상체 셋이 탈출할 때마다 백조 한 마리가 검게 물든다.",
+                    "여섯 마리가 모두 검게 물들면 여동생이 모습을 드러낸다. 탈출한 그녀의 양산은 정면의 공격을 되돌려 보내고, 지나가는 격리실의 카운터를 갉아먹는다. 생명이 절반 아래로 떨어지면 날개가 돋아나며 비명을 지른다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(BLACK_SWAN.id, BLACK_SWAN),
             Map.entry(QUEEN_BEE.id, QUEEN_BEE),
             Map.entry(ALRIUNE.id, ALRIUNE),
             Map.entry(BIG_BIRD.id, BIG_BIRD),

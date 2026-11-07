@@ -119,5 +119,8 @@
   "entity.lobcorp.queen_bee": "여왕벌",
   "entity.lobcorp.worker_bee": "일벌",
   "item.lobcorp.hornet": "말벌",
-  "item.lobcorp.hornet_suit": "말벌의 옷"
+  "item.lobcorp.hornet_suit": "말벌의 옷",
+  "entity.lobcorp.black_swan": "흑조의 꿈",
+  "item.lobcorp.black_swan": "흑조",
+  "item.lobcorp.black_swan_suit": "흑조의 드레스"
 }

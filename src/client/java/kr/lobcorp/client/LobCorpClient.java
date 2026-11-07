@@ -107,6 +107,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.QUEEN_BEE, kr.lobcorp.client.render.NewAbnoRenderers.QueenBee::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.WorkerBeeModel.LAYER, kr.lobcorp.client.model.WorkerBeeModel::createLayer);
         EntityRendererRegistry.register(ModEntities.WORKER_BEE, kr.lobcorp.client.render.NewAbnoRenderers.WorkerBee::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.BlackSwanModel.LAYER, kr.lobcorp.client.model.BlackSwanModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.BLACK_SWAN, kr.lobcorp.client.render.NewAbnoRenderers.BlackSwan::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

@@ -325,7 +325,8 @@ public final class WorkManager {
             () -> ModItems.JUSTITIA_SUIT,
             () -> ModItems.LOVE_AND_HATE_SUIT,
             () -> ModItems.TEARS_SWORD_SUIT,
-            () -> ModItems.GOLD_RUSH_SUIT);
+            () -> ModItems.GOLD_RUSH_SUIT,
+            () -> ModItems.BLACK_SWAN_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
@@ -352,7 +353,8 @@ public final class WorkManager {
             () -> ModItems.JUSTITIA_SUIT,
             () -> ModItems.LOVE_AND_HATE_SUIT,
             () -> ModItems.TEARS_SWORD_SUIT,
-            () -> ModItems.GOLD_RUSH_SUIT);
+            () -> ModItems.GOLD_RUSH_SUIT,
+            () -> ModItems.BLACK_SWAN_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
@@ -371,7 +373,8 @@ public final class WorkManager {
             () -> ModItems.JUSTITIA_SUIT,
             () -> ModItems.LOVE_AND_HATE_SUIT,
             () -> ModItems.TEARS_SWORD_SUIT,
-            () -> ModItems.CRIMSON_SCAR_SUIT);
+            () -> ModItems.CRIMSON_SCAR_SUIT,
+            () -> ModItems.BLACK_SWAN_SUIT);
 
     static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
         for (var s : suits) if (wearing(p, s.get())) return true;
