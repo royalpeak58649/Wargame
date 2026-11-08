@@ -160,5 +160,6 @@
   "entity.lobcorp.backward_clock": "거꾸로 가는 시계",
   "entity.lobcorp.dimension_refraction": "차원 굴절 변이체",
   "item.lobcorp.diffraction": "회절",
-  "item.lobcorp.diffraction_suit": "회절의 옷"
+  "item.lobcorp.diffraction_suit": "회절의 옷",
+  "entity.lobcorp.flesh_idol": "살점 우상"
 }
