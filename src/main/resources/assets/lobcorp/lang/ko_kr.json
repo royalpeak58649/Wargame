@@ -207,5 +207,7 @@
   "item.lobcorp.paradise_lost_suit": "실낙원 옷",
   "item.lobcorp.twilight": "황혼",
   "item.lobcorp.twilight_suit": "황혼 옷",
-  "entity.lobcorp.clerk": "사무직"
+  "entity.lobcorp.clerk": "사무직",
+  "entity.lobcorp.agent": "관리직",
+  "item.lobcorp.agent_tablet": "관리 태블릿"
 }
