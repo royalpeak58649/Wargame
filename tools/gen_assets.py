@@ -7870,3 +7870,105 @@ print("assets dreaming current ok")
 
 merge_lang({"entity.lobcorp.dreaming_current": "꿈꾸는 조류", "item.lobcorp.ecstasy": "황홀", "item.lobcorp.ecstasy_suit": "황홀의 옷"},
            {"entity.lobcorp.dreaming_current": "The Dreaming Current", "item.lobcorp.ecstasy": "Ecstasy", "item.lobcorp.ecstasy_suit": "Ecstasy Suit"})
+
+
+# ───────────── 땅을 파는 천국 ─────────────
+def burrowing_heaven():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    bark = hexc("#efeae0")
+    bark_hi = hexc("#f7f3ea")
+    bark_lo = hexc("#c9c2b4")
+    root = hexc("#3a2a24")
+    root_hi = hexc("#5a4438")
+    knot = hexc("#8a847a")
+    eye_w = hexc("#f4f0e6")
+    vein = hexc("#b0202a")
+    pupil = hexc("#1a1414")
+
+    # 몸통 마디 3개 (u0 v0 / u0 v16 / u0 v32, 각 4x10x4) — 창백한 나무껍질
+    for (u, v) in [(0, 0), (0, 16), (0, 32)]:
+        t = box(img, u, v, 4, 10, 4, bark, 6, top=bark_hi)
+        tx, ty = t["front"]
+        for y in range(10):
+            px(img, tx, ty + y, bark_lo)
+            px(img, tx + 3, ty + y, bark_lo)
+        for y in range(1, 10, 3):
+            px(img, tx + 1, ty + y, bark_lo)
+
+    # 뿌리 네 개 (u16 v0 / u16 v8 / u16 v16 / u16 v24, 각 3x2x8) — 어두운 흙빛
+    for (u, v) in [(16, 0), (16, 8), (16, 16), (16, 24)]:
+        r = box(img, u, v, 3, 2, 8, root, 6, top=root_hi)
+        rx, ry = r["front"]
+        px(img, rx + 1, ry, root_hi)
+
+    # 눈 덩어리 중심 매듭 (u40 v0, 4x4x4)
+    k = box(img, 40, 0, 4, 4, 4, knot, 6, top=bark_lo)
+    kx, ky = k["front"]
+    px(img, kx + 1, ky + 1, pupil)
+    px(img, kx + 2, ky + 2, pupil)
+
+    # 눈 여덟 개 (3x3x3) — 흰자에 핏발, 앞면 가운데 검은 동공
+    for (u, v) in [(0, 48), (16, 48), (32, 48), (48, 48), (0, 56), (16, 56), (32, 56), (48, 56)]:
+        e = box(img, u, v, 3, 3, 3, eye_w, 4, top=eye_w)
+        ex, ey = e["front"]
+        px(img, ex, ey, vein)
+        px(img, ex + 2, ey, vein)
+        px(img, ex, ey + 2, vein)
+        px(img, ex + 2, ey + 2, vein)
+        px(img, ex + 1, ey + 1, pupil)
+
+    save(img, "textures/entity/burrowing_heaven.png")
+
+
+HV = {"k": "#1a1414", "r": "#b0202a", "w": "#efeae0", "g": "#8a847a"}
+# 천국: 창백한 창이 대각선으로 뻗고 날 밑동에 작은 눈이 달린다
+icon([
+    "................",
+    "............ww..",
+    "...........www..",
+    "..........wwk...",
+    ".........www....",
+    "........www.....",
+    ".......www......",
+    "......www.......",
+    ".....www........",
+    "....www.........",
+    "...www..........",
+    "..wwr...........",
+    ".wrrw...........",
+    ".rkw............",
+    "..r.............",
+    "................",
+], HV, "textures/item/heaven.png")
+# 천국의 옷: 눈 문양이 달린 창백한 코트
+icon([
+    "................",
+    "...ww......ww...",
+    "..wwww....wwww..",
+    "..wwwwwwwwwwww..",
+    "...wwwwwwwwww...",
+    "....wwwwwwww....",
+    "....wwrrrrww....",
+    "....wwrkkrww....",
+    "....wwrrrrww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    ".....gggggg.....",
+    "................",
+    "................",
+], HV, "textures/item/heaven_suit.png")
+
+armor(hexc("#efeae0"), "#1a1414", "#b0202a", "textures/entity/equipment/humanoid/heaven.png")
+
+for item, parent in [("heaven", "minecraft:item/handheld"), ("heaven_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/heaven.json", {"layers": {"humanoid": [{"texture": "lobcorp:heaven"}]}})
+
+burrowing_heaven()
+print("assets burrowing heaven ok")
+
+merge_lang({"entity.lobcorp.burrowing_heaven": "땅을 파는 천국", "item.lobcorp.heaven": "천국", "item.lobcorp.heaven_suit": "천국의 옷"},
+           {"entity.lobcorp.burrowing_heaven": "The Burrowing Heaven", "item.lobcorp.heaven": "Heaven", "item.lobcorp.heaven_suit": "Heaven Suit"})

@@ -26,6 +26,7 @@ import kr.lobcorp.client.model.LittlePrinceModel;
 import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.DreamingCurrentModel;
+import kr.lobcorp.client.model.BurrowingHeavenModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -80,6 +81,7 @@ import kr.lobcorp.entity.LittlePrinceMinionEntity;
 import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.DreamingCurrentEntity;
+import kr.lobcorp.entity.BurrowingHeavenEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1430,6 +1432,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(DreamingCurrentModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class BurrowingHeaven extends MobRenderer<BurrowingHeavenEntity, BurrowingHeavenModel.State, BurrowingHeavenModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/burrowing_heaven.png");
+
+        public BurrowingHeaven(EntityRendererProvider.Context ctx) {
+            super(ctx, new BurrowingHeavenModel(ctx.bakeLayer(BurrowingHeavenModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public BurrowingHeavenModel.State createRenderState() {
+            return new BurrowingHeavenModel.State();
+        }
+
+        @Override
+        public void extractRenderState(BurrowingHeavenEntity e, BurrowingHeavenModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(BurrowingHeavenModel.State s) {
             return TEX;
         }
     }
