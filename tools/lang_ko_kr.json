@@ -206,5 +206,6 @@
   "item.lobcorp.paradise_lost": "실낙원",
   "item.lobcorp.paradise_lost_suit": "실낙원 옷",
   "item.lobcorp.twilight": "황혼",
-  "item.lobcorp.twilight_suit": "황혼 옷"
+  "item.lobcorp.twilight_suit": "황혼 옷",
+  "entity.lobcorp.clerk": "사무직"
 }

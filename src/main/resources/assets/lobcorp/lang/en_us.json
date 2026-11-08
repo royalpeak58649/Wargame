@@ -206,5 +206,6 @@
   "item.lobcorp.paradise_lost": "Paradise Lost",
   "item.lobcorp.paradise_lost_suit": "Paradise Lost Suit",
   "item.lobcorp.twilight": "Twilight",
-  "item.lobcorp.twilight_suit": "Twilight Suit"
+  "item.lobcorp.twilight_suit": "Twilight Suit",
+  "entity.lobcorp.clerk": "Clerk"
 }
