@@ -758,7 +758,23 @@ public record AbnoProfile(
                     "작업한 직원은 축복을 받아 5초마다 SP가 회복된다. 봉오리가 다 열리면 축복받은 직원이 패닉에 빠지고, 잠시 뒤 몸이 터져 묘목이 자라난다."
             ));
 
+    public static final AbnoProfile NAKED_NEST = new AbnoProfile(
+            "naked_nest", "벌거벗은 둥지", "O-02-74", "WAW", 0xAA55FF,
+            new int[]{45, 20, 30, 40}, 22, 15, 9,
+            DamageColor.RED, 5, 7,
+            0,
+            () -> ModItems.EXUVIAE, 60,
+            () -> ModItems.EXUVIAE_SUIT, 50,
+            "exuviae", "탈피", "최대 HP +5, 최대 SP +2", 3,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "축축한 살점이 겹겹이 뭉쳐 둥지를 이룬다. 군데군데 뚫린 구멍마다 창백한 뱀이 고개를 내밀고 꿈틀거린다.",
+                    "본능 작업이 가장 좋고 억압과 애착이 그다음, 통찰이 가장 나쁘다. 탈출하지도, 클리포트 카운터도 없다. 대신 작업 중 잃은 HP가 많을수록 작업자를 감염시킨다.",
+                    "감염된 직원은 12초 동안 몸에서 검은 물이 새고, 12초가 지나면 느려지며, 48초가 지나면 몸이 찢겨 뱀이 기어 나온다. 감염자는 5초마다 30% 확률로 4블록 안의 다른 직원에게 뱀을 옮긴다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(NAKED_NEST.id, NAKED_NEST),
             Map.entry(PARASITE_TREE.id, PARASITE_TREE),
             Map.entry(LITTLE_PRINCE.id, LITTLE_PRINCE),
             Map.entry(YIN.id, YIN),

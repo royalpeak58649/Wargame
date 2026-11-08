@@ -70,6 +70,7 @@ public final class Facility {
             d.laetitiaHeart = false;
             d.princeSpores = 0;
             d.parasiteBlessed = false;
+            d.nestInfectTicks = 0;
             d.pebble = false;
             d.frost = 0;
             d.frozenAt = null;

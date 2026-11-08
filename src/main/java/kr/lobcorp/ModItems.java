@@ -72,6 +72,7 @@ public final class ModItems {
     public static final ArmorMaterial GREEN_STEM_MAT = material("green_stem", 6);
     public static final ArmorMaterial SPORE_MAT = material("spore", 6);
     public static final ArmorMaterial HYPOCRISY_MAT = material("hypocrisy", 7);
+    public static final ArmorMaterial EXUVIAE_MAT = material("exuviae", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -161,6 +162,8 @@ public final class ModItems {
     public static Item SPORE_SUIT;
     public static Item HYPOCRISY;
     public static Item HYPOCRISY_SUIT;
+    public static Item EXUVIAE;
+    public static Item EXUVIAE_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -398,6 +401,10 @@ public final class ModItems {
                 "D-04-108 · WAW", "RED 피해 석궁, 긴 사거리", "창백한 나무의 가지로 깎아 만든 석궁. 시위를 당길 때마다 하얀 꽃잎이 떨어진다.");
         HYPOCRISY_SUIT = suit("hypocrisy_suit", HYPOCRISY_MAT,
                 "D-04-108 · WAW", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+        EXUVIAE = weapon("exuviae", DamageColor.RED, 9.0, -3.2,
+                "O-02-74 · WAW", "RED 피해 대포, 매우 느림", "둥지에서 벗겨낸 살점 껍질을 그대로 두른 대포. 쏠 때마다 창백한 뱀 한 마리가 함께 튀어나간다.");
+        EXUVIAE_SUIT = suit("exuviae_suit", EXUVIAE_MAT,
+                "O-02-74 · WAW", "RED 저항: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -416,6 +423,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT);
     }
 }

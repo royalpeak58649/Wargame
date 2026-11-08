@@ -65,7 +65,7 @@ public class WawTest implements FabricClientGameTest {
             int bx = b[0], by = b[1], bz = b[2];
             sv.runCommand("setworldspawn " + (bx - 40) + " " + by + " " + bz);
             String[] rooms = {"big_bird", "judgement_bird", "queen_of_hatred", "knight_of_despair", "king_of_greed", "little_red",
-                    "big_bad_wolf", "alriune", "queen_bee", "black_swan", "yin", "snow_white_apple", "little_prince", "parasite_tree"};
+                    "big_bad_wolf", "alriune", "queen_bee", "black_swan", "yin", "snow_white_apple", "little_prince", "parasite_tree", "naked_nest"};
             String[] tp = new String[rooms.length];
             for (int i = 0; i < rooms.length; i++) {
                 sv.runCommand("execute positioned " + bx + " " + by + " " + (bz + 14 * i) + " run lobcorp build " + rooms[i]);

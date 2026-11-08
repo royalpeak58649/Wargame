@@ -365,7 +365,8 @@ public final class WorkManager {
             () -> ModItems.TEARS_SWORD_SUIT,
             () -> ModItems.GOLD_RUSH_SUIT,
             () -> ModItems.BLACK_SWAN_SUIT,
-            () -> ModItems.HYPOCRISY_SUIT);
+            () -> ModItems.HYPOCRISY_SUIT,
+            () -> ModItems.EXUVIAE_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
