@@ -63,6 +63,7 @@ public final class Facility {
                 if (e instanceof kr.lobcorp.entity.ParasiteTreeEntity pt) pt.clearDaily();
                 if (e instanceof kr.lobcorp.entity.BackwardClockEntity bc) bc.clearDaily();
                 if (e instanceof kr.lobcorp.entity.FleshIdolEntity fi) fi.clearDaily();
+                if (e instanceof kr.lobcorp.entity.ExpressTrainEntity et) et.clearDaily();
             }
         }
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {

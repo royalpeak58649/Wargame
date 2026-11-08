@@ -46,6 +46,7 @@ import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.BackwardClockEntity;
 import kr.lobcorp.entity.DimensionRefractionEntity;
 import kr.lobcorp.entity.FleshIdolEntity;
+import kr.lobcorp.entity.ExpressTrainEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -138,6 +139,7 @@ public final class ModEntities {
     public static EntityType<BackwardClockEntity> BACKWARD_CLOCK;
     public static EntityType<DimensionRefractionEntity> DIMENSION_REFRACTION;
     public static EntityType<FleshIdolEntity> FLESH_IDOL;
+    public static EntityType<ExpressTrainEntity> EXPRESS_TRAIN;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -272,6 +274,8 @@ public final class ModEntities {
                 .sized(1.0f, 1.8f).clientTrackingRange(10));
         FLESH_IDOL = register("flesh_idol", EntityType.Builder.of(FleshIdolEntity::new, MobCategory.MISC)
                 .sized(1.2f, 2.0f).clientTrackingRange(10));
+        EXPRESS_TRAIN = register("express_train", EntityType.Builder.of(ExpressTrainEntity::new, MobCategory.MISC)
+                .sized(1.4f, 2.4f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -336,5 +340,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(BACKWARD_CLOCK, BackwardClockEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(DIMENSION_REFRACTION, DimensionRefractionEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FLESH_IDOL, FleshIdolEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(EXPRESS_TRAIN, ExpressTrainEntity.createAttributes());
     }
 }

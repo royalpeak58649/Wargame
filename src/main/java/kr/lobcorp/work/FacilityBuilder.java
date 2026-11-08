@@ -65,7 +65,7 @@ public final class FacilityBuilder {
                         List.of(u("snow_queen", ModEntities.SNOW_QUEEN), u("woodsman", ModEntities.WOODSMAN), u("scarecrow", ModEntities.SCARECROW)),
                         List.of(u("rudolta", ModEntities.RUDOLTA), u("funeral", ModEntities.FUNERAL), u("schadenfreude", ModEntities.SCHADENFREUDE))),
                 new Dept("복지팀", "헤세드", DyeColor.LIGHT_BLUE,
-                        List.of(u("tree_sap", ModEntities.TREE_SAP), u("shelter", ModEntities.SHELTER)),
+                        List.of(u("tree_sap", ModEntities.TREE_SAP), u("shelter", ModEntities.SHELTER), u("express_train", ModEntities.EXPRESS_TRAIN)),
                         List.of(u("portrait", ModEntities.PORTRAIT), u("notes", ModEntities.NOTES))));
         List<Dept> lower = List.of(
                 new Dept("추출팀", "비나", DyeColor.BROWN,

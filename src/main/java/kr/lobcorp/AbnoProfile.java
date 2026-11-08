@@ -893,7 +893,23 @@ public record AbnoProfile(
                     "그 값을 치르는 것은 기도하는 자 자신이다. 기도가 길어질수록 우상은 굶주려, 이따금 기도하는 자의 최대 체력 일부를 살점으로 삼킨다."
             ));
 
+    public static final AbnoProfile EXPRESS_TRAIN = new AbnoProfile(
+            "express_train", "지옥행 급행열차", "T-09-86", "WAW", 0xAA55FF,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "지붕에 등불 네 개가 달린 작은 매표소. 앞에는 선로가 놓여 있고, 선로 끝은 어둠 속으로 사라진다.",
+                    "표를 사면 켜진 등불의 수만큼 값이 매겨진다. 등불이 적을 때는 표를 팔지 않고, 많을수록 회복의 대가가 커진다.",
+                    "등불 네 개가 모두 켜진 채로 시간이 흐르면 지옥행 급행열차가 선로를 따라 시설을 가로지른다. 선로 위에 서 있던 직원은 짓눌린다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
