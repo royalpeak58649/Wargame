@@ -999,6 +999,21 @@ public record AbnoProfile(
                     "탈출하면 점액을 뿜고, 죽은 직원은 점액 덩어리가 되어 그녀를 따른다. RED 피해는 오히려 그녀를 회복시킨다."
             ));
 
+    public static final AbnoProfile ARMY_IN_BLACK = new AbnoProfile(
+            "army_in_black", "검은 군단", "D-01-106", "ALEPH", 0xFF3333,
+            new int[]{0, 45, 55, 30}, 30, 23, 13,
+            DamageColor.WHITE, 7, 9,
+            3,
+            () -> ModItems.PINK, 120,
+            () -> ModItems.PINK_SUIT, 100,
+            "pink", "분홍", "최대 SP +5", 1,
+            new float[]{1.2f, 0.6f, 1.0f, 0.8f},
+            List.of(
+                    "분홍 하트를 단 작은 군인들. 모두를 지키겠다고 맹세했다.",
+                    "본능 작업은 「보호」로 바뀐다: 군인들이 그 직원을 따라다니며 지키고, 곁의 직원들을 회복시킨다. 보호를 명령하거나, 억압 작업을 하거나, 결과가 나쁨이거나, 직원이 다섯 명 죽을 때마다 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 검은 군인 넷이 각 부서 중앙 홀로 행진해 터진다. 공격받기 전까지는 직원을 해치지 않는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
@@ -1007,6 +1022,7 @@ public record AbnoProfile(
             Map.entry(CENSORED.id, CENSORED),
             Map.entry(BLUE_STAR.id, BLUE_STAR),
             Map.entry(MELTING_LOVE.id, MELTING_LOVE),
+            Map.entry(ARMY_IN_BLACK.id, ARMY_IN_BLACK),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),

@@ -32,6 +32,7 @@ public final class WeaponSpecs {
         put("match_flame", WeaponKind.CANNON, 24, 60, 12f);
         put("sound_of_a_star", WeaponKind.PIERCE, 40, 24, 9f);
         put("adoration", WeaponKind.CANNON, 24, 50, 14f);
+        put("pink", WeaponKind.GUN, 48, 30, 12f);
 
         // ── 창 ──
         for (String id : new String[]{"horn", "fragments", "frost_splinter", "harvest", "green_stem", "spore", "heaven"}) {

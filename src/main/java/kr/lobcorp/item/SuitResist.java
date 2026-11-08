@@ -75,6 +75,7 @@ public final class SuitResist {
         put("censored_suit", .5f, .5f, .3f, 1.0f);
         put("sound_of_a_star_suit", .4f, .4f, .4f, 1.0f);
         put("adoration_suit", .3f, .6f, .3f, 1.0f);
+        put("pink_suit", .5f, .3f, .4f, 1.0f);
     }
 
     private static void put(String id, float red, float white, float black, float pale) {

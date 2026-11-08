@@ -2,6 +2,8 @@ package kr.lobcorp;
 
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.AlriuneEntity;
+import kr.lobcorp.entity.ArmyInBlackEntity;
+import kr.lobcorp.entity.ArmySoldierEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
@@ -165,6 +167,8 @@ public final class ModEntities {
     public static EntityType<BlueStarEntity> BLUE_STAR;
     public static EntityType<MeltingLoveEntity> MELTING_LOVE;
     public static EntityType<MeltingSlimeEntity> MELTING_SLIME;
+    public static EntityType<ArmyInBlackEntity> ARMY_IN_BLACK;
+    public static EntityType<ArmySoldierEntity> ARMY_SOLDIER;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -328,6 +332,10 @@ public final class ModEntities {
                 .sized(1.2f, 2.0f).clientTrackingRange(10));
         MELTING_SLIME = register("melting_slime", EntityType.Builder.of(MeltingSlimeEntity::new, MobCategory.MONSTER)
                 .sized(0.8f, 0.8f).clientTrackingRange(10));
+        ARMY_IN_BLACK = register("army_in_black", EntityType.Builder.of(ArmyInBlackEntity::new, MobCategory.MISC)
+                .sized(1.0f, 1.6f).clientTrackingRange(10));
+        ARMY_SOLDIER = register("army_soldier", EntityType.Builder.of(ArmySoldierEntity::new, MobCategory.MONSTER)
+                .sized(0.8f, 1.8f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -423,6 +431,8 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(BLUE_STAR, BlueStarEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(MELTING_LOVE, MeltingLoveEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(MELTING_SLIME, MeltingSlimeEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ARMY_IN_BLACK, ArmyInBlackEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(ARMY_SOLDIER, ArmySoldierEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());
