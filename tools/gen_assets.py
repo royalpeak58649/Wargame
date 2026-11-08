@@ -8502,3 +8502,31 @@ print("assets express train ok")
 
 merge_lang({"entity.lobcorp.express_train": "지옥행 급행열차"},
            {"entity.lobcorp.express_train": "Express Train to Hell"})
+
+
+# ═════════════ 마탄 의뢰서 (아이템) ═════════════
+MB = {"k": "#1a1410", "b": "#6a5030", "y": "#e8d8a0", "r": "#a02020"}
+icon([
+    "................",
+    "..kkkkkkkkkk....",
+    ".kyyyyyyyyyyk...",
+    ".kybbbbbbbbbk...",
+    ".kybyyyyyyybk...",
+    ".kybybbbbbybk...",
+    ".kybyyyyyyybk...",
+    ".kybbbbbbbbbk...",
+    ".kyyyyyyyyyyk...",
+    "..kkkkkkkkkk....",
+    ".....krrk.......",
+    ".....krrk.......",
+    "......kk........",
+    "................",
+    "................",
+    "................",
+], MB, "textures/item/magic_bullet_order.png")
+wjson("items/magic_bullet_order.json", {"model": {"type": "minecraft:model", "model": "lobcorp:item/magic_bullet_order"}})
+wjson("models/item/magic_bullet_order.json", {"parent": "minecraft:item/generated", "textures": {"layer0": "lobcorp:item/magic_bullet_order"}})
+print("assets magic bullet order ok")
+
+merge_lang({"item.lobcorp.magic_bullet_order": "마탄 의뢰서"},
+           {"item.lobcorp.magic_bullet_order": "Magic Bullet Order"})

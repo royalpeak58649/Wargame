@@ -126,6 +126,7 @@ public final class ModItems {
     public static Item OUR_GALAXY_SUIT;
     public static Item MAGIC_BULLET;
     public static Item MAGIC_BULLET_SUIT;
+    public static Item MAGIC_BULLET_ORDER;
     public static Item SYRINX;
     public static Item SYRINX_SUIT;
     public static Item FROST_SPLINTER;
@@ -335,6 +336,9 @@ public final class ModItems {
                 "F-01-69 · HE", "BLACK 피해 장총, 느리고 묵직함", "한 번도 빗나간 적 없는 총신. 방아쇠는 아직 따뜻하다.");
         MAGIC_BULLET_SUIT = suit("magic_bullet_suit", MAGIC_BULLET_MAT,
                 "F-01-69 · HE", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+        MAGIC_BULLET_ORDER = register("magic_bullet_order", kr.lobcorp.item.MagicBulletOrderItem::new,
+                new Item.Properties().stacksTo(3).rarity(Rarity.UNCOMMON)
+                        .component(DataComponents.LORE, lore("F-01-69", "우클릭: 바라보는 방향으로 마탄 발사", "벽을 뚫고 선 위의 모든 것을 꿰뚫는다.")));
         SYRINX = weapon("syrinx", DamageColor.WHITE, 3.0, -2.0,
                 "O-01-15 · HE", "WHITE 피해, 빠른 연타", "뼈로 깎은 피리. 불면 갓난아이의 울음 같은 소리가 새어 나온다.");
         SYRINX_SUIT = suit("syrinx_suit", SYRINX_MAT,
@@ -465,6 +469,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MAGIC_BULLET_ORDER);
     }
 }

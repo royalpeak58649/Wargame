@@ -2,6 +2,7 @@ package kr.lobcorp.entity;
 
 import kr.lobcorp.AbnoProfile;
 import kr.lobcorp.DamageColor;
+import kr.lobcorp.ModItems;
 import kr.lobcorp.work.EmployeeData;
 import kr.lobcorp.work.Employees;
 import kr.lobcorp.work.Facility;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -99,7 +101,6 @@ public class FreischutzEntity extends AbnormalityEntity {
         }
         int cost = Math.max(1, f.energy / 10);
         f.energy = Math.max(0, f.energy - cost);
-        requests++;
         cooldown = COOLDOWN_TICKS;
 
         p.sendSystemMessage(Component.literal("  사냥꾼이 총구를 당신의 눈높이에 맞춘다. 무엇을 겨누고 있는지, 그는 묻지 않는다.")
@@ -107,9 +108,20 @@ public class FreischutzEntity extends AbnormalityEntity {
         p.sendSystemMessage(Component.literal("  시설 에너지 -" + cost + "   (남은 에너지 " + f.energy + ")")
                 .withStyle(s -> s.withColor(0xFFAA00)));
 
+        p.getInventory().placeItemBackInInventory(new ItemStack(ModItems.MAGIC_BULLET_ORDER),
+                net.minecraft.util.Prediction.SERVER_ONLY);
+        p.sendSystemMessage(Component.literal("  사냥꾼이 탄환 한 발을 건넨다. (마탄 의뢰서: 우클릭하면 바라보는 방향으로 벽을 뚫고 발사)")
+                .withStyle(s -> s.withColor(0xAAAAAA).withItalic(true)));
+    }
+
+    /** 마탄 의뢰서 사용 — 눈에서 바라보는 방향으로 발사한다. 일곱 번째마다 탄환이 제멋대로 날아간다. */
+    public void fireOrder(ServerPlayer p) {
+        requests++;
         if (requests % 7 == 0) {
             fireRandom();
             lowerCounter(p, 1);
+            p.sendSystemMessage(Component.literal("  탄환이 제멋대로 날아갔다…")
+                    .withStyle(s -> s.withColor(0xFF7777).withItalic(true)));
         } else {
             fire(p.getEyePosition(), p.getLookAngle(), p);
         }
