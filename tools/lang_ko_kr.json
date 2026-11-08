@@ -161,5 +161,6 @@
   "entity.lobcorp.dimension_refraction": "차원 굴절 변이체",
   "item.lobcorp.diffraction": "회절",
   "item.lobcorp.diffraction_suit": "회절의 옷",
-  "entity.lobcorp.flesh_idol": "살점 우상"
+  "entity.lobcorp.flesh_idol": "살점 우상",
+  "entity.lobcorp.express_train": "지옥행 급행열차"
 }
