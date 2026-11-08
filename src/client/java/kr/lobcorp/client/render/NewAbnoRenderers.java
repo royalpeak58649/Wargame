@@ -26,6 +26,8 @@ import kr.lobcorp.client.model.LittlePrinceModel;
 import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
+import kr.lobcorp.client.model.NakedNestModel;
+import kr.lobcorp.client.model.NakedWormModel;
 import kr.lobcorp.client.model.NotesModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.ParasiteTreeModel;
@@ -77,6 +79,8 @@ import kr.lobcorp.entity.LittlePrinceMinionEntity;
 import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
+import kr.lobcorp.entity.NakedNestEntity;
+import kr.lobcorp.entity.NakedWormEntity;
 import kr.lobcorp.entity.NotesEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.ParasiteTreeEntity;
@@ -1355,6 +1359,52 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(SaplingModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class NakedNest extends MobRenderer<NakedNestEntity, NakedNestModel.State, NakedNestModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/naked_nest.png");
+
+        public NakedNest(EntityRendererProvider.Context ctx) {
+            super(ctx, new NakedNestModel(ctx.bakeLayer(NakedNestModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public NakedNestModel.State createRenderState() {
+            return new NakedNestModel.State();
+        }
+
+        @Override
+        public void extractRenderState(NakedNestEntity e, NakedNestModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(NakedNestModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class NakedWorm extends MobRenderer<NakedWormEntity, NakedWormModel.State, NakedWormModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/naked_worm.png");
+
+        public NakedWorm(EntityRendererProvider.Context ctx) {
+            super(ctx, new NakedWormModel(ctx.bakeLayer(NakedWormModel.LAYER)), 0.3f);
+        }
+
+        @Override
+        public NakedWormModel.State createRenderState() {
+            return new NakedWormModel.State();
+        }
+
+        @Override
+        public void extractRenderState(NakedWormEntity e, NakedWormModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(NakedWormModel.State s) {
             return TEX;
         }
     }

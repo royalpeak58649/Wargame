@@ -7622,3 +7622,150 @@ merge_lang({
     "item.lobcorp.hypocrisy": "Hypocrisy",
     "item.lobcorp.hypocrisy_suit": "Hypocrisy Coat",
 })
+
+
+# ───────────── 벌거벗은 둥지 / 탈피 ─────────────
+def naked_nest():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    flesh = hexc("#a83a44")
+    flesh_hi = hexc("#c85a60")
+    flesh_dark = hexc("#6e2028")
+    hole = hexc("#2a1418")
+    pale = hexc("#e0a0a0")
+    pale_hi = hexc("#f2e6e0")
+
+    # 본체 (u0 v0, 20x8x20)
+    m = box(img, 0, 0, 20, 8, 20, flesh, 8, top=flesh_hi)
+    mx, my = m["front"]
+    for y in range(8):
+        px(img, mx + 6, my + y, flesh_dark)
+        px(img, mx + 13, my + y, flesh_dark)
+    for x in range(20):
+        px(img, mx + x, my + 7, flesh_dark)
+
+    # 위 혹 (u0 v30, 14x6x14)
+    l = box(img, 0, 30, 14, 6, 14, flesh, 8, top=flesh_hi)
+    lx, ly = l["front"]
+    for x in range(14):
+        px(img, lx + x, ly + 5, flesh_dark)
+    for y in range(6):
+        px(img, lx + 4, ly + y, flesh_dark)
+
+    # 옆 혹 (u0 v52, 10x4x10)
+    l2 = box(img, 0, 52, 10, 4, 10, flesh, 8, top=flesh_hi)
+    l2x, l2y = l2["front"]
+    for x in range(10):
+        px(img, l2x + x, l2y + 3, flesh_dark)
+
+    # 뒤 혹 (u44 v0, 8x3x8)
+    l3 = box(img, 44, 0, 8, 3, 8, flesh, 8, top=flesh_hi)
+    l3x, l3y = l3["front"]
+    for x in range(8):
+        px(img, l3x + x, l3y + 2, flesh_dark)
+
+    # 구멍 (u44 v14, 4x1x4) — 어둡게
+    for i in range(4):
+        h = box(img, 44, 14, 4, 1, 4, hole, 3)
+        hx, hy = h["front"]
+        for x in range(4):
+            px(img, hx + x, hy, hole)
+
+    # 뱀 (u44 v20, 2x14x2) — 창백한 살
+    for i in range(5):
+        s = box(img, 44, 20, 2, 14, 2, pale, 6, top=pale_hi)
+        sx, sy = s["front"]
+        for y in range(14):
+            px(img, sx, sy + y, pale_hi)
+        for x in range(2):
+            px(img, sx + x, sy, hole)
+
+    save(img, "textures/entity/naked_nest.png")
+
+
+def naked_worm():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    skin = hexc("#f2e6e0")
+    skin_hi = hexc("#ffffff")
+    skin_dark = hexc("#d0b0ac")
+    eye = hexc("#2a1418")
+
+    # 머리 (u0 v0, 4x4x4)
+    h = box(img, 0, 0, 4, 4, 4, skin, 5, top=skin_hi)
+    hx, hy = h["front"]
+    for (ex, ey) in [(0, 1), (3, 1)]:
+        px(img, hx + ex, hy + ey, eye)
+    for x in range(4):
+        px(img, hx + x, hy + 3, skin_dark)
+
+    # 마디 1 (u0 v10, 4x4x5)
+    s1 = box(img, 0, 10, 4, 4, 5, skin, 5, top=skin_hi)
+    s1x, s1y = s1["front"]
+    for x in range(4):
+        px(img, s1x + x, s1y + 3, skin_dark)
+    # 마디 2 (u0 v20, 3x3x5)
+    s2 = box(img, 0, 20, 3, 3, 5, skin, 5, top=skin_hi)
+    s2x, s2y = s2["front"]
+    for x in range(3):
+        px(img, s2x + x, s2y + 2, skin_dark)
+    # 마디 3 (u0 v30, 2x2x5)
+    s3 = box(img, 0, 30, 2, 2, 5, skin, 5, top=skin_hi)
+    s3x, s3y = s3["front"]
+    for x in range(2):
+        px(img, s3x + x, s3y + 1, skin_dark)
+
+    save(img, "textures/entity/naked_worm.png")
+
+
+EX = {"k": "#2a1418", "r": "#a83a44", "p": "#e0a0a0", "w": "#f2e6e0"}
+# 탈피: 오른쪽 위를 향한 두툼한 대포 포신, 살빛 붕대를 감았다
+icon([
+    "................",
+    "............rr..",
+    "...........rrr..",
+    "..........rrrr..",
+    ".........rrrr...",
+    "........rrrr....",
+    ".......rrrr.....",
+    "......rrrr......",
+    ".....rrrr.......",
+    "....rrrr........",
+    "...rrrr.........",
+    "..rrrr..........",
+    "..ppp...........",
+    "..pp............",
+    "..k.............",
+    "................",
+], EX, "textures/item/exuviae.png")
+# 외투: 살덩이로 만든 코트
+icon([
+    "................",
+    "...rr......rr...",
+    "..rrrr....rrrr..",
+    "..rrrrrrrrrrrr..",
+    "...rrrrrrrrrr...",
+    "....rrpppprr....",
+    "....rrpwwprr....",
+    "....rrpwwprr....",
+    "....rrpppprr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], EX, "textures/item/exuviae_suit.png")
+
+armor(hexc("#a83a44"), "#2a1418", "#e0a0a0", "textures/entity/equipment/humanoid/exuviae.png")
+
+for item, parent in [("exuviae", "minecraft:item/handheld"), ("exuviae_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/exuviae.json", {"layers": {"humanoid": [{"texture": "lobcorp:exuviae"}]}})
+
+naked_nest()
+naked_worm()
+print("assets naked nest ok")
+
+merge_lang({"entity.lobcorp.naked_nest": "벌거벗은 둥지", "entity.lobcorp.naked_worm": "벌거벗은 둥지의 뱀", "item.lobcorp.exuviae": "탈피", "item.lobcorp.exuviae_suit": "탈피의 외투"},
+           {"entity.lobcorp.naked_nest": "The Naked Nest", "entity.lobcorp.naked_worm": "Naked Nest Serpent", "item.lobcorp.exuviae": "Exuviae", "item.lobcorp.exuviae_suit": "Exuviae Coat"})
