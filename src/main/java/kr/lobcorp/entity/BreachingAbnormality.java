@@ -268,7 +268,13 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         float mult = NON_EGO_MULT;
         if (source.getEntity() instanceof LivingEntity attacker) {
             ItemStack weapon = attacker.getMainHandItem();
-            if (weapon.getItem() instanceof EgoWeaponItem ego) mult = profile().resistTo(ego.color);
+            if (weapon.getItem() instanceof EgoWeaponItem ego) {
+                mult = profile().resistTo(ego.color);
+                if (source.getDirectEntity() == attacker && attacker instanceof ServerPlayer sp
+                        && ego.spec().kind() == kr.lobcorp.item.WeaponKind.FAST) {
+                    mult *= kr.lobcorp.item.MeleeEffects.comboMultiplier(sp, level);
+                }
+            }
         }
         float dmg = amount * mult;
         if (source.getEntity() instanceof ServerPlayer attacker) {

@@ -6,6 +6,7 @@ import kr.lobcorp.entity.BreachingAbnormality;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -50,7 +51,10 @@ public class EgoWeaponItem extends Item {
         String key = player.getUUID() + ":" + BuiltInRegistries.ITEM.getKey(this).getPath();
         long now = sl.getGameTime();
         Long last = LAST_SHOT.get(key);
-        if (last != null && now - last < spec.cooldown()) return InteractionResult.FAIL;
+        if (last != null && now - last < spec.cooldown()) {
+            sp.sendOverlayMessage(Component.literal("재장전 중…").withStyle(s -> s.withColor(0xAAAAAA)));
+            return InteractionResult.FAIL;
+        }
         LAST_SHOT.put(key, now);
 
         shoot(sl, sp, spec);
@@ -78,7 +82,7 @@ public class EgoWeaponItem extends Item {
         if (kind == WeaponKind.GUN || kind == WeaponKind.PIERCE || kind == WeaponKind.CANNON) {
             sl.playSound(null, from.x, from.y, from.z, SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.PLAYERS, 1f, 1.2f);
         } else {
-            sl.playSound(null, from.x, from.y, from.z, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 0.9f, 1.4f);
+            sl.playSound(null, from.x, from.y, from.z, SoundEvents.FIREWORK_ROCKET_BLAST, SoundSource.PLAYERS, 0.6f, 1.8f);
         }
     }
 
@@ -132,7 +136,7 @@ public class EgoWeaponItem extends Item {
         }
     }
 
-    private static boolean validTarget(LivingEntity e, ServerPlayer shooter) {
+    public static boolean validTarget(LivingEntity e, ServerPlayer shooter) {
         if (e == shooter || !e.isAlive()) return false;
         if (e instanceof Player) return false;
         if (e instanceof AbnormalityEntity a && !a.isBreached()) return false;

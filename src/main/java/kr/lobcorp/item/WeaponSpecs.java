@@ -14,8 +14,8 @@ public final class WeaponSpecs {
     static {
         // ── 원거리 ──
         put("laetitia", WeaponKind.GUN, 24, 10, 5f);
-        put("solemn_lament", WeaponKind.GUN, 24, 5, 3f);
-        put("hornet", WeaponKind.GUN, 32, 4, 3f);
+        put("solemn_lament", WeaponKind.GUN, 24, 10, 5f);
+        put("hornet", WeaponKind.GUN, 32, 10, 5f);
         put("magic_bullet", WeaponKind.PIERCE, 64, 40, 12f);
         put("faint_aroma", WeaponKind.BOW, 32, 14, 6f);
         put("hypocrisy", WeaponKind.BOW, 40, 28, 10f);

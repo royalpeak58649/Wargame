@@ -168,6 +168,10 @@ public class LobCorp implements ModInitializer {
                     Employees.onPossessedHit(p);
                 }
             }
+            if (source.getEntity() instanceof net.minecraft.server.level.ServerPlayer attacker && source.getDirectEntity() == attacker
+                    && entity != attacker && damageTaken > 0) {
+                kr.lobcorp.item.MeleeEffects.afterMelee(entity, attacker, damageTaken);
+            }
         });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && Employees.get(p).possessTicks > 0) {
