@@ -122,6 +122,7 @@ public class CensoredMinionEntity extends PathfinderMob {
                     case BLACK -> 0.5f;
                     case PALE -> 1.0f;
                 };
+                mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
             }
         }
         return super.hurtServer(level, source, amount * mult);

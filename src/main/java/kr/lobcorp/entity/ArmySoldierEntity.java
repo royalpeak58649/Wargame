@@ -143,6 +143,7 @@ public class ArmySoldierEntity extends PathfinderMob {
                     case BLACK -> 1.0f;
                     case PALE -> 0.8f;
                 };
+                mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
             }
         }
         return super.hurtServer(level, source, amount * mult);

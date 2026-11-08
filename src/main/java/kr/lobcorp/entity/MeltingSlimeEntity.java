@@ -163,6 +163,7 @@ public class MeltingSlimeEntity extends PathfinderMob {
                     case BLACK -> mult = 2.0f;
                     case PALE -> mult = 1.0f;
                 }
+                mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
             }
         }
         return super.hurtServer(level, source, amount * mult);

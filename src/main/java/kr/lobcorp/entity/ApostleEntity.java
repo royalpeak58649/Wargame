@@ -118,6 +118,7 @@ public class ApostleEntity extends PathfinderMob {
                     case BLACK -> mult = 0.6f;
                     case PALE -> mult = 0.3f;
                 }
+                mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
             }
         }
         return super.hurtServer(level, source, amount * mult);

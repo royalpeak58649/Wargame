@@ -112,6 +112,10 @@ public class ApocalypseEggEntity extends PathfinderMob {
             level.sendParticles(ParticleTypes.HAPPY_VILLAGER, getX(), getY() + 1, getZ(), 8, 0.4, 0.5, 0.4, 0.02);
             return false;
         }
+        if (source.getEntity() instanceof LivingEntity le3
+                && le3.getMainHandItem().getItem() instanceof EgoWeaponItem ego) {
+            mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
+        }
         return super.hurtServer(level, source, amount * mult);
     }
 

@@ -208,6 +208,15 @@ public class EmployeeData {
         justice = Math.min(MAX_STAT, justice);
     }
 
+    /** 등급 숫자 (I=1 ~ V=5). grade()와 같은 경계값을 쓴다 */
+    public static int level(int v) {
+        if (v >= 85) return 5;
+        if (v >= 65) return 4;
+        if (v >= 45) return 3;
+        if (v >= 30) return 2;
+        return 1;
+    }
+
     /** 원작 등급표(I: 1~29, II: 30~44, III: 45~64, IV: 65~84, V: 85~) 근사 */
     public static String grade(int v) {
         if (v >= 85) return "V";

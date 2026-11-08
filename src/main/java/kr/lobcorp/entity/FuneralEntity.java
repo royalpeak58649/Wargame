@@ -30,7 +30,7 @@ import net.minecraft.world.phys.Vec3;
  * 이따금 멈춰 서서 앞쪽으로 나비 무리를 풀어놓는다.
  */
 public class FuneralEntity extends BreachingAbnormality {
-    private static final EntityDimensions BREACHED_SIZE = EntityDimensions.scalable(0.7f, 2.0f);
+    private static final EntityDimensions BREACHED_SIZE = EntityDimensions.scalable(0.7f, 1.9f);
 
     /** 나비 떼 사격 간격 */
     private static final int VOLLEY_CD = 60;
@@ -46,6 +46,10 @@ public class FuneralEntity extends BreachingAbnormality {
     private int volleyCd = VOLLEY_CD;
     private int swarmCd = SWARM_FIRST;
     private int swarmTicks = 0;
+    /** 경로 재탐색 쿨다운 */
+    private int repathCd = 0;
+    /** 대상이 없던 틱 수 */
+    private int idleTicks = 0;
     /** 플레이어별 마지막으로 무리에 맞은 틱 */
     private final java.util.Map<java.util.UUID, Integer> swarmHit = new java.util.HashMap<>();
 
@@ -143,7 +147,16 @@ public class FuneralEntity extends BreachingAbnormality {
             if (i % 2 == 0) sl.sendParticles(ParticleTypes.WHITE_ASH, at.x, at.y, at.z, 1, 0.1, 0.1, 0.1, 0);
         }
         sl.playSound(null, blockPosition(), SoundEvents.ALLAY_HURT, SoundSource.HOSTILE, 1.2f, 1.6f);
-        if (target instanceof ServerPlayer p) mourn(p, 8 + getRandom().nextInt(5));
+        if (target instanceof ServerPlayer p) {
+            mourn(p, 8 + getRandom().nextInt(5));
+        } else if (target instanceof ClerkEntity c) {
+            c.damageSp(8 + getRandom().nextInt(5));
+            if (c.isPanicking()) {
+                sl.sendParticles(ParticleTypes.WHITE_ASH, c.getX(), c.getY() + 1.0, c.getZ(), 40, 0.5, 0.8, 0.5, 0.02);
+                sl.playSound(null, c.blockPosition(), SoundEvents.ALLAY_DEATH, SoundSource.HOSTILE, 1.2f, 0.8f);
+                c.hurtServer(sl, sl.damageSources().magic(), 1000f);
+            }
+        }
     }
 
     private void swarmTick(ServerLevel sl) {
@@ -177,6 +190,19 @@ public class FuneralEntity extends BreachingAbnormality {
             swarmHit.put(p.getUUID(), tickCount);
             mourn(p, 2 + getRandom().nextInt(2));
         }
+
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(SWARM_RANGE))) {
+            if (!c.isAlive()) continue;
+            if (c.distanceToSqr(this) > SWARM_RANGE * SWARM_RANGE) continue;
+            Vec3 toC = new Vec3(c.getX() - getX(), 0, c.getZ() - getZ());
+            if (toC.lengthSqr() < 1.0E-4) continue;
+            toC = toC.normalize();
+            if (flat.dot(toC) < Math.cos(SWARM_CONE)) continue;
+            Integer last = swarmHit.get(c.getUUID());
+            if (last != null && tickCount - last < 20) continue;
+            swarmHit.put(c.getUUID(), tickCount);
+            c.damageSp(2 + getRandom().nextInt(2));
+        }
     }
 
     // ───────────── 틱 ─────────────
@@ -205,16 +231,38 @@ public class FuneralEntity extends BreachingAbnormality {
             return;
         }
 
-        // 이동: 8블록 거리 유지
+        // 이동: 8블록 거리 유지 (경로는 10틱마다만 다시 계산)
+        if (repathCd > 0) repathCd--;
         if (target != null && target.isAlive()) {
+            idleTicks = 0;
             double dist = distanceTo(target);
             if (dist > 9 || !hasLineOfSight(target)) {
-                getNavigation().moveTo(target, 1.0);
+                if (repathCd <= 0) {
+                    getNavigation().moveTo(target, 1.0);
+                    repathCd = 10;
+                }
             } else if (dist < 6) {
                 getNavigation().stop();
                 setDeltaMovement(0, getDeltaMovement().y, 0);
             }
             getLookControl().setLookAt(target, 30f, 30f);
+        } else {
+            // 대상이 없으면 방 안에 멈춰 서지 않고 가장 가까운 직원 쪽으로 걸어간다
+            idleTicks++;
+            if (idleTicks > 100 && repathCd <= 0) {
+                ServerPlayer near = null;
+                double bd = 40.0 * 40.0;
+                for (ServerPlayer p : sl.players()) {
+                    if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
+                    double d = p.distanceToSqr(this);
+                    if (d < bd) {
+                        bd = d;
+                        near = p;
+                    }
+                }
+                if (near != null) getNavigation().moveTo(near, 1.0);
+                repathCd = 10;
+            }
         }
 
         // 나비 떼 사격

@@ -220,7 +220,16 @@ public final class WorkManager {
         a.addPe(s.good);
 
         Result r = s.good >= prof.goodMin() ? Result.GOOD : s.good >= prof.normalMin() ? Result.NORMAL : Result.BAD;
-        int gain = s.good / 4;
+        // 위험도가 낮은 환상체에서는 성장이 줄어든다
+        int statVal = switch (s.type) {
+            case INSTINCT -> d.fortitude;
+            case INSIGHT -> d.prudence;
+            case ATTACHMENT -> d.temperance;
+            case REPRESSION -> d.justice;
+        };
+        int over = EmployeeData.level(statVal) - kr.lobcorp.Grades.of(prof.risk());
+        float mult = over <= 0 ? 1.0f : over == 1 ? 0.5f : over == 2 ? 0.25f : 0f;
+        int gain = mult > 0 ? (int) Math.floor((s.good / 4f) * mult + p.getRandom().nextFloat()) : 0;
         d.addStat(s.type, gain);
         Employees.apply(p);
 
@@ -233,6 +242,13 @@ public final class WorkManager {
         line.append(Component.literal("   PE-BOX +" + s.good).withStyle(st -> st.withColor(0x55FFFF)));
         if (gain > 0) line.append(Component.literal("   " + s.type.stat + " +" + gain).withStyle(st -> st.withColor(s.type.rgb)));
         p.sendSystemMessage(line);
+        if (mult < 1f) {
+            if (mult == 0f) {
+                p.sendSystemMessage(Component.literal("  이 환상체에게서는 더 배울 것이 없다. (스탯 성장 없음)").withStyle(st -> st.withColor(0x888888)));
+            } else {
+                p.sendSystemMessage(Component.literal("  이미 익숙한 일이다. (스탯 성장 ×" + mult + ")").withStyle(st -> st.withColor(0x888888)));
+            }
+        }
 
         a.onWorkFinished(p, r, s);
         d.lastWorked = prof.id();
