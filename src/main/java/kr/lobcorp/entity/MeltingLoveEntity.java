@@ -3,10 +3,12 @@ package kr.lobcorp.entity;
 import kr.lobcorp.AbnoProfile;
 import kr.lobcorp.DamageColor;
 import kr.lobcorp.item.EgoWeaponItem;
+import kr.lobcorp.work.EmployeeData;
 import kr.lobcorp.work.Employees;
 import kr.lobcorp.work.Facility;
 import kr.lobcorp.work.WorkManager;
 import kr.lobcorp.work.WorkSession;
+import kr.lobcorp.work.WorkType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -28,7 +30,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * D-03-109 녹아내리는 사랑 — 분홍빛 점액으로 된 소녀.
@@ -62,6 +67,25 @@ public class MeltingLoveEntity extends BreachingAbnormality {
     /** 격노 시 피해 배율 */
     private static final float ENRAGE_MULT = 1.3f;
 
+    /** 축복받은 직원이 회복하는 SP 주기 */
+    private static final int BLESS_SP_PERIOD = 300;
+    /** 축복받은 직원이 회복하는 SP */
+    private static final int BLESS_SP = 30;
+    /** 분홍빛 폭발 주기 */
+    private static final int BURST_PERIOD = 200;
+    /** 분홍빛 폭발의 감염 반경 */
+    private static final double BURST_RADIUS = 6.0;
+    /** 감염된 직원이 회복하는 SP 주기 */
+    private static final int INFECT_SP_PERIOD = 100;
+    /** 감염된 직원이 회복하는 SP */
+    private static final int INFECT_SP = 10;
+    /** 감염 후 얼굴이 물드는 시점 */
+    private static final int INFECT_WARN = 1100;
+    /** 감염 후 점액 덩어리로 변하는 시점 */
+    private static final int INFECT_TRANSFORM = 2200;
+    /** 시설 감염 판정 주기 */
+    private static final int SPREAD_CHECK_PERIOD = 100;
+
     /** 점액 웅덩이 (위치 + 남은 틱) */
     private record Puddle(Vec3 pos, int ticks) {}
 
@@ -69,6 +93,19 @@ public class MeltingLoveEntity extends BreachingAbnormality {
     private boolean enraged = false;
     private int shotTicks = 0;
     private int absorbTicks = 0;
+
+    /** 그녀의 사랑을 받는 직원 (null = 없음) */
+    private UUID blessed = null;
+    /** 감염된 직원 → 감염된 뒤 지난 틱 */
+    private final Map<UUID, Integer> infected = new HashMap<>();
+    /** 폭발이 멈춰 있는 남은 틱 */
+    private int pauseTicks = 0;
+    /** 축복 SP 회복 주기 카운터 */
+    private int blessSpTicks = 0;
+    /** 분홍빛 폭발 주기 카운터 */
+    private int burstTicks = 0;
+    /** 시설 감염 판정 주기 카운터 */
+    private int spreadTicks = 0;
 
     public MeltingLoveEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -110,7 +147,76 @@ public class MeltingLoveEntity extends BreachingAbnormality {
         }
     }
 
+    // ───────────── 축복 / 감염 ─────────────
+
+    /** 그녀의 사랑을 받는 직원인가 */
+    private boolean isBlessed(ServerPlayer p) {
+        return blessed != null && blessed.equals(p.getUUID());
+    }
+
+    /** 하루가 지나면 사랑과 감염을 모두 초기화한다 */
+    public void clearDaily() {
+        blessed = null;
+        infected.clear();
+        pauseTicks = 0;
+        blessSpTicks = 0;
+        burstTicks = 0;
+        spreadTicks = 0;
+    }
+
+    /** 감염된 직원을 점액 덩어리로 만든다 */
+    private void transform(ServerLevel sl, ServerPlayer p) {
+        sl.sendParticles(ParticleTypes.ITEM_SLIME, p.getX(), p.getY() + 1, p.getZ(), 60, 0.6, 0.9, 0.6, 0.05);
+        sl.sendParticles(ParticleTypes.HEART, p.getX(), p.getY() + 1.4, p.getZ(), 20, 0.5, 0.6, 0.5, 0.03);
+        p.hurtServer(sl, sl.damageSources().magic(), 1000f);
+        MeltingSlimeEntity slime = kr.lobcorp.ModEntities.MELTING_SLIME.create(sl, EntitySpawnReason.EVENT);
+        if (slime != null) {
+            slime.snapTo(p.getX(), p.getY(), p.getZ(), p.getYRot(), 0);
+            sl.addFreshEntity(slime);
+        }
+    }
+
+    /** 분홍빛 폭발 — 주변의 감염되지 않은 직원을 감염시킨다 */
+    private void pinkBurst(ServerLevel sl, ServerPlayer source) {
+        sl.sendParticles(ParticleTypes.HEART, source.getX(), source.getY() + 1.2, source.getZ(), 24, 0.6, 0.8, 0.6, 0.03);
+        sl.sendParticles(ParticleTypes.ITEM_SLIME, source.getX(), source.getY() + 1, source.getZ(), 40, 0.8, 0.8, 0.8, 0.06);
+        sl.playSound(null, source.blockPosition(), SoundEvents.SLIME_SQUISH, SoundSource.HOSTILE, 1.2f, 0.7f);
+        for (ServerPlayer o : sl.players()) {
+            if (o == source || !o.isAlive() || o.isCreative() || o.isSpectator()) continue;
+            if (o.distanceTo(source) > BURST_RADIUS) continue;
+            if (isBlessed(o) || infected.containsKey(o.getUUID())) continue;
+            if (getRandom().nextInt(100) >= 75) continue;
+            infected.put(o.getUUID(), 0);
+            o.sendSystemMessage(Component.literal("  분홍 점액이 튀었다. 몸이 달콤하게 녹아내린다.")
+                    .withStyle(st -> st.withColor(0xFFAAAA).withItalic(true)));
+        }
+    }
+
     // ───────────── 작업 ─────────────
+
+    @Override
+    public void onWorkStart(ServerPlayer worker, WorkType type) {
+        if (type != WorkType.REPRESSION) {
+            if (blessed == null) {
+                blessed = worker.getUUID();
+                worker.sendSystemMessage(Component.literal("  분홍빛 소녀가 당신을 바라보며 웃는다. 그녀의 사랑을 받게 되었다.")
+                        .withStyle(st -> st.withColor(0xFFAAAA).withItalic(true)));
+                if (level() instanceof ServerLevel sl) {
+                    sl.sendParticles(ParticleTypes.HEART, worker.getX(), worker.getY() + 1.4, worker.getZ(),
+                            20, 0.5, 0.6, 0.5, 0.03);
+                }
+            }
+        } else if (isBlessed(worker)) {
+            lowerQliphoth(worker, 1);
+            worker.sendSystemMessage(Component.literal("  사랑하는 사람이 그녀를 해치려 한다…")
+                    .withStyle(st -> st.withColor(0xFF5555).withItalic(true)));
+        }
+    }
+
+    @Override
+    public int workChanceBonus(ServerPlayer worker, WorkType type) {
+        return super.workChanceBonus(worker, type) + (isBlessed(worker) ? 10 : 0);
+    }
 
     @Override
     public void onWorkFinished(ServerPlayer worker, WorkManager.Result result, WorkSession s) {
@@ -123,6 +229,18 @@ public class MeltingLoveEntity extends BreachingAbnormality {
             default -> "  점액이 손을 붙잡는다. 놓아주지 않으려는 것 같다.";
         };
         worker.sendSystemMessage(Component.literal(text).withStyle(st -> st.withColor(0xFFAAAA).withItalic(true)));
+
+        if (isBlessed(worker)) {
+            EmployeeData d = Employees.get(worker);
+            int n = 25 + getRandom().nextInt(11);
+            d.sp = Math.min(d.maxSp(), d.sp + n);
+            Employees.sync(worker);
+        }
+        if (s.type == WorkType.INSIGHT && s.good >= 24) {
+            pauseTicks = 600;
+            worker.sendSystemMessage(Component.literal("  점액이 잠잠해졌다. 30초 동안 폭발이 멈춘다.")
+                    .withStyle(st -> st.withColor(0xFFAAAA).withItalic(true)));
+        }
     }
 
     // ───────────── 탈출 / 복귀 ─────────────
@@ -134,6 +252,29 @@ public class MeltingLoveEntity extends BreachingAbnormality {
         puddles.clear();
         Facility.broadcast(sl.getServer(), Component.literal("[관제] D-03-109가 분홍빛 점액을 흘리며 걸어 나옵니다.")
                 .withStyle(st -> st.withColor(0xFF3333)));
+
+        for (UUID id : new ArrayList<>(infected.keySet())) {
+            ServerPlayer p = sl.getServer().getPlayerList().getPlayer(id);
+            if (p == null || !p.isAlive()) continue;
+            transform(sl, p);
+        }
+        infected.clear();
+
+        if (blessed != null) {
+            ServerPlayer b = sl.getServer().getPlayerList().getPlayer(blessed);
+            if (b != null && b.isAlive()) {
+                b.hurtServer(sl, sl.damageSources().magic(), 1000f);
+                MeltingSlimeEntity slime = kr.lobcorp.ModEntities.MELTING_SLIME.create(sl, EntitySpawnReason.EVENT);
+                if (slime != null) {
+                    slime.snapTo(b.getX(), b.getY(), b.getZ(), b.getYRot(), 0);
+                    slime.setBig(true);
+                    sl.addFreshEntity(slime);
+                }
+                Facility.broadcast(sl.getServer(), Component.literal("[관제] D-03-109의 사랑을 받던 직원이 거대한 점액으로 변했습니다.")
+                        .withStyle(st -> st.withColor(0xFF3333)));
+            }
+            blessed = null;
+        }
     }
 
     @Override
@@ -219,6 +360,15 @@ public class MeltingLoveEntity extends BreachingAbnormality {
 
     @Override
     public void onAnyEmployeeDeath(ServerPlayer p) {
+        if (!isBreached() && isBlessed(p)) {
+            blessed = null;
+            lowerQliphoth(null, qliphoth);
+            if (level() instanceof ServerLevel sl) {
+                Facility.broadcast(sl.getServer(), Component.literal("[관제] D-03-109의 사랑받던 직원이 죽었습니다.")
+                        .withStyle(st -> st.withColor(0xFF3333)));
+            }
+        }
+        infected.remove(p.getUUID());
         if (!isBreached()) return;
         if (p.distanceToSqr(this) > DEATH_RADIUS * DEATH_RADIUS) return;
         if (!(level() instanceof ServerLevel sl)) return;
@@ -240,7 +390,10 @@ public class MeltingLoveEntity extends BreachingAbnormality {
     public void tick() {
         super.tick();
         if (!(level() instanceof ServerLevel sl)) return;
-        if (!isBreached()) return;
+        if (!isBreached()) {
+            tickBlessing(sl);
+            return;
+        }
         tickPuddles(sl);
 
         if (++shotTicks >= SHOT_PERIOD) {
@@ -270,18 +423,82 @@ public class MeltingLoveEntity extends BreachingAbnormality {
         }
     }
 
+    /** 격리 중일 때의 축복 / 감염 처리 */
+    private void tickBlessing(ServerLevel sl) {
+        ServerPlayer b = blessed == null ? null : sl.getServer().getPlayerList().getPlayer(blessed);
+        if (b != null && !b.isAlive()) b = null;
+
+        if (b != null && ++blessSpTicks >= BLESS_SP_PERIOD) {
+            blessSpTicks = 0;
+            EmployeeData d = Employees.get(b);
+            d.sp = Math.min(d.maxSp(), d.sp + BLESS_SP);
+            Employees.sync(b);
+        }
+
+        if (pauseTicks > 0) {
+            pauseTicks--;
+        } else if (++burstTicks >= BURST_PERIOD) {
+            burstTicks = 0;
+            if (b != null) pinkBurst(sl, b);
+            for (UUID id : new ArrayList<>(infected.keySet())) {
+                ServerPlayer p = sl.getServer().getPlayerList().getPlayer(id);
+                if (p == null || !p.isAlive()) continue;
+                pinkBurst(sl, p);
+            }
+        }
+
+        for (UUID id : new ArrayList<>(infected.keySet())) {
+            int t = infected.get(id) + 1;
+            infected.put(id, t);
+            ServerPlayer p = sl.getServer().getPlayerList().getPlayer(id);
+            if (p == null || !p.isAlive()) continue;
+            if (t % INFECT_SP_PERIOD == 0) {
+                EmployeeData d = Employees.get(p);
+                d.sp = Math.min(d.maxSp(), d.sp + INFECT_SP);
+                Employees.sync(p);
+            }
+            if (t == INFECT_WARN) {
+                p.sendSystemMessage(Component.literal("  얼굴이 분홍빛으로 물들었다…")
+                        .withStyle(st -> st.withColor(0xFFAAAA).withItalic(true)));
+            }
+            if (t >= INFECT_TRANSFORM) {
+                transform(sl, p);
+                infected.remove(id);
+            }
+        }
+
+        if (++spreadTicks >= SPREAD_CHECK_PERIOD) {
+            spreadTicks = 0;
+            if (b != null && !infected.isEmpty()) {
+                int online = 0;
+                for (ServerPlayer p : sl.players()) {
+                    if (p.isCreative() || p.isSpectator()) continue;
+                    online++;
+                }
+                if (infected.size() * 2 >= online) {
+                    lowerQliphoth(null, qliphoth);
+                    Facility.broadcast(sl.getServer(), Component.literal("[관제] 시설의 절반이 D-03-109에게 물들었습니다.")
+                            .withStyle(st -> st.withColor(0xFF3333)));
+                }
+            }
+        }
+    }
+
     // ───────────── 저장 ─────────────
 
     @Override
     protected void addAdditionalSaveData(ValueOutput out) {
         super.addAdditionalSaveData(out);
         out.putBoolean("lc_ml_enraged", enraged);
+        out.putString("lc_ml_blessed", blessed == null ? "" : blessed.toString());
     }
 
     @Override
     protected void readAdditionalSaveData(ValueInput in) {
         super.readAdditionalSaveData(in);
         enraged = in.getBooleanOr("lc_ml_enraged", false);
+        String id = in.getStringOr("lc_ml_blessed", "");
+        blessed = id.isEmpty() ? null : UUID.fromString(id);
     }
 
     @Override
