@@ -47,6 +47,7 @@ import kr.lobcorp.entity.BackwardClockEntity;
 import kr.lobcorp.entity.DimensionRefractionEntity;
 import kr.lobcorp.entity.FleshIdolEntity;
 import kr.lobcorp.entity.ExpressTrainEntity;
+import kr.lobcorp.entity.NothingThereEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -151,6 +152,7 @@ public final class ModEntities {
     public static EntityType<DimensionRefractionEntity> DIMENSION_REFRACTION;
     public static EntityType<FleshIdolEntity> FLESH_IDOL;
     public static EntityType<ExpressTrainEntity> EXPRESS_TRAIN;
+    public static EntityType<NothingThereEntity> NOTHING_THERE;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -298,6 +300,8 @@ public final class ModEntities {
                 .sized(1.2f, 2.0f).clientTrackingRange(10));
         EXPRESS_TRAIN = register("express_train", EntityType.Builder.of(ExpressTrainEntity::new, MobCategory.MISC)
                 .sized(1.4f, 2.4f).clientTrackingRange(10));
+        NOTHING_THERE = register("nothing_there", EntityType.Builder.of(NothingThereEntity::new, MobCategory.MISC)
+                .sized(1.0f, 2.6f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -385,6 +389,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(DIMENSION_REFRACTION, DimensionRefractionEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FLESH_IDOL, FleshIdolEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(EXPRESS_TRAIN, ExpressTrainEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(NOTHING_THERE, NothingThereEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

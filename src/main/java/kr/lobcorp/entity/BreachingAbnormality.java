@@ -262,6 +262,11 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         returnToContainment(msg);
     }
 
+    /** 현재 단계의 피해 내성 배율. 형태가 바뀌는 환상체는 재정의한다. */
+    protected float resistMultiplier(DamageColor c) {
+        return profile().resistTo(c);
+    }
+
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (!isBreached()) return super.hurtServer(level, source, amount);
@@ -269,7 +274,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         if (source.getEntity() instanceof LivingEntity attacker) {
             ItemStack weapon = attacker.getMainHandItem();
             if (weapon.getItem() instanceof EgoWeaponItem ego) {
-                mult = profile().resistTo(ego.color);
+                mult = resistMultiplier(ego.color);
                 if (source.getDirectEntity() == attacker && attacker instanceof ServerPlayer sp
                         && ego.spec().kind() == kr.lobcorp.item.WeaponKind.FAST) {
                     mult *= kr.lobcorp.item.MeleeEffects.comboMultiplier(sp, level);
@@ -297,7 +302,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
      */
     public void takeEgoDamage(DamageColor color, float amount, Entity source) {
         if (!(level() instanceof ServerLevel sl)) return;
-        float dmg = amount * profile().resistTo(color);
+        float dmg = amount * resistMultiplier(color);
         if (getHealth() - dmg <= 0) {
             suppress(source);
             return;

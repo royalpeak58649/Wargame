@@ -909,8 +909,24 @@ public record AbnoProfile(
                     "등불 네 개가 모두 켜진 채로 시간이 흐르면 지옥행 급행열차가 선로를 따라 시설을 가로지른다. 선로 위에 서 있던 직원은 짓눌린다."
             ));
 
+    public static final AbnoProfile NOTHING_THERE = new AbnoProfile(
+            "nothing_there", "아무것도 없는", "O-06-20", "ALEPH", 0xFF3333,
+            new int[]{30, 0, 45, 0}, 33, 27, 17,
+            DamageColor.RED, 6, 9,
+            1,
+            () -> ModItems.MIMICRY, 120,
+            () -> ModItems.MIMICRY_SUIT, 100,
+            "mimicry", "흉내", "최대 HP +10", 1,
+            new float[]{0.3f, 0.8f, 0.8f, 1.2f},
+            List.of(
+                    "사람의 가죽을 덧댄 붉은 살덩이. 누군가의 목소리를 흉내 내며 \"안녕\"이라고 말한다.",
+                    "정의가 낮은 직원(정의 65 미만)이 작업을 마치면 곧바로 탈출한다. 작업 결과가 나쁨이면 작업자는 즉사한다. 용기가 낮으면 성공률이 크게 떨어지고, 용기 65 미만이면 격리실에 들어서자마자 공황에 빠진다.",
+                    "탈출하면 직원의 모습을 흉내 내다 정체를 드러낸다. 30초가 지나면 알이 되어 다시 태어나고, 완전한 형태는 훨씬 단단하다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
+            Map.entry(NOTHING_THERE.id, NOTHING_THERE),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),

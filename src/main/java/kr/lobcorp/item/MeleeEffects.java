@@ -1,6 +1,7 @@
 package kr.lobcorp.item;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -51,6 +52,12 @@ public final class MeleeEffects {
         if (!(target.level() instanceof ServerLevel sl)) return;
         busy = true;
         try {
+            // 흉내: 적중 시 준 피해의 25%를 회복한다
+            if (BuiltInRegistries.ITEM.getKey(ego).getPath().equals("mimicry") && damageTaken > 0) {
+                attacker.heal(damageTaken * 0.25f);
+                Vec3 hp = attacker.position().add(0, 1.2, 0);
+                sl.sendParticles(ParticleTypes.HEART, hp.x, hp.y, hp.z, 3, 0.3, 0.3, 0.3, 0.01);
+            }
             switch (kind) {
                 case SPEAR -> {
                     Vec3 dir = target.position().subtract(attacker.position());
