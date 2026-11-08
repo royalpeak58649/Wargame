@@ -153,6 +153,14 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.CRIMSON_DAWN, kr.lobcorp.client.render.NewAbnoRenderers.CrimsonDawn::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.VioletDawnModel.LAYER, kr.lobcorp.client.model.VioletDawnModel::createLayer);
         EntityRendererRegistry.register(ModEntities.VIOLET_DAWN, kr.lobcorp.client.render.NewAbnoRenderers.VioletDawn::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.GreenNoonModel.LAYER, kr.lobcorp.client.model.GreenNoonModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.GREEN_NOON, kr.lobcorp.client.render.NewAbnoRenderers.GreenNoon::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CrimsonNoonModel.LAYER, kr.lobcorp.client.model.CrimsonNoonModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.CRIMSON_NOON, kr.lobcorp.client.render.NewAbnoRenderers.CrimsonNoon::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.VioletNoonModel.LAYER, kr.lobcorp.client.model.VioletNoonModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.VIOLET_NOON, kr.lobcorp.client.render.NewAbnoRenderers.VioletNoon::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.IndigoNoonModel.LAYER, kr.lobcorp.client.model.IndigoNoonModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.INDIGO_NOON, kr.lobcorp.client.render.NewAbnoRenderers.IndigoNoon::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

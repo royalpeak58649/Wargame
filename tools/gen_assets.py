@@ -8678,3 +8678,169 @@ print("assets ordeal dawn ok")
 
 merge_lang({"entity.lobcorp.amber_dawn": "호박색 여명", "entity.lobcorp.green_dawn": "녹색 여명", "entity.lobcorp.crimson_dawn": "진홍색 여명", "entity.lobcorp.violet_dawn": "보라색 여명"},
            {"entity.lobcorp.amber_dawn": "Dawn of Amber", "entity.lobcorp.green_dawn": "Dawn of Green", "entity.lobcorp.crimson_dawn": "Dawn of Crimson", "entity.lobcorp.violet_dawn": "Dawn of Violet"})
+
+
+def green_noon():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    plate = hexc("#4a5a4c")
+    plate_hi = hexc("#6f8a72")
+    plate_dark = hexc("#2c3a2e")
+    eye = hexc("#5cff8a")
+    steel = hexc("#c8d2d8")
+    steel_hi = hexc("#eef4f8")
+
+    # 몸통 (u0 v0, 10x10x6)
+    b = box(img, 0, 0, 10, 10, 6, plate, 6, top=plate_hi)
+    bx, by = b["front"]
+    for y in range(10):
+        if y % 3 == 2:
+            for x in range(10):
+                px(img, bx + x, by + y, plate_dark)
+    # 머리 (u0 v16, 6x5x6) + 눈 (u24 v16, 4x1x1)
+    h = box(img, 0, 16, 6, 5, 6, plate, 6, top=plate_hi)
+    hx, hy = h["front"]
+    for x in range(6):
+        px(img, hx + x, hy + 4, plate_dark)
+    e = box(img, 24, 16, 4, 1, 1, eye, 4)
+    ex, ey = e["front"]
+    for x in range(4):
+        px(img, ex + x, ey, eye)
+    # 오른팔 (u0 v28, 4x8x4) + 총열 (u16 v28, 2x6x2)
+    box(img, 0, 28, 4, 8, 4, plate, 6, top=plate_hi)
+    box(img, 16, 28, 2, 6, 2, steel, 5, top=steel_hi)
+    # 왼팔 (u0 v28, 4x8x4) + 팔 끝 판 (u28 v28, 8x8x1)
+    box(img, 0, 28, 4, 8, 4, plate, 6, top=plate_hi)
+    box(img, 28, 28, 8, 8, 1, plate_dark, 6, top=plate)
+    # 회전 톱 (u46 v28, 10x10x1)
+    s = box(img, 46, 28, 10, 10, 1, steel, 5, top=steel_hi)
+    sx, sy = s["front"]
+    for i in range(10):
+        px(img, sx + i, sy, steel_hi)
+        px(img, sx + i, sy + 9, steel_hi)
+        px(img, sx, sy + i, steel_hi)
+        px(img, sx + 9, sy + i, steel_hi)
+    # 다리 (u0 v40, 4x8x4)
+    box(img, 0, 40, 4, 8, 4, plate_dark, 6, top=plate)
+
+    save(img, "textures/entity/green_noon.png")
+
+
+def crimson_noon():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    coat = hexc("#b81c28")
+    coat_dark = hexc("#6e0e18")
+    gold = hexc("#e8c04a")
+    white = hexc("#f2ece4")
+    black = hexc("#241418")
+    nose = hexc("#e03040")
+
+    # 연미복 몸통 (u0 v0, 8x12x4) + 금단추
+    b = box(img, 0, 0, 8, 12, 4, coat, 6, top=coat_dark)
+    bx, by = b["front"]
+    for y in range(1, 12, 3):
+        px(img, bx + 3, by + y, gold)
+        px(img, bx + 4, by + y, gold)
+    # 머리 (u0 v16, 8x8x8) + 코 (u32 v16, 2x2x1)
+    h = box(img, 0, 16, 8, 8, 8, white, 5, top=white)
+    hx, hy = h["front"]
+    for (ex, ey) in [(1, 2), (6, 2)]:
+        px(img, hx + ex, hy + ey, black)
+    for x in range(8):
+        px(img, hx + x, hy + 7, coat)
+    n = box(img, 32, 16, 2, 2, 1, nose, 5)
+    nx, ny = n["front"]
+    for x in range(2):
+        for y in range(2):
+            px(img, nx + x, ny + y, nose)
+    # 실크햇 챙 (u32 v20, 8x2x8) + 통 (u32 v30, 6x8x6)
+    c1 = box(img, 32, 20, 8, 2, 8, black, 5, top=black)
+    c1x, c1y = c1["front"]
+    for x in range(8):
+        px(img, c1x + x, c1y + 1, coat)
+    c2 = box(img, 32, 30, 6, 8, 6, black, 5, top=black)
+    c2x, c2y = c2["front"]
+    for x in range(6):
+        px(img, c2x + x, c2y + 6, gold)
+    # 긴 팔 (u0 v32, 2x12x2)
+    box(img, 0, 32, 2, 12, 2, coat, 6, top=coat_dark)
+    box(img, 0, 32, 2, 12, 2, coat, 6, top=coat_dark)
+    # 다리 (u8 v32, 2x8x2)
+    box(img, 8, 32, 2, 8, 2, black, 6, top=coat)
+    box(img, 8, 32, 2, 8, 2, black, 6, top=coat)
+
+    save(img, "textures/entity/crimson_noon.png")
+
+
+def violet_noon():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    stone = hexc("#241a30")
+    stone_hi = hexc("#3a2a4a")
+    rune = hexc("#a06ad0")
+    tent = hexc("#1a1020")
+
+    # 석판 아래 (u0 v0, 8x12x4) + 룬
+    b = box(img, 0, 0, 8, 12, 4, stone, 5, top=stone_hi)
+    bx, by = b["front"]
+    for (rx, ry) in [(2, 2), (5, 4), (3, 7), (6, 9)]:
+        px(img, bx + rx, by + ry, rune)
+        px(img, bx + rx, by + ry + 1, rune)
+    # 석판 위 (u0 v16, 8x12x4) + 룬
+    u = box(img, 0, 16, 8, 12, 4, stone, 5, top=stone_hi)
+    ux, uy = u["front"]
+    for (rx, ry) in [(3, 1), (5, 3), (2, 6), (4, 9)]:
+        px(img, ux + rx, uy + ry, rune)
+        px(img, ux + rx + 1, uy + ry, rune)
+    # 촉수 네 가닥 (u24 v0, 2x8x2)
+    for i in range(4):
+        box(img, 24, 0, 2, 8, 2, tent, 5, top=stone_hi)
+
+    save(img, "textures/entity/violet_noon.png")
+
+
+def indigo_noon():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    cloak = hexc("#2a2a6e")
+    cloak_hi = hexc("#4444a0")
+    cloak_dark = hexc("#16163a")
+    face = hexc("#c8c0b8")
+    shadow = hexc("#3a3a4a")
+    steel = hexc("#c8d2d8")
+
+    # 망토 몸통 (u0 v0, 8x12x6)
+    b = box(img, 0, 0, 8, 12, 6, cloak, 6, top=cloak_hi)
+    bx, by = b["front"]
+    for y in range(12):
+        if y % 4 == 3:
+            for x in range(8):
+                px(img, bx + x, by + y, cloak_dark)
+    # 후드 (u0 v18, 8x7x8) + 그늘진 얼굴 (u32 v18, 6x4x1)
+    h = box(img, 0, 18, 8, 7, 8, cloak, 6, top=cloak_hi)
+    hx, hy = h["front"]
+    for x in range(8):
+        px(img, hx + x, hy + 6, cloak_dark)
+    f = box(img, 32, 18, 6, 4, 1, face, 5)
+    fx, fy = f["front"]
+    for x in range(6):
+        px(img, fx + x, fy, shadow)
+    for (ex, ey) in [(1, 2), (4, 2)]:
+        px(img, fx + ex, fy + ey, shadow)
+    # 긴 팔 (u0 v34, 2x12x2) + 칼날 (u8 v34, 2x4x1)
+    box(img, 0, 34, 2, 12, 2, cloak, 6, top=cloak_hi)
+    box(img, 8, 34, 2, 4, 1, steel, 5, top=hexc("#eef4f8"))
+    box(img, 0, 34, 2, 12, 2, cloak, 6, top=cloak_hi)
+    box(img, 8, 34, 2, 4, 1, steel, 5, top=hexc("#eef4f8"))
+    # 다리 (u16 v34, 2x6x2)
+    box(img, 16, 34, 2, 6, 2, cloak_dark, 6, top=cloak)
+    box(img, 16, 34, 2, 6, 2, cloak_dark, 6, top=cloak)
+
+    save(img, "textures/entity/indigo_noon.png")
+
+
+green_noon()
+crimson_noon()
+violet_noon()
+indigo_noon()
+print("assets ordeal noon ok")
+
+merge_lang({"entity.lobcorp.green_noon": "녹색 정오", "entity.lobcorp.crimson_noon": "진홍색 정오", "entity.lobcorp.violet_noon": "보라색 정오", "entity.lobcorp.indigo_noon": "쪽빛 정오"},
+           {"entity.lobcorp.green_noon": "Noon of Green", "entity.lobcorp.crimson_noon": "Noon of Crimson", "entity.lobcorp.violet_noon": "Noon of Violet", "entity.lobcorp.indigo_noon": "Noon of Indigo"})

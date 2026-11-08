@@ -133,6 +133,14 @@ import kr.lobcorp.client.model.AmberDawnModel;
 import kr.lobcorp.client.model.GreenDawnModel;
 import kr.lobcorp.client.model.CrimsonDawnModel;
 import kr.lobcorp.client.model.VioletDawnModel;
+import kr.lobcorp.ordeal.GreenNoonEntity;
+import kr.lobcorp.ordeal.CrimsonNoonEntity;
+import kr.lobcorp.ordeal.VioletNoonEntity;
+import kr.lobcorp.ordeal.IndigoNoonEntity;
+import kr.lobcorp.client.model.GreenNoonModel;
+import kr.lobcorp.client.model.CrimsonNoonModel;
+import kr.lobcorp.client.model.VioletNoonModel;
+import kr.lobcorp.client.model.IndigoNoonModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -1735,6 +1743,98 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(VioletDawnModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class GreenNoon extends MobRenderer<GreenNoonEntity, GreenNoonModel.State, GreenNoonModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/green_noon.png");
+
+        public GreenNoon(EntityRendererProvider.Context ctx) {
+            super(ctx, new GreenNoonModel(ctx.bakeLayer(GreenNoonModel.LAYER)), 0.7f);
+        }
+
+        @Override
+        public GreenNoonModel.State createRenderState() {
+            return new GreenNoonModel.State();
+        }
+
+        @Override
+        public void extractRenderState(GreenNoonEntity e, GreenNoonModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(GreenNoonModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class CrimsonNoon extends MobRenderer<CrimsonNoonEntity, CrimsonNoonModel.State, CrimsonNoonModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/crimson_noon.png");
+
+        public CrimsonNoon(EntityRendererProvider.Context ctx) {
+            super(ctx, new CrimsonNoonModel(ctx.bakeLayer(CrimsonNoonModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public CrimsonNoonModel.State createRenderState() {
+            return new CrimsonNoonModel.State();
+        }
+
+        @Override
+        public void extractRenderState(CrimsonNoonEntity e, CrimsonNoonModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(CrimsonNoonModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class VioletNoon extends MobRenderer<VioletNoonEntity, VioletNoonModel.State, VioletNoonModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/violet_noon.png");
+
+        public VioletNoon(EntityRendererProvider.Context ctx) {
+            super(ctx, new VioletNoonModel(ctx.bakeLayer(VioletNoonModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public VioletNoonModel.State createRenderState() {
+            return new VioletNoonModel.State();
+        }
+
+        @Override
+        public void extractRenderState(VioletNoonEntity e, VioletNoonModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(VioletNoonModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class IndigoNoon extends MobRenderer<IndigoNoonEntity, IndigoNoonModel.State, IndigoNoonModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/indigo_noon.png");
+
+        public IndigoNoon(EntityRendererProvider.Context ctx) {
+            super(ctx, new IndigoNoonModel(ctx.bakeLayer(IndigoNoonModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public IndigoNoonModel.State createRenderState() {
+            return new IndigoNoonModel.State();
+        }
+
+        @Override
+        public void extractRenderState(IndigoNoonEntity e, IndigoNoonModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(IndigoNoonModel.State s) {
             return TEX;
         }
     }
