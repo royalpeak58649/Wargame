@@ -114,14 +114,13 @@ public class DreamingCurrentEntity extends BreachingAbnormality {
             case NORMAL -> {
                 p.sendSystemMessage(Component.literal("  비늘 사이로 무지개빛이 번뜩이고, 발밑이 잠시 젖는다.")
                         .withStyle(st -> st.withColor(0xAAAAAA).withItalic(true)));
-                if (Employees.get(p).grade(Employees.get(p).temperance).equals("I")) lowerQliphoth(p, 1);
             }
             case BAD -> {
                 p.sendSystemMessage(Component.literal("  물고기가 입을 크게 벌린 채 작업자를 노려본다. 물이 차오른다.")
                         .withStyle(st -> st.withColor(0xAAAAAA).withItalic(true)));
-                if (Employees.get(p).grade(Employees.get(p).temperance).equals("I")) lowerQliphoth(p, 1);
             }
         }
+        if (kr.lobcorp.work.EmployeeData.grade(Employees.get(p).temperance).equals("I")) lowerQliphoth(p, 1);
     }
 
     @Override

@@ -25,6 +25,7 @@ import kr.lobcorp.client.model.LittlePrinceMinionModel;
 import kr.lobcorp.client.model.LittlePrinceModel;
 import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
+import kr.lobcorp.client.model.DreamingCurrentModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -78,6 +79,7 @@ import kr.lobcorp.entity.LittlePrinceEntity;
 import kr.lobcorp.entity.LittlePrinceMinionEntity;
 import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
+import kr.lobcorp.entity.DreamingCurrentEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1405,6 +1407,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(NakedWormModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class DreamingCurrent extends MobRenderer<DreamingCurrentEntity, DreamingCurrentModel.State, DreamingCurrentModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/dreaming_current.png");
+
+        public DreamingCurrent(EntityRendererProvider.Context ctx) {
+            super(ctx, new DreamingCurrentModel(ctx.bakeLayer(DreamingCurrentModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public DreamingCurrentModel.State createRenderState() {
+            return new DreamingCurrentModel.State();
+        }
+
+        @Override
+        public void extractRenderState(DreamingCurrentEntity e, DreamingCurrentModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(DreamingCurrentModel.State s) {
             return TEX;
         }
     }

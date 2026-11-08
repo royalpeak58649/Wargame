@@ -7769,3 +7769,104 @@ print("assets naked nest ok")
 
 merge_lang({"entity.lobcorp.naked_nest": "벌거벗은 둥지", "entity.lobcorp.naked_worm": "벌거벗은 둥지의 뱀", "item.lobcorp.exuviae": "탈피", "item.lobcorp.exuviae_suit": "탈피의 외투"},
            {"entity.lobcorp.naked_nest": "The Naked Nest", "entity.lobcorp.naked_worm": "Naked Nest Serpent", "item.lobcorp.exuviae": "Exuviae", "item.lobcorp.exuviae_suit": "Exuviae Coat"})
+
+
+# ───────────── 꿈꾸는 조류 / 황홀 ─────────────
+def dreaming_current():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    red = hexc("#e05a6a")
+    orange = hexc("#e08a4a")
+    yellow = hexc("#f2d65a")
+    green = hexc("#6ad08a")
+    blue = hexc("#5a9ae0")
+    violet = hexc("#a06ae0")
+    mouth = hexc("#2a1a2a")
+    eye = hexc("#1a1a2a")
+
+    # 위턱 (u0 v0, 6x3x7) — 붉은 줄무늬
+    h = box(img, 0, 0, 6, 3, 7, red, 6, top=orange)
+    hx, hy = h["front"]
+    for x in range(6):
+        px(img, hx + x, hy + 2, mouth)
+    for (ex, ey) in [(1, 0), (4, 0)]:
+        px(img, hx + ex, hy + ey, eye)
+
+    # 아래턱 (u0 v10, 6x2x7) — 입 안쪽은 어둡게
+    j = box(img, 0, 10, 6, 2, 7, orange, 6, top=mouth)
+    jx, jy = j["front"]
+    for x in range(6):
+        px(img, jx + x, jy, mouth)
+
+    # 몸통 마디 3개 (u0 v20 / u0 v32 / u0 v44, 각 6x5x7) — 무지개 줄무늬
+    for (u, v, c, hi) in [(0, 20, yellow, green), (0, 32, green, blue), (0, 44, blue, violet)]:
+        s = box(img, u, v, 6, 5, 7, c, 6, top=hi)
+        sx, sy = s["front"]
+        for y in range(5):
+            px(img, sx, sy + y, hi)
+            px(img, sx + 5, sy + y, hi)
+
+    # 꼬리지느러미 (u26 v0, 1x6x6) — 보랏빛
+    t = box(img, 26, 0, 1, 6, 6, violet, 6, top=red)
+    tx, ty = t["front"]
+    for y in range(6):
+        px(img, tx, ty + y, red)
+
+    # 옆지느러미 (u26 v14 / u26 v24, 1x3x5) — 청록
+    box(img, 26, 14, 1, 3, 5, blue, 6, top=green)
+    box(img, 26, 24, 1, 3, 5, blue, 6, top=green)
+
+    save(img, "textures/entity/dreaming_current.png")
+
+
+EC = {"k": "#1a1a2a", "r": "#e05a6a", "y": "#f2d65a", "g": "#6ad08a", "b": "#5a9ae0", "v": "#a06ae0", "w": "#f4f4fa"}
+# 황홀: 무지개빛 리본 채찍이 대각선으로 휜다
+icon([
+    "................",
+    "...........rr...",
+    "..........rrr...",
+    ".........rrr....",
+    "........yyy.....",
+    ".......yyy......",
+    "......ggg.......",
+    ".....ggg........",
+    "....bbb.........",
+    "...bbb..........",
+    "..vvv...........",
+    "..vv............",
+    ".kk.............",
+    "................",
+    "................",
+    "................",
+], EC, "textures/item/ecstasy.png")
+# 황홀의 옷: 무지개 테두리를 두른 코트
+icon([
+    "................",
+    "...bb......bb...",
+    "..bbbb....bbbb..",
+    "..bbbbbbbbbbbb..",
+    "...bbbbbbbbbb...",
+    "....bbwwwwbb....",
+    "....bbwyywbb....",
+    "....bbwyywbb....",
+    "....bbwwwwbb....",
+    "....bbbbbbbb....",
+    "....bbbbbbbb....",
+    "....bbbbbbbb....",
+    "....bbbbbbbb....",
+    ".....vvvvvv.....",
+    "................",
+    "................",
+], EC, "textures/item/ecstasy_suit.png")
+
+armor(hexc("#5a9ae0"), "#1a1a2a", "#f2d65a", "textures/entity/equipment/humanoid/ecstasy.png")
+
+for item, parent in [("ecstasy", "minecraft:item/handheld"), ("ecstasy_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/ecstasy.json", {"layers": {"humanoid": [{"texture": "lobcorp:ecstasy"}]}})
+
+dreaming_current()
+print("assets dreaming current ok")
+
+merge_lang({"entity.lobcorp.dreaming_current": "꿈꾸는 조류", "item.lobcorp.ecstasy": "황홀", "item.lobcorp.ecstasy_suit": "황홀의 옷"},
+           {"entity.lobcorp.dreaming_current": "The Dreaming Current", "item.lobcorp.ecstasy": "Ecstasy", "item.lobcorp.ecstasy_suit": "Ecstasy Suit"})
