@@ -8070,3 +8070,88 @@ print("assets firebird ok")
 
 merge_lang({"entity.lobcorp.firebird": "불새", "item.lobcorp.feather_of_honor": "명예의 깃털", "item.lobcorp.feather_of_honor_suit": "명예의 깃털 옷"},
            {"entity.lobcorp.firebird": "The Firebird", "item.lobcorp.feather_of_honor": "Feather of Honor", "item.lobcorp.feather_of_honor_suit": "Feather of Honor Suit"})
+
+
+# ───────────── 구름 낀 수도승 ─────────────
+def clouded_monk():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    robe = hexc("#6a5a48")
+    robe_dark = hexc("#4a3e32")
+    hood = hexc("#1e1a16")
+    cloud = hexc("#b8b4ac")
+    cloud_hi = hexc("#eeece6")
+    hand = hexc("#d8d4c8")
+
+    # 몸통 (u0 v0, 8x10x5) — 회갈색 승복
+    box(img, 0, 0, 8, 10, 5, robe, 7, top=robe_dark)
+    # 머리 (u0 v16, 6x6x6) — 후드 안쪽은 어둡다
+    box(img, 0, 16, 6, 6, 6, robe, 7, top=robe_dark, front=hood)
+    # 긴 팔 (u0 v32, 2x12x2) — 끝은 창백한 손
+    a = box(img, 0, 32, 2, 12, 2, robe, 7)
+    ax, ay = a["front"]
+    for y in range(9, 12):
+        for x in range(2):
+            px(img, ax + x, ay + y, hand)
+    # 짧은 다리 (u8 v32, 2x5x2)
+    box(img, 8, 32, 2, 5, 2, robe_dark, 7)
+    # 구름 덩어리 네 개 (u16 v32 / u24 v32 / u32 v32 / u40 v32)
+    box(img, 16, 32, 4, 4, 4, cloud, 6, top=cloud_hi)
+    box(img, 24, 32, 4, 4, 4, cloud, 6, top=cloud_hi)
+    box(img, 32, 32, 3, 3, 3, cloud, 6, top=cloud_hi)
+    box(img, 40, 32, 3, 3, 3, cloud, 6, top=cloud_hi)
+
+    save(img, "textures/entity/clouded_monk.png")
+
+
+AM = {"k": "#1e1a16", "b": "#6a5a48", "g": "#b8b4ac", "w": "#eeece6", "o": "#d0a040"}
+# 아미타: 금 고리가 달린 수도승의 지팡이
+icon([
+    "................",
+    "......oooo......",
+    ".....o....o.....",
+    "....o......o....",
+    "....o......o....",
+    ".....o....o.....",
+    "......oooo......",
+    ".......bb.......",
+    ".......bb.......",
+    "......bbb.......",
+    "......bb........",
+    ".....bbb........",
+    ".....bb.........",
+    "....bbb.........",
+    "....kk..........",
+    "................",
+], AM, "textures/item/amita.png")
+# 아미타의 승복: 후드가 달린 승복 실루엣
+icon([
+    "................",
+    "......bbbb......",
+    ".....bbbbbb.....",
+    "....bbbbbbbb....",
+    "...bbbbbbbbbb...",
+    "...bbkkkkkkbb...",
+    "...bbkwwwwkbb...",
+    "...bbkkkkkkbb...",
+    "...bbbbbbbbbb...",
+    "...bbbbbbbbbb...",
+    "...bbbbbbbbbb...",
+    "...bbbbbbbbbb...",
+    "...bbbbbbbbbb...",
+    "...bbbbbbbbbb...",
+    "....kkkkkkkk....",
+    "................",
+], AM, "textures/item/amita_suit.png")
+
+armor(hexc("#6a5a48"), "#1e1a16", "#d0a040", "textures/entity/equipment/humanoid/amita.png")
+
+for item, parent in [("amita", "minecraft:item/handheld"), ("amita_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/amita.json", {"layers": {"humanoid": [{"texture": "lobcorp:amita"}]}})
+
+clouded_monk()
+print("assets clouded monk ok")
+
+merge_lang({"entity.lobcorp.clouded_monk": "구름 낀 수도승", "item.lobcorp.amita": "아미타", "item.lobcorp.amita_suit": "아미타의 승복"},
+           {"entity.lobcorp.clouded_monk": "Clouded Monk", "item.lobcorp.amita": "Amita", "item.lobcorp.amita_suit": "Amita Robe"})
