@@ -194,5 +194,17 @@
   "item.lobcorp.sound_of_a_star": "Sound of a Star",
   "item.lobcorp.sound_of_a_star_suit": "Sound of a Star Suit",
   "item.lobcorp.adoration": "Adoration",
-  "item.lobcorp.adoration_suit": "Adoration Suit"
+  "item.lobcorp.adoration_suit": "Adoration Suit",
+  "entity.lobcorp.army_in_black": "Army in Black",
+  "entity.lobcorp.army_soldier": "Black Soldier",
+  "entity.lobcorp.whitenight": "WhiteNight",
+  "entity.lobcorp.apostle": "Apostle",
+  "entity.lobcorp.apocalypse_bird": "Apocalypse Bird",
+  "entity.lobcorp.apocalypse_egg": "Apocalypse Egg",
+  "item.lobcorp.pink": "Pink",
+  "item.lobcorp.pink_suit": "Pink Suit",
+  "item.lobcorp.paradise_lost": "Paradise Lost",
+  "item.lobcorp.paradise_lost_suit": "Paradise Lost Suit",
+  "item.lobcorp.twilight": "Twilight",
+  "item.lobcorp.twilight_suit": "Twilight Suit"
 }

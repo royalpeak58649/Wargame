@@ -194,5 +194,17 @@
   "item.lobcorp.sound_of_a_star": "별의 소리",
   "item.lobcorp.sound_of_a_star_suit": "별의 소리 옷",
   "item.lobcorp.adoration": "흠모",
-  "item.lobcorp.adoration_suit": "흠모 옷"
+  "item.lobcorp.adoration_suit": "흠모 옷",
+  "entity.lobcorp.army_in_black": "검은 군단",
+  "entity.lobcorp.army_soldier": "검은 군인",
+  "entity.lobcorp.whitenight": "백야",
+  "entity.lobcorp.apostle": "사도",
+  "entity.lobcorp.apocalypse_bird": "종말새",
+  "entity.lobcorp.apocalypse_egg": "종말새의 알",
+  "item.lobcorp.pink": "분홍",
+  "item.lobcorp.pink_suit": "분홍 옷",
+  "item.lobcorp.paradise_lost": "실낙원",
+  "item.lobcorp.paradise_lost_suit": "실낙원 옷",
+  "item.lobcorp.twilight": "황혼",
+  "item.lobcorp.twilight_suit": "황혼 옷"
 }
