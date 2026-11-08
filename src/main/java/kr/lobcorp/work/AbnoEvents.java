@@ -48,6 +48,28 @@ public final class AbnoEvents {
         }
     }
 
+    /** 사무직이 죽었다. 이름이 있는 사무직만 관제 방송으로 알린다. */
+    public static void clerkDeath(kr.lobcorp.entity.ClerkEntity c) {
+        if (c == null || c.level().getServer() == null) return;
+        for (AbnormalityEntity a : all(c.level().getServer())) {
+            a.onAnyClerkDeath(c);
+        }
+        if (c.hasCustomName()) {
+            String name = c.getCustomName() != null ? c.getCustomName().getString() : "사무직";
+            Facility.broadcast(c.level().getServer(), net.minecraft.network.chat.Component
+                    .literal("[관제] " + name + "이(가) 사망했습니다.")
+                    .withStyle(st -> st.withColor(0xAA0000)));
+        }
+    }
+
+    /** 사무직이 공황에 빠졌다. */
+    public static void clerkPanic(kr.lobcorp.entity.ClerkEntity c) {
+        if (c == null || c.level().getServer() == null) return;
+        for (AbnormalityEntity a : all(c.level().getServer())) {
+            a.onAnyClerkPanic(c);
+        }
+    }
+
     /** 현재 탈출 중인 환상체 수 */
     public static int breachedCount(MinecraftServer server) {
         int n = 0;

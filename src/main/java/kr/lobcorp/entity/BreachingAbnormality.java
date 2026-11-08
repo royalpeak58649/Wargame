@@ -138,6 +138,12 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
                     Player found = sl.getNearestPlayer(cond, BreachingAbnormality.this);
                     if (found instanceof ServerPlayer sp && ToolState.isSheltered(sp)) found = null;
                     if (found instanceof ServerPlayer sp2 && sp2.isCreative()) found = null;
+                    // 사무직이 더 가까우면 사무직을 노린다
+                    ClerkEntity clerk = nearestClerk(sl, 24.0);
+                    if (clerk != null && (found == null || distanceTo(clerk) < distanceTo(found))) {
+                        setTarget(clerk);
+                        return;
+                    }
                     setTarget(found);
                 }
             }
@@ -321,9 +327,25 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         suppress(source.getEntity());
     }
 
+    /** 반경 안에서 가장 가까운 살아 있는 사무직 (없으면 null) */
+    protected ClerkEntity nearestClerk(ServerLevel sl, double radius) {
+        ClerkEntity best = null;
+        double bd = Double.MAX_VALUE;
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(radius))) {
+            if (!c.isAlive()) continue;
+            double d = distanceTo(c);
+            if (d > radius) continue;
+            if (d < bd) {
+                bd = d;
+                best = c;
+            }
+        }
+        return best;
+    }
+
     /** 위협도 + 거리 + 약간의 무작위로 추격 대상을 다시 고른다 (한 명이 영구히 어그로를 잡지 못하게) */
     private void retarget(ServerLevel sl) {
-        ServerPlayer best = null;
+        LivingEntity best = null;
         float bestScore = Float.NEGATIVE_INFINITY;
         for (ServerPlayer p : sl.players()) {
             if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
@@ -335,6 +357,17 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
             if (score > bestScore) {
                 bestScore = score;
                 best = p;
+            }
+        }
+        // 사무직은 플레이어보다 조금 낮은 우선순위로 함께 고려한다
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(40.0))) {
+            if (!c.isAlive()) continue;
+            double dist = distanceTo(c);
+            if (dist > 40) continue;
+            float score = 20f / (1f + (float) dist) + getRandom().nextFloat() * 8f - 4f;
+            if (score > bestScore) {
+                bestScore = score;
+                best = c;
             }
         }
         if (best != null && best != getTarget()) {

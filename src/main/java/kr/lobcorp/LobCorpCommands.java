@@ -227,6 +227,22 @@ public final class LobCorpCommands {
                             c.getSource().sendSuccess(() -> Component.literal(st).withStyle(s -> s.withColor(0xAAAAAA)), false);
                             return 1;
                         })))
+                .then(Commands.literal("clerks").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .then(Commands.literal("respawn").executes(c -> {
+                            int n = kr.lobcorp.work.Clerks.spawnAll(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal("사무직 " + n + "명을 배치했습니다."), true);
+                            return 1;
+                        }))
+                        .then(Commands.literal("clear").executes(c -> {
+                            kr.lobcorp.work.Clerks.discardAll(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal("모든 사무직을 제거했습니다."), true);
+                            return 1;
+                        }))
+                        .then(Commands.literal("count").executes(c -> {
+                            int n = kr.lobcorp.work.Clerks.count(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal("사무직 " + n + "명"), false);
+                            return 1;
+                        })))
                 .then(Commands.literal("clear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::clear))
                 .then(Commands.literal("reset").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -275,6 +291,7 @@ public final class LobCorpCommands {
         Facility.get(server).centers = new java.util.ArrayList<>(r.centers());
         Facility.get(server).offers.clear();
         if (!full) kr.lobcorp.work.Extraction.place(server, "one_sin");
+        kr.lobcorp.work.Clerks.spawnAll(server);
         if (c.getSource().getEntity() instanceof ServerPlayer p)
             p.teleportTo(level, r.spawn().getX() + 0.5, r.spawn().getY(), r.spawn().getZ() + 0.5, java.util.Set.of(), -90f, 0f, false);
         c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 11개, 격리실 " + r.slots().size() + "칸. 상층 바닥 높이 Y=" + r.topY()
@@ -389,6 +406,7 @@ public final class LobCorpCommands {
         kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
         kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
         kr.lobcorp.apocalypse.ApocalypseManager.clearAll(c.getSource().getServer());
+        kr.lobcorp.work.Clerks.discardAll(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;
@@ -406,6 +424,7 @@ public final class LobCorpCommands {
         kr.lobcorp.work.QliphothPanel.discardAll(server);
         kr.lobcorp.ordeal.OrdealManager.clearAll(server);
         kr.lobcorp.apocalypse.ApocalypseManager.clearAll(server);
+        kr.lobcorp.work.Clerks.discardAll(server);
         FacilityData f = Facility.get(server);
         for (FacilityData.Slot slot : f.slots) {
             slot.abno = "";
@@ -426,6 +445,7 @@ public final class LobCorpCommands {
             p.setHealth(p.getMaxHealth());
         }
         kr.lobcorp.work.Extraction.place(server, "one_sin");
+        kr.lobcorp.work.Clerks.spawnAll(server);
         Facility.broadcast(server, Component.literal("[L사] 새 관리가 시작됩니다. Day 1").withStyle(s -> s.withColor(0x55FF55)));
         return 1;
     }

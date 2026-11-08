@@ -96,6 +96,7 @@ public final class Facility {
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal("에너지 할당량 " + f.quota).withStyle(s -> s.withColor(0x55FF55))));
             p.connection.send(new ClientboundSetTitleTextPacket(Component.literal("Day " + f.day)));
         }
+        Clerks.spawnAll(server);
     }
 
     public static void tick(MinecraftServer server) {

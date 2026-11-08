@@ -108,6 +108,12 @@ public abstract class AbnormalityEntity extends PathfinderMob {
     /** 시설의 직원이 패닉에 빠졌을 때 */
     public void onAnyPanic(ServerPlayer p) {}
 
+    /** 시설의 사무직이 죽었을 때 (시체를 쓰는 환상체 등) */
+    public void onAnyClerkDeath(kr.lobcorp.entity.ClerkEntity c) {}
+
+    /** 시설의 사무직이 공황에 빠졌을 때 */
+    public void onAnyClerkPanic(kr.lobcorp.entity.ClerkEntity c) {}
+
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;

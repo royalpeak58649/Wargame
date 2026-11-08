@@ -1,6 +1,7 @@
 package kr.lobcorp.ordeal;
 
 import kr.lobcorp.item.EgoWeaponItem;
+import kr.lobcorp.entity.ClerkEntity;
 import kr.lobcorp.work.ToolState;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -64,6 +65,20 @@ public abstract class OrdealEntity extends PathfinderMob {
                     Player found = sl.getNearestPlayer(cond, OrdealEntity.this);
                     if (found instanceof ServerPlayer sp && ToolState.isSheltered(sp)) found = null;
                     if (found instanceof ServerPlayer sp2 && sp2.isCreative()) found = null;
+                    // 사무직이 더 가까우면 사무직을 노린다
+                    ClerkEntity clerk = null;
+                    double bd = Double.MAX_VALUE;
+                    for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(24.0))) {
+                        if (!c.isAlive()) continue;
+                        double d = distanceTo(c);
+                        if (d > 24 || d >= bd) continue;
+                        bd = d;
+                        clerk = c;
+                    }
+                    if (clerk != null && (found == null || bd < distanceTo(found))) {
+                        setTarget(clerk);
+                        return;
+                    }
                     setTarget(found);
                 }
             }
