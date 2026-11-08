@@ -78,6 +78,7 @@ public final class ModItems {
     public static final ArmorMaterial FEATHER_OF_HONOR_MAT = material("feather_of_honor", 6);
     public static final ArmorMaterial AMITA_MAT = material("amita", 7);
     public static final ArmorMaterial MOONLIGHT_MAT = material("moonlight", 7);
+    public static final ArmorMaterial DIFFRACTION_MAT = material("diffraction", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -179,6 +180,8 @@ public final class ModItems {
     public static Item AMITA_SUIT;
     public static Item MOONLIGHT;
     public static Item MOONLIGHT_SUIT;
+    public static Item DIFFRACTION;
+    public static Item DIFFRACTION_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -440,6 +443,10 @@ public final class ModItems {
                 "D-01-105 · WAW", "WHITE 피해, 빠른 연타", "달의 울음의 건반을 벼려 만든 창백한 무기. 휘두를 때마다 젖은 화음이 흘러나온다.");
         MOONLIGHT_SUIT = suit("moonlight_suit", MOONLIGHT_MAT,
                 "D-01-105 · WAW", "WHITE·BLACK 저항: 작업 실패 시 SP·HP 피해 -1");
+        DIFFRACTION = weapon("diffraction", DamageColor.WHITE, 6.0, -2.4,
+                "O-03-88 · WAW", "WHITE 피해, 보통 속도", "굴절된 공간의 파편을 그대로 벼려 만든 무기. 휘두를 때마다 허공이 잠깐 어긋난다.");
+        DIFFRACTION_SUIT = suit("diffraction_suit", DIFFRACTION_MAT,
+                "O-03-88 · WAW", "WHITE 저항: 작업 실패 시 SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -458,6 +465,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT);
     }
 }

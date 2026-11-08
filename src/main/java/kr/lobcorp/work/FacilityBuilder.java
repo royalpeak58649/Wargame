@@ -73,7 +73,7 @@ public final class FacilityBuilder {
                         List.of(u("queen_of_hatred", ModEntities.QUEEN_HATRED), u("knight_of_despair", ModEntities.KNIGHT_DESPAIR), u("burrowing_heaven", ModEntities.BURROWING_HEAVEN), u("backward_clock", ModEntities.BACKWARD_CLOCK))),
                 new Dept("기록팀", "호크마", DyeColor.GRAY,
                         List.of(u("king_of_greed", ModEntities.KING_GREED), u("little_red", ModEntities.LITTLE_RED), u("clouded_monk", ModEntities.CLOUDED_MONK), u("il_pianto", ModEntities.IL_PIANTO)),
-                        List.of(u("big_bad_wolf", ModEntities.BIG_BAD_WOLF), u("alriune", ModEntities.ALRIUNE))),
+                        List.of(u("big_bad_wolf", ModEntities.BIG_BAD_WOLF), u("alriune", ModEntities.ALRIUNE), u("dimension_refraction", ModEntities.DIMENSION_REFRACTION))),
                 new Dept("설계팀", "케테르", DyeColor.BLACK,
                         List.of(u("queen_bee", ModEntities.QUEEN_BEE), u("yin", ModEntities.YIN),
                                 u("snow_white_apple", ModEntities.SNOW_WHITE_APPLE), u("parasite_tree", ModEntities.PARASITE_TREE)),

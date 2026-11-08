@@ -863,7 +863,23 @@ public record AbnoProfile(
                     "시계를 돌리면 탈출한 환상체가 격리실로 돌아가고 하수인들이 사라지며 모든 클리포트 카운터가 복구된다. 대신 시계를 돌린 직원은 그 자리에서 죽고, 시계는 그날 하루 멈춘다. 감당하지 못한 직원이 돌리면 주변 직원이 죽거나 패닉에 빠진다."
             ));
 
+    public static final AbnoProfile DIMENSION_REFRACTION = new AbnoProfile(
+            "dimension_refraction", "차원 굴절 변이체", "O-03-88", "WAW", 0xAA55FF,
+            new int[]{35, 45, 30, 25}, 22, 17, 9,
+            DamageColor.WHITE, 4, 7,
+            2,
+            () -> ModItems.DIFFRACTION, 50,
+            () -> ModItems.DIFFRACTION_SUIT, 50,
+            "diffraction", "회절", "최대 SP +6", 3,
+            new float[]{0.0f, 1.5f, 0.8f, 1.0f},
+            List.of(
+                    "텅 빈 중심 주위로 굴절된 파편들이 떠다니는, 겨우 눈에 보이는 공간의 일그러짐. 파편마다 비치는 풍경이 조금씩 어긋나 있다.",
+                    "작업이 40초를 넘기면 클리포트 카운터가 1 내려간다. 작업 결과가 나쁨이면 카운터가 1 내려간다.",
+                    "카운터가 0이 되면 탈출해 모습을 감춘 채 직원 곁을 느리게 떠돈다. 닿은 직원은 보이지 않는 파편에 갈려 연속으로 피해를 입는다. 희미한 빛만이 그 위치를 알려준다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
             Map.entry(IL_PIANTO.id, IL_PIANTO),
             Map.entry(CLOUDED_MONK.id, CLOUDED_MONK),

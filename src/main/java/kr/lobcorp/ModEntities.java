@@ -44,6 +44,7 @@ import kr.lobcorp.entity.FirebirdEntity;
 import kr.lobcorp.entity.CloudedMonkEntity;
 import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.BackwardClockEntity;
+import kr.lobcorp.entity.DimensionRefractionEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -134,6 +135,7 @@ public final class ModEntities {
     public static EntityType<CloudedMonkEntity> CLOUDED_MONK;
     public static EntityType<IlPiantoEntity> IL_PIANTO;
     public static EntityType<BackwardClockEntity> BACKWARD_CLOCK;
+    public static EntityType<DimensionRefractionEntity> DIMENSION_REFRACTION;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -264,6 +266,8 @@ public final class ModEntities {
                 .sized(1.4f, 2.4f).clientTrackingRange(10));
         BACKWARD_CLOCK = register("backward_clock", EntityType.Builder.of(BackwardClockEntity::new, MobCategory.MISC)
                 .sized(1.0f, 2.6f).clientTrackingRange(10));
+        DIMENSION_REFRACTION = register("dimension_refraction", EntityType.Builder.of(DimensionRefractionEntity::new, MobCategory.MISC)
+                .sized(1.0f, 1.8f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -326,5 +330,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(CLOUDED_MONK, CloudedMonkEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(IL_PIANTO, IlPiantoEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BACKWARD_CLOCK, BackwardClockEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(DIMENSION_REFRACTION, DimensionRefractionEntity.createAttributes());
     }
 }
