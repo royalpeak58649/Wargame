@@ -143,6 +143,37 @@ public final class Facility {
         return derived;
     }
 
+    /**
+     * 환상체가 실제로 수용된 부서의 중앙 홀만 돌려준다.
+     * 각 격리실 자리(abno != "")에서 가장 가까운 중앙 홀을 "사용 중"으로 보고, 그런 중앙 홀만 남긴다.
+     * 수용된 격리실이 하나도 없으면 빈 목록을 돌려준다.
+     */
+    public static List<BlockPos> activeCenters(MinecraftServer server) {
+        List<BlockPos> all = centers(server);
+        if (all.isEmpty()) return List.of();
+        FacilityData f = get(server);
+        Set<BlockPos> used = new HashSet<>();
+        for (FacilityData.Slot s : f.slots) {
+            if (s.abno == null || s.abno.isEmpty()) continue;
+            BlockPos best = null;
+            double bestDist = Double.MAX_VALUE;
+            for (BlockPos c : all) {
+                double d = c.distSqr(s.origin);
+                if (d < bestDist) {
+                    bestDist = d;
+                    best = c;
+                }
+            }
+            if (best != null) used.add(best);
+        }
+        if (used.isEmpty()) return List.of();
+        List<BlockPos> out = new ArrayList<>();
+        for (BlockPos c : all) {
+            if (used.contains(c)) out.add(c);
+        }
+        return out;
+    }
+
     private static List<BlockPos> deriveCenters(List<FacilityData.Slot> slots) {
         List<BlockPos> out = new ArrayList<>();
         if (slots.isEmpty()) return out;

@@ -97,7 +97,8 @@ public final class OrdealManager {
     /** 시련을 발생시키고 소환한 개체 수를 돌려준다. */
     public static int start(MinecraftServer server, OrdealType type) {
         ServerLevel level = server.overworld();
-        List<BlockPos> centers = new ArrayList<>(Facility.centers(server));
+        // 환상체가 수용된 부서의 중앙 홀에서만 발생한다. 그런 곳이 없으면 기존 동작(플레이어 위치)으로 대체한다.
+        List<BlockPos> centers = new ArrayList<>(Facility.activeCenters(server));
         if (centers.isEmpty()) {
             ServerPlayer any = null;
             for (ServerPlayer p : server.getPlayerList().getPlayers()) {
@@ -108,10 +109,11 @@ public final class OrdealManager {
             centers.add(any.blockPosition());
         }
         Collections.shuffle(centers, new Random(level.getRandom().nextLong()));
-        int siteCount = Math.min(type.sites, centers.size());
+        // 활성 중앙 홀이 type.sites보다 적으면 사이트 수를 줄이지 않고 셔플된 목록을 순환해 재사용한다.
+        int siteCount = type.sites;
         List<OrdealEntity> spawned = new ArrayList<>();
         for (int i = 0; i < siteCount; i++) {
-            BlockPos site = centers.get(i);
+            BlockPos site = centers.get(i % centers.size());
             for (int g = 0; g < type.group; g++) {
                 OrdealEntity e = type.entity.get().create(level, EntitySpawnReason.EVENT);
                 if (e == null) continue;
@@ -131,7 +133,7 @@ public final class OrdealManager {
                     .withStyle(s -> s.withColor(type.color))));
             p.level().playSound(null, p.blockPosition(), SoundEvents.RAID_HORN.value(), SoundSource.HOSTILE, 1f, 1f);
         }
-        Facility.broadcast(server, Component.literal("[관제] " + type.ko + " 시련이 시작되었습니다.")
+        Facility.broadcast(server, Component.literal("[관제] " + type.ko + " 시련이 환상체가 있는 부서에서 시작되었습니다.")
                 .withStyle(s -> s.withColor(type.color)));
         return spawned.size();
     }
@@ -166,9 +168,10 @@ public final class OrdealManager {
         }
     }
 
-    /** 부서 중앙 홀 중 하나를 무작위로 고른다. 없으면 null */
+    /** 환상체가 수용된 부서의 중앙 홀 중 하나를 무작위로 고른다. 없으면 전체 중앙 홀, 그것도 없으면 null */
     public static BlockPos randomCenter(MinecraftServer server, RandomSource r) {
-        List<BlockPos> centers = Facility.centers(server);
+        List<BlockPos> centers = Facility.activeCenters(server);
+        if (centers.isEmpty()) centers = Facility.centers(server);
         if (centers.isEmpty()) return null;
         return centers.get(r.nextInt(centers.size()));
     }
