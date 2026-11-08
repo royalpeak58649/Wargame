@@ -8261,3 +8261,50 @@ print("assets il pianto ok")
 
 merge_lang({"entity.lobcorp.il_pianto": "달의 울음", "item.lobcorp.moonlight": "달빛", "item.lobcorp.moonlight_suit": "달빛의 연미복"},
            {"entity.lobcorp.il_pianto": "Il Pianto della Luna", "item.lobcorp.moonlight": "Moonlight", "item.lobcorp.moonlight_suit": "Moonlight Tailcoat"})
+
+
+def backward_clock():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wood = hexc("#4a2c18")
+    wood_dark = hexc("#2e1a0e")
+    wood_hi = hexc("#6a4024")
+    brass = hexc("#c8a040")
+    brass_dark = hexc("#8a6a20")
+    cream = hexc("#f2e8c8")
+    ink = hexc("#14141c")
+    lamp_off = hexc("#3a3a44")
+    lamp_on = hexc("#ffe860")
+
+    # 밑동 (u0 v0, 10x4x6)
+    box(img, 0, 0, 10, 4, 6, wood, 6, top=wood_hi)
+    # 긴 몸통 (u0 v12, 8x18x5)
+    box(img, 0, 12, 8, 18, 5, wood, 6, top=wood_hi)
+    # 머리 (u0 v36, 10x8x6)
+    box(img, 0, 36, 10, 8, 6, wood, 6, top=wood_hi)
+    # 문자판 (u28 v0, 8x8x1) — 크림색 바탕에 검은 점 눈금
+    f = box(img, 28, 0, 8, 8, 1, cream, 4, top=brass)
+    fx, fy = f["front"]
+    for i in range(8):
+        px(img, fx + i, fy, brass_dark)
+        px(img, fx + i, fy + 7, brass_dark)
+        px(img, fx, fy + i, brass_dark)
+        px(img, fx + 7, fy + i, brass_dark)
+    for (dx, dy) in [(3, 1), (6, 3), (4, 6), (1, 4)]:
+        px(img, fx + dx, fy + dy, ink)
+    # 시침 (u28 v12, 1x3x1) / 분침 (u34 v12, 1x4x1)
+    box(img, 28, 12, 1, 3, 1, ink, 0)
+    box(img, 34, 12, 1, 4, 1, ink, 0)
+    # 진자 (u28 v20, 2x8x1)
+    box(img, 28, 20, 2, 8, 1, brass, 5, top=brass_dark)
+    # 등불: 꺼진 것 (u40 v0, 2x2x2) / 켜진 것 (u40 v8, 2.5x2.5x2.5)
+    box(img, 40, 0, 2, 2, 2, lamp_off, 4)
+    box(img, 40, 8, 3, 3, 3, lamp_on, 6, top=hexc("#fff6b0"))
+
+    save(img, "textures/entity/backward_clock.png")
+
+
+backward_clock()
+print("assets backward clock ok")
+
+merge_lang({"entity.lobcorp.backward_clock": "거꾸로 가는 시계"},
+           {"entity.lobcorp.backward_clock": "Backward Clock"})
