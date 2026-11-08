@@ -100,6 +100,8 @@ public abstract class OrdealEntity extends PathfinderMob {
                 float[] r = resist();
                 int idx = ego.color.ordinal();
                 if (idx >= 0 && idx < r.length) mult = r[idx];
+                // 등급 차이 배율 (E.G.O 무기 등급 vs 시련 등급)
+                mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
             }
         }
         return super.hurtServer(level, source, amount * mult);

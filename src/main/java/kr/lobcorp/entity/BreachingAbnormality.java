@@ -290,6 +290,8 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
                         && ego.spec().kind() == kr.lobcorp.item.WeaponKind.FAST) {
                     mult *= kr.lobcorp.item.MeleeEffects.comboMultiplier(sp, level);
                 }
+                // 등급 차이 배율 (E.G.O 무기 등급 vs 환상체 등급)
+                mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.of(profile().risk()));
             }
         }
         float dmg = amount * mult;

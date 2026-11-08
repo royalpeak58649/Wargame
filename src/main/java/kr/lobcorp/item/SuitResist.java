@@ -94,7 +94,13 @@ public final class SuitResist {
         return of(id);
     }
 
+    /** 슈트 내성 × 등급 차이 배율 (작업 피해·SP 피해·PALE·RED 재적용 모두 이 경로를 쓴다) */
     public static float mult(ServerPlayer p, DamageColor c) {
+        return baseMult(p, c) * kr.lobcorp.Grades.mult(kr.lobcorp.Grades.threatGradeNear(p), kr.lobcorp.Grades.suitGrade(p));
+    }
+
+    /** 등급 배율을 뺀 순수 슈트 내성 */
+    public static float baseMult(ServerPlayer p, DamageColor c) {
         float[] v = of(p);
         return switch (c) {
             case RED -> v[0];
@@ -106,7 +112,10 @@ public final class SuitResist {
 
     public static String loreLine(String itemId) {
         float[] v = of(itemId);
-        return "내성  RED " + f(v[0]) + " · WHITE " + f(v[1]) + " · BLACK " + f(v[2]) + " · PALE " + f(v[3]);
+        String line = "내성  RED " + f(v[0]) + " · WHITE " + f(v[1]) + " · BLACK " + f(v[2]) + " · PALE " + f(v[3]);
+        int grade = kr.lobcorp.Grades.ofPath(itemId);
+        if (grade > 0) line += "  ·  등급 " + kr.lobcorp.Grades.NAMES[grade];
+        return line;
     }
 
     private static String f(float v) {
