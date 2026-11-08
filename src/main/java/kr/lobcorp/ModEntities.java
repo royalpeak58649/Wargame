@@ -49,6 +49,7 @@ import kr.lobcorp.entity.FleshIdolEntity;
 import kr.lobcorp.entity.ExpressTrainEntity;
 import kr.lobcorp.entity.NothingThereEntity;
 import kr.lobcorp.entity.SilentOrchestraEntity;
+import kr.lobcorp.entity.SmilingMountainEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -155,6 +156,7 @@ public final class ModEntities {
     public static EntityType<ExpressTrainEntity> EXPRESS_TRAIN;
     public static EntityType<NothingThereEntity> NOTHING_THERE;
     public static EntityType<SilentOrchestraEntity> SILENT_ORCHESTRA;
+    public static EntityType<SmilingMountainEntity> SMILING_MOUNTAIN;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -306,6 +308,8 @@ public final class ModEntities {
                 .sized(1.0f, 2.6f).clientTrackingRange(10));
         SILENT_ORCHESTRA = register("silent_orchestra", EntityType.Builder.of(SilentOrchestraEntity::new, MobCategory.MISC)
                 .sized(1.0f, 2.4f).clientTrackingRange(10));
+        SMILING_MOUNTAIN = register("smiling_mountain", EntityType.Builder.of(SmilingMountainEntity::new, MobCategory.MISC)
+                .sized(1.6f, 1.4f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -395,6 +399,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(EXPRESS_TRAIN, ExpressTrainEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(NOTHING_THERE, NothingThereEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SILENT_ORCHESTRA, SilentOrchestraEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(SMILING_MOUNTAIN, SmilingMountainEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

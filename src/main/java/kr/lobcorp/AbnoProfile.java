@@ -939,10 +939,26 @@ public record AbnoProfile(
                     "탈출하면 가장 가까운 부서 중앙 홀에서 다섯 악장을 연주한다. 악장마다 통하는 피해 속성이 하나뿐이며, 마지막 악장이 끝날 때 정신력이 절반 미만인 직원은 모두 죽는다."
             ));
 
+    public static final AbnoProfile SMILING_MOUNTAIN = new AbnoProfile(
+            "smiling_mountain", "웃는 시체 산", "T-01-75", "ALEPH", 0xFF3333,
+            new int[]{45, 0, 0, 45}, 30, 21, 11,
+            DamageColor.BLACK, 6, 8,
+            2,
+            () -> ModItems.SMILE, 120,
+            () -> ModItems.SMILE_SUIT, 100,
+            "smile", "미소", "최대 HP +5, 최대 SP +5", 1,
+            new float[]{1.2f, 0.8f, 0.8f, 0.5f},
+            List.of(
+                    "수많은 시체가 엉겨 붙어 만들어진 산. 모든 얼굴이 웃고 있다.",
+                    "다친 채(HP나 SP가 가득 차지 않은 채) 들어오거나, 격리실에서 직원이 죽거나, 작업 결과가 나쁨이거나, 시설에서 직원이 10명 죽을 때마다 클리포트 카운터가 1 감소한다.",
+                    "탈출하면 시체를 찾아 기어 다니며 먹어 치우고, 시체 셋을 먹을 때마다 몸이 한 덩이씩 커진다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
             Map.entry(SILENT_ORCHESTRA.id, SILENT_ORCHESTRA),
+            Map.entry(SMILING_MOUNTAIN.id, SMILING_MOUNTAIN),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
