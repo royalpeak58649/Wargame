@@ -31,6 +31,7 @@ import kr.lobcorp.client.model.FirebirdModel;
 import kr.lobcorp.client.model.CloudedMonkModel;
 import kr.lobcorp.client.model.IlPiantoModel;
 import kr.lobcorp.client.model.BackwardClockModel;
+import kr.lobcorp.client.model.DimensionRefractionModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -90,6 +91,7 @@ import kr.lobcorp.entity.FirebirdEntity;
 import kr.lobcorp.entity.CloudedMonkEntity;
 import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.BackwardClockEntity;
+import kr.lobcorp.entity.DimensionRefractionEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1558,6 +1560,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(BackwardClockModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class DimensionRefraction extends MobRenderer<DimensionRefractionEntity, DimensionRefractionModel.State, DimensionRefractionModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/dimension_refraction.png");
+
+        public DimensionRefraction(EntityRendererProvider.Context ctx) {
+            super(ctx, new DimensionRefractionModel(ctx.bakeLayer(DimensionRefractionModel.LAYER)), 0.0f);
+        }
+
+        @Override
+        public DimensionRefractionModel.State createRenderState() {
+            return new DimensionRefractionModel.State();
+        }
+
+        @Override
+        public void extractRenderState(DimensionRefractionEntity e, DimensionRefractionModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(DimensionRefractionModel.State s) {
             return TEX;
         }
     }

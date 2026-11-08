@@ -8308,3 +8308,89 @@ print("assets backward clock ok")
 
 merge_lang({"entity.lobcorp.backward_clock": "거꾸로 가는 시계"},
            {"entity.lobcorp.backward_clock": "Backward Clock"})
+
+
+# ───────────── 차원 굴절 변이체 ─────────────
+def dimension_refraction():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    cyan = hexc("#7ad8f0")
+    violet = hexc("#b08af0")
+    white = hexc("#f4faff")
+    core = hexc("#ffd8f0")
+
+    # 중심의 작은 핵 (u0 v0, 2x2x2) — 분홍빛 흰색
+    c = box(img, 0, 0, 2, 2, 2, core, 4, top=white)
+    cx, cy = c["front"]
+    px(img, cx, cy, white)
+    px(img, cx + 1, cy + 1, white)
+
+    # 얇은 수정 파편들: 1x6x1 (u0 v8) / 2x5x1 (u8 v8) / 1x4x2 (u16 v8)
+    for (u, v, w, h, d, col) in [(0, 8, 1, 6, 1, cyan), (8, 8, 2, 5, 1, violet), (16, 8, 1, 4, 2, cyan)]:
+        f = box(img, u, v, w, h, d, col, 6, top=white)
+        fx, fy = f["front"]
+        # 밝은 흰 테두리와 유리 같은 세로 하이라이트
+        for y in range(h):
+            px(img, fx, fy + y, white)
+            px(img, fx + w - 1, fy + y, white)
+        for x in range(w):
+            px(img, fx + x, fy, white)
+            px(img, fx + x, fy + h - 1, white)
+        if w > 1:
+            for y in range(1, h - 1):
+                px(img, fx + 1, fy + y, violet if col == cyan else cyan)
+
+    save(img, "textures/entity/dimension_refraction.png")
+
+
+DF = {"k": "#20203a", "c": "#7ad8f0", "v": "#b08af0", "w": "#f4faff"}
+# 회절: 대각선으로 뻗은 수정 칼날
+icon([
+    "................",
+    "............ww..",
+    "...........wcc..",
+    "..........wcc...",
+    ".........wcc....",
+    "........wcc.....",
+    ".......wcc......",
+    "......wcc.......",
+    ".....wcc........",
+    "....wcc.........",
+    "...wcc..........",
+    "..wcc...........",
+    "..wv............",
+    ".wvk............",
+    ".kk.............",
+    "................",
+], DF, "textures/item/diffraction.png")
+# 회절의 옷: 프리즘 하이라이트가 흐르는 코트
+icon([
+    "................",
+    "...cc......cc...",
+    "..cccc....cccc..",
+    "..cccccccccccc..",
+    "...cccccccccc...",
+    "....cccccccc....",
+    "....ccwwwwcc....",
+    "....ccwvvwcc....",
+    "....ccwwwwcc....",
+    "....cccccccc....",
+    "....cccccccc....",
+    "....cccccccc....",
+    "....cccccccc....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], DF, "textures/item/diffraction_suit.png")
+
+armor(hexc("#7ad8f0"), "#20203a", "#b08af0", "textures/entity/equipment/humanoid/diffraction.png")
+
+for item, parent in [("diffraction", "minecraft:item/handheld"), ("diffraction_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/diffraction.json", {"layers": {"humanoid": [{"texture": "lobcorp:diffraction"}]}})
+
+dimension_refraction()
+print("assets dimension refraction ok")
+
+merge_lang({"entity.lobcorp.dimension_refraction": "차원 굴절 변이체", "item.lobcorp.diffraction": "회절", "item.lobcorp.diffraction_suit": "회절의 옷"},
+           {"entity.lobcorp.dimension_refraction": "Dimensional Refraction Variant", "item.lobcorp.diffraction": "Diffraction", "item.lobcorp.diffraction_suit": "Diffraction Suit"})
