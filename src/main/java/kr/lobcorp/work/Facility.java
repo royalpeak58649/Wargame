@@ -61,6 +61,7 @@ public final class Facility {
                 if (e instanceof kr.lobcorp.entity.KnightDespairEntity k) k.clearBlessing();
                 if (e instanceof kr.lobcorp.entity.LittlePrinceEntity lp) lp.clearDaily();
                 if (e instanceof kr.lobcorp.entity.ParasiteTreeEntity pt) pt.clearDaily();
+                if (e instanceof kr.lobcorp.entity.BackwardClockEntity bc) bc.clearDaily();
             }
         }
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {

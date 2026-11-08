@@ -848,7 +848,23 @@ public record AbnoProfile(
                     "탈출하면 직원을 쫓으며, 갇힌 연주자는 계속 느려지고 피해를 입는다. 주기적으로 몸을 웅크렸다가 정면으로 돌진한다. 연주가 끝나면 연주자의 체력을 절반으로 깎고 격리실로 돌아간다."
             ));
 
+    public static final AbnoProfile BACKWARD_CLOCK = new AbnoProfile(
+            "backward_clock", "거꾸로 가는 시계", "D-09-104", "WAW", 0xAA55FF,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "도구형 환상체. 작업도, PE-BOX도, E.G.O도 없다. 낡은 괘종시계 위에 등불 네 개가 나란히 걸려 있고, 시곗바늘은 거꾸로 돈다.",
+                    "가장 높은 스탯이 III 등급(45) 이상인 직원이 사용할 때마다 등불이 하나씩 켜진다. 네 개가 모두 켜진 뒤에는 IV 등급 이상 스탯을 세 개 가진 직원만이 시계를 돌릴 수 있다.",
+                    "시계를 돌리면 탈출한 환상체가 격리실로 돌아가고 하수인들이 사라지며 모든 클리포트 카운터가 복구된다. 대신 시계를 돌린 직원은 그 자리에서 죽고, 시계는 그날 하루 멈춘다. 감당하지 못한 직원이 돌리면 주변 직원이 죽거나 패닉에 빠진다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
             Map.entry(IL_PIANTO.id, IL_PIANTO),
             Map.entry(CLOUDED_MONK.id, CLOUDED_MONK),
             Map.entry(FIREBIRD.id, FIREBIRD),
