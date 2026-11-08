@@ -144,5 +144,8 @@
   "item.lobcorp.exuviae_suit": "Exuviae Coat",
   "entity.lobcorp.dreaming_current": "The Dreaming Current",
   "item.lobcorp.ecstasy": "Ecstasy",
-  "item.lobcorp.ecstasy_suit": "Ecstasy Suit"
+  "item.lobcorp.ecstasy_suit": "Ecstasy Suit",
+  "entity.lobcorp.burrowing_heaven": "The Burrowing Heaven",
+  "item.lobcorp.heaven": "Heaven",
+  "item.lobcorp.heaven_suit": "Heaven Suit"
 }
