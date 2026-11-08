@@ -55,6 +55,24 @@ public final class ToolState {
         portraitTotal = 0;
     }
 
+    // ───────────── 양 (O-07-103) ─────────────
+
+    /** 양을 몸에 두른 직원 */
+    public static UUID yangHolder = null;
+    /** 양을 두르고 지난 틱 */
+    public static int yangTicks = 0;
+
+    public static final int YANG_COUNTER_TICKS = 600;
+
+    public static boolean isYangHolder(ServerPlayer p) {
+        return p != null && yangHolder != null && yangHolder.equals(p.getUUID());
+    }
+
+    public static void clearYang() {
+        yangHolder = null;
+        yangTicks = 0;
+    }
+
     // ───────────── 미친 연구원의 노트 (T-09-78) ─────────────
 
     /** 노트를 들고 있는 직원 */
@@ -91,6 +109,7 @@ public final class ToolState {
 
     /** 매 틱: 노트 보유 시간을 센다 */
     public static void tick(MinecraftServer server) {
+        tickYang(server);
         if (notesHolder == null) return;
         ServerPlayer p = server.getPlayerList().getPlayer(notesHolder);
         if (p == null || !p.isAlive()) {
@@ -100,12 +119,27 @@ public final class ToolState {
         notesTicks++;
     }
 
+    /** 매 틱: 양을 두른 직원의 시간을 세고, 30초마다 음의 카운터를 1 내린다 */
+    private static void tickYang(MinecraftServer server) {
+        if (yangHolder == null) return;
+        ServerPlayer p = server.getPlayerList().getPlayer(yangHolder);
+        if (p == null || !p.isAlive()) {
+            clearYang();
+            return;
+        }
+        yangTicks++;
+        if (yangTicks % YANG_COUNTER_TICKS == 0) {
+            kr.lobcorp.entity.YinEntity.lowerCounter(server, p);
+        }
+    }
+
     public static void nextDay(MinecraftServer server) {
         sapChance = 0;
         shelterUser = null;
         shelterTicks = 0;
         shelterEntityId = -1;
         resetPortrait();
+        clearYang();
         // 노트는 폭발하지 않고 그냥 손에서 미끄러진다
         if (notesHolder != null) {
             ServerPlayer p = server.getPlayerList().getPlayer(notesHolder);
@@ -131,6 +165,7 @@ public final class ToolState {
             kr.lobcorp.entity.WorkerBeeEntity.spawnFrom(p);
         }
         if (isNotesHolder(p)) clearNotes();
+        if (isYangHolder(p)) clearYang();
         AbnoEvents.death(p);
         // 따뜻한 마음의 나무꾼: 곁에서 죽은 직원의 심장을 가슴에 밀어 넣는다
         kr.lobcorp.entity.WoodsmanEntity.onPlayerDeath(p);

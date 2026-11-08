@@ -683,7 +683,55 @@ public record AbnoProfile(
                     "여섯 마리가 모두 검게 물들면 여동생이 모습을 드러낸다. 탈출한 그녀의 양산은 정면의 공격을 되돌려 보내고, 지나가는 격리실의 카운터를 갉아먹는다. 생명이 절반 아래로 떨어지면 날개가 돋아나며 비명을 지른다."
             ));
 
+    public static final AbnoProfile YIN = new AbnoProfile(
+            "yin", "음", "O-05-102", "WAW", 0xAA55FF,
+            new int[]{35, 45, 25, 35}, 20, 16, 9,
+            DamageColor.BLACK, 4, 6,
+            2,
+            () -> ModItems.DISCORD, 60,
+            () -> ModItems.DISCORD_SUIT, 50,
+            "discord", "불화", "최대 HP -4, 최대 SP -4, 작업 성공률 +10%, 작업 속도 +10%", 3,
+            new float[]{0.5f, 1.5f, 0.0f, 1.0f},
+            List.of(
+                    "검은 비단 같은 비늘을 지닌 잉어. 머리 한가운데에 눈알 하나가 박혀 있고, 그 눈은 언제나 짝을 찾고 있다.",
+                    "통찰 작업이 가장 좋고, 본능과 억압이 그다음, 애착이 가장 나쁘다. 작업 결과가 나쁘면 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 탈출한다. 곁을 지나는 직원에게 어둠의 파동을 뿜고, 잠시 바닥을 표시한 뒤 그 자리를 검게 터뜨린다. 생명이 다하면 작은 검은 조각이 되어 20초 뒤 다시 일어난다."
+            ));
+
+    public static final AbnoProfile YANG = new AbnoProfile(
+            "yang", "양", "O-07-103", "WAW", 0xAA55FF,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "도구형 환상체. 작업도, PE-BOX도, E.G.O도 없다.",
+                    "사용한 직원은 흰 잉어를 몸에 두른다. 착용자는 1초마다 SP가 1씩 회복되고 WHITE 작업 피해가 줄어든다. 다시 사용하면 내려놓는다.",
+                    "착용 시간이 30초씩 쌓일 때마다 음의 클리포트 카운터가 1 내려간다. 격리 중인 음에게 4블록 안으로 다가가면 둘이 만나 용이 지나가고, 착용자는 그 자리에서 죽는다."
+            ));
+
+    public static final AbnoProfile SNOW_WHITE_APPLE = new AbnoProfile(
+            "snow_white_apple", "백설공주의 사과", "F-04-42", "WAW", 0xAA55FF,
+            new int[]{25, 35, 25, 45}, 20, 14, 8,
+            DamageColor.BLACK, 3, 5,
+            1,
+            () -> ModItems.GREEN_STEM, 60,
+            () -> ModItems.GREEN_STEM_SUIT, 50,
+            "green_stem", "초록 줄기", "최대 SP +6", 2,
+            new float[]{0.5f, 1.0f, 0.0f, 1.5f},
+            List.of(
+                    "한 입 베어 문 거대한 붉은 사과. 벌레 먹은 자리에서 초록 덩굴이 뻗어 나와 바닥을 기어 다닌다.",
+                    "억압 작업이 가장 좋고 통찰이 그다음, 본능과 애착이 가장 나쁘다. 작업 결과가 보통이면 50%, 나쁨이면 70% 확률로 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 탈출해 같은 층의 먼 자리로 순간이동하고, 주변으로 덩굴을 퍼뜨린다. 덩굴 위의 직원은 느려지고, 4초마다 검은 피해를 입는다. 덩굴이 다 자라면 다시 자리를 옮긴다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(YIN.id, YIN),
+            Map.entry(YANG.id, YANG),
+            Map.entry(SNOW_WHITE_APPLE.id, SNOW_WHITE_APPLE),
             Map.entry(BLACK_SWAN.id, BLACK_SWAN),
             Map.entry(QUEEN_BEE.id, QUEEN_BEE),
             Map.entry(ALRIUNE.id, ALRIUNE),

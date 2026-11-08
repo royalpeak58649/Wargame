@@ -6901,3 +6901,322 @@ merge_lang({
     "item.lobcorp.black_swan": "Black Swan",
     "item.lobcorp.black_swan_suit": "Black Swan Dress",
 })
+
+
+# ───────────── 음 (O-05-102) ─────────────
+def yin():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    scale = hexc("#0c0c12")
+    scale_hi = hexc("#1e1e2c")
+    scale_dark = hexc("#05050a")
+    fin = hexc("#141420")
+    fin_hi = hexc("#26263a")
+    eye_white = hexc("#e8e8f0")
+    eye_iris = hexc("#8a2a2a")
+    pendant = hexc("#101018")
+    pendant_hi = hexc("#2a2a3a")
+
+    # 몸통 (u0 v0, 6x6x14)
+    b = box(img, 0, 0, 6, 6, 14, scale, 5, top=scale_hi)
+    bx, by = b["front"]
+    for y in range(6):
+        for x in range(6):
+            if (x * 3 + y * 5) % 7 == 0:
+                px(img, bx + x, by + y, scale_hi)
+            elif (x + y) % 5 == 0:
+                px(img, bx + x, by + y, scale_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(6):
+            for x in range(14):
+                if (x * 5 + y * 3) % 9 == 0:
+                    px(img, sx + x, sy + y, scale_hi)
+                elif (x + y) % 7 == 0:
+                    px(img, sx + x, sy + y, scale_dark)
+
+    # 꼬리지느러미 (u0 v20, 8x8x1)
+    t = box(img, 0, 20, 8, 8, 1, fin, 5, top=fin_hi)
+    tx, ty = t["front"]
+    for y in range(8):
+        for x in range(8):
+            if abs(x - 3.5) + abs(y - 3.5) > 5:
+                px(img, tx + x, ty + y, (0, 0, 0, 0))
+            elif (x + y) % 4 == 0:
+                px(img, tx + x, ty + y, fin_hi)
+
+    # 등·배지느러미 (u20 v20, 1x4x8)
+    f = box(img, 20, 20, 1, 4, 8, fin, 5, top=fin_hi)
+    fx, fy = f["front"]
+    for y in range(4):
+        px(img, fx, fy + y, fin_hi if y % 2 == 0 else fin)
+
+    # 하나뿐인 눈 (u40 v0, 3x3x1)
+    e = box(img, 40, 0, 3, 3, 1, eye_white, 0)
+    ex, ey = e["front"]
+    px(img, ex + 1, ey + 1, eye_iris)
+    px(img, ex + 1, ey, eye_white)
+
+    # 조각: 태극의 검은 반쪽 (u40 v8, 4x4x1)
+    p = box(img, 40, 8, 4, 4, 1, pendant, 4, top=pendant_hi)
+    pfx, pfy = p["front"]
+    for y in range(4):
+        for x in range(4):
+            if (x - 1.5) ** 2 + (y - 1.5) ** 2 > 4:
+                px(img, pfx + x, pfy + y, (0, 0, 0, 0))
+            elif x + y < 3:
+                px(img, pfx + x, pfy + y, pendant_hi)
+
+    save(img, "textures/entity/yin.png")
+
+
+YD = {"k": "#0c0c12", "h": "#1e1e2c", "d": "#05050a", "r": "#8a2a2a", "w": "#e8e8f0"}
+icon([
+    "................",
+    "................",
+    "......kkkk......",
+    ".....kkkkkk.....",
+    "....kkkkkkkk....",
+    "...kkkkkkkkkk...",
+    "...kkkkkkkkkk...",
+    "...kkkkkkkkkk...",
+    "...kkkkkkkkkk...",
+    "....kkkkkkkk....",
+    ".....kkkkkk.....",
+    "......kkkk......",
+    ".......kk.......",
+    "................",
+    "................",
+    "................",
+], YD, "textures/item/discord.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkhhhhkk....",
+    "....kkhhhhkk....",
+    "....kkhhhhkk....",
+    "....kkhhhhkk....",
+    "....kkkkkkkk....",
+    "....kkddddkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], YD, "textures/item/discord_suit.png")
+
+armor(hexc("#0c0c12"), "#05050a", "#e8e8f0", "textures/entity/equipment/humanoid/discord.png")
+
+for item, parent in [("discord", "minecraft:item/handheld"), ("discord_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/discord.json", {"layers": {"humanoid": [{"texture": "lobcorp:discord"}]}})
+
+yin()
+print("assets yin ok")
+
+merge_lang({
+    "entity.lobcorp.yin": "음",
+    "item.lobcorp.discord": "불화",
+    "item.lobcorp.discord_suit": "불화의 옷",
+}, {
+    "entity.lobcorp.yin": "Yin",
+    "item.lobcorp.discord": "Discord",
+    "item.lobcorp.discord_suit": "Discord Suit",
+})
+
+
+# ───────────── 양 (O-07-103) ─────────────
+def yang():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    scale = hexc("#f2f2f6")
+    scale_hi = hexc("#ffffff")
+    scale_dark = hexc("#d0d0da")
+    fin = hexc("#e4e4ec")
+    fin_hi = hexc("#ffffff")
+    eye_white = hexc("#f8f8ff")
+    eye_iris = hexc("#2a4a8a")
+    pendant = hexc("#f4f4f8")
+    pendant_hi = hexc("#ffffff")
+
+    # 몸통 (u0 v0, 6x6x14)
+    b = box(img, 0, 0, 6, 6, 14, scale, 4, top=scale_hi)
+    bx, by = b["front"]
+    for y in range(6):
+        for x in range(6):
+            if (x * 3 + y * 5) % 7 == 0:
+                px(img, bx + x, by + y, scale_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = b[side]
+        for y in range(6):
+            for x in range(14):
+                if (x * 5 + y * 3) % 9 == 0:
+                    px(img, sx + x, sy + y, scale_dark)
+
+    # 꼬리지느러미 (u0 v20, 8x8x1)
+    t = box(img, 0, 20, 8, 8, 1, fin, 4, top=fin_hi)
+    tx, ty = t["front"]
+    for y in range(8):
+        for x in range(8):
+            if abs(x - 3.5) + abs(y - 3.5) > 5:
+                px(img, tx + x, ty + y, (0, 0, 0, 0))
+            elif (x + y) % 4 == 0:
+                px(img, tx + x, ty + y, scale_dark)
+
+    # 등·배지느러미 (u20 v20, 1x4x8)
+    f = box(img, 20, 20, 1, 4, 8, fin, 4, top=fin_hi)
+    fx, fy = f["front"]
+    for y in range(4):
+        px(img, fx, fy + y, scale_dark if y % 2 == 0 else fin)
+
+    # 하나뿐인 눈 (u40 v0, 3x3x1)
+    e = box(img, 40, 0, 3, 3, 1, eye_white, 0)
+    ex, ey = e["front"]
+    px(img, ex + 1, ey + 1, eye_iris)
+    px(img, ex + 1, ey, eye_white)
+
+    # 조각: 태극의 흰 반쪽 (u40 v8, 4x4x1)
+    p = box(img, 40, 8, 4, 4, 1, pendant, 3, top=pendant_hi)
+    pfx, pfy = p["front"]
+    for y in range(4):
+        for x in range(4):
+            if (x - 1.5) ** 2 + (y - 1.5) ** 2 > 4:
+                px(img, pfx + x, pfy + y, (0, 0, 0, 0))
+            elif x + y > 4:
+                px(img, pfx + x, pfy + y, scale_dark)
+
+    save(img, "textures/entity/yang.png")
+
+
+yang()
+print("assets yang ok")
+
+merge_lang({
+    "entity.lobcorp.yang": "양",
+}, {
+    "entity.lobcorp.yang": "Yang",
+})
+
+
+# ───────────── 백설공주의 사과 (F-04-42) ─────────────
+def snow_white_apple():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    red = hexc("#b81c28")
+    red_hi = hexc("#e03440")
+    red_dark = hexc("#7a0e18")
+    flesh = hexc("#f4e8c8")
+    flesh_dark = hexc("#d8c8a0")
+    stem = hexc("#5a3a1a")
+    leaf = hexc("#3a8a2a")
+    leaf_hi = hexc("#5ab83a")
+    vine = hexc("#2e6a22")
+    vine_hi = hexc("#4a9a34")
+
+    # 사과 (u0 v0, 14x14x14)
+    a = box(img, 0, 0, 14, 14, 14, red, 6, top=red_hi)
+    ax, ay = a["front"]
+    for y in range(14):
+        for x in range(14):
+            if (x * 3 + y * 5) % 11 == 0:
+                px(img, ax + x, ay + y, red_hi)
+            elif (x + y * 2) % 13 == 0:
+                px(img, ax + x, ay + y, red_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = a[side]
+        for y in range(14):
+            for x in range(14):
+                if (x * 5 + y * 3) % 12 == 0:
+                    px(img, sx + x, sy + y, red_hi)
+                elif (x + y) % 9 == 0:
+                    px(img, sx + x, sy + y, red_dark)
+
+    # 한 입 베어 문 자리 (u0 v32, 6x6x2)
+    bt = box(img, 0, 32, 6, 6, 2, flesh, 4, top=flesh_dark)
+    btx, bty = bt["front"]
+    for y in range(6):
+        for x in range(6):
+            if (x - 2.5) ** 2 + (y - 2.5) ** 2 > 8:
+                px(img, btx + x, bty + y, red_dark)
+            elif (x + y) % 3 == 0:
+                px(img, btx + x, bty + y, flesh_dark)
+
+    # 꼭지 (u32 v32, 1x4x1)
+    st = box(img, 32, 32, 1, 4, 1, stem, 4)
+    stx, sty = st["front"]
+    for y in range(4):
+        px(img, stx, sty + y, hexc("#3a2410") if y % 2 == 0 else stem)
+
+    # 잎 (u40 v32, 5x1x4)
+    lf = box(img, 40, 32, 5, 1, 4, leaf, 5, top=leaf_hi)
+    lfx, lfy = lf["front"]
+    for x in range(5):
+        px(img, lfx + x, lfy, leaf_hi if x % 2 == 0 else leaf)
+
+    # 바닥으로 뻗은 덩굴 (u0 v48, 10x1x1)
+    v = box(img, 0, 48, 10, 1, 1, vine, 5, top=vine_hi)
+    vx, vy = v["front"]
+    for x in range(10):
+        px(img, vx + x, vy, vine_hi if x % 3 == 0 else vine)
+
+    save(img, "textures/entity/snow_white_apple.png")
+
+
+GS = {"g": "#2e6a22", "h": "#4a9a34", "r": "#b81c28", "d": "#7a0e18", "f": "#f4e8c8"}
+icon([
+    "................",
+    ".......gg.......",
+    "......ghhg......",
+    ".......gg.......",
+    "......gggg......",
+    ".....gggggg.....",
+    "....gggggggg....",
+    "....gggggggg....",
+    "....gggggggg....",
+    "....gggggggg....",
+    ".....gggggg.....",
+    "......gggg......",
+    ".......gg.......",
+    "................",
+    "................",
+    "................",
+], GS, "textures/item/green_stem.png")
+icon([
+    "................",
+    "...gg......gg...",
+    "..gggg....gggg..",
+    "..gggggggggggg..",
+    "...gggggggggg...",
+    "....gghhhhgg....",
+    "....gghhhhgg....",
+    "....gghhhhgg....",
+    "....gghhhhgg....",
+    "....gggggggg....",
+    "....ggddddgg....",
+    "....gggggggg....",
+    "....gggggggg....",
+    ".....dddddd.....",
+    "................",
+    "................",
+], GS, "textures/item/green_stem_suit.png")
+
+armor(hexc("#2e6a22"), "#1a3a12", "#b81c28", "textures/entity/equipment/humanoid/green_stem.png")
+
+for item, parent in [("green_stem", "minecraft:item/handheld"), ("green_stem_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/green_stem.json", {"layers": {"humanoid": [{"texture": "lobcorp:green_stem"}]}})
+
+snow_white_apple()
+print("assets apple ok")
+
+merge_lang({
+    "entity.lobcorp.snow_white_apple": "백설공주의 사과",
+    "item.lobcorp.green_stem": "초록 줄기",
+    "item.lobcorp.green_stem_suit": "초록 줄기의 옷",
+}, {
+    "entity.lobcorp.snow_white_apple": "Snow White's Apple",
+    "item.lobcorp.green_stem": "Green Stem",
+    "item.lobcorp.green_stem_suit": "Green Stem Suit",
+})

@@ -68,6 +68,8 @@ public final class ModItems {
     public static final ArmorMaterial FAINT_AROMA_MAT = material("faint_aroma", 6);
     public static final ArmorMaterial HORNET_MAT = material("hornet", 7);
     public static final ArmorMaterial BLACK_SWAN_MAT = material("black_swan", 6);
+    public static final ArmorMaterial DISCORD_MAT = material("discord", 6);
+    public static final ArmorMaterial GREEN_STEM_MAT = material("green_stem", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -149,6 +151,10 @@ public final class ModItems {
     public static Item HORNET_SUIT;
     public static Item BLACK_SWAN;
     public static Item BLACK_SWAN_SUIT;
+    public static Item DISCORD;
+    public static Item DISCORD_SUIT;
+    public static Item GREEN_STEM;
+    public static Item GREEN_STEM_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -370,6 +376,14 @@ public final class ModItems {
                 "F-02-70 · WAW", "BLACK 피해 양산, 빠른 연타", "검은 깃털로 덮인 양산. 펼치면 우산살 사이로 호숫가의 물빛이 비친다.");
         BLACK_SWAN_SUIT = suit("black_swan_suit", BLACK_SWAN_MAT,
                 "F-02-70 · WAW", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+        DISCORD = weapon("discord", DamageColor.BLACK, 4.0, -1.6,
+                "O-05-102 · WAW", "BLACK 피해 쌍어, 빠른 연타", "검은 비늘로 벼려 낸 한 쌍의 물고기. 쥐면 손바닥에서 차가운 물이 흐른다.");
+        DISCORD_SUIT = suit("discord_suit", DISCORD_MAT,
+                "O-05-102 · WAW", "WHITE·BLACK 저항, RED·PALE 취약: 작업 실패 시 SP·HP 피해 -1");
+        GREEN_STEM = weapon("green_stem", DamageColor.BLACK, 5.0, -2.2,
+                "F-04-42 · WAW", "BLACK 피해 창, 느린 찌르기", "사과에서 뽑아낸 초록 덩굴을 곧게 다듬은 창. 끝에서 아직 단내가 난다.");
+        GREEN_STEM_SUIT = suit("green_stem_suit", GREEN_STEM_MAT,
+                "F-04-42 · WAW", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -387,6 +401,7 @@ public final class ModItems {
                 LOVE_AND_HATE, LOVE_AND_HATE_SUIT, TEARS_SWORD, TEARS_SWORD_SUIT,
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
-                HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT);
+                HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT);
     }
 }

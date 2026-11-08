@@ -40,11 +40,14 @@ import kr.lobcorp.client.model.ScorchedGirlModel;
 import kr.lobcorp.client.model.ShelterModel;
 import kr.lobcorp.client.model.SingingMachineModel;
 import kr.lobcorp.client.model.SnowQueenModel;
+import kr.lobcorp.client.model.SnowWhiteAppleModel;
 import kr.lobcorp.client.model.SpiderBudModel;
 import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.TreeSapModel;
 import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.client.model.WoodsmanModel;
+import kr.lobcorp.client.model.YangModel;
+import kr.lobcorp.client.model.YinModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
@@ -84,11 +87,14 @@ import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
 import kr.lobcorp.entity.SnowQueenEntity;
+import kr.lobcorp.entity.SnowWhiteAppleEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import kr.lobcorp.entity.WoodsmanEntity;
+import kr.lobcorp.entity.YangEntity;
+import kr.lobcorp.entity.YinEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -1173,6 +1179,81 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(TodaysShyLookModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Yin extends MobRenderer<YinEntity, YinModel.State, YinModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/yin.png");
+
+        public Yin(EntityRendererProvider.Context ctx) {
+            super(ctx, new YinModel(ctx.bakeLayer(YinModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public YinModel.State createRenderState() {
+            return new YinModel.State();
+        }
+
+        @Override
+        public void extractRenderState(YinEntity e, YinModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.pendant = e.isPendant();
+        }
+
+        @Override
+        public Identifier getTextureLocation(YinModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Yang extends MobRenderer<YangEntity, YangModel.State, YangModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/yang.png");
+
+        public Yang(EntityRendererProvider.Context ctx) {
+            super(ctx, new YangModel(ctx.bakeLayer(YangModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public YangModel.State createRenderState() {
+            return new YangModel.State();
+        }
+
+        @Override
+        public void extractRenderState(YangEntity e, YangModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+            s.taken = e.isTaken();
+            s.pendant = e.isPendant();
+        }
+
+        @Override
+        public Identifier getTextureLocation(YangModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class SnowWhiteApple extends MobRenderer<SnowWhiteAppleEntity, SnowWhiteAppleModel.State, SnowWhiteAppleModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/snow_white_apple.png");
+
+        public SnowWhiteApple(EntityRendererProvider.Context ctx) {
+            super(ctx, new SnowWhiteAppleModel(ctx.bakeLayer(SnowWhiteAppleModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public SnowWhiteAppleModel.State createRenderState() {
+            return new SnowWhiteAppleModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SnowWhiteAppleEntity e, SnowWhiteAppleModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+        }
+
+        @Override
+        public Identifier getTextureLocation(SnowWhiteAppleModel.State s) {
             return TEX;
         }
     }

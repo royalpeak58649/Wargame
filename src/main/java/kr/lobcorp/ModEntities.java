@@ -31,6 +31,7 @@ import kr.lobcorp.entity.ScorchedGirlEntity;
 import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
 import kr.lobcorp.entity.SnowQueenEntity;
+import kr.lobcorp.entity.SnowWhiteAppleEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -46,6 +47,8 @@ import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import kr.lobcorp.entity.WoodsmanEntity;
 import kr.lobcorp.entity.WorkerBeeEntity;
+import kr.lobcorp.entity.YangEntity;
+import kr.lobcorp.entity.YinEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -104,6 +107,9 @@ public final class ModEntities {
     public static EntityType<QueenBeeEntity> QUEEN_BEE;
     public static EntityType<WorkerBeeEntity> WORKER_BEE;
     public static EntityType<BlackSwanEntity> BLACK_SWAN;
+    public static EntityType<YinEntity> YIN;
+    public static EntityType<YangEntity> YANG;
+    public static EntityType<SnowWhiteAppleEntity> SNOW_WHITE_APPLE;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -205,6 +211,12 @@ public final class ModEntities {
                 .sized(0.8f, 1.4f).clientTrackingRange(10));
         BLACK_SWAN = register("black_swan", EntityType.Builder.of(BlackSwanEntity::new, MobCategory.MISC)
                 .sized(0.7f, 2.0f).clientTrackingRange(10));
+        YIN = register("yin", EntityType.Builder.of(YinEntity::new, MobCategory.MISC)
+                .sized(0.9f, 0.9f).clientTrackingRange(10));
+        YANG = register("yang", EntityType.Builder.of(YangEntity::new, MobCategory.MISC)
+                .sized(0.9f, 0.9f).clientTrackingRange(10));
+        SNOW_WHITE_APPLE = register("snow_white_apple", EntityType.Builder.of(SnowWhiteAppleEntity::new, MobCategory.MISC)
+                .sized(1.4f, 1.4f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -252,5 +264,8 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(QUEEN_BEE, QueenBeeEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(WORKER_BEE, WorkerBeeEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BLACK_SWAN, BlackSwanEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(YIN, YinEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(YANG, YangEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(SNOW_WHITE_APPLE, SnowWhiteAppleEntity.createAttributes());
     }
 }
