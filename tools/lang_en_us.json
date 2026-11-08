@@ -141,5 +141,8 @@
   "entity.lobcorp.naked_nest": "The Naked Nest",
   "entity.lobcorp.naked_worm": "Naked Nest Serpent",
   "item.lobcorp.exuviae": "Exuviae",
-  "item.lobcorp.exuviae_suit": "Exuviae Coat"
+  "item.lobcorp.exuviae_suit": "Exuviae Coat",
+  "entity.lobcorp.dreaming_current": "The Dreaming Current",
+  "item.lobcorp.ecstasy": "Ecstasy",
+  "item.lobcorp.ecstasy_suit": "Ecstasy Suit"
 }

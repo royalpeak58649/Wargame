@@ -141,5 +141,8 @@
   "entity.lobcorp.naked_nest": "벌거벗은 둥지",
   "entity.lobcorp.naked_worm": "벌거벗은 둥지의 뱀",
   "item.lobcorp.exuviae": "탈피",
-  "item.lobcorp.exuviae_suit": "탈피의 외투"
+  "item.lobcorp.exuviae_suit": "탈피의 외투",
+  "entity.lobcorp.dreaming_current": "꿈꾸는 조류",
+  "item.lobcorp.ecstasy": "황홀",
+  "item.lobcorp.ecstasy_suit": "황홀의 옷"
 }
