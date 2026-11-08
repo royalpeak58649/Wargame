@@ -71,7 +71,7 @@ public class NakedNestModel extends EntityModel<NakedNestModel.State> {
                 .addBox(-1, -11, -1, 2, 11, 2), PartPose.offset(-7, 12, -4));
         root.addOrReplaceChild("serpent4", CubeListBuilder.create().texOffs(44, 20)
                 .addBox(-1, -9, -1, 2, 9, 2), PartPose.offset(7, 13, 5));
-        return LayerDefinition.create(mesh, 64, 64);
+        return LayerDefinition.create(mesh, 128, 128);
     }
 
     @Override

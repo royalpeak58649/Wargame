@@ -7224,7 +7224,7 @@ merge_lang({
 
 # ───────────── 어린 왕자 ─────────────
 def little_prince():
-    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
     cloak = hexc("#5a7a9a")
     cloak_hi = hexc("#7a9ab8")
     cloak_dark = hexc("#3a5470")
@@ -7626,7 +7626,7 @@ merge_lang({
 
 # ───────────── 벌거벗은 둥지 / 탈피 ─────────────
 def naked_nest():
-    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
     flesh = hexc("#a83a44")
     flesh_hi = hexc("#c85a60")
     flesh_dark = hexc("#6e2028")

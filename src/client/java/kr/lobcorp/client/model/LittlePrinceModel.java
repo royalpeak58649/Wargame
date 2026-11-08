@@ -51,7 +51,7 @@ public class LittlePrinceModel extends EntityModel<LittlePrinceModel.State> {
         // 갓 위 볼록한 정수리
         cap.addOrReplaceChild("crown", CubeListBuilder.create()
                 .texOffs(32, 24).addBox(-4, -2, -4, 8, 2, 8), PartPose.ZERO);
-        return LayerDefinition.create(mesh, 64, 64);
+        return LayerDefinition.create(mesh, 128, 128);
     }
 
     @Override
