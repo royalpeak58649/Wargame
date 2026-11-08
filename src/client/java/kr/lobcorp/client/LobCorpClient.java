@@ -161,6 +161,12 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.VIOLET_NOON, kr.lobcorp.client.render.NewAbnoRenderers.VioletNoon::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.IndigoNoonModel.LAYER, kr.lobcorp.client.model.IndigoNoonModel::createLayer);
         EntityRendererRegistry.register(ModEntities.INDIGO_NOON, kr.lobcorp.client.render.NewAbnoRenderers.IndigoNoon::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.AmberDuskModel.LAYER, kr.lobcorp.client.model.AmberDuskModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.AMBER_DUSK, kr.lobcorp.client.render.NewAbnoRenderers.AmberDusk::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.GreenDuskModel.LAYER, kr.lobcorp.client.model.GreenDuskModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.GREEN_DUSK, kr.lobcorp.client.render.NewAbnoRenderers.GreenDusk::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CrimsonDuskModel.LAYER, kr.lobcorp.client.model.CrimsonDuskModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.CRIMSON_DUSK, kr.lobcorp.client.render.NewAbnoRenderers.CrimsonDusk::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));

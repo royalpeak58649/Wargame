@@ -141,6 +141,12 @@ import kr.lobcorp.client.model.GreenNoonModel;
 import kr.lobcorp.client.model.CrimsonNoonModel;
 import kr.lobcorp.client.model.VioletNoonModel;
 import kr.lobcorp.client.model.IndigoNoonModel;
+import kr.lobcorp.client.model.AmberDuskModel;
+import kr.lobcorp.client.model.GreenDuskModel;
+import kr.lobcorp.client.model.CrimsonDuskModel;
+import kr.lobcorp.ordeal.AmberDuskEntity;
+import kr.lobcorp.ordeal.GreenDuskEntity;
+import kr.lobcorp.ordeal.CrimsonDuskEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -1835,6 +1841,75 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(IndigoNoonModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class AmberDusk extends MobRenderer<AmberDuskEntity, AmberDuskModel.State, AmberDuskModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/amber_dusk.png");
+
+        public AmberDusk(EntityRendererProvider.Context ctx) {
+            super(ctx, new AmberDuskModel(ctx.bakeLayer(AmberDuskModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public AmberDuskModel.State createRenderState() {
+            return new AmberDuskModel.State();
+        }
+
+        @Override
+        public void extractRenderState(AmberDuskEntity e, AmberDuskModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(AmberDuskModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class GreenDusk extends MobRenderer<GreenDuskEntity, GreenDuskModel.State, GreenDuskModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/green_dusk.png");
+
+        public GreenDusk(EntityRendererProvider.Context ctx) {
+            super(ctx, new GreenDuskModel(ctx.bakeLayer(GreenDuskModel.LAYER)), 1.2f);
+        }
+
+        @Override
+        public GreenDuskModel.State createRenderState() {
+            return new GreenDuskModel.State();
+        }
+
+        @Override
+        public void extractRenderState(GreenDuskEntity e, GreenDuskModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(GreenDuskModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class CrimsonDusk extends MobRenderer<CrimsonDuskEntity, CrimsonDuskModel.State, CrimsonDuskModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/crimson_dusk.png");
+
+        public CrimsonDusk(EntityRendererProvider.Context ctx) {
+            super(ctx, new CrimsonDuskModel(ctx.bakeLayer(CrimsonDuskModel.LAYER)), 0.9f);
+        }
+
+        @Override
+        public CrimsonDuskModel.State createRenderState() {
+            return new CrimsonDuskModel.State();
+        }
+
+        @Override
+        public void extractRenderState(CrimsonDuskEntity e, CrimsonDuskModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(CrimsonDuskModel.State s) {
             return TEX;
         }
     }

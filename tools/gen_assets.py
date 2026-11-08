@@ -8844,3 +8844,160 @@ print("assets ordeal noon ok")
 
 merge_lang({"entity.lobcorp.green_noon": "녹색 정오", "entity.lobcorp.crimson_noon": "진홍색 정오", "entity.lobcorp.violet_noon": "보라색 정오", "entity.lobcorp.indigo_noon": "쪽빛 정오"},
            {"entity.lobcorp.green_noon": "Noon of Green", "entity.lobcorp.crimson_noon": "Noon of Crimson", "entity.lobcorp.violet_noon": "Noon of Violet", "entity.lobcorp.indigo_noon": "Noon of Indigo"})
+
+
+def amber_dusk():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    chitin = hexc("#c07a1e")
+    chitin_hi = hexc("#e8a83c")
+    chitin_dark = hexc("#6e3c0c")
+    tooth = hexc("#f4ecd8")
+    maw = hexc("#3a1a08")
+
+    # 머리 마디 (u0 v0, 20x14x12) + 등 가시 (u0 v26, 4x4x4)
+    h = box(img, 0, 0, 20, 14, 12, chitin, 7, top=chitin_hi)
+    hx, hy = h["front"]
+    for y in range(14):
+        if y % 5 == 4:
+            for x in range(20):
+                px(img, hx + x, hy + y, chitin_dark)
+    for x in range(0, 20, 4):
+        px(img, hx + x, hy + 1, chitin_hi)
+    box(img, 0, 26, 4, 4, 4, chitin_dark, 6, top=chitin_hi)
+    # 아가리 (u64 v0, 18x4x10) + 이빨 (u64 v14, 16x2x1)
+    j = box(img, 64, 0, 18, 4, 10, maw, 6, top=chitin_dark)
+    jx, jy = j["front"]
+    for x in range(18):
+        px(img, jx + x, jy, tooth if x % 2 == 0 else maw)
+    t = box(img, 64, 14, 16, 2, 1, tooth, 4)
+    tx, ty = t["front"]
+    for x in range(16):
+        px(img, tx + x, ty + 1, chitin_dark)
+    # 몸통 마디 3개 (u0 v34 / u0 v60 / u0 v86, 20x14x12) + 가시
+    for (u, v) in ((0, 34), (0, 60), (0, 86)):
+        s = box(img, u, v, 20, 14, 12, chitin, 7, top=chitin_hi)
+        sx, sy = s["front"]
+        for y in range(14):
+            if y % 5 == 4:
+                for x in range(20):
+                    px(img, sx + x, sy + y, chitin_dark)
+        for x in range(2, 20, 6):
+            px(img, sx + x, sy + 2, chitin_hi)
+            px(img, sx + x, sy + 3, chitin_hi)
+    box(img, 0, 60, 4, 4, 4, chitin_dark, 6, top=chitin_hi)
+    box(img, 0, 86, 4, 4, 4, chitin_dark, 6, top=chitin_hi)
+    box(img, 0, 112, 4, 4, 4, chitin_dark, 6, top=chitin_hi)
+
+    save(img, "textures/entity/amber_dusk.png")
+
+
+def green_dusk():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    metal = hexc("#5a6a5c")
+    metal_hi = hexc("#7e9080")
+    metal_dark = hexc("#2e3a30")
+    rivet = hexc("#a8b8a8")
+    glow = hexc("#5cff8a")
+
+    # 받침 (u0 v0, 24x8x24)
+    b = box(img, 0, 0, 24, 8, 24, metal, 6, top=metal_hi)
+    bx, by = b["front"]
+    for x in range(0, 24, 4):
+        px(img, bx + x, by + 1, rivet)
+        px(img, bx + x, by + 6, rivet)
+    # 탑 몸통 (u0 v34, 16x24x16) + 녹색 창
+    t = box(img, 0, 34, 16, 24, 16, metal, 6, top=metal_hi)
+    tx, ty = t["front"]
+    for (wx, wy) in ((3, 4), (9, 4), (3, 13), (9, 13)):
+        for x in range(4):
+            for y in range(5):
+                px(img, tx + wx + x, ty + wy + y, glow if (x + y) % 3 else metal_dark)
+    for x in range(0, 16, 4):
+        px(img, tx + x, ty + 22, rivet)
+    # 굴뚝 (u0 v76, 6x10x6)
+    c = box(img, 0, 76, 6, 10, 6, metal_dark, 6, top=metal)
+    cx, cy = c["front"]
+    for x in range(6):
+        px(img, cx + x, cy, metal_hi)
+    # 기계 팔 (u64 v34, 4x16x4)
+    a = box(img, 64, 34, 4, 16, 4, metal, 6, top=metal_hi)
+    ax, ay = a["front"]
+    for y in range(0, 16, 4):
+        px(img, ax + 1, ay + y, rivet)
+        px(img, ax + 2, ay + y, rivet)
+
+    save(img, "textures/entity/green_dusk.png")
+
+
+def crimson_dusk():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    cloth = hexc("#b81c28")
+    cloth_dark = hexc("#6e0e18")
+    white = hexc("#f2ece4")
+    face = hexc("#f6f0e8")
+    black = hexc("#241418")
+    nose = hexc("#e03040")
+
+    # 둥근 배 몸통 (u0 v0, 20x20x16) + 다이아몬드 무늬
+    b = box(img, 0, 0, 20, 20, 16, cloth, 6, top=cloth_dark)
+    bx, by = b["front"]
+    for (dx, dy) in ((3, 3), (10, 3), (16, 3), (6, 9), (13, 9), (3, 15), (10, 15), (16, 15)):
+        for i in range(3):
+            px(img, bx + dx - i, by + dy, white)
+            px(img, bx + dx + i, by + dy, white)
+            px(img, bx + dx, by + dy - i, white)
+            px(img, bx + dx, by + dy + i, white)
+    # 큰 머리 (u0 v40, 16x16x16) + 코 (u0 v76, 4x4x4)
+    h = box(img, 0, 40, 16, 16, 16, face, 5, top=face)
+    hx, hy = h["front"]
+    for (ex, ey) in ((3, 4), (11, 4)):
+        for x in range(2):
+            for y in range(2):
+                px(img, hx + ex + x, hy + ey + y, black)
+    for x in range(2, 14):
+        px(img, hx + x, hy + 12, cloth)
+    for x in range(3, 13, 2):
+        px(img, hx + x, hy + 13, cloth_dark)
+    n = box(img, 0, 76, 4, 4, 4, nose, 5, top=hexc("#f06070"))
+    nx, ny = n["front"]
+    for x in range(4):
+        for y in range(4):
+            px(img, nx + x, ny + y, nose)
+    # 뾰족한 모자 (u64 v0, 14x10x14) + 꼭대기 (u64 v28, 6x8x6)
+    c1 = box(img, 64, 0, 14, 10, 14, cloth, 6, top=cloth_dark)
+    c1x, c1y = c1["front"]
+    for x in range(14):
+        px(img, c1x + x, c1y + 9, white)
+    for (dx, dy) in ((4, 4), (9, 4)):
+        for i in range(2):
+            px(img, c1x + dx - i, c1y + dy, white)
+            px(img, c1x + dx + i, c1y + dy, white)
+            px(img, c1x + dx, c1y + dy - i, white)
+            px(img, c1x + dx, c1y + dy + i, white)
+    c2 = box(img, 64, 28, 6, 8, 6, cloth, 6, top=white)
+    c2x, c2y = c2["front"]
+    for x in range(6):
+        px(img, c2x + x, c2y + 7, white)
+    # 긴 팔 (u64 v44, 6x20x6) + 소매 커프스
+    a = box(img, 64, 44, 6, 20, 6, cloth, 6, top=cloth_dark)
+    ax, ay = a["front"]
+    for x in range(6):
+        px(img, ax + x, ay + 17, white)
+        px(img, ax + x, ay + 18, white)
+    # 다리 (u64 v72, 6x12x6)
+    l = box(img, 64, 72, 6, 12, 6, cloth_dark, 6, top=cloth)
+    lx, ly = l["front"]
+    for x in range(6):
+        px(img, lx + x, ly + 10, black)
+        px(img, lx + x, ly + 11, black)
+
+    save(img, "textures/entity/crimson_dusk.png")
+
+
+amber_dusk()
+green_dusk()
+crimson_dusk()
+print("assets ordeal dusk ok")
+
+merge_lang({"entity.lobcorp.amber_dusk": "호박색 황혼", "entity.lobcorp.green_dusk": "녹색 황혼", "entity.lobcorp.crimson_dusk": "진홍색 황혼"},
+           {"entity.lobcorp.amber_dusk": "Amber Dusk", "entity.lobcorp.green_dusk": "Green Dusk", "entity.lobcorp.crimson_dusk": "Crimson Dusk"})
