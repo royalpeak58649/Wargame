@@ -14,7 +14,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -27,6 +26,9 @@ import java.util.List;
  * 시련 개체의 공통 뼈대. 시련끼리는 서로를 해치지 않고, E.G.O 무기의 피해 유형에 따라 저항이 갈린다.
  */
 public abstract class OrdealEntity extends PathfinderMob {
+    /** 표적 재탐색 쿨다운 (틱) */
+    private int retargetCd = 0;
+
     public OrdealEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setPersistenceRequired();
@@ -46,40 +48,64 @@ public abstract class OrdealEntity extends PathfinderMob {
         addPlayerTargetGoal();
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if (retargetCd > 0) retargetCd--;
+        // 너무 멀어진 표적은 버린다
+        LivingEntity cur = getTarget();
+        if (cur != null && distanceTo(cur) > 48.0) setTarget(null);
+    }
+
+    /**
+     * 표적 후보를 평가해 가장 적합한 대상을 고른다.
+     * 플레이어는 점수에 0.6을 곱해 우선하고, 사무직은 거리 그대로 평가한다.
+     */
+    private LivingEntity pickTarget(ServerLevel sl) {
+        LivingEntity best = null;
+        double bestScore = Double.MAX_VALUE;
+        for (ServerPlayer p : sl.players()) {
+            if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
+            if (ToolState.isSheltered(p)) continue;
+            double d = distanceTo(p);
+            if (d > 40.0) continue;
+            double score = d * 0.6;
+            if (score < bestScore) {
+                bestScore = score;
+                best = p;
+            }
+        }
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(24.0))) {
+            if (!c.isAlive()) continue;
+            double d = distanceTo(c);
+            if (d > 24.0) continue;
+            if (d < bestScore) {
+                bestScore = d;
+                best = c;
+            }
+        }
+        return best;
+    }
+
     /** 벽 너머의 직원도 찾아내는 표적 목표를 등록한다 (시야 무시). */
     protected void addPlayerTargetGoal() {
         // Goal 판정은 엔티티 ID에 따라 격틱으로 돌기 때문에 tickCount 모듈러를 쓰면 안 된다.
         targetSelector.addGoal(1, new Goal() {
-            private final TargetingConditions cond = TargetingConditions.forCombat().range(40).ignoreLineOfSight();
-
             @Override
             public boolean canUse() {
-                if (getRandom().nextInt(4) != 0) return false;
                 LivingEntity cur = getTarget();
+                // 사무직을 쫓고 있거나 재탐색 쿨다운이 끝났으면 다시 고른다
+                if (cur instanceof ClerkEntity) return true;
+                if (retargetCd <= 0) return true;
+                if (getRandom().nextInt(4) != 0) return false;
                 return cur == null || !cur.isAlive() || (cur instanceof Player pl && (pl.isCreative() || pl.isSpectator()));
             }
 
             @Override
             public void start() {
                 if (level() instanceof ServerLevel sl) {
-                    Player found = sl.getNearestPlayer(cond, OrdealEntity.this);
-                    if (found instanceof ServerPlayer sp && ToolState.isSheltered(sp)) found = null;
-                    if (found instanceof ServerPlayer sp2 && sp2.isCreative()) found = null;
-                    // 사무직이 더 가까우면 사무직을 노린다
-                    ClerkEntity clerk = null;
-                    double bd = Double.MAX_VALUE;
-                    for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(24.0))) {
-                        if (!c.isAlive()) continue;
-                        double d = distanceTo(c);
-                        if (d > 24 || d >= bd) continue;
-                        bd = d;
-                        clerk = c;
-                    }
-                    if (clerk != null && (found == null || bd < distanceTo(found))) {
-                        setTarget(clerk);
-                        return;
-                    }
-                    setTarget(found);
+                    setTarget(pickTarget(sl));
+                    retargetCd = 40;
                 }
             }
 
@@ -93,6 +119,12 @@ public abstract class OrdealEntity extends PathfinderMob {
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (source.getEntity() instanceof OrdealEntity) return false;
+        // 때린 플레이어에게 즉시 반격한다
+        if (source.getEntity() instanceof ServerPlayer attacker
+                && !attacker.isCreative() && !attacker.isSpectator()) {
+            setTarget(attacker);
+            retargetCd = 100;
+        }
         float mult = 0.5f;
         if (source.getEntity() instanceof LivingEntity attacker) {
             ItemStack weapon = attacker.getMainHandItem();
