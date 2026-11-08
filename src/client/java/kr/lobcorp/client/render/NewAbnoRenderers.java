@@ -28,6 +28,7 @@ import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NotesModel;
 import kr.lobcorp.client.model.OldLadyModel;
+import kr.lobcorp.client.model.ParasiteTreeModel;
 import kr.lobcorp.client.model.PorccubusModel;
 import kr.lobcorp.client.model.PortraitModel;
 import kr.lobcorp.client.model.PunishingBirdModel;
@@ -36,6 +37,7 @@ import kr.lobcorp.client.model.QueenHatredModel;
 import kr.lobcorp.client.model.WorkerBeeModel;
 import kr.lobcorp.client.model.RedShoesModel;
 import kr.lobcorp.client.model.RudoltaModel;
+import kr.lobcorp.client.model.SaplingModel;
 import kr.lobcorp.client.model.ScarecrowModel;
 import kr.lobcorp.client.model.SchadenfreudeModel;
 import kr.lobcorp.client.model.ScorchedGirlModel;
@@ -77,6 +79,7 @@ import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NotesEntity;
 import kr.lobcorp.entity.OldLadyEntity;
+import kr.lobcorp.entity.ParasiteTreeEntity;
 import kr.lobcorp.entity.PorccubusEntity;
 import kr.lobcorp.entity.PortraitEntity;
 import kr.lobcorp.entity.PunishingBirdEntity;
@@ -85,6 +88,7 @@ import kr.lobcorp.entity.QueenHatredEntity;
 import kr.lobcorp.entity.WorkerBeeEntity;
 import kr.lobcorp.entity.RedShoesEntity;
 import kr.lobcorp.entity.RudoltaEntity;
+import kr.lobcorp.entity.SaplingEntity;
 import kr.lobcorp.entity.ScarecrowEntity;
 import kr.lobcorp.entity.SchadenfreudeEntity;
 import kr.lobcorp.entity.ScorchedGirlEntity;
@@ -1304,6 +1308,53 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(LittlePrinceMinionModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ParasiteTree extends MobRenderer<ParasiteTreeEntity, ParasiteTreeModel.State, ParasiteTreeModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/parasite_tree.png");
+
+        public ParasiteTree(EntityRendererProvider.Context ctx) {
+            super(ctx, new ParasiteTreeModel(ctx.bakeLayer(ParasiteTreeModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public ParasiteTreeModel.State createRenderState() {
+            return new ParasiteTreeModel.State();
+        }
+
+        @Override
+        public void extractRenderState(ParasiteTreeEntity e, ParasiteTreeModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.bulbs = e.bulbs();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ParasiteTreeModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Sapling extends MobRenderer<SaplingEntity, SaplingModel.State, SaplingModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/sapling.png");
+
+        public Sapling(EntityRendererProvider.Context ctx) {
+            super(ctx, new SaplingModel(ctx.bakeLayer(SaplingModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public SaplingModel.State createRenderState() {
+            return new SaplingModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SaplingEntity e, SaplingModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(SaplingModel.State s) {
             return TEX;
         }
     }

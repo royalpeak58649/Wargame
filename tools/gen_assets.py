@@ -7429,3 +7429,196 @@ merge_lang({
     "item.lobcorp.spore": "Spore",
     "item.lobcorp.spore_suit": "Spore Cloak",
 })
+
+
+# ───────────── 기생 나무 / 묘목 ─────────────
+def parasite_tree():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    bark = hexc("#c8c0b0")
+    bark_hi = hexc("#e0d8c8")
+    bark_dark = hexc("#9a9080")
+    bulb = hexc("#f2efe6")
+    bulb_hi = hexc("#ffffff")
+    bulb_dark = hexc("#d8d2c4")
+    bone = hexc("#e8e2d0")
+    bone_hi = hexc("#f6f2e6")
+    hole = hexc("#2a2420")
+
+    # 밑동 (u0 v0, 8x16x8)
+    t = box(img, 0, 0, 8, 16, 8, bark, 7, top=bark_hi)
+    tx, ty = t["front"]
+    for y in range(16):
+        px(img, tx + 2, ty + y, bark_dark)
+        px(img, tx + 5, ty + y, bark_dark)
+    for x in range(8):
+        px(img, tx + x, ty + 15, bark_dark)
+
+    # 상체 (u0 v24, 6x14x6)
+    u = box(img, 0, 24, 6, 14, 6, bark, 7, top=bark_hi)
+    ux, uy = u["front"]
+    for y in range(14):
+        px(img, ux + 1, uy + y, bark_dark)
+        px(img, ux + 4, uy + y, bark_dark)
+    for x in range(6):
+        px(img, ux + x, uy + 13, bark_dark)
+
+    # 가지: 오른쪽 (u24 v0, 10x2x2)
+    b = box(img, 24, 0, 10, 2, 2, bark, 7, top=bark_hi)
+    bx, by = b["front"]
+    for x in range(10):
+        px(img, bx + x, by + 1, bark_dark)
+    # 가지: 왼쪽 (u24 v4, 10x2x2)
+    b2 = box(img, 24, 4, 10, 2, 2, bark, 7, top=bark_hi)
+    b2x, b2y = b2["front"]
+    for x in range(10):
+        px(img, b2x + x, b2y + 1, bark_dark)
+    # 가지: 뒤쪽 (u24 v8, 2x2x8)
+    box(img, 24, 8, 2, 2, 8, bark, 7, top=bark_hi)
+
+    # 봉오리 (u24 v20, 3x3x3)
+    for i in range(5):
+        p = box(img, 24, 20, 3, 3, 3, bulb, 5, top=bulb_hi)
+        px_, py_ = p["front"]
+        px(img, px_ + 1, py_ + 1, bulb_hi)
+        for x in range(3):
+            px(img, px_ + x, py_ + 2, bulb_dark)
+
+    # 해골 (u40 v20, 4x4x4)
+    for i in range(5):
+        s = box(img, 40, 20, 4, 4, 4, bone, 5, top=bone_hi)
+        sx, sy = s["front"]
+        for x in range(4):
+            px(img, sx + x, sy + 3, bone_hi)
+        # 눈구멍 (u40 v30, 1x1x1 두 개)
+        e = box(img, 40, 30, 1, 1, 1, hole, 0)
+        ex, ey = e["front"]
+        px(img, ex, ey, hole)
+        e2 = box(img, 42, 30, 1, 1, 1, hole, 0)
+        e2x, e2y = e2["front"]
+        px(img, e2x, e2y, hole)
+
+    save(img, "textures/entity/parasite_tree.png")
+
+
+def sapling():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    flesh = hexc("#8a7a68")
+    flesh_hi = hexc("#a89880")
+    flesh_dark = hexc("#5e5248")
+    bark = hexc("#6a4a30")
+    bark_hi = hexc("#8a6440")
+    bark_dark = hexc("#4a3220")
+    leaf = hexc("#6a8a4a")
+    leaf_hi = hexc("#8aa864")
+    leaf_dark = hexc("#3e5a2a")
+    root = hexc("#d8d2c4")
+
+    # 웅크린 몸 (u0 v0, 8x6x6)
+    b = box(img, 0, 0, 8, 6, 6, flesh, 7, top=flesh_hi)
+    bx, by = b["front"]
+    for y in range(6):
+        px(img, bx + 3, by + y, flesh_dark)
+        px(img, bx + 4, by + y, flesh_dark)
+    for x in range(8):
+        px(img, bx + x, by + 5, flesh_dark)
+
+    # 굽은 등 (u0 v12, 6x5x6)
+    h = box(img, 0, 12, 6, 5, 6, flesh, 7, top=flesh_hi)
+    hx, hy = h["front"]
+    for x in range(6):
+        px(img, hx + x, hy + 4, flesh_dark)
+
+    # 뿌리 (u28 v0 / v6 / v10)
+    box(img, 28, 0, 2, 1, 5, root, 5)
+    box(img, 28, 6, 5, 1, 2, root, 5)
+    box(img, 28, 10, 5, 1, 2, root, 5)
+
+    # 줄기 (u0 v24, 3x12x3)
+    t = box(img, 0, 24, 3, 12, 3, bark, 7, top=bark_hi)
+    tx, ty = t["front"]
+    for y in range(12):
+        px(img, tx + 1, ty + y, bark_dark)
+
+    # 잎: 정수리 (u12 v24, 6x3x6)
+    c = box(img, 12, 24, 6, 3, 6, leaf, 7, top=leaf_hi)
+    cx, cy = c["front"]
+    for x in range(6):
+        px(img, cx + x, cy + 2, leaf_dark)
+    # 잎: 오른쪽 (u36 v24, 5x2x4)
+    r = box(img, 36, 24, 5, 2, 4, leaf, 7, top=leaf_hi)
+    rx, ry = r["front"]
+    for x in range(5):
+        px(img, rx + x, ry + 1, leaf_dark)
+    # 잎: 왼쪽 (u36 v30, 5x2x4)
+    l = box(img, 36, 30, 5, 2, 4, leaf, 7, top=leaf_hi)
+    lx, ly = l["front"]
+    for x in range(5):
+        px(img, lx + x, ly + 1, leaf_dark)
+    # 잎: 뒤쪽 (u36 v36, 4x2x5)
+    box(img, 36, 36, 4, 2, 5, leaf, 7, top=leaf_hi)
+
+    save(img, "textures/entity/sapling.png")
+
+
+HY = {"k": "#2a2420", "b": "#8a7a68", "w": "#f2efe6", "g": "#6a8a4a"}
+# 석궁: 가로로 뻗은 활과 세로 몸통, 하얀 볼트
+icon([
+    "................",
+    "................",
+    "..bb........bb..",
+    "..bbb......bbb..",
+    "..bbbb....bbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "......bbbb......",
+    "......bbbb......",
+    "......bbbb......",
+    "......bbbb......",
+    "......bbbb......",
+    "......bbbb......",
+    "......bbbb......",
+    "......kkkk......",
+    "................",
+], HY, "textures/item/hypocrisy.png")
+# 외투: 어깨에서 퍼지는 코트, 가슴에 하얀 꽃
+icon([
+    "................",
+    "................",
+    ".....bbbbbb.....",
+    "....bbbbbbbb....",
+    "...bbbbbbbbbb...",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..bbbbbbbbbbbb..",
+    "..kkkkkkkkkkkk..",
+    "................",
+], HY, "textures/item/hypocrisy_suit.png")
+
+armor(hexc("#d8d2c4"), "#2a2420", "#6a8a4a", "textures/entity/equipment/humanoid/hypocrisy.png")
+
+for item, parent in [("hypocrisy", "minecraft:item/handheld"), ("hypocrisy_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/hypocrisy.json", {"layers": {"humanoid": [{"texture": "lobcorp:hypocrisy"}]}})
+
+parasite_tree()
+sapling()
+print("assets parasite tree ok")
+
+merge_lang({
+    "entity.lobcorp.parasite_tree": "기생 나무",
+    "entity.lobcorp.sapling": "묘목",
+    "item.lobcorp.hypocrisy": "위선",
+    "item.lobcorp.hypocrisy_suit": "위선의 외투",
+}, {
+    "entity.lobcorp.parasite_tree": "Parasite Tree",
+    "entity.lobcorp.sapling": "Sapling",
+    "item.lobcorp.hypocrisy": "Hypocrisy",
+    "item.lobcorp.hypocrisy_suit": "Hypocrisy Coat",
+})
