@@ -52,6 +52,12 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
     protected int breachCountdown = -1;
     protected int breachTicks = 0;
     private ServerBossEvent bossBar;
+    /** 격리실 문 밖 복도 중앙 (탈출 시 큰 히트박스가 문을 통과할 수 없어 순간이동에 사용) */
+    private BlockPos exitPos = null;
+    /** 플레이어별 누적 위협도 (어그로) */
+    private final java.util.Map<java.util.UUID, Float> threat = new java.util.HashMap<>();
+    private int retargetIn = 100;
+    private int targetTicks = 0;
 
     protected BreachingAbnormality(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -167,6 +173,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         breachTicks = 0;
         setBreached(true);
         openDoorsNearHome(sl);
+        if (leavesRoomOnBreach() && (getBbWidth() >= 0.95f || getBbHeight() >= 1.95f)) moveToExit();
         bossBar = newBossBar();
         for (ServerPlayer p : sl.getServer().getPlayerList().getPlayers()) {
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal(profile().name() + "가 격리실을 탈출했습니다")
@@ -196,10 +203,30 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         BlockPos c = home != null ? home : blockPosition();
         for (BlockPos pos : BlockPos.betweenClosed(c.offset(-10, -1, -6), c.offset(4, 3, 6))) {
             BlockState st = sl.getBlockState(pos);
-            if (st.getBlock() instanceof DoorBlock door && !st.getValue(DoorBlock.OPEN)) {
-                door.setOpen(this, sl, st, pos.immutable(), true);
+            if (st.getBlock() instanceof DoorBlock door) {
+                if (st.getValue(DoorBlock.HALF) == net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER) {
+                    // 문 서쪽 2블록 = 복도 중앙
+                    exitPos = pos.immutable().offset(-2, 0, 0);
+                }
+                if (!st.getValue(DoorBlock.OPEN)) {
+                    door.setOpen(this, sl, st, pos.immutable(), true);
+                }
             }
         }
+    }
+
+    /** 탈출 시 격리실을 나가는가 (방 안에서 싸우는 환상체는 false) */
+    protected boolean leavesRoomOnBreach() {
+        return true;
+    }
+
+    /** 문이 좁아 지나갈 수 없는 히트박스를 복도 중앙으로 옮긴다 */
+    protected void moveToExit() {
+        if (exitPos == null || !(level() instanceof ServerLevel sl)) return;
+        BlockPos p = exitPos;
+        if (sl.getBlockState(p).isSolid() || sl.getBlockState(p.above()).isSolid()) return;
+        teleportTo(p.getX() + 0.5, p.getY(), p.getZ() + 0.5);
+        sl.sendParticles(ParticleTypes.LARGE_SMOKE, p.getX() + 0.5, p.getY() + 1, p.getZ() + 0.5, 20, 0.4, 0.5, 0.4, 0.02);
     }
 
     // ───────────── 격리실 복귀 (제압/자폭 공통) ─────────────
@@ -210,6 +237,9 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         setBreached(false);
         breachCountdown = -1;
         setTarget(null);
+        threat.clear();
+        targetTicks = 0;
+        retargetIn = 100;
         getNavigation().stop();
         setHealth(getMaxHealth());
         resetQliphoth();
@@ -241,6 +271,13 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
             if (weapon.getItem() instanceof EgoWeaponItem ego) mult = profile().resistTo(ego.color);
         }
         float dmg = amount * mult;
+        if (source.getEntity() instanceof ServerPlayer attacker) {
+            threat.merge(attacker.getUUID(), dmg, Float::sum);
+            if (getTarget() != attacker && getRandom().nextInt(100) < 35) {
+                setTarget(attacker);
+                targetTicks = 0;
+            }
+        }
         if (getHealth() - dmg <= 0) {
             suppress(source.getEntity());
             return true;
@@ -268,6 +305,28 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         suppress(source.getEntity());
     }
 
+    /** 위협도 + 거리 + 약간의 무작위로 추격 대상을 다시 고른다 (한 명이 영구히 어그로를 잡지 못하게) */
+    private void retarget(ServerLevel sl) {
+        ServerPlayer best = null;
+        float bestScore = Float.NEGATIVE_INFINITY;
+        for (ServerPlayer p : sl.players()) {
+            if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
+            if (ToolState.isSheltered(p)) continue;
+            double dist = distanceTo(p);
+            if (dist > 40) continue;
+            float score = threat.getOrDefault(p.getUUID(), 0f) + 20f / (1f + (float) dist) + getRandom().nextFloat() * 8f;
+            if (p == getTarget() && targetTicks > 300) score *= 0.4f;
+            if (score > bestScore) {
+                bestScore = score;
+                best = p;
+            }
+        }
+        if (best != null && best != getTarget()) {
+            setTarget(best);
+            targetTicks = 0;
+        }
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -280,6 +339,28 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
             breachTicks++;
             // 대피소로 숨은 직원은 추격 대상에서 제외된다
             if (getTarget() instanceof ServerPlayer tp && ToolState.isSheltered(tp)) setTarget(null);
+            if (!isFriendly()) {
+                targetTicks++;
+                if (breachTicks % 20 == 0) {
+                    threat.values().removeIf(v -> v * 0.9f < 0.5f);
+                    threat.replaceAll((k, v) -> v * 0.9f);
+                }
+                if (--retargetIn <= 0) {
+                    retarget(sl);
+                    retargetIn = 100 + getRandom().nextInt(60);
+                }
+            }
+            // 문이 좁아 못 나가는 히트박스: 일정 시간이 지나도 방 안에 있으면 복도로 옮긴다
+            if (breachTicks == 100 && leavesRoomOnBreach() && home != null
+                    && Math.abs(getX() - (home.getX() + 0.5)) < 4.5
+                    && Math.abs(getZ() - (home.getZ() + 0.5)) < 4.5
+                    && Math.abs(getY() - home.getY()) < 3) {
+                LivingEntity t = getTarget();
+                if (t != null && distanceTo(t) > 6) {
+                    if (exitPos == null) openDoorsNearHome(sl);
+                    moveToExit();
+                }
+            }
             if (bossBar == null) bossBar = newBossBar(); // 서버 재시작 직후 등
             bossBar.setProgress(getHealth() / getMaxHealth());
             for (ServerPlayer p : sl.players()) {

@@ -208,7 +208,7 @@ public class FuneralEntity extends BreachingAbnormality {
         // 이동: 8블록 거리 유지
         if (target != null && target.isAlive()) {
             double dist = distanceTo(target);
-            if (dist > 9) {
+            if (dist > 9 || !hasLineOfSight(target)) {
                 getNavigation().moveTo(target, 1.0);
             } else if (dist < 6) {
                 getNavigation().stop();
