@@ -64,6 +64,8 @@ import kr.lobcorp.entity.WoodsmanEntity;
 import kr.lobcorp.entity.WorkerBeeEntity;
 import kr.lobcorp.entity.YangEntity;
 import kr.lobcorp.entity.YinEntity;
+import kr.lobcorp.ordeal.AmberDawnEntity;
+import kr.lobcorp.ordeal.GreenDawnEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -140,6 +142,8 @@ public final class ModEntities {
     public static EntityType<DimensionRefractionEntity> DIMENSION_REFRACTION;
     public static EntityType<FleshIdolEntity> FLESH_IDOL;
     public static EntityType<ExpressTrainEntity> EXPRESS_TRAIN;
+    public static EntityType<AmberDawnEntity> AMBER_DAWN;
+    public static EntityType<GreenDawnEntity> GREEN_DAWN;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -276,6 +280,10 @@ public final class ModEntities {
                 .sized(1.2f, 2.0f).clientTrackingRange(10));
         EXPRESS_TRAIN = register("express_train", EntityType.Builder.of(ExpressTrainEntity::new, MobCategory.MISC)
                 .sized(1.4f, 2.4f).clientTrackingRange(10));
+        AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
+                .sized(0.6f, 0.4f).clientTrackingRange(10));
+        GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
+                .sized(0.6f, 1.9f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -341,5 +349,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(DIMENSION_REFRACTION, DimensionRefractionEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FLESH_IDOL, FleshIdolEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(EXPRESS_TRAIN, ExpressTrainEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
     }
 }

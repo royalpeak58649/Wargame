@@ -162,6 +162,42 @@ public final class LobCorpCommands {
                                 .then(Commands.literal("keepstats").executes(c -> newGame(c, true)))))
                 .then(Commands.literal("breach").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::breachNearest))
+                .then(Commands.literal("ordeal").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .then(Commands.literal("list").executes(c -> {
+                            for (kr.lobcorp.ordeal.OrdealType t : kr.lobcorp.ordeal.OrdealType.values()) {
+                                String line = t.id + " — " + t.ko;
+                                int col = t.color;
+                                c.getSource().sendSuccess(() -> Component.literal(line)
+                                        .withStyle(s -> s.withColor(col)), false);
+                            }
+                            c.getSource().sendSuccess(() -> Component.literal(kr.lobcorp.ordeal.OrdealManager.status())
+                                    .withStyle(s -> s.withColor(0xAAAAAA)), false);
+                            return 1;
+                        }))
+                        .then(Commands.literal("clear").executes(c -> {
+                            kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal("모든 시련을 제거했습니다."), true);
+                            return 1;
+                        }))
+                        .then(Commands.literal("start")
+                                .then(Commands.argument("id", com.mojang.brigadier.arguments.StringArgumentType.word())
+                                        .suggests((c, b) -> {
+                                            for (kr.lobcorp.ordeal.OrdealType t : kr.lobcorp.ordeal.OrdealType.values())
+                                                if (t.id.startsWith(b.getRemainingLowerCase())) b.suggest(t.id);
+                                            return b.buildFuture();
+                                        })
+                                        .executes(c -> {
+                                            String id = com.mojang.brigadier.arguments.StringArgumentType.getString(c, "id");
+                                            kr.lobcorp.ordeal.OrdealType type = kr.lobcorp.ordeal.OrdealType.byId(id);
+                                            if (type == null) {
+                                                c.getSource().sendFailure(Component.literal("알 수 없는 시련: " + id));
+                                                return 0;
+                                            }
+                                            int n = kr.lobcorp.ordeal.OrdealManager.start(c.getSource().getServer(), type);
+                                            String msg = type.ko + " 시작 (" + n + "마리)";
+                                            c.getSource().sendSuccess(() -> Component.literal(msg), true);
+                                            return 1;
+                                        }))))
                 .then(Commands.literal("clear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::clear))
                 .then(Commands.literal("reset").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -247,6 +283,7 @@ public final class LobCorpCommands {
 
     private static int advanceDay(CommandContext<CommandSourceStack> c) {
         Facility.nextDay(c.getSource().getServer());
+        kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
         for (ServerLevel l : c.getSource().getServer().getAllLevels())
             for (Entity e : l.getAllEntities())
                 if (e instanceof AbnormalityEntity a) a.resetQliphoth();
@@ -285,6 +322,7 @@ public final class LobCorpCommands {
         discardFriends(c.getSource().getServer());
         discardMinions(c.getSource().getServer());
         kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
+        kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;
@@ -300,6 +338,7 @@ public final class LobCorpCommands {
         discardFriends(server);
         discardMinions(server);
         kr.lobcorp.work.QliphothPanel.discardAll(server);
+        kr.lobcorp.ordeal.OrdealManager.clearAll(server);
         FacilityData f = Facility.get(server);
         for (FacilityData.Slot slot : f.slots) {
             slot.abno = "";
