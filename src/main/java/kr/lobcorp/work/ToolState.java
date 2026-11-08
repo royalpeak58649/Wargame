@@ -110,6 +110,7 @@ public final class ToolState {
     /** 매 틱: 노트 보유 시간을 센다 */
     public static void tick(MinecraftServer server) {
         tickYang(server);
+        kr.lobcorp.entity.LittlePrinceMinionEntity.tickClouds();
         if (notesHolder == null) return;
         ServerPlayer p = server.getPlayerList().getPlayer(notesHolder);
         if (p == null || !p.isAlive()) {
@@ -167,6 +168,8 @@ public final class ToolState {
             sporeData.sporeTicks = 0;
             kr.lobcorp.entity.WorkerBeeEntity.spawnFrom(p);
         }
+        // 어린 왕자의 포자는 죽음과 함께 흩어진다
+        Employees.get(p).princeSpores = 0;
         // 일벌이 쓰러뜨린 직원도 일벌이 된다
         if (source.getEntity() instanceof kr.lobcorp.entity.WorkerBeeEntity bee) {
             kr.lobcorp.entity.WorkerBeeEntity.spawnFrom(p);

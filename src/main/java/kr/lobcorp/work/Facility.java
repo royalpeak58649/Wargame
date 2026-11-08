@@ -66,6 +66,7 @@ public final class Facility {
             d.panicTicks = 0;
             d.sp = d.maxSp();
             d.laetitiaHeart = false;
+            d.princeSpores = 0;
             d.pebble = false;
             d.frost = 0;
             d.frozenAt = null;

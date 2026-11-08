@@ -728,7 +728,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 같은 층의 먼 자리로 순간이동하고, 주변으로 덩굴을 퍼뜨린다. 덩굴 위의 직원은 느려지고, 4초마다 검은 피해를 입는다. 덩굴이 다 자라면 다시 자리를 옮긴다."
             ));
 
+    public static final AbnoProfile LITTLE_PRINCE = new AbnoProfile(
+            "little_prince", "어린 왕자", "O-04-66", "WAW", 0xAA55FF,
+            new int[]{20, 30, 40, 40}, 24, 16, 9,
+            DamageColor.BLACK, 3, 4,
+            2,
+            () -> ModItems.SPORE, 50,
+            () -> ModItems.SPORE_SUIT, 50,
+            "spore", "포자", "최대 SP +5, 작업 성공률 +2%", 3,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "푸른 회색 버섯이 망토를 쓴 아이의 모양으로 뭉쳐 있다. 갓이 흔들릴 때마다 포자가 사방으로 흩날린다.",
+                    "통찰 작업이 가장 좋고, 억압과 애착이 그다음, 본능이 가장 나쁘다. 통찰이 아닌 작업을 세 번 연달아 마치거나 결과가 나쁘면 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 포자가 가장 많이 쌓인 직원들을 격리실로 끌어들인다. 가장 먼저 닿은 직원은 그 자리에서 죽고 어린 왕자-1이 태어난다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(LITTLE_PRINCE.id, LITTLE_PRINCE),
             Map.entry(YIN.id, YIN),
             Map.entry(YANG.id, YANG),
             Map.entry(SNOW_WHITE_APPLE.id, SNOW_WHITE_APPLE),

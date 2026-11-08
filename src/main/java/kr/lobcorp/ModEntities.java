@@ -32,6 +32,8 @@ import kr.lobcorp.entity.ShelterEntity;
 import kr.lobcorp.entity.SingingMachineEntity;
 import kr.lobcorp.entity.SnowQueenEntity;
 import kr.lobcorp.entity.SnowWhiteAppleEntity;
+import kr.lobcorp.entity.LittlePrinceEntity;
+import kr.lobcorp.entity.LittlePrinceMinionEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -110,6 +112,8 @@ public final class ModEntities {
     public static EntityType<YinEntity> YIN;
     public static EntityType<YangEntity> YANG;
     public static EntityType<SnowWhiteAppleEntity> SNOW_WHITE_APPLE;
+    public static EntityType<LittlePrinceEntity> LITTLE_PRINCE;
+    public static EntityType<LittlePrinceMinionEntity> LITTLE_PRINCE_MINION;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -217,6 +221,10 @@ public final class ModEntities {
                 .sized(0.9f, 0.9f).clientTrackingRange(10));
         SNOW_WHITE_APPLE = register("snow_white_apple", EntityType.Builder.of(SnowWhiteAppleEntity::new, MobCategory.MISC)
                 .sized(1.4f, 1.4f).clientTrackingRange(10));
+        LITTLE_PRINCE = register("little_prince", EntityType.Builder.of(LittlePrinceEntity::new, MobCategory.MISC)
+                .sized(1.2f, 1.8f).clientTrackingRange(10));
+        LITTLE_PRINCE_MINION = register("little_prince_minion", EntityType.Builder.of(LittlePrinceMinionEntity::new, MobCategory.MONSTER)
+                .sized(0.8f, 1.4f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -267,5 +275,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(YIN, YinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(YANG, YangEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SNOW_WHITE_APPLE, SnowWhiteAppleEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(LITTLE_PRINCE, LittlePrinceEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(LITTLE_PRINCE_MINION, LittlePrinceMinionEntity.createAttributes());
     }
 }

@@ -70,6 +70,7 @@ public final class ModItems {
     public static final ArmorMaterial BLACK_SWAN_MAT = material("black_swan", 6);
     public static final ArmorMaterial DISCORD_MAT = material("discord", 6);
     public static final ArmorMaterial GREEN_STEM_MAT = material("green_stem", 6);
+    public static final ArmorMaterial SPORE_MAT = material("spore", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -155,6 +156,8 @@ public final class ModItems {
     public static Item DISCORD_SUIT;
     public static Item GREEN_STEM;
     public static Item GREEN_STEM_SUIT;
+    public static Item SPORE;
+    public static Item SPORE_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -384,6 +387,10 @@ public final class ModItems {
                 "F-04-42 · WAW", "BLACK 피해 창, 느린 찌르기", "사과에서 뽑아낸 초록 덩굴을 곧게 다듬은 창. 끝에서 아직 단내가 난다.");
         GREEN_STEM_SUIT = suit("green_stem_suit", GREEN_STEM_MAT,
                 "F-04-42 · WAW", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+        SPORE = weapon("spore", DamageColor.WHITE, 4.0, -2.0,
+                "O-04-66 · WAW", "WHITE 피해 창, 빠른 찌르기", "버섯 갓에서 뽑아낸 창끝에서 푸른 포자가 떨어진다.");
+        SPORE_SUIT = suit("spore_suit", SPORE_MAT,
+                "O-04-66 · WAW", "WHITE 저항: 작업 실패 시 SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -402,6 +409,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT);
     }
 }
