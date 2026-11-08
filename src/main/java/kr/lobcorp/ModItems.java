@@ -222,7 +222,7 @@ public final class ModItems {
         PENITENCE_SUIT = register("penitence_suit", Item::new,
                 new Item.Properties().humanoidArmor(PENITENCE_MAT, ArmorType.CHESTPLATE)
                         .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
-                        .component(DataComponents.LORE, lore("O-03-03 · ZAYIN", "WHITE 저항: 작업 실패 시 SP 피해 -1")));
+                        .component(DataComponents.LORE, lore("O-03-03 · ZAYIN", kr.lobcorp.item.SuitResist.loreLine("penitence_suit"))));
 
         REGRET = register("regret", p -> new EgoWeaponItem(p, DamageColor.RED),
                 new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
@@ -232,7 +232,7 @@ public final class ModItems {
         REGRET_SUIT = register("regret_suit", Item::new,
                 new Item.Properties().humanoidArmor(REGRET_MAT, ArmorType.CHESTPLATE)
                         .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
-                        .component(DataComponents.LORE, lore("T-01-54 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1")));
+                        .component(DataComponents.LORE, lore("T-01-54 · TETH", kr.lobcorp.item.SuitResist.loreLine("regret_suit"))));
         initMore();
     }
 
@@ -244,10 +244,14 @@ public final class ModItems {
     }
 
     private static Item suit(String id, ArmorMaterial mat, String... lore) {
+        java.util.List<String> lines = new java.util.ArrayList<>();
+        if (lore.length > 0) lines.add(lore[0]);
+        lines.add(kr.lobcorp.item.SuitResist.loreLine(id));
+        for (int i = 2; i < lore.length; i++) lines.add(lore[i]);
         return register(id, Item::new,
                 new Item.Properties().humanoidArmor(mat, ArmorType.CHESTPLATE)
                         .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
-                        .component(DataComponents.LORE, lore(lore)));
+                        .component(DataComponents.LORE, lore(lines.toArray(new String[0]))));
     }
 
     /** 신규 E.G.O (수치는 임의) */
@@ -255,202 +259,202 @@ public final class ModItems {
         MATCH_FLAME = weapon("match_flame", DamageColor.RED, 8.0, -3.4,
                 "F-01-02 · TETH", "RED 피해 대형 무기", "꺼지지 않는 불씨를 쥔 손.");
         MATCH_FLAME_SUIT = suit("match_flame_suit", MATCH_FLAME_MAT,
-                "F-01-02 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "F-01-02 · TETH");
         BEAR_PAWS = weapon("bear_paws", DamageColor.RED, 4.0, -1.6,
                 "T-04-06 · HE", "RED 피해 주먹, 빠른 연타", "보드라운 털 아래 단단한 무언가.");
         BEAR_PAWS_SUIT = suit("bear_paws_suit", BEAR_PAWS_MAT,
-                "T-04-06 · HE", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "T-04-06 · HE");
         WINGBEAT = weapon("wingbeat", DamageColor.RED, 4.0, -2.4,
                 "F-04-83 · ZAYIN", "RED 피해", "작은 날개들이 한꺼번에 퍼덕이는 소리.");
         WINGBEAT_SUIT = suit("wingbeat_suit", WINGBEAT_MAT,
-                "F-04-83 · ZAYIN", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "F-04-83 · ZAYIN");
         BEAK = weapon("beak", DamageColor.RED, 3.0, -1.0,
                 "O-02-56 · TETH", "RED 피해, 매우 빠른 연타", "작은 부리가 남긴 자국은 오래 남는다.");
         BEAK_SUIT = suit("beak_suit", BEAK_MAT,
-                "O-02-56 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "O-02-56 · TETH");
         TODAYS_EXPRESSION = weapon("todays_expression", DamageColor.BLACK, 4.0, -2.4,
                 "O-01-92 · TETH", "BLACK 피해", "오늘은 어떤 얼굴을 하고 있을까.");
         TODAYS_EXPRESSION_SUIT = suit("todays_expression_suit", TODAYS_EXPRESSION_MAT,
-                "O-01-92 · TETH", "BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-01-92 · TETH");
         SCREAMING_WEDGE = weapon("screaming_wedge", DamageColor.WHITE, 5.0, -2.6,
                 "F-01-18 · TETH", "WHITE 피해", "벽을 향해 박아 넣은, 아직 식지 않은 비명.");
         SCREAMING_WEDGE_SUIT = suit("screaming_wedge_suit", SCREAMING_WEDGE_MAT,
-                "F-01-18 · TETH", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "F-01-18 · TETH");
         DAREDEVIL = weapon("daredevil", DamageColor.PALE, 4.0, -2.0,
                 "O-05-61 · TETH", "PALE 피해", "갑옷 곁에 놓인 채 녹슨 칼날. 겁 없는 자만이 든다.");
         DAREDEVIL_SUIT = suit("daredevil_suit", DAREDEVIL_MAT,
-                "O-05-61 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "O-05-61 · TETH");
         SOLITUDE = weapon("solitude", DamageColor.WHITE, 4.0, -2.4,
                 "O-01-12 · TETH", "WHITE 피해", "아무도 찾아오지 않는 방의 공기가 칼날에 서려 있다.");
         SOLITUDE_SUIT = suit("solitude_suit", SOLITUDE_MAT,
-                "O-01-12 · TETH", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "O-01-12 · TETH");
         RED_EYES = weapon("red_eyes", DamageColor.RED, 5.0, -2.2,
                 "T-02-43 · TETH", "RED 피해", "어둠 속에서 여덟 개의 붉은 점이 천천히 깜빡인다.");
         RED_EYES_SUIT = suit("red_eyes_suit", RED_EYES_MAT,
-                "T-02-43 · TETH", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "T-02-43 · TETH");
         ENGULFING_DREAM = weapon("engulfing_dream", DamageColor.WHITE, 4.0, -2.4,
                 "T-02-99 · TETH", "WHITE 피해", "잠결에 삼킨 것들이 아직도 목구멍에서 몸부림친다.");
         ENGULFING_DREAM_SUIT = suit("engulfing_dream_suit", ENGULFING_DREAM_MAT,
-                "T-02-99 · TETH", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "T-02-99 · TETH");
         HORN = weapon("horn", DamageColor.RED, 4.0, -2.0,
                 "F-02-44 · TETH", "RED 피해 창", "창끝에 박힌 수많은 눈이 아직 깜빡이고, 그 사이로 보랏빛 꽃이 피어 있다.");
         HORN_SUIT = suit("horn_suit", HORN_MAT,
-                "F-02-44 · TETH", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+                "F-02-44 · TETH");
         LANTERN = weapon("lantern", DamageColor.BLACK, 7.0, -3.2,
                 "O-04-84 · TETH", "BLACK 피해 대형 둔기, 느리고 묵직함", "머리통만 한 쇠망치 끝에서 푸른 불빛이 새어 나온다.");
         LANTERN_SUIT = suit("lantern_suit", LANTERN_MAT,
-                "O-04-84 · TETH", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-04-84 · TETH");
         FRAGMENTS = weapon("fragments", DamageColor.BLACK, 4.0, -2.0,
                 "O-03-60 · TETH", "BLACK 피해 창, 빠른 찌르기", "밤하늘의 색을 띤 창날 곳곳에 작은 하트가 박혀 있다.");
         FRAGMENTS_SUIT = suit("fragments_suit", FRAGMENTS_MAT,
-                "O-03-60 · TETH", "BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-03-60 · TETH");
         NOISE = weapon("noise", DamageColor.WHITE, 4.0, -2.4,
                 "T-06-27 · TETH", "WHITE 피해 지팡이", "손잡이를 쥘 때마다 지직거리는 잡음이 손바닥을 타고 올라온다.");
         NOISE_SUIT = suit("noise_suit", NOISE_MAT,
-                "T-06-27 · TETH", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "T-06-27 · TETH");
         SANGUINE_DESIRE = weapon("sanguine_desire", DamageColor.RED, 7.0, -3.0,
                 "O-04-08 · HE", "RED 피해 대형 도끼, 느리고 묵직함", "춤추고 싶어 하는 붉은 도끼날. 손잡이가 조금씩 따뜻해진다.");
         SANGUINE_DESIRE_SUIT = suit("sanguine_desire_suit", SANGUINE_DESIRE_MAT,
-                "O-04-08 · HE", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "O-04-08 · HE");
         HARMONY = weapon("harmony", DamageColor.WHITE, 9.0, -3.4,
                 "O-05-30 · HE", "WHITE 피해 대형 둔기, 매우 느리고 묵직함", "휘두를 때마다 나무 상자 속에서 낮은 화음이 새어 나온다.");
         HARMONY_SUIT = suit("harmony_suit", HARMONY_MAT,
-                "O-05-30 · HE", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "O-05-30 · HE");
         PLEASURE = weapon("pleasure", DamageColor.BLACK, 3.0, -1.8,
                 "O-02-98 · HE", "BLACK 피해 채찍, 빠른 연타", "가시 돋친 초록 줄기. 휘두를 때마다 손끝이 저릿하다.");
         PLEASURE_SUIT = suit("pleasure_suit", PLEASURE_MAT,
-                "O-02-98 · HE", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "O-02-98 · HE");
         LAETITIA = weapon("laetitia", DamageColor.BLACK, 4.0, -1.6,
                 "O-01-67 · HE", "BLACK 피해 장난감 총, 빠른 연타", "귀여운 장난감 총. 방아쇠를 당기면 이빨이 튀어나온다.");
         LAETITIA_SUIT = suit("laetitia_suit", LAETITIA_MAT,
-                "O-01-67 · HE", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-01-67 · HE");
         GRINDER = weapon("grinder", DamageColor.RED, 4.0, -1.6,
                 "T-05-41 · HE", "RED 피해, 빠른 연타", "청소용 팔 사이에서 낮게 돌아가는 칼날. 아직 닦는 소리가 난다.");
         GRINDER_SUIT = suit("grinder_suit", GRINDER_MAT,
-                "T-05-41 · HE", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+                "T-05-41 · HE");
         OUR_GALAXY = weapon("our_galaxy", DamageColor.BLACK, 6.0, -3.0,
                 "O-01-55 · HE", "BLACK 피해 대형 둔기", "별가루가 박힌 둔기. 휘두르면 작은 별들이 흩날린다.");
         OUR_GALAXY_SUIT = suit("our_galaxy_suit", OUR_GALAXY_MAT,
-                "O-01-55 · HE", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-01-55 · HE");
         MAGIC_BULLET = weapon("magic_bullet", DamageColor.BLACK, 6.0, -3.0,
                 "F-01-69 · HE", "BLACK 피해 장총, 느리고 묵직함", "한 번도 빗나간 적 없는 총신. 방아쇠는 아직 따뜻하다.");
         MAGIC_BULLET_SUIT = suit("magic_bullet_suit", MAGIC_BULLET_MAT,
-                "F-01-69 · HE", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "F-01-69 · HE");
         MAGIC_BULLET_ORDER = register("magic_bullet_order", kr.lobcorp.item.MagicBulletOrderItem::new,
                 new Item.Properties().stacksTo(3).rarity(Rarity.UNCOMMON)
                         .component(DataComponents.LORE, lore("F-01-69", "우클릭: 바라보는 방향으로 마탄 발사", "벽을 뚫고 선 위의 모든 것을 꿰뚫는다.")));
         SYRINX = weapon("syrinx", DamageColor.WHITE, 3.0, -2.0,
                 "O-01-15 · HE", "WHITE 피해, 빠른 연타", "뼈로 깎은 피리. 불면 갓난아이의 울음 같은 소리가 새어 나온다.");
         SYRINX_SUIT = suit("syrinx_suit", SYRINX_MAT,
-                "O-01-15 · HE", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "O-01-15 · HE");
         FROST_SPLINTER = weapon("frost_splinter", DamageColor.WHITE, 5.0, -2.0,
                 "F-01-37 · HE", "WHITE 피해 창", "끝을 만질 때마다 손끝이 하얗게 언다. 차가운 창날에는 서리가 내려앉아 있다.");
         FROST_SPLINTER_SUIT = suit("frost_splinter_suit", FROST_SPLINTER_MAT,
-                "F-01-37 · HE", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "F-01-37 · HE");
         LOGGING = weapon("logging", DamageColor.RED, 8.0, -3.2,
                 "F-05-32 · HE", "RED 피해 대형 도끼, 느리고 묵직함", "주석으로 된 도끼날. 자루에는 아직 나무 진이 마르지 않았다.");
         LOGGING_SUIT = suit("logging_suit", LOGGING_MAT,
-                "F-05-32 · HE", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+                "F-05-32 · HE");
         HARVEST = weapon("harvest", DamageColor.BLACK, 5.0, -2.2,
                 "F-01-87 · HE", "BLACK 피해 낫창", "볏단을 베어 온 낫. 날에 밀짚 한 오라기가 붙어 있다.");
         HARVEST_SUIT = suit("harvest_suit", HARVEST_MAT,
-                "F-01-87 · HE", "RED·WHITE 저항, BLACK 취약: 작업 실패 시 HP·SP 피해 -1");
+                "F-01-87 · HE");
         CHRISTMAS = weapon("christmas", DamageColor.WHITE, 6.0, -3.0,
                 "F-02-49 · HE", "WHITE 피해 대형 둔기, 느리고 묵직함", "종소리가 울릴 때마다 손잡이가 조금씩 차가워진다.");
         CHRISTMAS_SUIT = suit("christmas_suit", CHRISTMAS_MAT,
-                "F-02-49 · HE", "RED·WHITE 저항, BLACK 취약: 작업 실패 시 HP·SP 피해 -1");
+                "F-02-49 · HE");
         SOLEMN_LAMENT = weapon("solemn_lament", DamageColor.WHITE, 2.5, -1.0,
                 "T-01-68 · HE", "WHITE 피해 쌍권총, 매우 빠른 연사", "검은 총신과 흰 총신 한 쌍. 방아쇠를 당길 때마다 나비가 한 마리씩 흩날린다.");
         SOLEMN_LAMENT_SUIT = suit("solemn_lament_suit", SOLEMN_LAMENT_MAT,
-                "T-01-68 · HE", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "T-01-68 · HE");
         GAZE = weapon("gaze", DamageColor.RED, 3.0, -1.6,
                 "O-05-76 · HE", "RED 피해, 빠른 연타", "자물쇠에 가려진 열쇠 구멍. 들여다보면 안쪽에서 무언가가 되돌아본다.");
         GAZE_SUIT = suit("gaze_suit", GAZE_MAT,
-                "O-05-76 · HE", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "O-05-76 · HE");
         LAMP = weapon("lamp", DamageColor.BLACK, 9.0, -3.2,
                 "O-02-40 · WAW", "BLACK 피해 대형 둔기, 느리고 묵직함", "수십 개의 눈이 박힌 등불. 휘두를 때마다 노란 빛이 흔들린다.");
         LAMP_SUIT = suit("lamp_suit", LAMP_MAT,
-                "O-02-40 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-02-40 · WAW");
         JUSTITIA = weapon("justitia", DamageColor.PALE, 6.0, -2.4,
                 "O-02-62 · WAW", "PALE 피해 대형 둔기", "금빛 저울이 매달린 둔기. 휘두를 때마다 접시가 조용히 흔들린다.");
         JUSTITIA_SUIT = suit("justitia_suit", JUSTITIA_MAT,
-                "O-02-62 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-02-62 · WAW");
         LOVE_AND_HATE = weapon("love_and_hate", DamageColor.BLACK, 5.0, -2.0,
                 "O-01-04 · WAW", "BLACK 피해 지팡이", "별이 달린 분홍 지팡이. 휘두를 때마다 반짝이는 가루가 흩날린다.");
         LOVE_AND_HATE_SUIT = suit("love_and_hate_suit", LOVE_AND_HATE_MAT,
-                "O-01-04 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-01-04 · WAW");
         TEARS_SWORD = weapon("tears_sword", DamageColor.WHITE, 5.0, -1.8,
                 "O-01-73 · WAW", "WHITE 피해 검, 빠른 연타", "눈물을 식혀 벼려 낸 날. 아직 마르지 않았다.");
         TEARS_SWORD_SUIT = suit("tears_sword_suit", TEARS_SWORD_MAT,
-                "O-01-73 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-01-73 · WAW");
         GOLD_RUSH = weapon("gold_rush", DamageColor.RED, 4.0, -1.4,
                 "O-01-64 · WAW", "RED 피해 황금 건틀릿, 빠른 연타", "손등을 덮은 황금 장갑. 주먹을 쥘 때마다 보석이 작게 울린다.");
         GOLD_RUSH_SUIT = suit("gold_rush_suit", GOLD_RUSH_MAT,
-                "O-01-64 · WAW", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "O-01-64 · WAW");
         CRIMSON_SCAR = weapon("crimson_scar", DamageColor.RED, 5.0, -1.6,
                 "F-01-57 · WAW", "RED 피해 대형 도끼, 빠른 연타", "붉은 두건 아래에서 아직 식지 않은 피가 뚝뚝 떨어진다.");
         CRIMSON_SCAR_SUIT = suit("crimson_scar_suit", CRIMSON_SCAR_MAT,
-                "F-01-57 · WAW", "모든 피해 저항: 작업 실패 시 HP·SP 피해 -1");
+                "F-01-57 · WAW");
         COBALT_SCAR = weapon("cobalt_scar", DamageColor.RED, 5.0, -1.6,
                 "F-02-58 · WAW", "RED 피해 발톱, 빠른 연타", "푸른 강철로 벼려 낸 발톱. 쥐고 있으면 손끝이 짐승처럼 저릿하다.");
         COBALT_SCAR_SUIT = suit("cobalt_scar_suit", COBALT_SCAR_MAT,
-                "F-02-58 · WAW", "RED 저항, WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "F-02-58 · WAW");
         FAINT_AROMA = weapon("faint_aroma", DamageColor.WHITE, 5.0, -2.4,
                 "T-04-53 · WAW", "WHITE 피해 활, 빠른 연사", "꽃잎으로 감은 활시위. 당길 때마다 달콤한 냄새가 손끝에 남는다.");
         FAINT_AROMA_SUIT = suit("faint_aroma_suit", FAINT_AROMA_MAT,
-                "T-04-53 · WAW", "WHITE·BLACK 저항: 작업 실패 시 SP·HP 피해 -1");
+                "T-04-53 · WAW");
         HORNET = weapon("hornet", DamageColor.RED, 3.0, -1.0,
                 "T-04-50 · WAW", "RED 피해 소총, 매우 빠른 연사", "날개가 달린 총신. 방아쇠를 당길 때마다 낮게 윙윙거린다.");
         HORNET_SUIT = suit("hornet_suit", HORNET_MAT,
-                "T-04-50 · WAW", "RED·WHITE·BLACK 저항: 작업 실패 시 HP·SP 피해 -1");
+                "T-04-50 · WAW");
         BLACK_SWAN = weapon("black_swan", DamageColor.BLACK, 4.0, -1.8,
                 "F-02-70 · WAW", "BLACK 피해 양산, 빠른 연타", "검은 깃털로 덮인 양산. 펼치면 우산살 사이로 호숫가의 물빛이 비친다.");
         BLACK_SWAN_SUIT = suit("black_swan_suit", BLACK_SWAN_MAT,
-                "F-02-70 · WAW", "RED 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+                "F-02-70 · WAW");
         DISCORD = weapon("discord", DamageColor.BLACK, 4.0, -1.6,
                 "O-05-102 · WAW", "BLACK 피해 쌍어, 빠른 연타", "검은 비늘로 벼려 낸 한 쌍의 물고기. 쥐면 손바닥에서 차가운 물이 흐른다.");
         DISCORD_SUIT = suit("discord_suit", DISCORD_MAT,
-                "O-05-102 · WAW", "WHITE·BLACK 저항, RED·PALE 취약: 작업 실패 시 SP·HP 피해 -1");
+                "O-05-102 · WAW");
         GREEN_STEM = weapon("green_stem", DamageColor.BLACK, 5.0, -2.2,
                 "F-04-42 · WAW", "BLACK 피해 창, 느린 찌르기", "사과에서 뽑아낸 초록 덩굴을 곧게 다듬은 창. 끝에서 아직 단내가 난다.");
         GREEN_STEM_SUIT = suit("green_stem_suit", GREEN_STEM_MAT,
-                "F-04-42 · WAW", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "F-04-42 · WAW");
         SPORE = weapon("spore", DamageColor.WHITE, 4.0, -2.0,
                 "O-04-66 · WAW", "WHITE 피해 창, 빠른 찌르기", "버섯 갓에서 뽑아낸 창끝에서 푸른 포자가 떨어진다.");
         SPORE_SUIT = suit("spore_suit", SPORE_MAT,
-                "O-04-66 · WAW", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "O-04-66 · WAW");
         HYPOCRISY = weapon("hypocrisy", DamageColor.RED, 5.0, -2.4,
                 "D-04-108 · WAW", "RED 피해 석궁, 긴 사거리", "창백한 나무의 가지로 깎아 만든 석궁. 시위를 당길 때마다 하얀 꽃잎이 떨어진다.");
         HYPOCRISY_SUIT = suit("hypocrisy_suit", HYPOCRISY_MAT,
-                "D-04-108 · WAW", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+                "D-04-108 · WAW");
         EXUVIAE = weapon("exuviae", DamageColor.RED, 9.0, -3.2,
                 "O-02-74 · WAW", "RED 피해 대포, 매우 느림", "둥지에서 벗겨낸 살점 껍질을 그대로 두른 대포. 쏠 때마다 창백한 뱀 한 마리가 함께 튀어나간다.");
         EXUVIAE_SUIT = suit("exuviae_suit", EXUVIAE_MAT,
-                "O-02-74 · WAW", "RED 저항: 작업 실패 시 HP 피해 -1");
+                "O-02-74 · WAW");
         ECSTASY = weapon("ecstasy", DamageColor.WHITE, 4.0, -1.6,
                 "T-02-71 · WAW", "WHITE 피해 단검, 매우 빠름", "꿈꾸는 조류의 비늘을 벼려 만든 단검. 휘두를 때마다 무지개빛 물보라가 흩어진다.");
         ECSTASY_SUIT = suit("ecstasy_suit", ECSTASY_MAT,
-                "T-02-71 · WAW", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "T-02-71 · WAW");
         HEAVEN = weapon("heaven", DamageColor.RED, 5.0, -2.0,
                 "O-04-72 · WAW", "RED 피해 창, 빠른 찌르기", "핏발 선 눈이 박힌 창백한 가지를 깎아 만든 창. 찌를 때마다 뿌리 같은 가시가 바닥을 긁는다.");
         HEAVEN_SUIT = suit("heaven_suit", HEAVEN_MAT,
-                "O-04-72 · WAW", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+                "O-04-72 · WAW");
         FEATHER_OF_HONOR = weapon("feather_of_honor", DamageColor.WHITE, 3.0, -1.0,
                 "O-02-101 · WAW", "WHITE 피해 깃털, 매우 빠른 연타", "불새의 깃털을 그대로 벼려 만든 무기. 휘두를 때마다 타다 남은 불티가 흩날린다.");
         FEATHER_OF_HONOR_SUIT = suit("feather_of_honor_suit", FEATHER_OF_HONOR_MAT,
-                "O-02-101 · WAW", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+                "O-02-101 · WAW");
         AMITA = weapon("amita", DamageColor.RED, 4.0, -1.4,
                 "D-01-110 · WAW", "RED 피해, 빠른 연타", "구름 낀 수도승의 긴 팔을 닮은 붉은 무기. 휘두를 때마다 뿌연 구름이 발밑에 고인다.");
         AMITA_SUIT = suit("amita_suit", AMITA_MAT,
-                "D-01-110 · WAW", "RED·BLACK 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
+                "D-01-110 · WAW");
         MOONLIGHT = weapon("moonlight", DamageColor.WHITE, 4.5, -1.6,
                 "D-01-105 · WAW", "WHITE 피해, 빠른 연타", "달의 울음의 건반을 벼려 만든 창백한 무기. 휘두를 때마다 젖은 화음이 흘러나온다.");
         MOONLIGHT_SUIT = suit("moonlight_suit", MOONLIGHT_MAT,
-                "D-01-105 · WAW", "WHITE·BLACK 저항: 작업 실패 시 SP·HP 피해 -1");
+                "D-01-105 · WAW");
         DIFFRACTION = weapon("diffraction", DamageColor.WHITE, 6.0, -2.4,
                 "O-03-88 · WAW", "WHITE 피해, 보통 속도", "굴절된 공간의 파편을 그대로 벼려 만든 무기. 휘두를 때마다 허공이 잠깐 어긋난다.");
         DIFFRACTION_SUIT = suit("diffraction_suit", DIFFRACTION_MAT,
-                "O-03-88 · WAW", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+                "O-03-88 · WAW");
     }
 
     public static List<Item> all() {

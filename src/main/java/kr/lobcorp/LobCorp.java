@@ -106,9 +106,8 @@ public class LobCorp implements ModInitializer {
                 net.minecraft.server.level.ServerLevel sl = p.level();
                 switch (ego.color) {
                     case WHITE -> {
-                        int sp = Math.round(amount);
-                        if (kr.lobcorp.work.WorkManager.wearsAny(p, kr.lobcorp.work.WorkManager.WHITE_SUITS)) sp--;
-                        Employees.damageSp(p, Math.max(1, sp));
+                        int sp = Math.round(amount * kr.lobcorp.item.SuitResist.mult(p, kr.lobcorp.DamageColor.WHITE));
+                        Employees.damageSpRaw(p, Math.max(1, sp));
                         sl.sendParticles(net.minecraft.core.particles.ParticleTypes.SOUL, p.getX(), p.getY() + 1.2, p.getZ(), 6, 0.3, 0.4, 0.3, 0.02);
                         sl.playSound(null, p.blockPosition(), net.minecraft.sounds.SoundEvents.PLAYER_HURT,
                                 net.minecraft.sounds.SoundSource.PLAYERS, 0.8f, 1.6f);
@@ -118,13 +117,13 @@ public class LobCorp implements ModInitializer {
                         return false;
                     }
                     case BLACK -> {
-                        // HP 피해는 그대로 들어가고, 같은 양의 SP 피해가 더해진다
-                        int sp = Math.round(amount);
-                        if (kr.lobcorp.work.WorkManager.blackSuit(p)) sp--;
-                        Employees.damageSp(p, Math.max(1, sp));
+                        // HP 피해와 같은 양의 SP 피해가 더해진다 (둘 다 BLACK 내성 적용)
+                        float bm = kr.lobcorp.item.SuitResist.mult(p, kr.lobcorp.DamageColor.BLACK);
+                        Employees.damageSpRaw(p, Math.max(1, Math.round(amount * bm)));
+                        kr.lobcorp.item.SuitResist.hurtRaw(p, amount * bm);
                         sl.sendParticles(net.minecraft.core.particles.ParticleTypes.SQUID_INK, p.getX(), p.getY() + 1.2, p.getZ(), 6, 0.3, 0.4, 0.3, 0.02);
                         Employees.sync(p);
-                        return true;
+                        return false;
                     }
                     case PALE -> {
                         // 피해 수치 1당 최대 HP의 5%
@@ -154,6 +153,20 @@ public class LobCorp implements ModInitializer {
                     v.hurtServer(v.level(), v.level().damageSources().magic(), redirected);
                 }
                 return false;
+            }
+            // 그 밖의 HP 피해는 모두 RED 피해로 취급한다
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p2 && !kr.lobcorp.item.SuitResist.bypass
+                    && amount > 0 && amount < 500f) {
+                float m = kr.lobcorp.item.SuitResist.mult(p2, kr.lobcorp.DamageColor.RED);
+                if (m != 1f) {
+                    kr.lobcorp.item.SuitResist.bypass = true;
+                    try {
+                        p2.hurtServer(p2.level(), source, amount * m);
+                    } finally {
+                        kr.lobcorp.item.SuitResist.bypass = false;
+                    }
+                    return false;
+                }
             }
             return true;
         });

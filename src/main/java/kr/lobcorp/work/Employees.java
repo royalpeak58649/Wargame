@@ -235,17 +235,23 @@ public final class Employees {
         }
     }
 
-    /** PALE 피해: 최대 HP의 percent%만큼 HP를 깎는다. 방어구·내성을 무시한다 */
+    /** PALE 피해: 최대 HP의 percent%만큼 HP를 깎는다. 슈트의 PALE 내성이 적용된다 */
     public static void damagePale(ServerPlayer p, float percent) {
         if (ToolState.isSheltered(p) || percent <= 0) return;
         ServerLevel sl = p.level();
+        percent *= kr.lobcorp.item.SuitResist.mult(p, kr.lobcorp.DamageColor.PALE);
         float dmg = p.getMaxHealth() * percent / 100f;
         sl.sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1.2, p.getZ(), 10, 0.3, 0.5, 0.3, 0.03);
-        p.hurtServer(sl, sl.damageSources().magic(), dmg);
+        kr.lobcorp.item.SuitResist.hurtRaw(p, dmg);
     }
 
-    /** SP 피해. 0 이하가 되면 패닉 */
+    /** SP 피해. 슈트의 WHITE 내성을 적용한다. 0 이하가 되면 패닉 */
     public static void damageSp(ServerPlayer p, int amount) {
+        damageSpRaw(p, Math.round(amount * kr.lobcorp.item.SuitResist.mult(p, kr.lobcorp.DamageColor.WHITE)));
+    }
+
+    /** 내성을 이미 반영한 SP 피해. 0 이하가 되면 패닉 */
+    public static void damageSpRaw(ServerPlayer p, int amount) {
         if (ToolState.isSheltered(p)) return;
         // 다른 세계의 초상: 새겨진 자의 SP 피해는 대신하는 자에게 옮겨 간다
         if (ToolState.isEtched(p)) {
@@ -264,7 +270,7 @@ public final class Employees {
                 ToolState.portraitTotal += redirected;
                 p.level().sendParticles(ParticleTypes.ENCHANT, p.getX(), p.getY() + 1.2, p.getZ(), 8, 0.4, 0.6, 0.4, 0.1);
                 v.level().sendParticles(ParticleTypes.ENCHANT, v.getX(), v.getY() + 1.2, v.getZ(), 8, 0.4, 0.6, 0.4, 0.1);
-                damageSp(v, redirected);
+                damageSpRaw(v, redirected);
             }
             return;
         }

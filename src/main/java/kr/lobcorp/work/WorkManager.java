@@ -185,19 +185,18 @@ public final class WorkManager {
         if (!near) actionbar(p, red("환상체와 너무 멀리 떨어져 있습니다!"));
         switch (prof.workDamage()) {
             case WHITE -> {
-                if (wearsAny(p, WHITE_SUITS)) dmg--;
                 if (ToolState.isYangHolder(p)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
             }
             case BLACK -> {
-                if (blackSuit(p)) dmg--;
                 // HP를 먼저 깎는다 — damageSp가 패닉을 일으켜 세션을 중단시킬 수 있기 때문
                 level.sendParticles(ParticleTypes.SQUID_INK, p.getX(), p.getY() + 1.2, p.getZ(), 20, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.SCULK_BLOCK_SPREAD, SoundSource.PLAYERS, 0.8f, 0.6f);
-                if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
-                if (dmg > 0) Employees.damageSp(p, dmg);
+                float bm = kr.lobcorp.item.SuitResist.mult(p, DamageColor.BLACK);
+                if (dmg > 0) kr.lobcorp.item.SuitResist.hurtRaw(p, dmg * bm);
+                if (dmg > 0) Employees.damageSpRaw(p, Math.round(dmg * bm));
             }
             case PALE -> {
                 // PALE: 피해 수치 1당 최대 HP의 5%
@@ -205,9 +204,8 @@ public final class WorkManager {
                 Employees.damagePale(p, dmg * 5f);
             }
             default -> {
-                if (wearsAny(p, RED_SUITS)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
-                if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
+                if (dmg > 0) kr.lobcorp.item.SuitResist.hurtRaw(p, dmg * kr.lobcorp.item.SuitResist.mult(p, DamageColor.RED));
             }
         }
         s.abno.onBoxResult(p, false);
