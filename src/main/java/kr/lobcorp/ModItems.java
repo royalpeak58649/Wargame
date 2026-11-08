@@ -364,7 +364,7 @@ public final class ModItems {
         OUR_GALAXY_SUIT = suit("our_galaxy_suit", OUR_GALAXY_MAT,
                 "O-01-55 · HE");
         MAGIC_BULLET = weapon("magic_bullet", DamageColor.BLACK, 6.0, -3.0,
-                "F-01-69 · HE", "BLACK 피해 장총, 느리고 묵직함", "한 번도 빗나간 적 없는 총신. 방아쇠는 아직 따뜻하다.");
+                "F-01-69 · HE", "BLACK 피해 장총, 느리고 묵직함 · 아군도 맞음", "한 번도 빗나간 적 없는 총신. 방아쇠는 아직 따뜻하다.");
         MAGIC_BULLET_SUIT = suit("magic_bullet_suit", MAGIC_BULLET_MAT,
                 "F-01-69 · HE");
         MAGIC_BULLET_ORDER = register("magic_bullet_order", kr.lobcorp.item.MagicBulletOrderItem::new,

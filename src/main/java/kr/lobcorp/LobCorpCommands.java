@@ -310,7 +310,7 @@ public final class LobCorpCommands {
         var r = kr.lobcorp.work.FacilityBuilder.buildAlephWing(level, first, false);
         f.slots.addAll(r.slots());
         f.centers.addAll(r.centers());
-        c.getSource().sendSuccess(() -> Component.literal("격리 심층부(ALEPH)가 증축되었습니다: 격리실 8칸. 수용한 환상체가 45종 이상이면 ALEPH 후보가 나옵니다.")
+        c.getSource().sendSuccess(() -> Component.literal("격리 심층부(ALEPH)가 증축되었습니다: 격리실 8칸. 수용한 환상체가 12종 이상이면 ALEPH 후보가 나옵니다.")
                 .withStyle(s -> s.withColor(0x55FF55)), true);
         return 1;
     }

@@ -89,6 +89,7 @@ public class EgoWeaponItem extends Item {
     /** from에서 dir 방향으로 한 줄. 벽에서 멈추고, 종류에 따라 관통/폭발한다. */
     private void fireLine(ServerLevel sl, ServerPlayer player, WeaponSpecs.Spec spec, Vec3 from, Vec3 dir) {
         WeaponKind kind = spec.kind();
+        boolean friendlyFire = "magic_bullet".equals(BuiltInRegistries.ITEM.getKey(this).getPath());
         Vec3 d = dir.normalize();
         List<LivingEntity> hit = new ArrayList<>();
         Vec3 point = from;
@@ -105,7 +106,7 @@ public class EgoWeaponItem extends Item {
                     point.x + 0.3, point.y + 0.3, point.z + 0.3);
             boolean found = false;
             for (LivingEntity e : sl.getEntitiesOfClass(LivingEntity.class, box)) {
-                if (!validTarget(e, player) || hit.contains(e)) continue;
+                if (!hits(e, player, friendlyFire) || hit.contains(e)) continue;
                 hit.add(e);
                 found = true;
             }
@@ -118,7 +119,7 @@ public class EgoWeaponItem extends Item {
         if (kind == WeaponKind.CANNON) {
             AABB blast = new AABB(point.x - 3, point.y - 3, point.z - 3, point.x + 3, point.y + 3, point.z + 3);
             for (LivingEntity e : sl.getEntitiesOfClass(LivingEntity.class, blast)) {
-                if (!validTarget(e, player) || hit.contains(e)) continue;
+                if (!hits(e, player, friendlyFire) || hit.contains(e)) continue;
                 hit.add(e);
             }
             sl.sendParticles(ParticleTypes.LARGE_SMOKE, point.x, point.y, point.z, 40, 1.2, 1.2, 1.2, 0.05);
@@ -132,8 +133,22 @@ public class EgoWeaponItem extends Item {
         }
 
         for (LivingEntity e : hit) {
-            e.hurtServer(sl, sl.damageSources().playerAttack(player), spec.damage());
+            if (e instanceof ServerPlayer sp && sp != player) {
+                sp.hurtServer(sl, sl.damageSources().magic(), spec.damage());
+                sp.sendSystemMessage(Component.literal("  어디선가 날아온 마탄이 몸을 꿰뚫었다.")
+                        .withStyle(s -> s.withColor(0xAAAAAA).withItalic(true)));
+                player.sendSystemMessage(Component.literal("  마탄이 아군을 꿰뚫었다…")
+                        .withStyle(s -> s.withColor(0xFF5555)));
+            } else {
+                e.hurtServer(sl, sl.damageSources().playerAttack(player), spec.damage());
+            }
         }
+    }
+
+    /** 마탄은 아군(다른 생존 플레이어)도 맞는다. */
+    private boolean hits(LivingEntity e, ServerPlayer shooter, boolean friendlyFire) {
+        return validTarget(e, shooter) || (friendlyFire && e instanceof ServerPlayer sp && sp != shooter
+                && sp.isAlive() && !sp.isCreative() && !sp.isSpectator());
     }
 
     public static boolean validTarget(LivingEntity e, ServerPlayer shooter) {

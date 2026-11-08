@@ -110,7 +110,7 @@ public final class Facility {
         if (server.getTickCount() % 100 == 0) regenerate(server);
     }
 
-    /** 부서 중앙 홀에서 5초마다 체력·정신력을 조금 회복한다. */
+    /** 부서 중앙 홀에서 5초마다 체력·정신력을 10씩 회복한다. */
     private static void regenerate(MinecraftServer server) {
         List<BlockPos> centers = centers(server);
         if (centers.isEmpty()) return;
@@ -123,9 +123,9 @@ public final class Facility {
                 if (Math.abs(p.getY() - c.getY()) > 3) continue;
                 EmployeeData d = Employees.get(p);
                 if (d.isPanicking()) continue;
-                p.heal(2f);
+                p.heal(10f);
                 if (d.sp < d.maxSp()) {
-                    d.sp = Math.min(d.maxSp(), d.sp + 2);
+                    d.sp = Math.min(d.maxSp(), d.sp + 10);
                     Employees.sync(p);
                 }
                 level.sendParticles(ParticleTypes.HAPPY_VILLAGER, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.4, 0.5, 0.4, 0);

@@ -16,7 +16,7 @@ public final class WeaponSpecs {
         put("laetitia", WeaponKind.GUN, 24, 10, 5f);
         put("solemn_lament", WeaponKind.GUN, 24, 10, 5f);
         put("hornet", WeaponKind.GUN, 32, 10, 5f);
-        put("magic_bullet", WeaponKind.PIERCE, 64, 40, 12f);
+        put("magic_bullet", WeaponKind.PIERCE, 64, 40, 22f);
         put("faint_aroma", WeaponKind.BOW, 32, 14, 6f);
         put("hypocrisy", WeaponKind.BOW, 40, 28, 10f);
         put("exuviae", WeaponKind.CANNON, 24, 60, 14f);

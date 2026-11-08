@@ -13,14 +13,14 @@ import java.util.*;
 
 /**
  * 환상체 수용(추출): 원작처럼 하루가 끝날 때 후보 3종 중 하나를 골라 시설의 다음 빈 격리실에 들인다.
- * 후보 등급은 진행도에 따라 열린다 — ZAYIN·TETH는 처음부터, HE는 8종 이상 수용 후, WAW는 20종 이상 수용 후.
+ * 후보 등급은 진행도에 따라 열린다 — ZAYIN·TETH는 처음부터, HE는 3종 이상 수용 후, WAW는 6종 이상 수용 후, ALEPH는 12종 이상 수용 후.
  */
 public final class Extraction {
     private Extraction() {}
 
-    public static final int HE_AFTER = 8;
-    public static final int WAW_AFTER = 20;
-    public static final int ALEPH_AFTER = 45;
+    public static final int HE_AFTER = 3;
+    public static final int WAW_AFTER = 6;
+    public static final int ALEPH_AFTER = 12;
 
     public static boolean hasFacility(MinecraftServer server) {
         return !Facility.get(server).slots.isEmpty();
@@ -52,16 +52,45 @@ public final class Extraction {
         return open.isEmpty() ? all : open;
     }
 
-    /** 후보 3종을 새로 뽑아 모두에게 알린다. 남은 격리실이나 환상체가 없으면 아무것도 하지 않는다. */
+    /** 후보 3종을 등급 위험도 가중치로 중복 없이 새로 뽑아 모두에게 알린다. 남은 격리실이나 환상체가 없으면 아무것도 하지 않는다. */
     public static void offer(MinecraftServer server) {
         FacilityData f = Facility.get(server);
         if (!hasFacility(server)) return;
         if (f.slots.stream().noneMatch(s -> s.abno.isEmpty())) return;
         List<String> pool = pool(server);
         if (pool.isEmpty()) return;
-        Collections.shuffle(pool, new Random(server.overworld().getRandom().nextLong()));
-        f.offers = new ArrayList<>(pool.subList(0, Math.min(3, pool.size())));
+        List<String> picked = new ArrayList<>();
+        List<String> remain = new ArrayList<>(pool);
+        int want = Math.min(3, remain.size());
+        for (int k = 0; k < want; k++) {
+            int total = 0;
+            for (String id : remain) total += weight(id);
+            int roll = server.overworld().getRandom().nextInt(total);
+            int acc = 0;
+            String chosen = remain.get(remain.size() - 1);
+            for (String id : remain) {
+                acc += weight(id);
+                if (roll < acc) { chosen = id; break; }
+            }
+            picked.add(chosen);
+            remain.remove(chosen);
+        }
+        f.offers = picked;
         announce(server);
+    }
+
+    /** 등급별 추출 가중치. */
+    private static int weight(String id) {
+        AbnoProfile p = AbnoProfile.BY_ID.get(id);
+        String risk = p == null ? "" : p.risk();
+        return switch (risk) {
+            case "ZAYIN" -> 4;
+            case "TETH" -> 4;
+            case "HE" -> 3;
+            case "WAW" -> 2;
+            case "ALEPH" -> 1;
+            default -> 3;
+        };
     }
 
     /** 현재 후보를 클릭 가능한 버튼으로 알린다. */
