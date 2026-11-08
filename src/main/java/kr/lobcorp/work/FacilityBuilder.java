@@ -81,11 +81,12 @@ public final class FacilityBuilder {
         return List.of(upper, middle, lower);
     }
 
-    public record Result(BlockPos spawn, int units, int topY, List<FacilityData.Slot> slots) {}
+    public record Result(BlockPos spawn, int units, int topY, List<FacilityData.Slot> slots, List<BlockPos> centers) {}
 
     /** top = 상층 바닥 위 첫 칸(서 있는 높이). 하층이 월드 바닥 아래로 내려가면 전체를 위로 올린다. */
     public static Result build(ServerLevel level, BlockPos requested, boolean fill) {
         List<FacilityData.Slot> slots = new ArrayList<>();
+        List<BlockPos> centers = new ArrayList<>();
         int topY = requested.getY();
         int lowest = topY - 2 * FLOOR_GAP - 2;
         if (lowest < level.getMinY() + 1) topY += (level.getMinY() + 1) - lowest;
@@ -101,13 +102,14 @@ public final class FacilityBuilder {
                 boolean westDoor = i > 0 || f == 0 || f == 1;         // 상층·중층 첫 부서는 서쪽 계단실과 연결
                 boolean eastDoor = i < depts.size() - 1 || f == 1 || f == 2; // 중층·하층 마지막 부서는 동쪽 계단실과 연결
                 units += department(level, cx, fy, oz, depts.get(i), f, westDoor, eastDoor, fill, slots);
+                centers.add(new BlockPos(cx, fy, oz));
                 if (i < depts.size() - 1) corridorX(level, cx + 8, cx + DEPT_SPACING - 8, fy, oz, depts.get(i).color());
             }
         }
         // 상층 → 중층: 첫 부서 서쪽, 중층 → 하층: 마지막 부서 동쪽
         stairwell(level, ox, topY, oz, -1);
         stairwell(level, ox + (floors.get(1).size() - 1) * DEPT_SPACING, topY - FLOOR_GAP, oz, +1);
-        return new Result(new BlockPos(ox + 3, topY, oz + 3), units, topY, slots);
+        return new Result(new BlockPos(ox + 3, topY, oz + 3), units, topY, slots, centers);
     }
 
     // ───────────────────────── 부서 ─────────────────────────

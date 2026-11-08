@@ -187,12 +187,14 @@ public final class LobCorpCommands {
         c.getSource().sendSuccess(() -> Component.literal("시설을 짓는 중입니다… (잠시 멈출 수 있습니다)").withStyle(s -> s.withColor(0xAAAAAA)), true);
         var r = kr.lobcorp.work.FacilityBuilder.build(level, o, full);
         Facility.get(server).slots = new java.util.ArrayList<>(r.slots());
+        Facility.get(server).centers = new java.util.ArrayList<>(r.centers());
         Facility.get(server).offers.clear();
         if (!full) kr.lobcorp.work.Extraction.place(server, "one_sin");
         if (c.getSource().getEntity() instanceof ServerPlayer p)
             p.teleportTo(level, r.spawn().getX() + 0.5, r.spawn().getY(), r.spawn().getZ() + 0.5, java.util.Set.of(), -90f, 0f, false);
         c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 10개, 격리실 " + r.slots().size() + "칸. 상층 바닥 높이 Y=" + r.topY()
-                + ". 중앙제어팀 홀로 이동했습니다." + (full ? " (환상체 전부 수용)" : " 첫 환상체를 수용했습니다. 하루가 끝나면(/lobcorp day next) 다음 후보가 나옵니다."))
+                + ". 중앙제어팀 홀로 이동했습니다." + (full ? " (환상체 전부 수용)" : " 첫 환상체를 수용했습니다. 하루가 끝나면(/lobcorp day next) 다음 후보가 나옵니다.")
+                + " 각 부서 중앙 홀에서는 5초마다 체력과 정신력이 회복됩니다.")
                 .withStyle(s -> s.withColor(0x55FF55)), true);
         return 1;
     }
