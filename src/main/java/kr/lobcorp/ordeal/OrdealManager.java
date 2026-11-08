@@ -38,12 +38,21 @@ public final class OrdealManager {
     public static void tick(MinecraftServer server) {
         if (server.getTickCount() % 20 != 0) return;
         FacilityData f = Facility.get(server);
+        boolean firstTick = lastDay == -1;
         if (f.day != lastDay) {
             TRIGGERED.clear();
             lastDay = f.day;
         }
         if (kr.lobcorp.work.Extraction.hasFacility(server) && f.quota > 0) {
             float frac = (float) f.energy / f.quota;
+            if (firstTick) {
+                // 서버 재시작으로 TRIGGERED가 사라졌으므로, 오늘 이미 기준을 넘긴 등급은 발생시키지 않고 지나간 것으로 표시한다
+                for (OrdealTier tier : OrdealTier.values()) {
+                    if (f.day < tier.minDay) continue;
+                    if (frac < tier.threshold) continue;
+                    TRIGGERED.add(tier);
+                }
+            }
             for (OrdealTier tier : OrdealTier.values()) {
                 if (TRIGGERED.contains(tier)) continue;
                 if (f.day < tier.minDay) continue;
@@ -86,16 +95,14 @@ public final class OrdealManager {
             for (int g = 0; g < type.group; g++) {
                 OrdealEntity e = type.entity.get().create(level, EntitySpawnReason.EVENT);
                 if (e == null) continue;
-                BlockPos pos = site.offset(e.getRandom().nextInt(9) - 4, 0, e.getRandom().nextInt(9) - 4);
-                BlockState here = level.getBlockState(pos);
-                BlockState above = level.getBlockState(pos.above());
-                BlockState below = level.getBlockState(pos.below());
-                if (here.isSolid() || above.isSolid() || !below.isSolid()) pos = site;
+                BlockPos pos = findSpawnPos(level, site, e.getRandom());
+                if (pos == null) continue;
                 e.snapTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, e.getRandom().nextFloat() * 360f, 0);
                 level.addFreshEntity(e);
                 spawned.add(e);
             }
         }
+        if (spawned.isEmpty()) return 0;
         ACTIVE.add(new Active(type, spawned));
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {
             p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal(type.ko)
@@ -107,6 +114,26 @@ public final class OrdealManager {
         Facility.broadcast(server, Component.literal("[관제] " + type.ko + " 시련이 시작되었습니다.")
                 .withStyle(s -> s.withColor(type.color)));
         return spawned.size();
+    }
+
+    /**
+     * 중앙 홀에는 표지 기둥이 서 있으므로 정중앙에는 절대 소환하지 않는다.
+     * 최대 10번 무작위 오프셋(각 축 -5..5, max(|dx|,|dz|) >= 2)을 시도해 발과 머리 칸이 비어 있고 발밑이 단단한 자리를 찾는다.
+     * 찾지 못하면 null (해당 개체는 소환하지 않는다).
+     */
+    private static BlockPos findSpawnPos(ServerLevel level, BlockPos site, RandomSource r) {
+        for (int i = 0; i < 10; i++) {
+            int dx = r.nextInt(11) - 5;
+            int dz = r.nextInt(11) - 5;
+            if (Math.max(Math.abs(dx), Math.abs(dz)) < 2) continue;
+            BlockPos pos = site.offset(dx, 0, dz);
+            BlockState here = level.getBlockState(pos);
+            BlockState above = level.getBlockState(pos.above());
+            BlockState below = level.getBlockState(pos.below());
+            if (here.isSolid() || above.isSolid() || !below.isSolid()) continue;
+            return pos;
+        }
+        return null;
     }
 
     /** 부서 중앙 홀 중 하나를 무작위로 고른다. 없으면 null */

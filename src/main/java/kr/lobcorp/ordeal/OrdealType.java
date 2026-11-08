@@ -13,7 +13,11 @@ public enum OrdealType {
     AMBER_DAWN("amber_dawn", "호박색 여명 — 완벽한 음식", OrdealTier.DAWN, 0xFFB000, 3, 4,
             () -> kr.lobcorp.ModEntities.AMBER_DAWN),
     GREEN_DAWN("green_dawn", "녹색 여명 — 의심", OrdealTier.DAWN, 0x55CC55, 4, 1,
-            () -> kr.lobcorp.ModEntities.GREEN_DAWN);
+            () -> kr.lobcorp.ModEntities.GREEN_DAWN),
+    CRIMSON_DAWN("crimson_dawn", "진홍색 여명 — 광대들의 행진", OrdealTier.DAWN, 0xDC143C, 3, 3,
+            () -> kr.lobcorp.ModEntities.CRIMSON_DAWN),
+    VIOLET_DAWN("violet_dawn", "보라색 여명 — 이해의 열매", OrdealTier.DAWN, 0x9B59D0, 3, 1,
+            () -> kr.lobcorp.ModEntities.VIOLET_DAWN);
 
     public final String id;
     public final String ko;
