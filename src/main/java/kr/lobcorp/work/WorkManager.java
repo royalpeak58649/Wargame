@@ -336,7 +336,8 @@ public final class WorkManager {
             () -> ModItems.DISCORD_SUIT,
             () -> ModItems.GREEN_STEM_SUIT,
             () -> ModItems.SPORE_SUIT,
-            () -> ModItems.HYPOCRISY_SUIT);
+            () -> ModItems.HYPOCRISY_SUIT,
+            () -> ModItems.ECSTASY_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,

@@ -773,7 +773,23 @@ public record AbnoProfile(
                     "감염된 직원은 12초 동안 몸에서 검은 물이 새고, 12초가 지나면 느려지며, 48초가 지나면 몸이 찢겨 뱀이 기어 나온다. 감염자는 5초마다 30% 확률로 4블록 안의 다른 직원에게 뱀을 옮긴다."
             ));
 
+    public static final AbnoProfile DREAMING_CURRENT = new AbnoProfile(
+            "dreaming_current", "꿈꾸는 조류", "T-02-71", "WAW", 0xAA55FF,
+            new int[]{45, 20, 40, 30}, 20, 11, 6,
+            DamageColor.WHITE, 3, 6,
+            2,
+            () -> ModItems.ECSTASY, 60,
+            () -> ModItems.ECSTASY_SUIT, 40,
+            "ecstasy", "황홀", "최대 SP +6", 3,
+            new float[]{1.5f, 0.5f, 1.0f, 2.0f},
+            List.of(
+                    "몸이 비쳐 보이는 길고 긴 무지개빛 물고기. 입을 크게 벌린 채 꿈속을 헤엄치듯 떠다니고, 지나간 자리에는 물빛이 남는다.",
+                    "본능 작업이 가장 좋고 애착이 그다음, 억압과 통찰이 가장 나쁘다. 절제가 I 등급인 직원이 작업하면, 그리고 작업 중 패닉에 빠지면 클리포트 카운터가 1 감소한다.",
+                    "카운터가 0이 되면 탈출해 같은 층에 무지개빛 물웅덩이 세 개를 만든다. 물웅덩이 위의 직원은 느려지고 계속 SP가 깎인다. 물고기는 웅덩이 사이를 오가며 몸을 웅크렸다가 곧게 돌진하는데, 돌진 중에는 어떤 피해도 통하지 않는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(DREAMING_CURRENT.id, DREAMING_CURRENT),
             Map.entry(NAKED_NEST.id, NAKED_NEST),
             Map.entry(PARASITE_TREE.id, PARASITE_TREE),
             Map.entry(LITTLE_PRINCE.id, LITTLE_PRINCE),
