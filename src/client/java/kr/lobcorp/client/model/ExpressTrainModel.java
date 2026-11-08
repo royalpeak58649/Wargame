@@ -62,7 +62,7 @@ public class ExpressTrainModel extends EntityModel<ExpressTrainModel.State> {
             root.addOrReplaceChild("lamp_lit" + i, CubeListBuilder.create().texOffs(32, 8)
                     .addBox(-1.25f, -2.25f, -1.25f, 2.5f, 2.5f, 2.5f), PartPose.offset(lampX[i], -14, 0));
         }
-        return LayerDefinition.create(mesh, 64, 64);
+        return LayerDefinition.create(mesh, 128, 128);
     }
 
     @Override

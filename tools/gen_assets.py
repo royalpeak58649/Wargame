@@ -8454,7 +8454,7 @@ merge_lang({"entity.lobcorp.flesh_idol": "살점 우상"},
 
 # ───────────── 지옥행 급행열차 ─────────────
 def express_train():
-    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
     wood = hexc("#6b3a2a")
     wood_dark = hexc("#4a2418")
     wood_hi = hexc("#8a4f38")
