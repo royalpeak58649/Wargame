@@ -76,6 +76,7 @@ public final class ModItems {
     public static final ArmorMaterial ECSTASY_MAT = material("ecstasy", 6);
     public static final ArmorMaterial HEAVEN_MAT = material("heaven", 6);
     public static final ArmorMaterial FEATHER_OF_HONOR_MAT = material("feather_of_honor", 6);
+    public static final ArmorMaterial AMITA_MAT = material("amita", 7);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -173,6 +174,8 @@ public final class ModItems {
     public static Item HEAVEN_SUIT;
     public static Item FEATHER_OF_HONOR;
     public static Item FEATHER_OF_HONOR_SUIT;
+    public static Item AMITA;
+    public static Item AMITA_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -426,6 +429,10 @@ public final class ModItems {
                 "O-02-101 · WAW", "WHITE 피해 깃털, 매우 빠른 연타", "불새의 깃털을 그대로 벼려 만든 무기. 휘두를 때마다 타다 남은 불티가 흩날린다.");
         FEATHER_OF_HONOR_SUIT = suit("feather_of_honor_suit", FEATHER_OF_HONOR_MAT,
                 "O-02-101 · WAW", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
+        AMITA = weapon("amita", DamageColor.RED, 4.0, -1.4,
+                "D-01-110 · WAW", "RED 피해, 빠른 연타", "구름 낀 수도승의 긴 팔을 닮은 붉은 무기. 휘두를 때마다 뿌연 구름이 발밑에 고인다.");
+        AMITA_SUIT = suit("amita_suit", AMITA_MAT,
+                "D-01-110 · WAW", "RED·BLACK 저항, WHITE 취약: 작업 실패 시 HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -444,6 +451,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT);
     }
 }

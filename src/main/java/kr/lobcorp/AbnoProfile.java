@@ -818,7 +818,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 주변을 태우고, 공격당하면 불길을 두르고 곧장 돌진한다. 제압하면 명예의 깃털을 하나 남긴다."
             ));
 
+    public static final AbnoProfile CLOUDED_MONK = new AbnoProfile(
+            "clouded_monk", "구름 낀 수도승", "D-01-110", "WAW", 0xAA55FF,
+            new int[]{15, 45, 40, 35}, 22, 15, 7,
+            DamageColor.WHITE, 4, 6,
+            3,
+            () -> ModItems.AMITA, 70,
+            () -> ModItems.AMITA_SUIT, 50,
+            "amita", "아미타", "최대 HP +6, 최대 SP -4", 3,
+            new float[]{1.2f, 0.8f, 0.8f, 1.5f},
+            List.of(
+                    "회색 구름에 온몸을 감싼 수도승. 얼굴은 구름 속에 가려 보이지 않고, 구름 밖으로 드러난 두 팔만이 유난히 길게 늘어져 있다.",
+                    "통찰 작업이 가장 좋고 애착과 억압이 그다음, 본능이 가장 나쁘다. 통찰 작업을 마치면 작업자의 SP가 회복되지만, 보통이면 30% 확률로, 나쁨이면 반드시 클리포트 카운터가 1 내려간다. 직원이 세 명 죽을 때마다 카운터가 1 내려가며, 탈출한 용(Yin)이 격리실 근처에 있으면 카운터가 곧바로 0이 된다.",
+                    "카운터가 0이 되면 탈출해 직원을 쫓는다. 체력이 70% 아래로 떨어지면 구름을 모은 뒤 정면으로 곧장 돌진하며, 돌진에 닿은 직원은 큰 피해를 입고 수도승은 상처를 메운다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(CLOUDED_MONK.id, CLOUDED_MONK),
             Map.entry(FIREBIRD.id, FIREBIRD),
             Map.entry(BURROWING_HEAVEN.id, BURROWING_HEAVEN),
             Map.entry(DREAMING_CURRENT.id, DREAMING_CURRENT),
