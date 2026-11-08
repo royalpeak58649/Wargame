@@ -129,5 +129,9 @@
   "entity.lobcorp.yang": "Yang",
   "entity.lobcorp.snow_white_apple": "Snow White's Apple",
   "item.lobcorp.green_stem": "Green Stem",
-  "item.lobcorp.green_stem_suit": "Green Stem Suit"
+  "item.lobcorp.green_stem_suit": "Green Stem Suit",
+  "entity.lobcorp.little_prince": "The Little Prince",
+  "entity.lobcorp.little_prince_minion": "Little Prince-1",
+  "item.lobcorp.spore": "Spore",
+  "item.lobcorp.spore_suit": "Spore Cloak"
 }
