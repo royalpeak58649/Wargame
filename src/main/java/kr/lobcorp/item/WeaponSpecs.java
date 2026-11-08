@@ -21,6 +21,15 @@ public final class WeaponSpecs {
         put("hypocrisy", WeaponKind.BOW, 40, 28, 10f);
         put("exuviae", WeaponKind.CANNON, 24, 60, 14f);
         put("feather_of_honor", WeaponKind.THROWN, 16, 10, 3f);
+        put("beak", WeaponKind.GUN, 20, 10, 3f);
+        put("solitude", WeaponKind.GUN, 20, 12, 3f);
+        put("todays_expression", WeaponKind.GUN, 20, 14, 4f);
+        put("ecstasy", WeaponKind.GUN, 20, 10, 4f);
+        put("love_and_hate", WeaponKind.GUN, 48, 16, 7f);
+        put("screaming_wedge", WeaponKind.BOW, 32, 24, 8f);
+        put("syrinx", WeaponKind.PIERCE, 20, 20, 4f);
+        put("harmony", WeaponKind.PIERCE, 24, 30, 8f);
+        put("match_flame", WeaponKind.CANNON, 24, 60, 12f);
 
         // ── 창 ──
         for (String id : new String[]{"horn", "fragments", "frost_splinter", "harvest", "green_stem", "spore", "heaven"}) {
@@ -28,14 +37,14 @@ public final class WeaponSpecs {
         }
 
         // ── 중량 ──
-        for (String id : new String[]{"penitence", "regret", "match_flame", "lantern", "sanguine_desire",
-                "harmony", "our_galaxy", "logging", "christmas", "lamp", "justitia"}) {
+        for (String id : new String[]{"penitence", "regret", "lantern", "sanguine_desire",
+                "our_galaxy", "logging", "christmas", "lamp", "justitia"}) {
             put(id, WeaponKind.HEAVY, 0, 0, 0f);
         }
 
         // ── 속도 ──
-        for (String id : new String[]{"bear_paws", "beak", "grinder", "gaze", "gold_rush", "crimson_scar",
-                "cobalt_scar", "ecstasy", "amita", "moonlight", "discord", "tears_sword", "syrinx", "pleasure"}) {
+        for (String id : new String[]{"bear_paws", "grinder", "gaze", "gold_rush", "crimson_scar",
+                "cobalt_scar", "amita", "moonlight", "discord", "tears_sword", "pleasure"}) {
             put(id, WeaponKind.FAST, 0, 0, 0f);
         }
     }

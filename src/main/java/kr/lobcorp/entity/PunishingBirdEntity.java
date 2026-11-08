@@ -120,10 +120,11 @@ public class PunishingBirdEntity extends BreachingAbnormality {
 
     // ───────────── 다른 곳의 사건 ─────────────
 
-    /** 다른 환상체에 작업이 시작될 때마다 50% 확률로 카운터가 내려간다 */
+    /** 다른 환상체에 작업이 시작될 때마다 50% 확률로 카운터가 내려간다 (처벌새 자신이 작업 중이면 내려가지 않는다) */
     public static void onAnyWorkStarted(ServerLevel level, AbnormalityEntity target, ServerPlayer p) {
         for (Entity e : level.getAllEntities()) {
-            if (e instanceof PunishingBirdEntity bird && bird != target && !bird.isBreached()) {
+            if (e instanceof PunishingBirdEntity bird && bird != target && !bird.isBreached()
+                    && !kr.lobcorp.work.WorkManager.isAbnoBusy(bird)) {
                 if (bird.getRandom().nextInt(2) == 0) bird.lowerQliphoth(null, 1);
             }
         }
