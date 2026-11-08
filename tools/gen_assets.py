@@ -7220,3 +7220,212 @@ merge_lang({
     "item.lobcorp.green_stem": "Green Stem",
     "item.lobcorp.green_stem_suit": "Green Stem Suit",
 })
+
+
+# ───────────── 어린 왕자 ─────────────
+def little_prince():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    cloak = hexc("#5a7a9a")
+    cloak_hi = hexc("#7a9ab8")
+    cloak_dark = hexc("#3a5470")
+    cloak_trim = hexc("#9ec2e0")
+    stem = hexc("#e8e2d0")
+    stem_shade = hexc("#c8c0aa")
+    cap = hexc("#e8f2fa")
+    cap_hi = hexc("#f6fbff")
+    gill = hexc("#b8c8d8")
+    gill_dark = hexc("#8a9cb0")
+
+    # 망토 상체 (u0 v0, 6x5x4)
+    t = box(img, 0, 0, 6, 5, 4, cloak, 6, top=cloak_hi)
+    tx, ty = t["front"]
+    for y in range(5):
+        px(img, tx + 2, ty + y, cloak_trim)
+        px(img, tx + 3, ty + y, cloak_trim)
+    for x in range(6):
+        px(img, tx + x, ty + 4, cloak_dark)
+
+    # 망토 허리 (u0 v12, 8x5x6)
+    w = box(img, 0, 12, 8, 5, 6, cloak, 6, top=cloak_hi)
+    wx, wy = w["front"]
+    for y in range(5):
+        px(img, wx + 3, wy + y, cloak_trim)
+        px(img, wx + 4, wy + y, cloak_trim)
+    for x in range(8):
+        px(img, wx + x, wy + 4, cloak_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = w[side]
+        for x in range(6):
+            px(img, sx + x, sy + 4, cloak_dark)
+
+    # 망토 밑단 (u0 v26, 10x5x8)
+    h = box(img, 0, 26, 10, 5, 8, cloak, 6, top=cloak_hi)
+    hx, hy = h["front"]
+    for y in range(5):
+        px(img, hx + 4, hy + y, cloak_trim)
+        px(img, hx + 5, hy + y, cloak_trim)
+    for x in range(10):
+        px(img, hx + x, hy + 4, cloak_dark)
+    for side in ("right", "left", "back"):
+        sx, sy = h[side]
+        for x in range(8):
+            px(img, sx + x, sy + 4, cloak_dark)
+
+    # 목(버섯 대) (u32 v0, 3x3x3)
+    s = box(img, 32, 0, 3, 3, 3, stem, 5, top=stem_shade)
+    sx, sy = s["front"]
+    for y in range(3):
+        px(img, sx + 1, sy + y, stem_shade)
+
+    # 버섯 갓 (u0 v40, 14x3x14)
+    c = box(img, 0, 40, 14, 3, 14, cap, 5, top=cap_hi)
+    cx, cy = c["front"]
+    for x in range(14):
+        px(img, cx + x, cy + 2, gill)
+    for side in ("right", "left", "back"):
+        sx, sy = c[side]
+        for x in range(14):
+            px(img, sx + x, sy + 2, gill)
+    for (dx, dy) in [(3, 0), (9, 1), (6, 2)]:
+        px(img, cx + dx, cy + dy, cap_hi)
+
+    # 갓 주름 (u32 v12, 10x1x10)
+    g = box(img, 32, 12, 10, 1, 10, gill, 5, top=gill_dark)
+    gx, gy = g["front"]
+    for x in range(10):
+        if x % 2 == 0:
+            px(img, gx + x, gy, gill_dark)
+
+    # 갓 정수리 (u32 v24, 8x2x8)
+    k = box(img, 32, 24, 8, 2, 8, cap, 5, top=cap_hi)
+    kx, ky = k["front"]
+    for x in range(8):
+        px(img, kx + x, ky + 1, gill)
+
+    save(img, "textures/entity/little_prince.png")
+
+
+def little_prince_minion():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    skin = hexc("#7a8a9a")
+    skin_hi = hexc("#94a4b4")
+    skin_dark = hexc("#4e5a68")
+    cloth = hexc("#5a7a9a")
+    cloth_dark = hexc("#3a5470")
+    mush = hexc("#e8f2fa")
+    mush_hi = hexc("#f6fbff")
+    mush_gill = hexc("#b8c8d8")
+    eye = hexc("#1e2a36")
+
+    # 몸통 (u0 v0, 6x8x4)
+    b = box(img, 0, 0, 6, 8, 4, cloth, 6, top=skin_hi)
+    bx, by = b["front"]
+    for y in range(8):
+        px(img, bx + 2, by + y, cloth_dark)
+        px(img, bx + 3, by + y, cloth_dark)
+    for x in range(6):
+        px(img, bx + x, by + 7, cloth_dark)
+
+    # 머리 (u0 v12, 6x6x6)
+    h = box(img, 0, 12, 6, 6, 6, skin, 6, top=skin_hi)
+    hx, hy = h["front"]
+    for (ex, ey) in [(1, 2), (4, 2)]:
+        px(img, hx + ex, hy + ey, eye)
+    for x in range(6):
+        px(img, hx + x, hy + 5, skin_dark)
+
+    # 머리 위 버섯 갓 (u24 v12, 4x2x4)
+    m = box(img, 24, 12, 4, 2, 4, mush, 5, top=mush_hi)
+    mx, my = m["front"]
+    for x in range(4):
+        px(img, mx + x, my + 1, mush_gill)
+    # 머리 위 버섯 대 (u24 v18, 2x1x2)
+    box(img, 24, 18, 2, 1, 2, mush_gill, 4)
+
+    # 등 버섯 1 (u24 v20, 4x2x3)
+    m2 = box(img, 24, 20, 4, 2, 3, mush, 5, top=mush_hi)
+    m2x, m2y = m2["front"]
+    for x in range(4):
+        px(img, m2x + x, m2y + 1, mush_gill)
+    # 등 버섯 2 (u24 v25, 2x2x2)
+    box(img, 24, 25, 2, 2, 2, mush, 5, top=mush_hi)
+
+    # 긴 팔 (u0 v24, 2x10x2)
+    a = box(img, 0, 24, 2, 10, 2, skin, 6, top=skin_hi)
+    ax, ay = a["front"]
+    for y in range(10):
+        px(img, ax, ay + y, skin_dark)
+    for x in range(2):
+        px(img, ax + x, ay + 9, skin_dark)
+
+    # 다리 (u12 v24, 2x8x2)
+    l = box(img, 12, 24, 2, 8, 2, skin, 6, top=skin_hi)
+    lx, ly = l["front"]
+    for y in range(8):
+        px(img, lx, ly + y, skin_dark)
+    for x in range(2):
+        px(img, lx + x, ly + 7, skin_dark)
+
+    save(img, "textures/entity/little_prince_minion.png")
+
+
+SP = {"k": "#1e2a36", "b": "#5a7a9a", "l": "#9ec2e0", "w": "#e8f2fa"}
+icon([
+    "................",
+    "............ww..",
+    "...........wwl..",
+    "..........wwl...",
+    ".........wwl....",
+    "........wwl.....",
+    ".......wwl......",
+    "......wwl.......",
+    ".....wwl........",
+    "....wwl.........",
+    "...wwl..........",
+    "..bwl...........",
+    ".bbk............",
+    ".bk.............",
+    "................",
+    "................",
+], SP, "textures/item/spore.png")
+icon([
+    "................",
+    "...bb......bb...",
+    "..bbbb....bbbb..",
+    "..bbbbbbbbbbbb..",
+    "...bbbbbbbbbb...",
+    "....bbllllbb....",
+    "....bbllllbb....",
+    "....bbllllbb....",
+    "....bbllllbb....",
+    "....bbbbbbbb....",
+    "....bbkkkkbb....",
+    "....bbbbbbbb....",
+    "....bbbbbbbb....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], SP, "textures/item/spore_suit.png")
+
+armor(hexc("#5a7a9a"), "#1e2a36", "#9ec2e0", "textures/entity/equipment/humanoid/spore.png")
+
+for item, parent in [("spore", "minecraft:item/handheld"), ("spore_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/spore.json", {"layers": {"humanoid": [{"texture": "lobcorp:spore"}]}})
+
+little_prince()
+little_prince_minion()
+print("assets little prince ok")
+
+merge_lang({
+    "entity.lobcorp.little_prince": "어린 왕자",
+    "entity.lobcorp.little_prince_minion": "어린 왕자-1",
+    "item.lobcorp.spore": "포자",
+    "item.lobcorp.spore_suit": "포자의 망토",
+}, {
+    "entity.lobcorp.little_prince": "The Little Prince",
+    "entity.lobcorp.little_prince_minion": "Little Prince-1",
+    "item.lobcorp.spore": "Spore",
+    "item.lobcorp.spore_suit": "Spore Cloak",
+})

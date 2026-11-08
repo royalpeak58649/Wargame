@@ -7,6 +7,7 @@ import kr.lobcorp.work.Facility;
 import kr.lobcorp.work.WorkManager;
 import kr.lobcorp.work.WorkSession;
 import kr.lobcorp.work.WorkType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -65,6 +66,11 @@ public class LittlePrinceEntity extends AbnormalityEntity {
     }
 
     // ───────────── 클리포트 카운터 ─────────────
+
+    /** 하루가 지나면 유인 기록을 초기화한다 */
+    public void clearDaily() {
+        luredToday.clear();
+    }
 
     private void lowerCounter(ServerPlayer by) {
         qliphoth = Math.max(0, qliphoth - 1);
@@ -213,7 +219,11 @@ public class LittlePrinceEntity extends AbnormalityEntity {
                 double dx = hx - p.getX(), dz = hz - p.getZ();
                 double len = Math.sqrt(dx * dx + dz * dz);
                 if (len > 0.001) {
-                    p.teleportTo(p.getX() + dx / len * 2.0, p.getY(), p.getZ() + dz / len * 2.0);
+                    double nx = p.getX() + dx / len * 2.0, nz = p.getZ() + dz / len * 2.0;
+                    BlockPos target = new BlockPos((int) Math.floor(nx), (int) Math.floor(p.getY()), (int) Math.floor(nz));
+                    if (!sl.getBlockState(target).isSolid() && !sl.getBlockState(target.above()).isSolid()) {
+                        p.teleportTo(nx, p.getY(), nz);
+                    }
                 }
                 sl.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, p.getX(), p.getY() + 1.2, p.getZ(), 6, 0.3, 0.5, 0.3, 0.01);
             }

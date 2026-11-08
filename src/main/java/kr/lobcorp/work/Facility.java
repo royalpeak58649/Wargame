@@ -59,6 +59,7 @@ public final class Facility {
         for (ServerLevel l : server.getAllLevels()) {
             for (net.minecraft.world.entity.Entity e : l.getAllEntities()) {
                 if (e instanceof kr.lobcorp.entity.KnightDespairEntity k) k.clearBlessing();
+                if (e instanceof kr.lobcorp.entity.LittlePrinceEntity lp) lp.clearDaily();
             }
         }
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {

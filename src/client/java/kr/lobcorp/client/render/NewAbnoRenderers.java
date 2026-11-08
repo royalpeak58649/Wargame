@@ -21,6 +21,8 @@ import kr.lobcorp.client.model.KnightDespairModel;
 import kr.lobcorp.client.model.LadyFacingTheWallModel;
 import kr.lobcorp.client.model.LaetitiaFriendModel;
 import kr.lobcorp.client.model.LaetitiaModel;
+import kr.lobcorp.client.model.LittlePrinceMinionModel;
+import kr.lobcorp.client.model.LittlePrinceModel;
 import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.MhzModel;
@@ -68,6 +70,8 @@ import kr.lobcorp.entity.KnightDespairEntity;
 import kr.lobcorp.entity.LadyFacingTheWallEntity;
 import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
+import kr.lobcorp.entity.LittlePrinceEntity;
+import kr.lobcorp.entity.LittlePrinceMinionEntity;
 import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.MhzEntity;
@@ -1254,6 +1258,52 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(SnowWhiteAppleModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class LittlePrince extends MobRenderer<LittlePrinceEntity, LittlePrinceModel.State, LittlePrinceModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/little_prince.png");
+
+        public LittlePrince(EntityRendererProvider.Context ctx) {
+            super(ctx, new LittlePrinceModel(ctx.bakeLayer(LittlePrinceModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public LittlePrinceModel.State createRenderState() {
+            return new LittlePrinceModel.State();
+        }
+
+        @Override
+        public void extractRenderState(LittlePrinceEntity e, LittlePrinceModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LittlePrinceModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class LittlePrinceMinion extends MobRenderer<LittlePrinceMinionEntity, LittlePrinceMinionModel.State, LittlePrinceMinionModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/little_prince_minion.png");
+
+        public LittlePrinceMinion(EntityRendererProvider.Context ctx) {
+            super(ctx, new LittlePrinceMinionModel(ctx.bakeLayer(LittlePrinceMinionModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public LittlePrinceMinionModel.State createRenderState() {
+            return new LittlePrinceMinionModel.State();
+        }
+
+        @Override
+        public void extractRenderState(LittlePrinceMinionEntity e, LittlePrinceMinionModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(LittlePrinceMinionModel.State s) {
             return TEX;
         }
     }

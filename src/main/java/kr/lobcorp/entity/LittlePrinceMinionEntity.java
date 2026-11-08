@@ -150,10 +150,10 @@ public class LittlePrinceMinionEntity extends PathfinderMob {
             ItemStack weapon = attacker.getMainHandItem();
             if (weapon.getItem() instanceof EgoWeaponItem ego) {
                 mult = switch (ego.color) {
-                    case RED -> 1.2f;
-                    case WHITE -> 1.5f;
-                    case BLACK -> 0.8f;
-                    case PALE -> 2.0f;
+                    case RED -> 1.3f;
+                    case WHITE -> 0.5f;
+                    case BLACK -> 1.1f;
+                    case PALE -> 1.5f;
                 };
             }
         }
