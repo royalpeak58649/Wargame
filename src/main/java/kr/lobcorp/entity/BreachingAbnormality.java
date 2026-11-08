@@ -253,6 +253,11 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         if (announcement != null) Facility.broadcast(sl.getServer(), announcement);
     }
 
+    /** 외부(사건 관리자 등)에서 격리실로 되돌린다. announcement가 null이면 알리지 않는다. */
+    public void forceReturn(MutableComponent msg) {
+        returnToContainment(msg);
+    }
+
     protected void suppress(Entity by) {
         var msg = Component.literal("[관제] " + profile().code() + " 제압 완료. ").withStyle(st -> st.withColor(0x55FF55));
         if (by instanceof Player pl) {

@@ -31,6 +31,7 @@ public final class AbnoEvents {
             if (a == who) continue;
             a.onAnyBreach(who);
         }
+        kr.lobcorp.apocalypse.ApocalypseManager.onBreach(who.level().getServer());
     }
 
     public static void death(ServerPlayer p) {

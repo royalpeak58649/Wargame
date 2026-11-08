@@ -87,6 +87,7 @@ public final class ModItems {
     public static final ArmorMaterial ADORATION_MAT = material("adoration", 10);
     public static final ArmorMaterial PINK_MAT = material("pink", 10);
     public static final ArmorMaterial PARADISE_LOST_MAT = material("paradise_lost", 12);
+    public static final ArmorMaterial TWILIGHT_MAT = material("twilight", 12);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -207,6 +208,8 @@ public final class ModItems {
     public static Item PINK_SUIT;
     public static Item PARADISE_LOST;
     public static Item PARADISE_LOST_SUIT;
+    public static Item TWILIGHT;
+    public static Item TWILIGHT_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -511,6 +514,10 @@ public final class ModItems {
                 "T-03-46 · ALEPH", "PALE 피해 초장거리 관통", "하얀 깃털로 엮은 지팡이. 겨누는 곳마다 붉은 빛이 내리꽂힌다.");
         PARADISE_LOST_SUIT = suit("paradise_lost_suit", PARADISE_LOST_MAT,
                 "T-03-46 · ALEPH");
+        TWILIGHT = weapon("twilight", DamageColor.RED, 12.0, -2.4,
+                "종말새 · ALEPH", "네 가지 속성이 깃든 대검", "세 마리 새의 깃털과 눈과 부리를 벼려 만든 검. 검은 숲의 어둠이 아직 서려 있다.");
+        TWILIGHT_SUIT = suit("twilight_suit", TWILIGHT_MAT,
+                "종말새 · ALEPH");
     }
 
     public static List<Item> all() {
@@ -529,6 +536,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MIMICRY, MIMICRY_SUIT, DA_CAPO, DA_CAPO_SUIT, SMILE, SMILE_SUIT, CENSORED_WEAPON, CENSORED_SUIT, SOUND_OF_A_STAR, SOUND_OF_A_STAR_SUIT, ADORATION, ADORATION_SUIT, PINK, PINK_SUIT, PARADISE_LOST, PARADISE_LOST_SUIT, MAGIC_BULLET_ORDER);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MIMICRY, MIMICRY_SUIT, DA_CAPO, DA_CAPO_SUIT, SMILE, SMILE_SUIT, CENSORED_WEAPON, CENSORED_SUIT, SOUND_OF_A_STAR, SOUND_OF_A_STAR_SUIT, ADORATION, ADORATION_SUIT, PINK, PINK_SUIT, PARADISE_LOST, PARADISE_LOST_SUIT, TWILIGHT, TWILIGHT_SUIT, MAGIC_BULLET_ORDER);
     }
 }

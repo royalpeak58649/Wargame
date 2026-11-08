@@ -128,7 +128,7 @@ public final class FacilityBuilder {
         int units = department(level, newCx, fy, oz, d, 2, false, true, fill, slots);
         corridorX(level, newCx + 8, firstLowerCenter.getX() - 8, fy, oz, d.color());
         // 기존 하층 첫 부서의 서쪽 출입구를 다시 연다
-        clear(level, firstLowerCenter.getX() - 7, fy, oz - 1, firstLowerCenter.getX() - 8, fy + 3, oz + 1);
+        opening(level, firstLowerCenter.getX() - 7, fy, oz - 1, firstLowerCenter.getX() - 7, fy + 2, oz + 1);
         BlockPos center = new BlockPos(newCx, fy, oz);
         return new Result(center, units, fy, slots, List.of(center));
     }

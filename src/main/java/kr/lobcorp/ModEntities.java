@@ -173,6 +173,8 @@ public final class ModEntities {
     public static EntityType<ArmySoldierEntity> ARMY_SOLDIER;
     public static EntityType<WhiteNightEntity> WHITENIGHT;
     public static EntityType<ApostleEntity> APOSTLE;
+    public static EntityType<kr.lobcorp.apocalypse.ApocalypseBirdEntity> APOCALYPSE_BIRD;
+    public static EntityType<kr.lobcorp.apocalypse.ApocalypseEggEntity> APOCALYPSE_EGG;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -344,6 +346,10 @@ public final class ModEntities {
                 .sized(1.4f, 3.0f).clientTrackingRange(10));
         APOSTLE = register("apostle", EntityType.Builder.of(ApostleEntity::new, MobCategory.MONSTER)
                 .sized(0.7f, 2.0f).clientTrackingRange(10));
+        APOCALYPSE_BIRD = register("apocalypse_bird", EntityType.Builder.of(kr.lobcorp.apocalypse.ApocalypseBirdEntity::new, MobCategory.MISC)
+                .sized(3.0f, 4.0f).clientTrackingRange(16));
+        APOCALYPSE_EGG = register("apocalypse_egg", EntityType.Builder.of(kr.lobcorp.apocalypse.ApocalypseEggEntity::new, MobCategory.MISC)
+                .sized(1.2f, 1.6f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -443,6 +449,8 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(ARMY_SOLDIER, ArmySoldierEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(WHITENIGHT, WhiteNightEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(APOSTLE, ApostleEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(APOCALYPSE_BIRD, kr.lobcorp.apocalypse.ApocalypseBirdEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(APOCALYPSE_EGG, kr.lobcorp.apocalypse.ApocalypseEggEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

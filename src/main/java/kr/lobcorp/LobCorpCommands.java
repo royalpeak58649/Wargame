@@ -207,6 +207,26 @@ public final class LobCorpCommands {
                                             c.getSource().sendSuccess(() -> Component.literal(msg), true);
                                             return 1;
                                         }))))
+                .then(Commands.literal("apocalypse").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .then(Commands.literal("start").executes(c -> {
+                            boolean ok = kr.lobcorp.apocalypse.ApocalypseManager.start(c.getSource().getServer());
+                            if (!ok) {
+                                c.getSource().sendFailure(Component.literal("종말새 사건을 시작할 수 없습니다. (시설 중앙 홀이 필요합니다)"));
+                                return 0;
+                            }
+                            c.getSource().sendSuccess(() -> Component.literal("종말새 사건을 시작했습니다."), true);
+                            return 1;
+                        }))
+                        .then(Commands.literal("clear").executes(c -> {
+                            kr.lobcorp.apocalypse.ApocalypseManager.clearAll(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal("종말새 사건을 정리했습니다."), true);
+                            return 1;
+                        }))
+                        .then(Commands.literal("status").executes(c -> {
+                            String st = kr.lobcorp.apocalypse.ApocalypseManager.status();
+                            c.getSource().sendSuccess(() -> Component.literal(st).withStyle(s -> s.withColor(0xAAAAAA)), false);
+                            return 1;
+                        })))
                 .then(Commands.literal("clear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::clear))
                 .then(Commands.literal("reset").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -324,6 +344,7 @@ public final class LobCorpCommands {
     private static int advanceDay(CommandContext<CommandSourceStack> c) {
         Facility.nextDay(c.getSource().getServer());
         kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
+        kr.lobcorp.apocalypse.ApocalypseManager.clearAll(c.getSource().getServer());
         for (ServerLevel l : c.getSource().getServer().getAllLevels())
             for (Entity e : l.getAllEntities())
                 if (e instanceof AbnormalityEntity a) a.resetQliphoth();
@@ -367,6 +388,7 @@ public final class LobCorpCommands {
         discardMinions(c.getSource().getServer());
         kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
         kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
+        kr.lobcorp.apocalypse.ApocalypseManager.clearAll(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;
@@ -383,6 +405,7 @@ public final class LobCorpCommands {
         discardMinions(server);
         kr.lobcorp.work.QliphothPanel.discardAll(server);
         kr.lobcorp.ordeal.OrdealManager.clearAll(server);
+        kr.lobcorp.apocalypse.ApocalypseManager.clearAll(server);
         FacilityData f = Facility.get(server);
         for (FacilityData.Slot slot : f.slots) {
             slot.abno = "";

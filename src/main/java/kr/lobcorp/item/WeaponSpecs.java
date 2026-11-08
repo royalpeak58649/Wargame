@@ -42,7 +42,7 @@ public final class WeaponSpecs {
 
         // ── 중량 ──
         for (String id : new String[]{"penitence", "regret", "lantern", "sanguine_desire",
-                "our_galaxy", "logging", "christmas", "lamp", "justitia", "mimicry", "smile"}) {
+                "our_galaxy", "logging", "christmas", "lamp", "justitia", "mimicry", "smile", "twilight"}) {
             put(id, WeaponKind.HEAVY, 0, 0, 0f);
         }
 

@@ -40,6 +40,7 @@ public class LobCorp implements ModInitializer {
             Facility.tick(server);
             kr.lobcorp.work.ToolState.tick(server);
             kr.lobcorp.ordeal.OrdealManager.tick(server);
+            kr.lobcorp.apocalypse.ApocalypseManager.tick(server);
         });
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
