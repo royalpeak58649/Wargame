@@ -133,5 +133,9 @@
   "entity.lobcorp.little_prince": "어린 왕자",
   "entity.lobcorp.little_prince_minion": "어린 왕자-1",
   "item.lobcorp.spore": "포자",
-  "item.lobcorp.spore_suit": "포자의 망토"
+  "item.lobcorp.spore_suit": "포자의 망토",
+  "entity.lobcorp.parasite_tree": "기생 나무",
+  "entity.lobcorp.sapling": "묘목",
+  "item.lobcorp.hypocrisy": "위선",
+  "item.lobcorp.hypocrisy_suit": "위선의 외투"
 }

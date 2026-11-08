@@ -133,5 +133,9 @@
   "entity.lobcorp.little_prince": "The Little Prince",
   "entity.lobcorp.little_prince_minion": "Little Prince-1",
   "item.lobcorp.spore": "Spore",
-  "item.lobcorp.spore_suit": "Spore Cloak"
+  "item.lobcorp.spore_suit": "Spore Cloak",
+  "entity.lobcorp.parasite_tree": "Parasite Tree",
+  "entity.lobcorp.sapling": "Sapling",
+  "item.lobcorp.hypocrisy": "Hypocrisy",
+  "item.lobcorp.hypocrisy_suit": "Hypocrisy Coat"
 }
