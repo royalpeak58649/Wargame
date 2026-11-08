@@ -163,6 +163,7 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.APOCALYPSE_EGG, kr.lobcorp.client.render.NewAbnoRenderers.ApocalypseEgg::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.ClerkModel.LAYER, kr.lobcorp.client.model.ClerkModel::createLayer);
         EntityRendererRegistry.register(ModEntities.CLERK, kr.lobcorp.client.render.NewAbnoRenderers.Clerk::new);
+        EntityRendererRegistry.register(ModEntities.AGENT, kr.lobcorp.client.render.NewAbnoRenderers.Agent::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CloudedMonkModel.LAYER, kr.lobcorp.client.model.CloudedMonkModel::createLayer);
         EntityRendererRegistry.register(ModEntities.CLOUDED_MONK, kr.lobcorp.client.render.NewAbnoRenderers.CloudedMonk::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.IlPiantoModel.LAYER, kr.lobcorp.client.model.IlPiantoModel::createLayer);

@@ -78,6 +78,7 @@ import kr.lobcorp.client.model.WoodsmanModel;
 import kr.lobcorp.client.model.WhiteNightModel;
 import kr.lobcorp.client.model.YangModel;
 import kr.lobcorp.client.model.YinModel;
+import kr.lobcorp.entity.AgentEntity;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.ApostleEntity;
@@ -2257,6 +2258,38 @@ public final class NewAbnoRenderers {
 
         @Override
         public void extractRenderState(ClerkEntity e, ClerkModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.panic = e.isPanicking();
+            s.skin = e.skin();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ClerkModel.State s) {
+            int i = s.skin;
+            if (i < 0 || i >= TEX.length) i = 0;
+            return TEX[i];
+        }
+    }
+
+    public static class Agent extends MobRenderer<AgentEntity, ClerkModel.State, ClerkModel> {
+        private static final Identifier[] TEX = {
+                LobCorp.id("textures/entity/agent_0.png"),
+                LobCorp.id("textures/entity/agent_1.png"),
+                LobCorp.id("textures/entity/agent_2.png"),
+                LobCorp.id("textures/entity/agent_3.png"),
+        };
+
+        public Agent(EntityRendererProvider.Context ctx) {
+            super(ctx, new ClerkModel(ctx.bakeLayer(ClerkModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public ClerkModel.State createRenderState() {
+            return new ClerkModel.State();
+        }
+
+        @Override
+        public void extractRenderState(AgentEntity e, ClerkModel.State s, float pt) {
             super.extractRenderState(e, s, pt);
             s.panic = e.isPanicking();
             s.skin = e.skin();

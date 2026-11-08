@@ -371,6 +371,9 @@ public final class ModItems {
         MAGIC_BULLET_ORDER = register("magic_bullet_order", kr.lobcorp.item.MagicBulletOrderItem::new,
                 new Item.Properties().stacksTo(3).rarity(Rarity.UNCOMMON)
                         .component(DataComponents.LORE, lore("F-01-69", "우클릭: 바라보는 방향으로 마탄 발사", "벽을 뚫고 선 위의 모든 것을 꿰뚫는다.")));
+        AGENT_TABLET = register("agent_tablet", kr.lobcorp.item.AgentTabletItem::new,
+                new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
+                        .component(DataComponents.LORE, lore("관리 태블릿", "관리직 우클릭: 선택/해제 · 환상체 우클릭: 작업 지시", "탈출 환상체·시련 우클릭: 제압 · 블록 우클릭: 대기 · 웅크리고 사용: 따라오기")));
         SYRINX = weapon("syrinx", DamageColor.WHITE, 3.0, -2.0,
                 "O-01-15 · HE", "WHITE 피해, 빠른 연타", "뼈로 깎은 피리. 불면 갓난아이의 울음 같은 소리가 새어 나온다.");
         SYRINX_SUIT = suit("syrinx_suit", SYRINX_MAT,
