@@ -743,7 +743,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 포자가 가장 많이 쌓인 직원들을 격리실로 끌어들인다. 가장 먼저 닿은 직원은 그 자리에서 죽고 어린 왕자-1이 태어난다."
             ));
 
+    public static final AbnoProfile PARASITE_TREE = new AbnoProfile(
+            "parasite_tree", "기생 나무", "D-04-108", "WAW", 0xAA55FF,
+            new int[]{40, 35, 45, 20}, 24, 15, 8,
+            DamageColor.WHITE, 5, 6,
+            1,
+            () -> ModItems.HYPOCRISY, 60,
+            () -> ModItems.HYPOCRISY_SUIT, 60,
+            "hypocrisy", "위선", "최대 HP +3, 최대 SP +3", 3,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "창백한 나무. 가지마다 하얀 꽃봉오리가 달려 있고, 봉오리가 모두 열리면 열매 대신 해골이 맺힌다.",
+                    "애착 작업이 가장 좋고 본능이 그다음, 억압이 가장 나쁘다. 억압 작업을 하거나 다른 환상체의 작업을 다섯 번 마치면 클리포트 카운터가 1 감소한다.",
+                    "작업한 직원은 축복을 받아 5초마다 SP가 회복된다. 봉오리가 다 열리면 축복받은 직원이 패닉에 빠지고, 잠시 뒤 몸이 터져 묘목이 자라난다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(PARASITE_TREE.id, PARASITE_TREE),
             Map.entry(LITTLE_PRINCE.id, LITTLE_PRINCE),
             Map.entry(YIN.id, YIN),
             Map.entry(YANG.id, YANG),

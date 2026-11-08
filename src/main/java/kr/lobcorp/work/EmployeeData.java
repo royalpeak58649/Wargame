@@ -51,6 +51,8 @@ public class EmployeeData {
     public int sporeTicks = 0;
     /** 어린 왕자의 포자 (저장 안 함) */
     public int princeSpores = 0;
+    /** 기생 나무의 축복 (저장 안 함) */
+    public boolean parasiteBlessed = false;
     /** 빨간 두건 용병이 늑대를 베어 넘겨 받은 양의 가호 (저장 안 함, 하루가 끝나면 사라진다) */
     public boolean sheepTicks = false;
     public Set<String> gifts = new HashSet<>();
@@ -126,6 +128,7 @@ public class EmployeeData {
             java.util.Map.entry("discord", new int[]{-4, -4, 0, 10}),
             java.util.Map.entry("green_stem", new int[]{0, 6, 0, 0}),
             java.util.Map.entry("spore", new int[]{0, 5, 2, 0}),
+            java.util.Map.entry("hypocrisy", new int[]{3, 3, 0, 0}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

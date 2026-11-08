@@ -335,7 +335,8 @@ public final class WorkManager {
             () -> ModItems.BLACK_SWAN_SUIT,
             () -> ModItems.DISCORD_SUIT,
             () -> ModItems.GREEN_STEM_SUIT,
-            () -> ModItems.SPORE_SUIT);
+            () -> ModItems.SPORE_SUIT,
+            () -> ModItems.HYPOCRISY_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
@@ -363,7 +364,8 @@ public final class WorkManager {
             () -> ModItems.LOVE_AND_HATE_SUIT,
             () -> ModItems.TEARS_SWORD_SUIT,
             () -> ModItems.GOLD_RUSH_SUIT,
-            () -> ModItems.BLACK_SWAN_SUIT);
+            () -> ModItems.BLACK_SWAN_SUIT,
+            () -> ModItems.HYPOCRISY_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,

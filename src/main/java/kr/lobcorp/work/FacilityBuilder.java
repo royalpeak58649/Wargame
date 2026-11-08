@@ -76,7 +76,7 @@ public final class FacilityBuilder {
                         List.of(u("big_bad_wolf", ModEntities.BIG_BAD_WOLF), u("alriune", ModEntities.ALRIUNE))),
                 new Dept("설계팀", "케테르", DyeColor.BLACK,
                         List.of(u("queen_bee", ModEntities.QUEEN_BEE), u("yin", ModEntities.YIN),
-                                u("snow_white_apple", ModEntities.SNOW_WHITE_APPLE)),
+                                u("snow_white_apple", ModEntities.SNOW_WHITE_APPLE), u("parasite_tree", ModEntities.PARASITE_TREE)),
                         List.of(u("black_swan", ModEntities.BLACK_SWAN), u("yang", ModEntities.YANG), u("little_prince", ModEntities.LITTLE_PRINCE))));
         return List.of(upper, middle, lower);
     }
