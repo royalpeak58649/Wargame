@@ -9893,7 +9893,7 @@ def apostle():
 
 
 def apocalypse_bird():
-    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    img = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
     dark = hexc("#0e0c12")
     dark_light = hexc("#1e1a24")
     yellow = hexc("#f0d040")
@@ -9908,11 +9908,11 @@ def apocalypse_bird():
         for x in range(0, 24, 6):
             px(img, bx + x, by + y, dark_light)
 
-    # 목 (u0 v40, 6x14x6)
-    box(img, 0, 40, 6, 14, 6, dark, 4, top=dark_light)
+    # 목 (u96 v0, 6x14x6)
+    box(img, 96, 0, 6, 14, 6, dark, 4, top=dark_light)
 
-    # 머리 (u0 v60, 10x10x14)
-    h = box(img, 0, 60, 10, 10, 14, dark, 4, top=dark_light)
+    # 머리 (u128 v0, 10x10x14)
+    h = box(img, 128, 0, 10, 10, 14, dark, 4, top=dark_light)
     hx, hy = h["front"]
     for (x, y) in [(2, 3), (6, 3)]:
         px(img, hx + x, hy + y, yellow)
@@ -9920,12 +9920,12 @@ def apocalypse_bird():
         px(img, hx + x, hy + y + 1, yellow_dark)
         px(img, hx + x + 1, hy + y + 1, yellow_dark)
 
-    # 부리 (u0 v84, 4x3x6)
-    box(img, 0, 84, 4, 3, 6, red, 6, top=hexc("#d04040"))
+    # 부리 (u184 v0, 4x3x6)
+    box(img, 184, 0, 4, 3, 6, red, 6, top=hexc("#d04040"))
 
-    # 날개 (u0 v96 / u56 v96, 4x28x24)
-    for u in (0, 56):
-        w = box(img, u, 96, 4, 28, 24, dark, 4, top=dark_light)
+    # 날개 (u0 v48 / u64 v48, 4x28x24)
+    for u in (0, 64):
+        w = box(img, u, 48, 4, 28, 24, dark, 4, top=dark_light)
         wx, wy = w["front"]
         for y in range(0, 28, 4):
             for x in range(4):
@@ -9933,19 +9933,19 @@ def apocalypse_bird():
         for y in range(2, 28, 8):
             px(img, wx + 1, wy + y, yellow_dark)
 
-    # 꼬리 (u0 v24, 4x4x20)
-    box(img, 0, 24, 4, 4, 20, dark, 4, top=dark_light)
+    # 꼬리 (u96 v24, 4x4x20)
+    box(img, 96, 24, 4, 4, 20, dark, 4, top=dark_light)
 
-    # 몸통의 눈 (u0 v20 / u4 v20 / u8 v20, 2x2x1)
-    for u in (0, 4, 8):
-        e = box(img, u, 20, 2, 2, 1, yellow, 4)
+    # 몸통의 눈 (u208 v0 / u216 v0 / u224 v0, 2x2x1)
+    for k in range(3):
+        e = box(img, 208 + k * 8, 0, 2, 2, 1, yellow, 4)
         ex, ey = e["front"]
         px(img, ex, ey, hexc("#1a1408"))
         px(img, ex + 1, ey + 1, yellow_dark)
 
-    # 황금 저울 (u0 v48, 1x12x1 + u4 v48, 6x1x1)
-    box(img, 0, 48, 1, 12, 1, gold, 4, top=hexc("#fff0a0"))
-    box(img, 4, 48, 6, 1, 1, gold, 4, top=hexc("#fff0a0"))
+    # 황금 저울 (u208 v8, 1x12x1 + u216 v8, 6x1x1)
+    box(img, 208, 8, 1, 12, 1, gold, 4, top=hexc("#fff0a0"))
+    box(img, 216, 8, 6, 1, 1, gold, 4, top=hexc("#fff0a0"))
 
     save(img, "textures/entity/apocalypse_bird.png")
 

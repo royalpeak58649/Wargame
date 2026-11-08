@@ -46,49 +46,49 @@ public class ApocalypseBirdModel extends EntityModel<ApocalypseBirdModel.State> 
                 .texOffs(0, 0).addBox(-12, -20, -10, 24, 20, 20),
                 PartPose.offset(0, 20, 0));
 
-        // 긴 목 (u0 v40, 6x14x6)
+        // 긴 목 (u96 v0, 6x14x6)
         PartDefinition neck = body.addOrReplaceChild("neck", CubeListBuilder.create()
-                .texOffs(0, 40).addBox(-3, -14, -3, 6, 14, 6),
+                .texOffs(96, 0).addBox(-3, -14, -3, 6, 14, 6),
                 PartPose.offset(0, -20, -6));
 
-        // 머리 (u0 v60, 10x10x14)
+        // 머리 (u128 v0, 10x10x14)
         PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create()
-                .texOffs(0, 60).addBox(-5, -10, -7, 10, 10, 14),
+                .texOffs(128, 0).addBox(-5, -10, -7, 10, 10, 14),
                 PartPose.offset(0, -14, 0));
 
-        // 부리 (u0 v84, 4x3x6)
+        // 부리 (u184 v0, 4x3x6)
         head.addOrReplaceChild("beak", CubeListBuilder.create()
-                .texOffs(0, 84).addBox(-2, -2, -6, 4, 3, 6),
+                .texOffs(184, 0).addBox(-2, -2, -6, 4, 3, 6),
                 PartPose.offset(0, -3, -7));
 
-        // 날개 (u0 v96 / u56 v96, 4x28x24)
+        // 날개 (u0 v48 / u64 v48, 4x28x24)
         body.addOrReplaceChild("wing_l", CubeListBuilder.create()
-                .texOffs(0, 96).addBox(0, -14, -12, 4, 28, 24),
+                .texOffs(0, 48).addBox(0, -14, -12, 4, 28, 24),
                 PartPose.offset(12, -10, 0));
         body.addOrReplaceChild("wing_r", CubeListBuilder.create()
-                .texOffs(56, 96).addBox(-4, -14, -12, 4, 28, 24),
+                .texOffs(64, 48).addBox(-4, -14, -12, 4, 28, 24),
                 PartPose.offset(-12, -10, 0));
 
-        // 긴 꼬리 (u0 v24, 4x4x20)
+        // 긴 꼬리 (u96 v24, 4x4x20)
         body.addOrReplaceChild("tail", CubeListBuilder.create()
-                .texOffs(0, 24).addBox(-2, -2, 0, 4, 4, 20),
+                .texOffs(96, 24).addBox(-2, -2, 0, 4, 4, 20),
                 PartPose.offset(0, -6, 10));
 
-        // 몸통의 눈 (u0 v20 / u4 v20 / u8 v20, 2x2x1)
+        // 몸통의 눈 (u208 v0 / u216 v0 / u224 v0, 2x2x1)
         float[][] eyePos = {{-8, -16, -10}, {-3, -12, -10}, {2, -16, -10}, {7, -12, -10}, {-6, -6, -10}, {4, -6, -10}};
         for (int i = 0; i < 6; i++) {
             body.addOrReplaceChild("eye" + i, CubeListBuilder.create()
-                    .texOffs((i % 3) * 4, 20).addBox(-1, -1, -0.5f, 2, 2, 1),
+                    .texOffs(208 + (i % 3) * 8, 0).addBox(-1, -1, -0.5f, 2, 2, 1),
                     PartPose.offset(eyePos[i][0], eyePos[i][1], eyePos[i][2]));
         }
 
-        // 아래로 늘어진 황금 저울 (u0 v48, 1x12x1 + u4 v48, 6x1x1)
+        // 아래로 늘어진 황금 저울 (u208 v8, 1x12x1 + u216 v8, 6x1x1)
         PartDefinition scale = body.addOrReplaceChild("scale", CubeListBuilder.create()
-                .texOffs(0, 48).addBox(-0.5f, 0, -0.5f, 1, 12, 1)
-                .texOffs(4, 48).addBox(-3, 12, -0.5f, 6, 1, 1),
+                .texOffs(208, 8).addBox(-0.5f, 0, -0.5f, 1, 12, 1)
+                .texOffs(216, 8).addBox(-3, 12, -0.5f, 6, 1, 1),
                 PartPose.offset(0, 0, 0));
 
-        return LayerDefinition.create(mesh, 128, 128);
+        return LayerDefinition.create(mesh, 256, 256);
     }
 
     @Override
