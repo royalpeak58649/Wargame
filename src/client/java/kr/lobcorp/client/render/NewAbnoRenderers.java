@@ -27,6 +27,7 @@ import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
 import kr.lobcorp.client.model.DreamingCurrentModel;
 import kr.lobcorp.client.model.BurrowingHeavenModel;
+import kr.lobcorp.client.model.FirebirdModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -82,6 +83,7 @@ import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
 import kr.lobcorp.entity.DreamingCurrentEntity;
 import kr.lobcorp.entity.BurrowingHeavenEntity;
+import kr.lobcorp.entity.FirebirdEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1455,6 +1457,29 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(BurrowingHeavenModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Firebird extends MobRenderer<FirebirdEntity, FirebirdModel.State, FirebirdModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/firebird.png");
+
+        public Firebird(EntityRendererProvider.Context ctx) {
+            super(ctx, new FirebirdModel(ctx.bakeLayer(FirebirdModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public FirebirdModel.State createRenderState() {
+            return new FirebirdModel.State();
+        }
+
+        @Override
+        public void extractRenderState(FirebirdEntity e, FirebirdModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(FirebirdModel.State s) {
             return TEX;
         }
     }

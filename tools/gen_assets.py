@@ -7972,3 +7972,101 @@ print("assets burrowing heaven ok")
 
 merge_lang({"entity.lobcorp.burrowing_heaven": "땅을 파는 천국", "item.lobcorp.heaven": "천국", "item.lobcorp.heaven_suit": "천국의 옷"},
            {"entity.lobcorp.burrowing_heaven": "The Burrowing Heaven", "item.lobcorp.heaven": "Heaven", "item.lobcorp.heaven_suit": "Heaven Suit"})
+
+
+# ───────────── 불새 ─────────────
+def firebird():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    dark = hexc("#3a0a06")
+    red = hexc("#d0301a")
+    orange = hexc("#f08020")
+    yellow = hexc("#ffd040")
+    white = hexc("#fff4c0")
+
+    # 몸통 (u0 v0, 6x6x8) — 진홍빛, 가슴에 밝은 노란 핵
+    b = box(img, 0, 0, 6, 6, 8, red, 7, top=orange)
+    bx, by = b["front"]
+    for y in range(2, 5):
+        for x in range(2, 4):
+            px(img, bx + x, by + y, yellow)
+    px(img, bx + 2, by + 3, white)
+    px(img, bx + 3, by + 3, white)
+
+    # 목 (u0 v16, 3x4x3) 과 머리 (u0 v24, 4x4x4)
+    box(img, 0, 16, 3, 4, 3, orange, 6, top=yellow)
+    h = box(img, 0, 24, 4, 4, 4, red, 6, top=orange)
+    hx, hy = h["front"]
+    px(img, hx + 1, hy + 1, dark)
+    px(img, hx + 2, hy + 1, dark)
+    # 부리 (u16 v24, 2x1x3) — 금빛
+    box(img, 16, 24, 2, 1, 3, yellow, 4, top=white)
+
+    # 왼쪽 날개 세 장 (u0 v32 / u0 v40 / u0 v48)
+    for (u, v, w, hh, d, c) in [(0, 32, 10, 1, 6, red), (0, 40, 10, 1, 6, orange), (0, 48, 8, 1, 4, yellow)]:
+        box(img, u, v, w, hh, d, c, 6, top=c)
+    # 오른쪽 날개 세 장 (u24 v32 / u24 v40 / u24 v48)
+    for (u, v, w, hh, d, c) in [(24, 32, 10, 1, 6, red), (24, 40, 10, 1, 6, orange), (24, 48, 8, 1, 4, yellow)]:
+        box(img, u, v, w, hh, d, c, 6, top=c)
+
+    # 꼬리 깃 세 장 (u32 v0 / u32 v8 / u32 v16, 각 4x1x8) — 진홍 → 주황 → 노랑
+    for (u, v, c) in [(32, 0, red), (32, 8, orange), (32, 16, yellow)]:
+        t = box(img, u, v, 4, 1, 8, c, 6, top=c)
+        tx, ty = t["front"]
+        px(img, tx + 1, ty, white)
+        px(img, tx + 2, ty, white)
+
+    save(img, "textures/entity/firebird.png")
+
+
+FB = {"k": "#3a0a06", "r": "#d0301a", "o": "#f08020", "y": "#ffd040", "w": "#fff4c0"}
+# 불새: 대각선으로 뻗은 길고 타오르는 깃털
+icon([
+    "................",
+    "............ww..",
+    "...........wyy..",
+    "..........wyy...",
+    ".........wyy....",
+    "........wyo.....",
+    ".......wyo......",
+    "......wyo.......",
+    ".....wyo........",
+    "....wyo.........",
+    "...wyo..........",
+    "..wro...........",
+    ".wro............",
+    ".ro.............",
+    "rk..............",
+    "................",
+], FB, "textures/item/feather_of_honor.png")
+# 명예의 깃털 옷: 깃털 장식이 달린 코트
+icon([
+    "................",
+    "...rr......rr...",
+    "..rrrr....rrrr..",
+    "..rrrrrrrrrrrr..",
+    "...rrrrrrrrrr...",
+    "....rrwwwwrr....",
+    "....rrwyywrr....",
+    "....rrwyywrr....",
+    "....rrwwwwrr....",
+    "....rrrrrrrr....",
+    "....rroooorr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], FB, "textures/item/feather_of_honor_suit.png")
+
+armor(hexc("#d0301a"), "#3a0a06", "#ffd040", "textures/entity/equipment/humanoid/feather_of_honor.png")
+
+for item, parent in [("feather_of_honor", "minecraft:item/handheld"), ("feather_of_honor_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/feather_of_honor.json", {"layers": {"humanoid": [{"texture": "lobcorp:feather_of_honor"}]}})
+
+firebird()
+print("assets firebird ok")
+
+merge_lang({"entity.lobcorp.firebird": "불새", "item.lobcorp.feather_of_honor": "명예의 깃털", "item.lobcorp.feather_of_honor_suit": "명예의 깃털 옷"},
+           {"entity.lobcorp.firebird": "The Firebird", "item.lobcorp.feather_of_honor": "Feather of Honor", "item.lobcorp.feather_of_honor_suit": "Feather of Honor Suit"})

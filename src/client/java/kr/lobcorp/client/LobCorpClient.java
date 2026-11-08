@@ -131,6 +131,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.DREAMING_CURRENT, kr.lobcorp.client.render.NewAbnoRenderers.DreamingCurrent::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.BurrowingHeavenModel.LAYER, kr.lobcorp.client.model.BurrowingHeavenModel::createLayer);
         EntityRendererRegistry.register(ModEntities.BURROWING_HEAVEN, kr.lobcorp.client.render.NewAbnoRenderers.BurrowingHeaven::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.FirebirdModel.LAYER, kr.lobcorp.client.model.FirebirdModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.FIREBIRD, kr.lobcorp.client.render.NewAbnoRenderers.Firebird::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));
