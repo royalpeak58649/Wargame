@@ -49,10 +49,10 @@ public final class FacilityBuilder {
                 new Dept("정보팀", "예소드", DyeColor.PURPLE,
                         List.of(u("punishing_bird", ModEntities.PUNISHING_BIRD), u("todays_shy_look", ModEntities.TODAYS_SHY_LOOK)),
                         List.of(c("lady_facing_the_wall", ModEntities.LADY_FACING_THE_WALL), u("crumbling_armor", ModEntities.CRUMBLING_ARMOR))),
-                new Dept("안전팀", "호드", DyeColor.LIME,
+                new Dept("안전팀", "네짜흐", DyeColor.LIME,
                         List.of(u("old_lady", ModEntities.OLD_LADY), u("spider_bud", ModEntities.SPIDER_BUD)),
                         List.of(u("void_dream", ModEntities.VOID_DREAM), u("mhz", ModEntities.MHZ))),
-                new Dept("교육팀", "네짜흐", DyeColor.ORANGE,
+                new Dept("교육팀", "호드", DyeColor.ORANGE,
                         List.of(u("beauty_and_the_beast", ModEntities.BEAUTY_BEAST), u("meat_lantern", ModEntities.MEAT_LANTERN)),
                         List.of(u("fragment_of_universe", ModEntities.FRAGMENT), u("happy_teddy_bear", ModEntities.HAPPY_TEDDY))));
         List<Dept> middle = List.of(
@@ -312,5 +312,35 @@ public final class FacilityBuilder {
             sign.setChanged();
             level.sendBlockUpdated(pos, sign.getBlockState(), sign.getBlockState(), 3);
         }
+    }
+    /** 이미 지어진 시설의 부서 표지판에서 세피라 이름을 현재 배치에 맞게 고친다. 고친 표지판 수를 돌려준다. */
+    public static int fixSephirahSigns(ServerLevel level, List<FacilityData.Slot> slots) {
+        if (slots.isEmpty()) return 0;
+        java.util.Map<String, String> seph = new java.util.HashMap<>();
+        for (List<Dept> floor : layout()) for (Dept d : floor) seph.put(d.name(), d.sephirah());
+        int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE, minZ = Integer.MAX_VALUE, maxZ = Integer.MIN_VALUE;
+        for (FacilityData.Slot sl : slots) {
+            minX = Math.min(minX, sl.origin.getX()); maxX = Math.max(maxX, sl.origin.getX());
+            minZ = Math.min(minZ, sl.origin.getZ()); maxZ = Math.max(maxZ, sl.origin.getZ());
+        }
+        int fixed = 0;
+        for (int cx = (minX - 48) >> 4; cx <= (maxX + 48) >> 4; cx++) {
+            for (int cz = (minZ - 48) >> 4; cz <= (maxZ + 48) >> 4; cz++) {
+                var chunk = level.getChunk(cx, cz);
+                for (var be : new ArrayList<>(chunk.getBlockEntities().values())) {
+                    if (!(be instanceof SignBlockEntity sign)) continue;
+                    SignText t = sign.getText(SignTextSlot.FRONT);
+                    List<Component> lines = new ArrayList<>(t.getMessages(false));
+                    String want = seph.get(lines.get(0).getString());
+                    if (want == null || lines.get(1).getString().equals(want)) continue;
+                    lines.set(1, Component.literal(want));
+                    sign.setText(new SignText(lines, lines, DyeColor.WHITE, true), SignTextSlot.FRONT);
+                    sign.setChanged();
+                    level.sendBlockUpdated(sign.getBlockPos(), sign.getBlockState(), sign.getBlockState(), 3);
+                    fixed++;
+                }
+            }
+        }
+        return fixed;
     }
 }

@@ -73,7 +73,17 @@ public final class LobCorpCommands {
                         .then(Commands.literal("black_swan").executes(c -> build(c, ModEntities.BLACK_SWAN, false))))
                 .then(Commands.literal("facility").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(c -> facility(c, false))
-                        .then(Commands.literal("full").executes(c -> facility(c, true))))
+                        .then(Commands.literal("full").executes(c -> facility(c, true)))
+                        .then(Commands.literal("fixsigns").executes(c -> {
+                            var server = c.getSource().getServer();
+                            if (!kr.lobcorp.work.Extraction.hasFacility(server)) {
+                                c.getSource().sendFailure(Component.literal("시설이 없습니다."));
+                                return 0;
+                            }
+                            int n = kr.lobcorp.work.FacilityBuilder.fixSephirahSigns(c.getSource().getLevel(), Facility.get(server).slots);
+                            c.getSource().sendSuccess(() -> Component.literal("세피라 표지판 " + n + "개를 고쳤습니다."), true);
+                            return 1;
+                        })))
                 .then(Commands.literal("extract").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(c -> {
                             var server = c.getSource().getServer();
