@@ -9001,3 +9001,331 @@ print("assets ordeal dusk ok")
 
 merge_lang({"entity.lobcorp.amber_dusk": "호박색 황혼", "entity.lobcorp.green_dusk": "녹색 황혼", "entity.lobcorp.crimson_dusk": "진홍색 황혼"},
            {"entity.lobcorp.amber_dusk": "Amber Dusk", "entity.lobcorp.green_dusk": "Green Dusk", "entity.lobcorp.crimson_dusk": "Crimson Dusk"})
+
+
+# ═════════════ ALEPH: 아무것도 없는 / 침묵의 오케스트라 / 웃는 시체 산 ═════════════
+def nothing_there():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    flesh = hexc("#a01c1c")
+    flesh_dark = hexc("#6a0e0e")
+    skin = hexc("#e0b8a0")
+    black = hexc("#1a0808")
+    white = hexc("#f4ece0")
+
+    # 몸통 (u0 v0, 10x14x6)
+    b = box(img, 0, 0, 10, 14, 6, flesh, 10, top=flesh_dark)
+    bx, by = b["front"]
+    for y in range(2, 12, 3):                       # 갈비뼈 같은 살점 주름
+        for x in range(1, 9):
+            px(img, bx + x, by + y, flesh_dark)
+    for (x, y) in [(2, 4), (7, 7), (4, 10)]:        # 벗겨진 피부 조각
+        rect(img, bx + x, by + y, 2, 2, skin, 6)
+
+    # 머리 (u0 v20, 8x8x8)
+    h = box(img, 0, 20, 8, 8, 8, flesh, 10, top=flesh_dark)
+    hx, hy = h["front"]
+    for (x, y) in [(1, 2), (2, 2), (5, 2), (6, 2), (1, 3), (6, 3)]:
+        px(img, hx + x, hy + y, black)
+    for x in range(1, 7):
+        px(img, hx + x, hy + 5, black)
+        px(img, hx + x, hy + 6, white if x % 2 else black)
+    rect(img, hx + 3, hy + 1, 2, 1, skin, 4)
+
+    # 아가리 (u32 v20, 6x4x2)
+    m = box(img, 32, 20, 6, 4, 2, black, 4)
+    mx, my = m["front"]
+    for x in range(6):
+        px(img, mx + x, my, white)
+        px(img, mx + x, my + 3, white)
+
+    # 긴 팔 (u0 v36 / u16 v36, 4x18x4)
+    for u in (0, 16):
+        a = box(img, u, 36, 4, 18, 4, flesh, 10, top=flesh_dark)
+        ax, ay = a["front"]
+        for y in range(3, 16, 4):
+            for x in range(4):
+                px(img, ax + x, ay + y, flesh_dark)
+        rect(img, ax + 1, ay + 8, 2, 3, skin, 6)
+
+    # 팔 칼날 (u32 v36, 2x14x2)
+    bl = box(img, 32, 36, 2, 14, 2, hexc("#c8c0b4"), 6, top=white)
+    blx, bly = bl["front"]
+    for y in range(14):
+        px(img, blx, bly + y, white)
+        px(img, blx + 1, bly + y, hexc("#8a8078"))
+
+    # 어깨 가시 (u40 v36, 8x4x4)
+    s = box(img, 40, 36, 8, 4, 4, flesh_dark, 8, top=hexc("#d8d0c0"))
+    sx, sy = s["front"]
+    for x in range(0, 8, 2):
+        px(img, sx + x, sy, white)
+
+    # 다리 (u0 v60 / u12 v60, 4x10x4)
+    for u in (0, 12):
+        l = box(img, u, 60, 4, 10, 4, flesh, 10, top=flesh_dark)
+        lx, ly = l["front"]
+        for y in range(2, 9, 3):
+            for x in range(4):
+                px(img, lx + x, ly + y, flesh_dark)
+
+    # 알 (u0 v76, 16x16x16)
+    e = box(img, 0, 76, 16, 16, 16, flesh, 12, top=hexc("#c03030"))
+    ex, ey = e["front"]
+    for (x, y) in [(3, 4), (10, 6), (6, 11)]:
+        rect(img, ex + x, ey + y, 3, 3, skin, 8)
+    for x in range(2, 14, 4):
+        for y in range(2, 14, 5):
+            px(img, ex + x, ey + y, flesh_dark)
+
+    save(img, "textures/entity/nothing_there.png")
+
+
+def silent_orchestra():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    coat = hexc("#14141a")
+    coat_hi = hexc("#2a2a36")
+    white = hexc("#f2f0ea")
+    silver = hexc("#c8ccd4")
+    black = hexc("#0a0a0e")
+
+    # 단상 (u0 v0, 12x2x12)
+    p = box(img, 0, 0, 12, 2, 12, hexc("#3a2a1e"), 8, top=hexc("#5a4430"))
+    px_, py_ = p["front"]
+    for x in range(12):
+        px(img, px_ + x, py_ + 1, hexc("#241a12"))
+
+    # 연미복 몸통 (u0 v16, 8x12x4)
+    b = box(img, 0, 16, 8, 12, 4, coat, 6, top=coat_hi)
+    bx, by = b["front"]
+    for y in range(12):
+        px(img, bx + 3, by + y, white)
+        px(img, bx + 4, by + y, white)
+    for x in range(8):
+        px(img, bx + x, by + 11, coat_hi)
+
+    # 하얀 머리 (u0 v32, 6x6x6)
+    h = box(img, 0, 32, 6, 6, 6, white, 5, top=hexc("#ffffff"))
+    hx, hy = h["front"]
+    for (x, y) in [(1, 2), (4, 2)]:
+        px(img, hx + x, hy + y, black)
+    for x in range(2, 4):
+        px(img, hx + x, hy + 4, hexc("#8a8a92"))
+
+    # 팔 (u24 v16, 2x10x2)
+    for u in (24, 28):
+        a = box(img, u, 16, 2, 10, 2, coat, 6, top=coat_hi)
+        ax, ay = a["front"]
+        for x in range(2):
+            px(img, ax + x, ay + 9, white)
+
+    # 지휘봉 (u32 v16, 1x8x1)
+    bt = box(img, 32, 16, 1, 8, 1, silver, 4, top=hexc("#ffffff"))
+    btx, bty = bt["front"]
+    for y in range(8):
+        px(img, btx, bty + y, silver)
+
+    # 악사 구체 (u0 v44, 4x4x4)
+    o = box(img, 0, 44, 4, 4, 4, hexc("#2a2a36"), 6, top=hexc("#4a4a5a"))
+    ox, oy = o["front"]
+    for (x, y) in [(1, 1), (2, 2)]:
+        px(img, ox + x, oy + y, white)
+
+    save(img, "textures/entity/silent_orchestra.png")
+
+
+def smiling_mountain():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    flesh = hexc("#b09090")
+    flesh_dark = hexc("#7a5c5c")
+    pale = hexc("#e8dcd4")
+    black = hexc("#241a1a")
+    red = hexc("#8a2a2a")
+
+    def face(fx, fy, w, h):
+        for x in range(1, w - 1, 2):
+            px(img, fx + x, fy + 1, black)
+        for x in range(1, w - 1):
+            px(img, fx + x, fy + h - 2, black)
+        px(img, fx + 1, fy + h - 3, red)
+        px(img, fx + w - 2, fy + h - 3, red)
+
+    # 1단계 무더기 (u0 v0, 24x14x20)
+    b = box(img, 0, 0, 24, 14, 20, flesh, 10, top=hexc("#c8a8a8"))
+    bx, by = b["front"]
+    for (x, y) in [(2, 2), (9, 4), (16, 2), (5, 9), (13, 9), (19, 7)]:
+        rect(img, bx + x, by + y, 4, 4, pale, 6)
+        face(bx + x, by + y, 4, 4)
+    for y in range(0, 14, 4):
+        for x in range(0, 24, 6):
+            px(img, bx + x, by + y, flesh_dark)
+
+    # 머리 네 개 (u0 v36, 4x4x4)
+    for i in range(4):
+        h = box(img, 0, 36, 4, 4, 4, pale, 6, top=hexc("#f4ece4"))
+        hx, hy = h["front"]
+        face(hx, hy, 4, 4)
+
+    # 2단계 무더기 (u0 v48, 16x10x14)
+    m = box(img, 0, 48, 16, 10, 14, flesh, 10, top=hexc("#c8a8a8"))
+    mx, my = m["front"]
+    for (x, y) in [(1, 1), (6, 3), (11, 1), (4, 6), (9, 6)]:
+        rect(img, mx + x, my + y, 4, 4, pale, 6)
+        face(mx + x, my + y, 4, 4)
+
+    # 3단계 얼굴 무더기 (u0 v76, 12x10x12)
+    t = box(img, 0, 76, 12, 10, 12, flesh_dark, 10, top=hexc("#a88888"))
+    tx, ty = t["front"]
+    rect(img, tx + 2, ty + 2, 8, 6, pale, 6)
+    for x in range(3, 9):
+        px(img, tx + x, ty + 4, black)
+    for x in range(2, 10):
+        px(img, tx + x, ty + 6, black)
+        px(img, tx + x, ty + 7, pale if x % 2 else black)
+    for (x, y) in [(0, 0), (9, 0), (0, 8), (9, 8)]:
+        rect(img, tx + x, ty + y, 3, 2, pale, 6)
+
+    save(img, "textures/entity/smiling_mountain.png")
+
+
+nothing_there()
+silent_orchestra()
+smiling_mountain()
+
+# ── E.G.O: 흉내 / 다 카포 / 미소 ──
+MC = {"k": "#2a0606", "r": "#b81c1c", "c": "#e04040", "w": "#f0d8d0", "s": "#8a1010"}
+icon([
+    "................",
+    ".............kk.",
+    "............krr.",
+    "...........krr..",
+    "..........krr...",
+    ".........krr....",
+    "........krr.....",
+    ".......krr......",
+    "......krr.......",
+    ".....krr........",
+    "....krr.........",
+    "...krr..........",
+    "..krc...........",
+    ".krc............",
+    ".kc.............",
+    "................",
+], MC, "textures/item/mimicry.png")
+icon([
+    "................",
+    "...rr......rr...",
+    "..rrrr....rrrr..",
+    "..rrrrrrrrrrrr..",
+    "...rrrrrrrrrr...",
+    "....rrwwwwrr....",
+    "....rrwccwrr....",
+    "....rrwccwrr....",
+    "....rrwwwwrr....",
+    "....rrrrrrrr....",
+    "....rrkkkkrr....",
+    "....rrrrrrrr....",
+    "....rrrrrrrr....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], MC, "textures/item/mimicry_suit.png")
+
+DC = {"k": "#0e0e14", "d": "#22222e", "w": "#f2f0ea", "s": "#c8ccd4", "g": "#8a8a96"}
+icon([
+    "................",
+    ".............ss.",
+    "............sw..",
+    "...........sw...",
+    "..........sw....",
+    ".........sw.....",
+    "........sw......",
+    ".......sw.......",
+    "......sw........",
+    ".....sw.........",
+    "....sw..........",
+    "...sw...........",
+    "..sw............",
+    "..w.............",
+    "................",
+    "................",
+], DC, "textures/item/da_capo.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkwwwwkk....",
+    "....kkwddwkk....",
+    "....kkwddwkk....",
+    "....kkwwwwkk....",
+    "....kkkkkkkk....",
+    "....kkddddkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....wwwwww.....",
+    "................",
+    "................",
+], DC, "textures/item/da_capo_suit.png")
+
+SM = {"k": "#2a2a2a", "g": "#8a8a8a", "l": "#b8b8b8", "p": "#e8dcd4", "d": "#5a5a5a"}
+icon([
+    "................",
+    "......gggg......",
+    ".....gllllg.....",
+    "....glpppplg....",
+    "....glpkkplg....",
+    "....glpppplg....",
+    ".....gllllg.....",
+    "......gggg......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    "......kkkk......",
+    "................",
+    "................",
+], SM, "textures/item/smile.png")
+icon([
+    "................",
+    "...dd......dd...",
+    "..dddd....dddd..",
+    "..dddddddddddd..",
+    "...dddddddddd...",
+    "....ddppppdd....",
+    "....ddpkkpdd....",
+    "....ddppppdd....",
+    "....dddddddd....",
+    "....ddppppdd....",
+    "....ddpkkpdd....",
+    "....dddddddd....",
+    "....dddddddd....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], SM, "textures/item/smile_suit.png")
+
+armor(hexc("#b81c1c"), "#2a0606", "#f0d8d0", "textures/entity/equipment/humanoid/mimicry.png")
+armor(hexc("#14141a"), "#f2f0ea", "#c8ccd4", "textures/entity/equipment/humanoid/da_capo.png")
+armor(hexc("#4a4a4a"), "#2a2a2a", "#e8dcd4", "textures/entity/equipment/humanoid/smile.png")
+
+for item, parent in [("mimicry", "minecraft:item/handheld"), ("mimicry_suit", "minecraft:item/generated"),
+                     ("da_capo", "minecraft:item/handheld"), ("da_capo_suit", "minecraft:item/generated"),
+                     ("smile", "minecraft:item/handheld"), ("smile_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+for mat in ("mimicry", "da_capo", "smile"):
+    wjson(f"equipment/{mat}.json", {"layers": {"humanoid": [{"texture": f"lobcorp:{mat}"}]}})
+
+merge_lang({"entity.lobcorp.nothing_there": "아무것도 없는", "entity.lobcorp.silent_orchestra": "침묵의 오케스트라",
+            "entity.lobcorp.smiling_mountain": "웃는 시체 산",
+            "item.lobcorp.mimicry": "흉내", "item.lobcorp.mimicry_suit": "흉내 옷",
+            "item.lobcorp.da_capo": "다 카포", "item.lobcorp.da_capo_suit": "다 카포 옷",
+            "item.lobcorp.smile": "미소", "item.lobcorp.smile_suit": "미소 옷"},
+           {"entity.lobcorp.nothing_there": "Nothing There", "entity.lobcorp.silent_orchestra": "The Silent Orchestra",
+            "entity.lobcorp.smiling_mountain": "Mountain of Smiling Bodies",
+            "item.lobcorp.mimicry": "Mimicry", "item.lobcorp.mimicry_suit": "Mimicry Suit",
+            "item.lobcorp.da_capo": "Da Capo", "item.lobcorp.da_capo_suit": "Da Capo Suit",
+            "item.lobcorp.smile": "Smile", "item.lobcorp.smile_suit": "Smile Suit"})
+print("assets aleph 1 ok")

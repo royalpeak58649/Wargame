@@ -37,6 +37,9 @@ import kr.lobcorp.client.model.ExpressTrainModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
+import kr.lobcorp.client.model.NothingThereModel;
+import kr.lobcorp.client.model.SilentOrchestraModel;
+import kr.lobcorp.client.model.SmilingMountainModel;
 import kr.lobcorp.client.model.NotesModel;
 import kr.lobcorp.client.model.OldLadyModel;
 import kr.lobcorp.client.model.ParasiteTreeModel;
@@ -99,6 +102,9 @@ import kr.lobcorp.entity.ExpressTrainEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
+import kr.lobcorp.entity.NothingThereEntity;
+import kr.lobcorp.entity.SilentOrchestraEntity;
+import kr.lobcorp.entity.SmilingMountainEntity;
 import kr.lobcorp.entity.NotesEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.ParasiteTreeEntity;
@@ -1910,6 +1916,78 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(CrimsonDuskModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class NothingThere extends MobRenderer<NothingThereEntity, NothingThereModel.State, NothingThereModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/nothing_there.png");
+
+        public NothingThere(EntityRendererProvider.Context ctx) {
+            super(ctx, new NothingThereModel(ctx.bakeLayer(NothingThereModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public NothingThereModel.State createRenderState() {
+            return new NothingThereModel.State();
+        }
+
+        @Override
+        public void extractRenderState(NothingThereEntity e, NothingThereModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.phase = e.phase();
+        }
+
+        @Override
+        public Identifier getTextureLocation(NothingThereModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class SilentOrchestra extends MobRenderer<SilentOrchestraEntity, SilentOrchestraModel.State, SilentOrchestraModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/silent_orchestra.png");
+
+        public SilentOrchestra(EntityRendererProvider.Context ctx) {
+            super(ctx, new SilentOrchestraModel(ctx.bakeLayer(SilentOrchestraModel.LAYER)), 0.7f);
+        }
+
+        @Override
+        public SilentOrchestraModel.State createRenderState() {
+            return new SilentOrchestraModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SilentOrchestraEntity e, SilentOrchestraModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.movement = e.movement();
+        }
+
+        @Override
+        public Identifier getTextureLocation(SilentOrchestraModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class SmilingMountain extends MobRenderer<SmilingMountainEntity, SmilingMountainModel.State, SmilingMountainModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/smiling_mountain.png");
+
+        public SmilingMountain(EntityRendererProvider.Context ctx) {
+            super(ctx, new SmilingMountainModel(ctx.bakeLayer(SmilingMountainModel.LAYER)), 1.4f);
+        }
+
+        @Override
+        public SmilingMountainModel.State createRenderState() {
+            return new SmilingMountainModel.State();
+        }
+
+        @Override
+        public void extractRenderState(SmilingMountainEntity e, SmilingMountainModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.parts = e.parts();
+        }
+
+        @Override
+        public Identifier getTextureLocation(SmilingMountainModel.State s) {
             return TEX;
         }
     }

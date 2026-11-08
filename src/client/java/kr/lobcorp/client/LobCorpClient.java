@@ -133,6 +133,12 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.BURROWING_HEAVEN, kr.lobcorp.client.render.NewAbnoRenderers.BurrowingHeaven::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.FirebirdModel.LAYER, kr.lobcorp.client.model.FirebirdModel::createLayer);
         EntityRendererRegistry.register(ModEntities.FIREBIRD, kr.lobcorp.client.render.NewAbnoRenderers.Firebird::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.NothingThereModel.LAYER, kr.lobcorp.client.model.NothingThereModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.NOTHING_THERE, kr.lobcorp.client.render.NewAbnoRenderers.NothingThere::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.SilentOrchestraModel.LAYER, kr.lobcorp.client.model.SilentOrchestraModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.SILENT_ORCHESTRA, kr.lobcorp.client.render.NewAbnoRenderers.SilentOrchestra::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.SmilingMountainModel.LAYER, kr.lobcorp.client.model.SmilingMountainModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.SMILING_MOUNTAIN, kr.lobcorp.client.render.NewAbnoRenderers.SmilingMountain::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CloudedMonkModel.LAYER, kr.lobcorp.client.model.CloudedMonkModel::createLayer);
         EntityRendererRegistry.register(ModEntities.CLOUDED_MONK, kr.lobcorp.client.render.NewAbnoRenderers.CloudedMonk::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.IlPiantoModel.LAYER, kr.lobcorp.client.model.IlPiantoModel::createLayer);
