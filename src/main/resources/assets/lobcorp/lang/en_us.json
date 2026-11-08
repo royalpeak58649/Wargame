@@ -153,5 +153,8 @@
   "item.lobcorp.feather_of_honor_suit": "Feather of Honor Suit",
   "entity.lobcorp.clouded_monk": "Clouded Monk",
   "item.lobcorp.amita": "Amita",
-  "item.lobcorp.amita_suit": "Amita Robe"
+  "item.lobcorp.amita_suit": "Amita Robe",
+  "entity.lobcorp.il_pianto": "Il Pianto della Luna",
+  "item.lobcorp.moonlight": "Moonlight",
+  "item.lobcorp.moonlight_suit": "Moonlight Tailcoat"
 }
