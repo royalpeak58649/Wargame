@@ -56,7 +56,7 @@ public class GreenNoonModel extends EntityModel<GreenNoonModel.State> {
                 .addBox(-2, 0, -2, 4, 8, 4), PartPose.offset(-3, 16, 0));
         root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 40)
                 .addBox(-2, 0, -2, 4, 8, 4), PartPose.offset(3, 16, 0));
-        return LayerDefinition.create(mesh, 64, 64);
+        return LayerDefinition.create(mesh, 128, 128);
     }
 
     @Override

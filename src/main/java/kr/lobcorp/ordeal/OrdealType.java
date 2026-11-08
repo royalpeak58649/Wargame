@@ -25,7 +25,13 @@ public enum OrdealType {
     VIOLET_NOON("violet_noon", "보라색 정오 — 사랑을 주소서", OrdealTier.NOON, 0x9B59D0, 3, 1,
             () -> kr.lobcorp.ModEntities.VIOLET_NOON),
     INDIGO_NOON("indigo_noon", "쪽빛 정오 — 청소부", OrdealTier.NOON, 0x3F51B5, 4, 3,
-            () -> kr.lobcorp.ModEntities.INDIGO_NOON);
+            () -> kr.lobcorp.ModEntities.INDIGO_NOON),
+    AMBER_DUSK("amber_dusk", "호박색 황혼 — 먹이사슬", OrdealTier.DUSK, 0xFFB000, 2, 1,
+            () -> kr.lobcorp.ModEntities.AMBER_DUSK),
+    GREEN_DUSK("green_dusk", "녹색 황혼 — 우리가 도달해야 할 곳", OrdealTier.DUSK, 0x55CC55, 3, 1,
+            () -> kr.lobcorp.ModEntities.GREEN_DUSK),
+    CRIMSON_DUSK("crimson_dusk", "진홍색 황혼 — 막이 내리면", OrdealTier.DUSK, 0xDC143C, 2, 1,
+            () -> kr.lobcorp.ModEntities.CRIMSON_DUSK);
 
     public final String id;
     public final String ko;

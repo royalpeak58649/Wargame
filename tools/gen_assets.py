@@ -8681,7 +8681,7 @@ merge_lang({"entity.lobcorp.amber_dawn": "호박색 여명", "entity.lobcorp.gre
 
 
 def green_noon():
-    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
     plate = hexc("#4a5a4c")
     plate_hi = hexc("#6f8a72")
     plate_dark = hexc("#2c3a2e")

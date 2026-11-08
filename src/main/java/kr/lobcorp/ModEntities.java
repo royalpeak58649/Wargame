@@ -65,9 +65,12 @@ import kr.lobcorp.entity.WorkerBeeEntity;
 import kr.lobcorp.entity.YangEntity;
 import kr.lobcorp.entity.YinEntity;
 import kr.lobcorp.ordeal.AmberDawnEntity;
+import kr.lobcorp.ordeal.AmberDuskEntity;
 import kr.lobcorp.ordeal.CrimsonDawnEntity;
+import kr.lobcorp.ordeal.CrimsonDuskEntity;
 import kr.lobcorp.ordeal.CrimsonNoonEntity;
 import kr.lobcorp.ordeal.GreenDawnEntity;
+import kr.lobcorp.ordeal.GreenDuskEntity;
 import kr.lobcorp.ordeal.GreenNoonEntity;
 import kr.lobcorp.ordeal.IndigoNoonEntity;
 import kr.lobcorp.ordeal.VioletDawnEntity;
@@ -156,6 +159,9 @@ public final class ModEntities {
     public static EntityType<CrimsonNoonEntity> CRIMSON_NOON;
     public static EntityType<VioletNoonEntity> VIOLET_NOON;
     public static EntityType<IndigoNoonEntity> INDIGO_NOON;
+    public static EntityType<AmberDuskEntity> AMBER_DUSK;
+    public static EntityType<GreenDuskEntity> GREEN_DUSK;
+    public static EntityType<CrimsonDuskEntity> CRIMSON_DUSK;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -308,6 +314,12 @@ public final class ModEntities {
                 .sized(1.2f, 3.0f).clientTrackingRange(10));
         INDIGO_NOON = register("indigo_noon", EntityType.Builder.of(IndigoNoonEntity::new, MobCategory.MONSTER)
                 .sized(0.8f, 1.6f).clientTrackingRange(10));
+        AMBER_DUSK = register("amber_dusk", EntityType.Builder.of(AmberDuskEntity::new, MobCategory.MONSTER)
+                .sized(1.6f, 1.6f).clientTrackingRange(10));
+        GREEN_DUSK = register("green_dusk", EntityType.Builder.of(GreenDuskEntity::new, MobCategory.MONSTER)
+                .sized(2.0f, 3.0f).clientTrackingRange(10));
+        CRIMSON_DUSK = register("crimson_dusk", EntityType.Builder.of(CrimsonDuskEntity::new, MobCategory.MONSTER)
+                .sized(1.4f, 3.2f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -381,5 +393,8 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(CRIMSON_NOON, CrimsonNoonEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(VIOLET_NOON, VioletNoonEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(INDIGO_NOON, IndigoNoonEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(AMBER_DUSK, AmberDuskEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(GREEN_DUSK, GreenDuskEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(CRIMSON_DUSK, CrimsonDuskEntity.createAttributes());
     }
 }
