@@ -42,7 +42,12 @@ public abstract class OrdealEntity extends PathfinderMob {
         goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, true));
         goalSelector.addGoal(5, new RandomStrollGoal(this, 0.6));
         goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 12f));
-        // 벽 너머의 직원도 찾아낸다 (시야 무시). Goal 판정은 엔티티 ID에 따라 격틱으로 돌기 때문에 tickCount 모듈러를 쓰면 안 된다.
+        addPlayerTargetGoal();
+    }
+
+    /** 벽 너머의 직원도 찾아내는 표적 목표를 등록한다 (시야 무시). */
+    protected void addPlayerTargetGoal() {
+        // Goal 판정은 엔티티 ID에 따라 격틱으로 돌기 때문에 tickCount 모듈러를 쓰면 안 된다.
         targetSelector.addGoal(1, new Goal() {
             private final TargetingConditions cond = TargetingConditions.forCombat().range(40).ignoreLineOfSight();
 

@@ -30,7 +30,17 @@ public final class OrdealManager {
 
     private static final List<Active> ACTIVE = new ArrayList<>();
 
-    private record Active(OrdealType type, List<OrdealEntity> entities) {}
+    /** 진행 중인 시련 하나. 처치되지 않고 사라진 개체가 있으면 failed가 켜진다. */
+    private static final class Active {
+        final OrdealType type;
+        final List<OrdealEntity> entities;
+        boolean failed;
+
+        Active(OrdealType type, List<OrdealEntity> entities) {
+            this.type = type;
+            this.entities = entities;
+        }
+    }
 
     private static final EnumSet<OrdealTier> TRIGGERED = EnumSet.noneOf(OrdealTier.class);
     private static int lastDay = -1;
@@ -64,12 +74,22 @@ public final class OrdealManager {
             }
         }
         for (Active a : new ArrayList<>(ACTIVE)) {
-            a.entities().removeIf(e -> !e.isAlive());
-            if (!a.entities().isEmpty()) continue;
+            // 살아 있지 않은 개체를 정리한다. 체력이 남은 채 사라졌다면 처치가 아니라 자멸·소멸이므로 실패로 본다.
+            a.entities.removeIf(e -> {
+                if (e.isAlive()) return false;
+                if (e.getHealth() > 0) a.failed = true;
+                return true;
+            });
+            if (!a.entities.isEmpty()) continue;
             ACTIVE.remove(a);
-            int bonus = Math.max(1, Math.round(f.quota * a.type().tier.reward));
+            if (a.failed) {
+                Facility.broadcast(server, Component.literal("[관제] " + a.type.ko + " 시련을 막지 못했습니다.")
+                        .withStyle(s -> s.withColor(0xFF5555)));
+                continue;
+            }
+            int bonus = Math.max(1, Math.round(f.quota * a.type.tier.reward));
             Facility.addEnergy(server, bonus);
-            Facility.broadcast(server, Component.literal("[관제] " + a.type().ko + " 시련을 극복했습니다. 에너지 +" + bonus)
+            Facility.broadcast(server, Component.literal("[관제] " + a.type.ko + " 시련을 극복했습니다. 에너지 +" + bonus)
                     .withStyle(s -> s.withColor(0x55FF55)));
         }
     }
@@ -136,6 +156,16 @@ public final class OrdealManager {
         return null;
     }
 
+    /** 부모가 속한 시련에 자식 개체를 편입시킨다. 분열·증식하는 개체가 쓰러질 때 사용한다. */
+    public static void adopt(OrdealEntity parent, OrdealEntity child) {
+        for (Active a : ACTIVE) {
+            if (a.entities.contains(parent)) {
+                a.entities.add(child);
+                return;
+            }
+        }
+    }
+
     /** 부서 중앙 홀 중 하나를 무작위로 고른다. 없으면 null */
     public static BlockPos randomCenter(MinecraftServer server, RandomSource r) {
         List<BlockPos> centers = Facility.centers(server);
@@ -161,7 +191,7 @@ public final class OrdealManager {
         StringBuilder sb = new StringBuilder();
         for (Active a : ACTIVE) {
             if (sb.length() > 0) sb.append('\n');
-            sb.append(a.type().ko).append(" 남은 ").append(a.entities().size());
+            sb.append(a.type.ko).append(" 남은 ").append(a.entities.size());
         }
         return sb.toString();
     }
