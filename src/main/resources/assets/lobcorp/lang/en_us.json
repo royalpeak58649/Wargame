@@ -174,5 +174,14 @@
   "entity.lobcorp.indigo_noon": "Noon of Indigo",
   "entity.lobcorp.amber_dusk": "Amber Dusk",
   "entity.lobcorp.green_dusk": "Green Dusk",
-  "entity.lobcorp.crimson_dusk": "Crimson Dusk"
+  "entity.lobcorp.crimson_dusk": "Crimson Dusk",
+  "entity.lobcorp.nothing_there": "Nothing There",
+  "entity.lobcorp.silent_orchestra": "The Silent Orchestra",
+  "entity.lobcorp.smiling_mountain": "Mountain of Smiling Bodies",
+  "item.lobcorp.mimicry": "Mimicry",
+  "item.lobcorp.mimicry_suit": "Mimicry Suit",
+  "item.lobcorp.da_capo": "Da Capo",
+  "item.lobcorp.da_capo_suit": "Da Capo Suit",
+  "item.lobcorp.smile": "Smile",
+  "item.lobcorp.smile_suit": "Smile Suit"
 }

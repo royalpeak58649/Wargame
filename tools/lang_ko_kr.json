@@ -174,5 +174,14 @@
   "entity.lobcorp.indigo_noon": "쪽빛 정오",
   "entity.lobcorp.amber_dusk": "호박색 황혼",
   "entity.lobcorp.green_dusk": "녹색 황혼",
-  "entity.lobcorp.crimson_dusk": "진홍색 황혼"
+  "entity.lobcorp.crimson_dusk": "진홍색 황혼",
+  "entity.lobcorp.nothing_there": "아무것도 없는",
+  "entity.lobcorp.silent_orchestra": "침묵의 오케스트라",
+  "entity.lobcorp.smiling_mountain": "웃는 시체 산",
+  "item.lobcorp.mimicry": "흉내",
+  "item.lobcorp.mimicry_suit": "흉내 옷",
+  "item.lobcorp.da_capo": "다 카포",
+  "item.lobcorp.da_capo_suit": "다 카포 옷",
+  "item.lobcorp.smile": "미소",
+  "item.lobcorp.smile_suit": "미소 옷"
 }
