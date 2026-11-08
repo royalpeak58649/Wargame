@@ -151,7 +151,7 @@ public final class LobCorpCommands {
                                             f.quota = 20 + 10 * n;
                                             c.getSource().sendSuccess(() -> Component.literal("날짜를 " + n + "일차로 바꿨습니다. (할당량 " + f.quota + ")"), true);
                                             return 1;
-                                        })))
+                                        }))))
                 .then(Commands.literal("newgame").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(c -> {
                             c.getSource().sendFailure(Component.literal("모든 환상체, 날짜, 에너지, 직원 능력치·기프트를 초기화하고 1일차부터 다시 시작합니다. 시설 건물은 남습니다. 정말 하려면 /lobcorp newgame confirm (능력치를 남기려면 /lobcorp newgame confirm keepstats)"));
