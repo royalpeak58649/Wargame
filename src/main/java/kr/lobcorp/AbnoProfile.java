@@ -1014,6 +1014,21 @@ public record AbnoProfile(
                     "카운터가 0이 되면 검은 군인 넷이 각 부서 중앙 홀로 행진해 터진다. 공격받기 전까지는 직원을 해치지 않는다."
             ));
 
+    public static final AbnoProfile WHITENIGHT = new AbnoProfile(
+            "whitenight", "백야", "T-03-46", "ALEPH", 0xFF3333,
+            new int[]{0, 35, 45, 45}, 35, 26, 16,
+            DamageColor.PALE, 7, 8,
+            3,
+            () -> ModItems.PARADISE_LOST, 200,
+            () -> ModItems.PARADISE_LOST_SUIT, 150,
+            "paradise_lost", "실낙원", "최대 HP +10, 최대 SP +10, 이동 속도 +10%", 1,
+            new float[]{0.5f, 0.0f, 0.5f, 0.2f},
+            List.of(
+                    "눈부신 날개를 단 존재. 그 앞에서 사람들은 무릎을 꿇는다.",
+                    "90초 동안 아무도 작업하지 않거나 결과가 나쁨이면 클리포트 카운터가 1 감소하고, 좋음이면 1(보통이면 40% 확률로) 회복된다. 좋음은 모든 직원을 완전히 치유하고, 나쁨은 주변 직원의 정신을 무너뜨린다.",
+                    "탈출하면 사도들이 나타나 시설을 가른다. WHITE 피해는 오히려 그를 치유한다. 탈출 중 「하나의 죄와 수백 개의 선」에게 작업을 마치면 그 직원의 고해로 백야가 사라진다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
@@ -1023,6 +1038,7 @@ public record AbnoProfile(
             Map.entry(BLUE_STAR.id, BLUE_STAR),
             Map.entry(MELTING_LOVE.id, MELTING_LOVE),
             Map.entry(ARMY_IN_BLACK.id, ARMY_IN_BLACK),
+            Map.entry(WHITENIGHT.id, WHITENIGHT),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),

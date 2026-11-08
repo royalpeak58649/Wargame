@@ -2,6 +2,7 @@ package kr.lobcorp;
 
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.AlriuneEntity;
+import kr.lobcorp.entity.ApostleEntity;
 import kr.lobcorp.entity.ArmyInBlackEntity;
 import kr.lobcorp.entity.ArmySoldierEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
@@ -69,6 +70,7 @@ import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import kr.lobcorp.entity.WoodsmanEntity;
+import kr.lobcorp.entity.WhiteNightEntity;
 import kr.lobcorp.entity.WorkerBeeEntity;
 import kr.lobcorp.entity.YangEntity;
 import kr.lobcorp.entity.YinEntity;
@@ -169,6 +171,8 @@ public final class ModEntities {
     public static EntityType<MeltingSlimeEntity> MELTING_SLIME;
     public static EntityType<ArmyInBlackEntity> ARMY_IN_BLACK;
     public static EntityType<ArmySoldierEntity> ARMY_SOLDIER;
+    public static EntityType<WhiteNightEntity> WHITENIGHT;
+    public static EntityType<ApostleEntity> APOSTLE;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -336,6 +340,10 @@ public final class ModEntities {
                 .sized(1.0f, 1.6f).clientTrackingRange(10));
         ARMY_SOLDIER = register("army_soldier", EntityType.Builder.of(ArmySoldierEntity::new, MobCategory.MONSTER)
                 .sized(0.8f, 1.8f).clientTrackingRange(10));
+        WHITENIGHT = register("whitenight", EntityType.Builder.of(WhiteNightEntity::new, MobCategory.MISC)
+                .sized(1.4f, 3.0f).clientTrackingRange(10));
+        APOSTLE = register("apostle", EntityType.Builder.of(ApostleEntity::new, MobCategory.MONSTER)
+                .sized(0.7f, 2.0f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -433,6 +441,8 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(MELTING_SLIME, MeltingSlimeEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(ARMY_IN_BLACK, ArmyInBlackEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(ARMY_SOLDIER, ArmySoldierEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(WHITENIGHT, WhiteNightEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(APOSTLE, ApostleEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

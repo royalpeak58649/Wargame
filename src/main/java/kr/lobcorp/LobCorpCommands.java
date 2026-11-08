@@ -92,7 +92,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("censored").executes(c -> build(c, ModEntities.CENSORED, false)))
                         .then(Commands.literal("blue_star").executes(c -> build(c, ModEntities.BLUE_STAR, false)))
                         .then(Commands.literal("melting_love").executes(c -> build(c, ModEntities.MELTING_LOVE, false)))
-                        .then(Commands.literal("army_in_black").executes(c -> build(c, ModEntities.ARMY_IN_BLACK, false))))
+                        .then(Commands.literal("army_in_black").executes(c -> build(c, ModEntities.ARMY_IN_BLACK, false)))
+                        .then(Commands.literal("whitenight").executes(c -> build(c, ModEntities.WHITENIGHT, false))))
                 .then(Commands.literal("facility").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(c -> facility(c, false))
                         .then(Commands.literal("full").executes(c -> facility(c, true)))
@@ -308,6 +309,7 @@ public final class LobCorpCommands {
                         || e instanceof kr.lobcorp.entity.CensoredMinionEntity
                         || e instanceof kr.lobcorp.entity.MeltingSlimeEntity
                         || e instanceof kr.lobcorp.entity.ArmySoldierEntity
+                        || e instanceof kr.lobcorp.entity.ApostleEntity
                         || e instanceof kr.lobcorp.entity.SaplingEntity
                         || e instanceof kr.lobcorp.entity.NakedWormEntity) e.discard();
             }

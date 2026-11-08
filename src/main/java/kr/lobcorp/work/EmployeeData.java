@@ -151,6 +151,7 @@ public class EmployeeData {
             java.util.Map.entry("sound_of_a_star", new int[]{0, 0, 0, 10}),
             java.util.Map.entry("adoration", new int[]{5, 10, -5, -5}),
             java.util.Map.entry("pink", new int[]{0, 5, 0, 0}),
+            java.util.Map.entry("paradise_lost", new int[]{10, 10, 0, 10}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})
