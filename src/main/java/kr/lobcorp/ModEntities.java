@@ -45,6 +45,7 @@ import kr.lobcorp.entity.CloudedMonkEntity;
 import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.BackwardClockEntity;
 import kr.lobcorp.entity.DimensionRefractionEntity;
+import kr.lobcorp.entity.FleshIdolEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -136,6 +137,7 @@ public final class ModEntities {
     public static EntityType<IlPiantoEntity> IL_PIANTO;
     public static EntityType<BackwardClockEntity> BACKWARD_CLOCK;
     public static EntityType<DimensionRefractionEntity> DIMENSION_REFRACTION;
+    public static EntityType<FleshIdolEntity> FLESH_IDOL;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -268,6 +270,8 @@ public final class ModEntities {
                 .sized(1.0f, 2.6f).clientTrackingRange(10));
         DIMENSION_REFRACTION = register("dimension_refraction", EntityType.Builder.of(DimensionRefractionEntity::new, MobCategory.MISC)
                 .sized(1.0f, 1.8f).clientTrackingRange(10));
+        FLESH_IDOL = register("flesh_idol", EntityType.Builder.of(FleshIdolEntity::new, MobCategory.MISC)
+                .sized(1.2f, 2.0f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -331,5 +335,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(IL_PIANTO, IlPiantoEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BACKWARD_CLOCK, BackwardClockEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(DIMENSION_REFRACTION, DimensionRefractionEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(FLESH_IDOL, FleshIdolEntity.createAttributes());
     }
 }

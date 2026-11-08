@@ -878,7 +878,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 모습을 감춘 채 직원 곁을 느리게 떠돈다. 닿은 직원은 보이지 않는 파편에 갈려 연속으로 피해를 입는다. 희미한 빛만이 그 위치를 알려준다."
             ));
 
+    public static final AbnoProfile FLESH_IDOL = new AbnoProfile(
+            "flesh_idol", "살점 우상", "T-09-79", "WAW", 0xAA55FF,
+            new int[]{0, 0, 0, 0}, 0, 0, 0,
+            DamageColor.WHITE, 0, 0,
+            0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            () -> net.minecraft.world.item.Items.AIR, 0,
+            "", "", "", 0,
+            new float[]{1f, 1f, 1f, 1f},
+            List.of(
+                    "날고기와 뼈를 아무렇게나 쌓아 올린 조잡한 우상. 앞에는 작은 제단이 놓여 있고, 살점은 아직 축축하다.",
+                    "누군가 제단 앞에 무릎을 꿇고 기도하는 동안, 시설의 모든 직원이 주기적으로 체력과 정신력을 회복한다.",
+                    "그 값을 치르는 것은 기도하는 자 자신이다. 기도가 길어질수록 우상은 굶주려, 이따금 기도하는 자의 최대 체력 일부를 살점으로 삼킨다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
             Map.entry(IL_PIANTO.id, IL_PIANTO),
