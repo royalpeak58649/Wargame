@@ -137,5 +137,9 @@
   "entity.lobcorp.parasite_tree": "기생 나무",
   "entity.lobcorp.sapling": "묘목",
   "item.lobcorp.hypocrisy": "위선",
-  "item.lobcorp.hypocrisy_suit": "위선의 외투"
+  "item.lobcorp.hypocrisy_suit": "위선의 외투",
+  "entity.lobcorp.naked_nest": "벌거벗은 둥지",
+  "entity.lobcorp.naked_worm": "벌거벗은 둥지의 뱀",
+  "item.lobcorp.exuviae": "탈피",
+  "item.lobcorp.exuviae_suit": "탈피의 외투"
 }

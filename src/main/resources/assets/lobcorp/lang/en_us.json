@@ -137,5 +137,9 @@
   "entity.lobcorp.parasite_tree": "Parasite Tree",
   "entity.lobcorp.sapling": "Sapling",
   "item.lobcorp.hypocrisy": "Hypocrisy",
-  "item.lobcorp.hypocrisy_suit": "Hypocrisy Coat"
+  "item.lobcorp.hypocrisy_suit": "Hypocrisy Coat",
+  "entity.lobcorp.naked_nest": "The Naked Nest",
+  "entity.lobcorp.naked_worm": "Naked Nest Serpent",
+  "item.lobcorp.exuviae": "Exuviae",
+  "item.lobcorp.exuviae_suit": "Exuviae Coat"
 }
