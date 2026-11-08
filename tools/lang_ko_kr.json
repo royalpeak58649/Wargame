@@ -150,5 +150,8 @@
   "item.lobcorp.heaven_suit": "천국의 옷",
   "entity.lobcorp.firebird": "불새",
   "item.lobcorp.feather_of_honor": "명예의 깃털",
-  "item.lobcorp.feather_of_honor_suit": "명예의 깃털 옷"
+  "item.lobcorp.feather_of_honor_suit": "명예의 깃털 옷",
+  "entity.lobcorp.clouded_monk": "구름 낀 수도승",
+  "item.lobcorp.amita": "아미타",
+  "item.lobcorp.amita_suit": "아미타의 승복"
 }
