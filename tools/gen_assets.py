@@ -8530,3 +8530,151 @@ print("assets magic bullet order ok")
 
 merge_lang({"item.lobcorp.magic_bullet_order": "마탄 의뢰서"},
            {"item.lobcorp.magic_bullet_order": "Magic Bullet Order"})
+
+
+# ═════════════ 여명 의례 ( ordeal dawn ) ═════════════
+def amber_dawn():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    amber = hexc("#d98a1e")
+    amber_hi = hexc("#f2b64a")
+    ring = hexc("#8a4a10")
+    mouth = hexc("#5a1010")
+
+    # 머리 (u0 v0, 4x4x4) + 입 테두리 (u0 v10, 2x2x1)
+    h = box(img, 0, 0, 4, 4, 4, amber, 6, top=amber_hi)
+    hx, hy = h["front"]
+    for x in range(4):
+        px(img, hx + x, hy + 3, ring)
+    m = box(img, 0, 10, 2, 2, 1, ring, 6)
+    mx, my = m["front"]
+    for x in range(2):
+        for y in range(2):
+            px(img, mx + x, my + y, mouth)
+
+    # 마디 1 (u0 v14, 4x4x4)
+    s1 = box(img, 0, 14, 4, 4, 4, amber, 6, top=amber_hi)
+    s1x, s1y = s1["front"]
+    for x in range(4):
+        px(img, s1x + x, s1y + 3, ring)
+    # 마디 2 (u0 v24, 3x3x3)
+    s2 = box(img, 0, 24, 3, 3, 3, amber, 6, top=amber_hi)
+    s2x, s2y = s2["front"]
+    for x in range(3):
+        px(img, s2x + x, s2y + 2, ring)
+    # 마디 3 (u0 v32, 3x3x3)
+    s3 = box(img, 0, 32, 3, 3, 3, amber, 6, top=amber_hi)
+    s3x, s3y = s3["front"]
+    for x in range(3):
+        px(img, s3x + x, s3y + 2, ring)
+
+    save(img, "textures/entity/amber_dawn.png")
+
+
+def green_dawn():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    metal = hexc("#6f8a72")
+    metal_hi = hexc("#9ab89c")
+    metal_dark = hexc("#3f5244")
+    visor = hexc("#5cff8a")
+    steel = hexc("#c8d2d8")
+
+    # 몸통 (u0 v0, 6x8x4)
+    box(img, 0, 0, 6, 8, 4, metal, 6, top=metal_hi)
+    # 머리 (u0 v12, 6x6x6) + 바이저 (u24 v12, 4x1x1)
+    h = box(img, 0, 12, 6, 6, 6, metal, 6, top=metal_hi)
+    hx, hy = h["front"]
+    for x in range(6):
+        px(img, hx + x, hy + 5, metal_dark)
+    v = box(img, 24, 12, 4, 1, 1, visor, 4)
+    vx, vy = v["front"]
+    for x in range(4):
+        px(img, vx + x, vy, visor)
+    # 오른팔 (u0 v24, 2x8x2) + 칼날 (u12 v24, 2x4x1)
+    box(img, 0, 24, 2, 8, 2, metal, 6, top=metal_hi)
+    box(img, 12, 24, 2, 4, 1, steel, 5, top=hexc("#eef4f8"))
+    # 왼팔 (u0 v24, 2x8x2)
+    box(img, 0, 24, 2, 8, 2, metal, 6, top=metal_hi)
+    # 다리 (u20 v24, 2x8x2)
+    box(img, 20, 24, 2, 8, 2, metal_dark, 6, top=metal)
+
+    save(img, "textures/entity/green_dawn.png")
+
+
+def crimson_dawn():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    white = hexc("#f2ece4")
+    red = hexc("#b81c28")
+    black = hexc("#241418")
+    nose = hexc("#e03040")
+
+    # 몸통 (u0 v0, 6x6x4): 진홍/검정 줄무늬
+    b = box(img, 0, 0, 6, 6, 4, red, 6, top=black)
+    bx, by = b["front"]
+    for y in range(6):
+        if y % 2 == 1:
+            for x in range(6):
+                px(img, bx + x, by + y, black)
+    # 머리 (u0 v10, 8x8x8) + 코 (u32 v10, 2x2x1)
+    h = box(img, 0, 10, 8, 8, 8, white, 5, top=white)
+    hx, hy = h["front"]
+    for (ex, ey) in [(1, 2), (6, 2)]:
+        px(img, hx + ex, hy + ey, black)
+    for x in range(8):
+        px(img, hx + x, hy + 7, red)
+    n = box(img, 32, 10, 2, 2, 1, nose, 5)
+    nx, ny = n["front"]
+    for x in range(2):
+        for y in range(2):
+            px(img, nx + x, ny + y, nose)
+    # 고깔모자 1단 (u32 v14, 6x2x6)
+    c1 = box(img, 32, 14, 6, 2, 6, red, 6, top=black)
+    c1x, c1y = c1["front"]
+    for x in range(6):
+        px(img, c1x + x, c1y + 1, black)
+    # 고깔모자 2단 (u32 v22, 2x3x2)
+    box(img, 32, 22, 2, 3, 2, red, 6, top=black)
+    # 팔 (u0 v26, 2x6x2)
+    box(img, 0, 26, 2, 6, 2, red, 6, top=black)
+    box(img, 0, 26, 2, 6, 2, red, 6, top=black)
+    # 다리 (u12 v26, 2x8x2)
+    box(img, 12, 26, 2, 8, 2, black, 6, top=red)
+    box(img, 12, 26, 2, 8, 2, black, 6, top=red)
+
+    save(img, "textures/entity/crimson_dawn.png")
+
+
+def violet_dawn():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    skin = hexc("#4a1e6e")
+    skin_hi = hexc("#7a3aa8")
+    spot = hexc("#a06ad0")
+    stem_c = hexc("#2a1030")
+    root_c = hexc("#c8a8e0")
+
+    # 몸통 3겹 (u0 v0 8x8x8 / u0 v16 6x6x6 / u0 v28 4x4x4)
+    b = box(img, 0, 0, 8, 8, 8, skin, 6, top=skin_hi)
+    bx, by = b["front"]
+    for (sx, sy) in [(1, 2), (5, 1), (3, 5), (6, 6)]:
+        px(img, bx + sx, by + sy, spot)
+    b2 = box(img, 0, 16, 6, 6, 6, skin, 6, top=skin_hi)
+    b2x, b2y = b2["front"]
+    for (sx, sy) in [(1, 1), (4, 3)]:
+        px(img, b2x + sx, b2y + sy, spot)
+    box(img, 0, 28, 4, 4, 4, skin, 6, top=skin_hi)
+    # 꼭지 (u24 v16, 2x3x2)
+    box(img, 24, 16, 2, 3, 2, stem_c, 5, top=hexc("#3a1a40"))
+    # 뿌리 네 가닥 (u24 v22, 1x6x1)
+    for i in range(4):
+        box(img, 24, 22, 1, 6, 1, root_c, 5)
+
+    save(img, "textures/entity/violet_dawn.png")
+
+
+amber_dawn()
+green_dawn()
+crimson_dawn()
+violet_dawn()
+print("assets ordeal dawn ok")
+
+merge_lang({"entity.lobcorp.amber_dawn": "호박색 여명", "entity.lobcorp.green_dawn": "녹색 여명", "entity.lobcorp.crimson_dawn": "진홍색 여명", "entity.lobcorp.violet_dawn": "보라색 여명"},
+           {"entity.lobcorp.amber_dawn": "Dawn of Amber", "entity.lobcorp.green_dawn": "Dawn of Green", "entity.lobcorp.crimson_dawn": "Dawn of Crimson", "entity.lobcorp.violet_dawn": "Dawn of Violet"})

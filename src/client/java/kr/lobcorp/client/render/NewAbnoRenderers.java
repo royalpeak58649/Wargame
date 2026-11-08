@@ -125,6 +125,14 @@ import kr.lobcorp.entity.VoidDreamEntity;
 import kr.lobcorp.entity.WoodsmanEntity;
 import kr.lobcorp.entity.YangEntity;
 import kr.lobcorp.entity.YinEntity;
+import kr.lobcorp.ordeal.AmberDawnEntity;
+import kr.lobcorp.ordeal.GreenDawnEntity;
+import kr.lobcorp.ordeal.CrimsonDawnEntity;
+import kr.lobcorp.ordeal.VioletDawnEntity;
+import kr.lobcorp.client.model.AmberDawnModel;
+import kr.lobcorp.client.model.GreenDawnModel;
+import kr.lobcorp.client.model.CrimsonDawnModel;
+import kr.lobcorp.client.model.VioletDawnModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -1635,6 +1643,98 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(ExpressTrainModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class AmberDawn extends MobRenderer<AmberDawnEntity, AmberDawnModel.State, AmberDawnModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/amber_dawn.png");
+
+        public AmberDawn(EntityRendererProvider.Context ctx) {
+            super(ctx, new AmberDawnModel(ctx.bakeLayer(AmberDawnModel.LAYER)), 0.3f);
+        }
+
+        @Override
+        public AmberDawnModel.State createRenderState() {
+            return new AmberDawnModel.State();
+        }
+
+        @Override
+        public void extractRenderState(AmberDawnEntity e, AmberDawnModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(AmberDawnModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class GreenDawn extends MobRenderer<GreenDawnEntity, GreenDawnModel.State, GreenDawnModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/green_dawn.png");
+
+        public GreenDawn(EntityRendererProvider.Context ctx) {
+            super(ctx, new GreenDawnModel(ctx.bakeLayer(GreenDawnModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public GreenDawnModel.State createRenderState() {
+            return new GreenDawnModel.State();
+        }
+
+        @Override
+        public void extractRenderState(GreenDawnEntity e, GreenDawnModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(GreenDawnModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class CrimsonDawn extends MobRenderer<CrimsonDawnEntity, CrimsonDawnModel.State, CrimsonDawnModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/crimson_dawn.png");
+
+        public CrimsonDawn(EntityRendererProvider.Context ctx) {
+            super(ctx, new CrimsonDawnModel(ctx.bakeLayer(CrimsonDawnModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public CrimsonDawnModel.State createRenderState() {
+            return new CrimsonDawnModel.State();
+        }
+
+        @Override
+        public void extractRenderState(CrimsonDawnEntity e, CrimsonDawnModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(CrimsonDawnModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class VioletDawn extends MobRenderer<VioletDawnEntity, VioletDawnModel.State, VioletDawnModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/violet_dawn.png");
+
+        public VioletDawn(EntityRendererProvider.Context ctx) {
+            super(ctx, new VioletDawnModel(ctx.bakeLayer(VioletDawnModel.LAYER)), 0.4f);
+        }
+
+        @Override
+        public VioletDawnModel.State createRenderState() {
+            return new VioletDawnModel.State();
+        }
+
+        @Override
+        public void extractRenderState(VioletDawnEntity e, VioletDawnModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+        }
+
+        @Override
+        public Identifier getTextureLocation(VioletDawnModel.State s) {
             return TEX;
         }
     }
