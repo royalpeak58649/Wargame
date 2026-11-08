@@ -74,6 +74,7 @@ public final class ModItems {
     public static final ArmorMaterial HYPOCRISY_MAT = material("hypocrisy", 7);
     public static final ArmorMaterial EXUVIAE_MAT = material("exuviae", 7);
     public static final ArmorMaterial ECSTASY_MAT = material("ecstasy", 6);
+    public static final ArmorMaterial HEAVEN_MAT = material("heaven", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -167,6 +168,8 @@ public final class ModItems {
     public static Item EXUVIAE_SUIT;
     public static Item ECSTASY;
     public static Item ECSTASY_SUIT;
+    public static Item HEAVEN;
+    public static Item HEAVEN_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -412,6 +415,10 @@ public final class ModItems {
                 "T-02-71 · WAW", "WHITE 피해 단검, 매우 빠름", "꿈꾸는 조류의 비늘을 벼려 만든 단검. 휘두를 때마다 무지개빛 물보라가 흩어진다.");
         ECSTASY_SUIT = suit("ecstasy_suit", ECSTASY_MAT,
                 "T-02-71 · WAW", "WHITE 저항: 작업 실패 시 SP 피해 -1");
+        HEAVEN = weapon("heaven", DamageColor.RED, 5.0, -2.0,
+                "O-04-72 · WAW", "RED 피해 창, 빠른 찌르기", "핏발 선 눈이 박힌 창백한 가지를 깎아 만든 창. 찌를 때마다 뿌리 같은 가시가 바닥을 긁는다.");
+        HEAVEN_SUIT = suit("heaven_suit", HEAVEN_MAT,
+                "O-04-72 · WAW", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -430,6 +437,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT);
     }
 }

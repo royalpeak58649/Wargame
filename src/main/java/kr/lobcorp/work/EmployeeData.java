@@ -133,6 +133,7 @@ public class EmployeeData {
             java.util.Map.entry("hypocrisy", new int[]{3, 3, 0, 0}),
             java.util.Map.entry("exuviae", new int[]{5, 2, 0, 0}),
             java.util.Map.entry("ecstasy", new int[]{0, 6, 0, 0}),
+            java.util.Map.entry("heaven", new int[]{4, 0, 2, 0}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

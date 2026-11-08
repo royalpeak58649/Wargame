@@ -788,7 +788,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 같은 층에 무지개빛 물웅덩이 세 개를 만든다. 물웅덩이 위의 직원은 느려지고 계속 SP가 깎인다. 물고기는 웅덩이 사이를 오가며 몸을 웅크렸다가 곧게 돌진하는데, 돌진 중에는 어떤 피해도 통하지 않는다."
             ));
 
+    public static final AbnoProfile BURROWING_HEAVEN = new AbnoProfile(
+            "burrowing_heaven", "땅을 파는 천국", "O-04-72", "WAW", 0xAA55FF,
+            new int[]{20, 30, 45, 40}, 24, 21, 13,
+            DamageColor.BLACK, 4, 5,
+            3,
+            () -> ModItems.HEAVEN, 40,
+            () -> ModItems.HEAVEN_SUIT, 50,
+            "heaven", "천국", "최대 HP +4, 작업 성공률 +2%", 3,
+            new float[]{0.0f, 1.2f, 0.5f, 1.5f},
+            List.of(
+                    "창백하게 긴 몸통 위에 핏발 선 눈이 수없이 달린 나무. 뿌리가 바닥을 파고들어 몸을 지탱한다.",
+                    "작업 중에는 반드시 이 환상체를 바라보고 있어야 한다. 시선을 떼면 클리포트 카운터가 내려가고, 작업 결과가 좋음이면 카운터가 2, 보통이면 1 오른다.",
+                    "카운터가 0이 되면 탈출해 아무도 보지 않는 순간 땅속으로 사라졌다가 직원 곁에서 솟아오른다. 떠난 자리와 도착한 자리 주변의 직원이 찢긴다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(BURROWING_HEAVEN.id, BURROWING_HEAVEN),
             Map.entry(DREAMING_CURRENT.id, DREAMING_CURRENT),
             Map.entry(NAKED_NEST.id, NAKED_NEST),
             Map.entry(PARASITE_TREE.id, PARASITE_TREE),
