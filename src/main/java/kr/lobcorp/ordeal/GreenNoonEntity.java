@@ -95,7 +95,7 @@ public class GreenNoonEntity extends OrdealEntity {
             sl.sendParticles(ParticleTypes.CRIT, pt.x, pt.y, pt.z, 1, 0.02, 0.02, 0.02, 0);
             AABB box = new AABB(pt.x - 0.3, pt.y - 0.3, pt.z - 0.3, pt.x + 0.3, pt.y + 0.3, pt.z + 0.3);
             for (ServerPlayer p : sl.getEntitiesOfClass(ServerPlayer.class, box)) {
-                if (p == this || !p.isAlive() || p.isCreative() || p.isSpectator()) continue;
+                if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
                 hit = p;
                 break;
             }

@@ -89,14 +89,14 @@ public class ApostleEntity extends PathfinderMob {
         // 가끔 사도의 빛이 직원의 영혼을 직접 꿰뚫는다
         if (le instanceof ServerPlayer sp && getRandom().nextInt(100) < PALE_CHANCE) {
             Employees.damagePale(sp, PALE_PERCENT);
-            level.playSound(null, blockPosition(), SoundEvents.BEACON_HIT, SoundSource.HOSTILE, 1f, 1.4f);
+            level.playSound(null, blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.HOSTILE, 1f, 1.4f);
             level.sendParticles(ParticleTypes.END_ROD, le.getX(), le.getY() + 1.2, le.getZ(), 12, 0.3, 0.5, 0.3, 0.03);
             return true;
         }
         float dmg = 12f + getRandom().nextInt(5);
         boolean hit = le.hurtServer(level, level.damageSources().magic(), dmg);
         if (hit) {
-            level.playSound(null, blockPosition(), SoundEvents.BEACON_HIT, SoundSource.HOSTILE, 0.8f, 1.2f);
+            level.playSound(null, blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.HOSTILE, 0.8f, 1.2f);
             level.sendParticles(ParticleTypes.END_ROD, le.getX(), le.getY() + 1, le.getZ(), 6, 0.3, 0.4, 0.3, 0.05);
         }
         return hit;

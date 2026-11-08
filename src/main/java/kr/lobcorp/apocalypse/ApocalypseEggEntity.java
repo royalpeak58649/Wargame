@@ -113,8 +113,8 @@ public class ApocalypseEggEntity extends PathfinderMob {
             return false;
         }
         if (source.getEntity() instanceof LivingEntity le3
-                && le3.getMainHandItem().getItem() instanceof EgoWeaponItem ego) {
-            mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(ego), kr.lobcorp.Grades.ofEntity(this));
+                && le3.getMainHandItem().getItem() instanceof EgoWeaponItem egoW) {
+            mult *= kr.lobcorp.Grades.mult(kr.lobcorp.Grades.ofItem(egoW), kr.lobcorp.Grades.ofEntity(this));
         }
         return super.hurtServer(level, source, amount * mult);
     }

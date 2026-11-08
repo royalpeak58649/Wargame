@@ -11,6 +11,8 @@ import kr.lobcorp.entity.BigBirdEntity;
 import kr.lobcorp.entity.BlackSwanEntity;
 import kr.lobcorp.entity.BlueStarEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
+import kr.lobcorp.entity.CensoredEntity;
+import kr.lobcorp.entity.CensoredMinionEntity;
 import kr.lobcorp.entity.ClerkEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
