@@ -376,7 +376,7 @@ public final class WorkManager {
             () -> ModItems.CRIMSON_SCAR_SUIT,
             () -> ModItems.BLACK_SWAN_SUIT);
 
-    static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
+    public static boolean wearsAny(ServerPlayer p, List<java.util.function.Supplier<Item>> suits) {
         for (var s : suits) if (wearing(p, s.get())) return true;
         return false;
     }

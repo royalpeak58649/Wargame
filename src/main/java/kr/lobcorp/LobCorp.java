@@ -97,6 +97,25 @@ public class LobCorp implements ModInitializer {
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isSheltered(p)) {
                 return false;
             }
+            // WHITE E.G.O 무기로 다른 직원을 치면 HP 대신 SP가 깎인다
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p
+                    && source.getEntity() instanceof net.minecraft.server.level.ServerPlayer attacker
+                    && attacker != p && source.getDirectEntity() == attacker
+                    && attacker.getMainHandItem().getItem() instanceof kr.lobcorp.item.EgoWeaponItem ego
+                    && ego.color == kr.lobcorp.DamageColor.WHITE) {
+                int sp = Math.round(amount);
+                if (kr.lobcorp.work.WorkManager.wearsAny(p, kr.lobcorp.work.WorkManager.WHITE_SUITS)) sp--;
+                sp = Math.max(1, sp);
+                kr.lobcorp.work.Employees.damageSp(p, sp);
+                kr.lobcorp.work.Employees.sync(p);
+                net.minecraft.server.level.ServerLevel sl = p.level();
+                sl.sendParticles(net.minecraft.core.particles.ParticleTypes.SOUL, p.getX(), p.getY() + 1.2, p.getZ(), 6, 0.3, 0.4, 0.3, 0.02);
+                sl.playSound(null, p.blockPosition(), net.minecraft.sounds.SoundEvents.PLAYER_HURT,
+                        net.minecraft.sounds.SoundSource.PLAYERS, 0.8f, 1.6f);
+                if (Employees.get(p).sleepTicks > 0) Employees.wake(p, false);
+                if (Employees.get(p).possessTicks > 0) Employees.onPossessedHit(p);
+                return false;
+            }
             // 미친 연구원의 노트: 든 채로 받은 피해가 쌓인다
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isNotesHolder(p)) {
                 kr.lobcorp.work.ToolState.addNotesDamage(p, amount);
