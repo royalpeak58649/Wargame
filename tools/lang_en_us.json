@@ -157,5 +157,8 @@
   "entity.lobcorp.il_pianto": "Il Pianto della Luna",
   "item.lobcorp.moonlight": "Moonlight",
   "item.lobcorp.moonlight_suit": "Moonlight Tailcoat",
-  "entity.lobcorp.backward_clock": "Backward Clock"
+  "entity.lobcorp.backward_clock": "Backward Clock",
+  "entity.lobcorp.dimension_refraction": "Dimensional Refraction Variant",
+  "item.lobcorp.diffraction": "Diffraction",
+  "item.lobcorp.diffraction_suit": "Diffraction Suit"
 }

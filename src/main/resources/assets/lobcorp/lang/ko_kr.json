@@ -157,5 +157,8 @@
   "entity.lobcorp.il_pianto": "달의 울음",
   "item.lobcorp.moonlight": "달빛",
   "item.lobcorp.moonlight_suit": "달빛의 연미복",
-  "entity.lobcorp.backward_clock": "거꾸로 가는 시계"
+  "entity.lobcorp.backward_clock": "거꾸로 가는 시계",
+  "entity.lobcorp.dimension_refraction": "차원 굴절 변이체",
+  "item.lobcorp.diffraction": "회절",
+  "item.lobcorp.diffraction_suit": "회절의 옷"
 }
