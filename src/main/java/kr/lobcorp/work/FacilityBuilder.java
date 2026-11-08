@@ -69,7 +69,7 @@ public final class FacilityBuilder {
                         List.of(u("portrait", ModEntities.PORTRAIT), u("notes", ModEntities.NOTES))));
         List<Dept> lower = List.of(
                 new Dept("추출팀", "비나", DyeColor.BROWN,
-                        List.of(u("big_bird", ModEntities.BIG_BIRD), u("judgement_bird", ModEntities.JUDGEMENT_BIRD), u("dreaming_current", ModEntities.DREAMING_CURRENT)),
+                        List.of(u("big_bird", ModEntities.BIG_BIRD), u("judgement_bird", ModEntities.JUDGEMENT_BIRD), u("dreaming_current", ModEntities.DREAMING_CURRENT), u("firebird", ModEntities.FIREBIRD)),
                         List.of(u("queen_of_hatred", ModEntities.QUEEN_HATRED), u("knight_of_despair", ModEntities.KNIGHT_DESPAIR), u("burrowing_heaven", ModEntities.BURROWING_HEAVEN))),
                 new Dept("기록팀", "호크마", DyeColor.GRAY,
                         List.of(u("king_of_greed", ModEntities.KING_GREED), u("little_red", ModEntities.LITTLE_RED)),

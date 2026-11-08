@@ -180,6 +180,7 @@ public final class ToolState {
         // 기생 나무의 축복은 사망 통지가 끝난 뒤에 지운다
         Employees.get(p).parasiteBlessed = false;
         Employees.get(p).nestInfectTicks = 0;
+        Employees.get(p).blazingTicks = 0;
         // 따뜻한 마음의 나무꾼: 곁에서 죽은 직원의 심장을 가슴에 밀어 넣는다
         kr.lobcorp.entity.WoodsmanEntity.onPlayerDeath(p);
         // 은하수의 아이: 조약돌을 지닌 직원이 죽으면 아이가 무너진다

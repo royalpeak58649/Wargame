@@ -40,6 +40,7 @@ import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
 import kr.lobcorp.entity.DreamingCurrentEntity;
 import kr.lobcorp.entity.BurrowingHeavenEntity;
+import kr.lobcorp.entity.FirebirdEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -126,6 +127,7 @@ public final class ModEntities {
     public static EntityType<NakedWormEntity> NAKED_WORM;
     public static EntityType<DreamingCurrentEntity> DREAMING_CURRENT;
     public static EntityType<BurrowingHeavenEntity> BURROWING_HEAVEN;
+    public static EntityType<FirebirdEntity> FIREBIRD;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -248,6 +250,8 @@ public final class ModEntities {
         DREAMING_CURRENT = register("dreaming_current", EntityType.Builder.of(DreamingCurrentEntity::new, MobCategory.MISC).sized(1.0f, 1.0f).clientTrackingRange(10));
         BURROWING_HEAVEN = register("burrowing_heaven", EntityType.Builder.of(BurrowingHeavenEntity::new, MobCategory.MISC)
                 .sized(1.2f, 3.2f).clientTrackingRange(10));
+        FIREBIRD = register("firebird", EntityType.Builder.of(FirebirdEntity::new, MobCategory.MISC)
+                .sized(1.4f, 1.6f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -306,5 +310,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(NAKED_WORM, NakedWormEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(DREAMING_CURRENT, DreamingCurrentEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BURROWING_HEAVEN, BurrowingHeavenEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(FIREBIRD, FirebirdEntity.createAttributes());
     }
 }

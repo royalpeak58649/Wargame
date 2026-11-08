@@ -75,6 +75,7 @@ public final class ModItems {
     public static final ArmorMaterial EXUVIAE_MAT = material("exuviae", 7);
     public static final ArmorMaterial ECSTASY_MAT = material("ecstasy", 6);
     public static final ArmorMaterial HEAVEN_MAT = material("heaven", 6);
+    public static final ArmorMaterial FEATHER_OF_HONOR_MAT = material("feather_of_honor", 6);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -170,6 +171,8 @@ public final class ModItems {
     public static Item ECSTASY_SUIT;
     public static Item HEAVEN;
     public static Item HEAVEN_SUIT;
+    public static Item FEATHER_OF_HONOR;
+    public static Item FEATHER_OF_HONOR_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -419,6 +422,10 @@ public final class ModItems {
                 "O-04-72 · WAW", "RED 피해 창, 빠른 찌르기", "핏발 선 눈이 박힌 창백한 가지를 깎아 만든 창. 찌를 때마다 뿌리 같은 가시가 바닥을 긁는다.");
         HEAVEN_SUIT = suit("heaven_suit", HEAVEN_MAT,
                 "O-04-72 · WAW", "WHITE·BLACK 저항, RED 취약: 작업 실패 시 SP·HP 피해 -1");
+        FEATHER_OF_HONOR = weapon("feather_of_honor", DamageColor.WHITE, 3.0, -1.0,
+                "O-02-101 · WAW", "WHITE 피해 깃털, 매우 빠른 연타", "불새의 깃털을 그대로 벼려 만든 무기. 휘두를 때마다 타다 남은 불티가 흩날린다.");
+        FEATHER_OF_HONOR_SUIT = suit("feather_of_honor_suit", FEATHER_OF_HONOR_MAT,
+                "O-02-101 · WAW", "RED·WHITE 저항: 작업 실패 시 HP·SP 피해 -1");
     }
 
     public static List<Item> all() {
@@ -437,6 +444,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT);
     }
 }

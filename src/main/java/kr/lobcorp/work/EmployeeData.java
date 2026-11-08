@@ -55,6 +55,10 @@ public class EmployeeData {
     public boolean parasiteBlessed = false;
     /** 벌거벗은 둥지의 뱀에 감염된 뒤 지난 틱, 0이면 감염 아님 (저장 안 함) */
     public int nestInfectTicks = 0;
+    /** 불새의 타오르는 불꽃 남은 틱 (저장 안 함) */
+    public int blazingTicks = 0;
+    /** 불새를 공격해 눈이 먼 상태 (저장 안 함) */
+    public boolean firebirdBlind = false;
     /** 빨간 두건 용병이 늑대를 베어 넘겨 받은 양의 가호 (저장 안 함, 하루가 끝나면 사라진다) */
     public boolean sheepTicks = false;
     public Set<String> gifts = new HashSet<>();
@@ -134,6 +138,7 @@ public class EmployeeData {
             java.util.Map.entry("exuviae", new int[]{5, 2, 0, 0}),
             java.util.Map.entry("ecstasy", new int[]{0, 6, 0, 0}),
             java.util.Map.entry("heaven", new int[]{4, 0, 2, 0}),
+            java.util.Map.entry("feather_of_honor", new int[]{0, 2, 0, 4}),
             java.util.Map.entry("shelter", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("portrait", new int[]{0, 0, 0, 0}),
             java.util.Map.entry("notes", new int[]{0, 0, 0, 0})

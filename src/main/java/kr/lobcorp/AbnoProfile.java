@@ -803,7 +803,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 아무도 보지 않는 순간 땅속으로 사라졌다가 직원 곁에서 솟아오른다. 떠난 자리와 도착한 자리 주변의 직원이 찢긴다."
             ));
 
+    public static final AbnoProfile FIREBIRD = new AbnoProfile(
+            "firebird", "불새", "O-02-101", "WAW", 0xAA55FF,
+            new int[]{45, 20, 40, 30}, 24, 18, 11,
+            DamageColor.RED, 3, 4,
+            3,
+            () -> ModItems.FEATHER_OF_HONOR, 60,
+            () -> ModItems.FEATHER_OF_HONOR_SUIT, 50,
+            "feather_of_honor", "명예의 깃털", "최대 SP +2, 이동 속도 +4%", 3,
+            new float[]{0.8f, 0.4f, 1.2f, 2.0f},
+            List.of(
+                    "불꽃으로 이루어진 거대한 새. 깃털 하나하나가 타오르며, 날갯짓마다 격리실이 주황빛으로 물든다.",
+                    "카운터는 거꾸로 움직인다. 작업 결과가 좋음이면 카운터가 1 내려가고, 나쁨이면 1 오른다. 카운터가 낮을수록 작업 실패 피해가 커지지만, 카운터가 1이거나 HP가 위태로운 직원은 불꽃으로 되살아난다.",
+                    "카운터가 0이 되면 탈출해 주변을 태우고, 공격당하면 불길을 두르고 곧장 돌진한다. 제압하면 명예의 깃털을 하나 남긴다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(FIREBIRD.id, FIREBIRD),
             Map.entry(BURROWING_HEAVEN.id, BURROWING_HEAVEN),
             Map.entry(DREAMING_CURRENT.id, DREAMING_CURRENT),
             Map.entry(NAKED_NEST.id, NAKED_NEST),

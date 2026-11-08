@@ -103,6 +103,7 @@ public final class WorkManager {
         chance = Math.max(5, Math.min(95, chance));
         int interval = Math.max(10, 30 - d.temperance / 4);
         if (notes) interval = Math.max(6, interval * 3 / 4);
+        if (d.firebirdBlind && !(a instanceof kr.lobcorp.entity.FirebirdEntity)) interval *= 2;
         SESSIONS.put(p.getUUID(), new WorkSession(a, type, prof.maxBox(), chance, interval));
         PunishingBirdEntity.onAnyWorkStarted(p.level(), a, p);
         // 은하수의 아이: 조약돌을 지닌 채 다른 환상체를 작업하면 아이가 배신을 알아챈다
@@ -338,7 +339,8 @@ public final class WorkManager {
             () -> ModItems.SPORE_SUIT,
             () -> ModItems.HYPOCRISY_SUIT,
             () -> ModItems.ECSTASY_SUIT,
-            () -> ModItems.HEAVEN_SUIT);
+            () -> ModItems.HEAVEN_SUIT,
+            () -> ModItems.FEATHER_OF_HONOR_SUIT);
     /** RED·PALE 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> RED_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
@@ -368,7 +370,8 @@ public final class WorkManager {
             () -> ModItems.GOLD_RUSH_SUIT,
             () -> ModItems.BLACK_SWAN_SUIT,
             () -> ModItems.HYPOCRISY_SUIT,
-            () -> ModItems.EXUVIAE_SUIT);
+            () -> ModItems.EXUVIAE_SUIT,
+            () -> ModItems.FEATHER_OF_HONOR_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,
