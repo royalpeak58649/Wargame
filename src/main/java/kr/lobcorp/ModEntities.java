@@ -1,5 +1,6 @@
 package kr.lobcorp;
 
+import kr.lobcorp.entity.AgentEntity;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.AlriuneEntity;
 import kr.lobcorp.entity.ApostleEntity;
@@ -179,6 +180,7 @@ public final class ModEntities {
     public static EntityType<kr.lobcorp.apocalypse.ApocalypseBirdEntity> APOCALYPSE_BIRD;
     public static EntityType<kr.lobcorp.apocalypse.ApocalypseEggEntity> APOCALYPSE_EGG;
     public static EntityType<ClerkEntity> CLERK;
+    public static EntityType<AgentEntity> AGENT;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -356,6 +358,8 @@ public final class ModEntities {
                 .sized(1.2f, 1.6f).clientTrackingRange(10));
         CLERK = register("clerk", EntityType.Builder.of(ClerkEntity::new, MobCategory.CREATURE)
                 .sized(0.6f, 1.8f).clientTrackingRange(10));
+        AGENT = register("agent", EntityType.Builder.of(AgentEntity::new, MobCategory.CREATURE)
+                .sized(0.6f, 1.8f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -458,6 +462,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(APOCALYPSE_BIRD, kr.lobcorp.apocalypse.ApocalypseBirdEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(APOCALYPSE_EGG, kr.lobcorp.apocalypse.ApocalypseEggEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CLERK, ClerkEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(AGENT, AgentEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

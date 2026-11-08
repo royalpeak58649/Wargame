@@ -29,6 +29,8 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -410,6 +412,65 @@ public class AgentEntity extends ClerkEntity {
         if (owner == null || !(level() instanceof ServerLevel sl) || sl.getServer() == null) return;
         ServerPlayer p = sl.getServer().getPlayerList().getPlayer(owner);
         if (p != null) p.sendSystemMessage(Component.literal(msg));
+    }
+
+    // ───────────── 상호작용 ─────────────
+
+    /** 주인만 관리직을 직접 다룰 수 있다: 태블릿 선택, 무기/슈트 교환, 회수 */
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack held = player.getItemInHand(hand);
+        boolean tablet = held.getItem() instanceof kr.lobcorp.item.AgentTabletItem;
+        boolean weapon = held.getItem() instanceof EgoWeaponItem;
+        boolean suit = isSuit(held);
+        if (level().isClientSide()) {
+            return tablet || weapon || suit || (held.isEmpty() && player.isShiftKeyDown())
+                    ? InteractionResult.SUCCESS : super.mobInteract(player, hand);
+        }
+        if (owner == null || !owner.equals(player.getUUID())) return super.mobInteract(player, hand);
+        if (tablet) return InteractionResult.PASS;
+
+        if (weapon) {
+            swapSlot(player, hand, EquipmentSlot.MAINHAND);
+            player.sendSystemMessage(Component.literal("관리직 " + agentName + "에게 무기를 건넸습니다."));
+            return InteractionResult.SUCCESS;
+        }
+        if (suit) {
+            swapSlot(player, hand, EquipmentSlot.CHEST);
+            player.sendSystemMessage(Component.literal("관리직 " + agentName + "에게 슈트를 건넸습니다."));
+            return InteractionResult.SUCCESS;
+        }
+        if (held.isEmpty() && player.isShiftKeyDown()) {
+            for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.CHEST}) {
+                ItemStack stack = getItemBySlot(slot);
+                if (stack.isEmpty()) continue;
+                player.getInventory().placeItemBackInInventory(stack.copy());
+                setItemSlot(slot, ItemStack.EMPTY);
+            }
+            player.sendSystemMessage(Component.literal("관리직 " + agentName + "의 장비를 회수했습니다."));
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
+    }
+
+    /** 손에 든 물건과 관리직의 장비 칸을 맞바꾼다. */
+    private void swapSlot(Player player, InteractionHand hand, EquipmentSlot slot) {
+        ItemStack held = player.getItemInHand(hand);
+        ItemStack old = getItemBySlot(slot);
+        setItemSlot(slot, held.copy());
+        if (old.isEmpty()) {
+            player.setItemInHand(hand, ItemStack.EMPTY);
+        } else {
+            player.setItemInHand(hand, old);
+            player.getInventory().placeItemBackInInventory(held.copy());
+        }
+    }
+
+    /** E.G.O 슈트(레지스트리 경로가 _suit로 끝나는 아이템)인가 */
+    private static boolean isSuit(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        var key = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem());
+        return key != null && key.getPath().endsWith("_suit");
     }
 
     // ───────────── 사망 / 저장 ─────────────

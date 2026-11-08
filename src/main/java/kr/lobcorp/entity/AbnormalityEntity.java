@@ -126,6 +126,7 @@ public abstract class AbnormalityEntity extends PathfinderMob {
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (player.getItemInHand(hand).getItem() instanceof kr.lobcorp.item.AgentTabletItem) return InteractionResult.PASS;
         if (isBreached()) return InteractionResult.PASS;
         if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
         if (player instanceof ServerPlayer sp) WorkManager.openScreen(sp, this);

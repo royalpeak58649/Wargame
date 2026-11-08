@@ -243,6 +243,52 @@ public final class LobCorpCommands {
                             c.getSource().sendSuccess(() -> Component.literal("사무직 " + n + "명"), false);
                             return 1;
                         })))
+                .then(Commands.literal("agent")
+                        .then(Commands.literal("hire").executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            String err = kr.lobcorp.work.Agents.hire(p);
+                            if (err != null) {
+                                c.getSource().sendFailure(Component.literal(err));
+                                return 0;
+                            }
+                            return 1;
+                        }))
+                        .then(Commands.literal("list").executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            var mine = kr.lobcorp.work.Agents.owned(p);
+                            p.sendSystemMessage(Component.literal("──── 관리직 " + mine.size() + "/"
+                                    + kr.lobcorp.work.Agents.MAX_PER_PLAYER + " ────").withStyle(s -> s.withColor(0xAA0000)));
+                            if (mine.isEmpty()) {
+                                p.sendSystemMessage(Component.literal("고용한 관리직이 없습니다.").withStyle(s -> s.withColor(0xAAAAAA)));
+                            } else {
+                                for (var a : mine) p.sendSystemMessage(kr.lobcorp.work.Agents.describe(a));
+                            }
+                            return 1;
+                        }))
+                        .then(Commands.literal("tablet").executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            p.getInventory().placeItemBackInInventory(new net.minecraft.world.item.ItemStack(ModItems.AGENT_TABLET),
+                                    net.minecraft.util.Prediction.SERVER_ONLY);
+                            c.getSource().sendSuccess(() -> Component.literal("관리직 지휘 태블릿을 지급했습니다."), false);
+                            return 1;
+                        }))
+                        .then(Commands.literal("follow").executes(c -> {
+                            ServerPlayer p = c.getSource().getPlayerOrException();
+                            var sel = kr.lobcorp.work.Agents.selected(p);
+                            for (var a : sel) a.orderFollow();
+                            c.getSource().sendSuccess(() -> Component.literal("선택한 관리직 " + sel.size() + "명이 따라옵니다."), false);
+                            return 1;
+                        }))
+                        .then(Commands.literal("work")
+                                .then(Commands.argument("entity", com.mojang.brigadier.arguments.IntegerArgumentType.integer())
+                                        .then(Commands.argument("type", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 3))
+                                                .executes(c -> {
+                                                    ServerPlayer p = c.getSource().getPlayerOrException();
+                                                    kr.lobcorp.work.Agents.orderWork(p,
+                                                            com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "entity"),
+                                                            com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "type"));
+                                                    return 1;
+                                                })))))
                 .then(Commands.literal("clear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::clear))
                 .then(Commands.literal("reset").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
