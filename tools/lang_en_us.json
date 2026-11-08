@@ -156,5 +156,6 @@
   "item.lobcorp.amita_suit": "Amita Robe",
   "entity.lobcorp.il_pianto": "Il Pianto della Luna",
   "item.lobcorp.moonlight": "Moonlight",
-  "item.lobcorp.moonlight_suit": "Moonlight Tailcoat"
+  "item.lobcorp.moonlight_suit": "Moonlight Tailcoat",
+  "entity.lobcorp.backward_clock": "Backward Clock"
 }
