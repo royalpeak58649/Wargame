@@ -80,6 +80,7 @@ public final class ModItems {
     public static final ArmorMaterial MOONLIGHT_MAT = material("moonlight", 7);
     public static final ArmorMaterial DIFFRACTION_MAT = material("diffraction", 6);
     public static final ArmorMaterial MIMICRY_MAT = material("mimicry", 10);
+    public static final ArmorMaterial DA_CAPO_MAT = material("da_capo", 10);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -186,6 +187,8 @@ public final class ModItems {
     public static Item DIFFRACTION_SUIT;
     public static Item MIMICRY;
     public static Item MIMICRY_SUIT;
+    public static Item DA_CAPO;
+    public static Item DA_CAPO_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -462,6 +465,10 @@ public final class ModItems {
                 "O-06-20 · ALEPH", "RED 피해 대형 칼날, 적중 시 피해의 25% 회복", "살점으로 이루어진 거대한 칼날. 손잡이에서 누군가의 맥박이 느껴진다.");
         MIMICRY_SUIT = suit("mimicry_suit", MIMICRY_MAT,
                 "O-06-20 · ALEPH");
+        DA_CAPO = weapon("da_capo", DamageColor.WHITE, 6.0, -1.6,
+                "T-01-31 · ALEPH", "WHITE 피해 지휘봉, 빠른 연타", "하얀 지휘봉. 휘두르면 박자에 맞춰 허공이 울린다.");
+        DA_CAPO_SUIT = suit("da_capo_suit", DA_CAPO_MAT,
+                "T-01-31 · ALEPH");
     }
 
     public static List<Item> all() {
@@ -480,6 +487,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MIMICRY, MIMICRY_SUIT, MAGIC_BULLET_ORDER);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MIMICRY, MIMICRY_SUIT, DA_CAPO, DA_CAPO_SUIT, MAGIC_BULLET_ORDER);
     }
 }

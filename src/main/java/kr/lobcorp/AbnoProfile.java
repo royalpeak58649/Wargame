@@ -924,9 +924,25 @@ public record AbnoProfile(
                     "탈출하면 직원의 모습을 흉내 내다 정체를 드러낸다. 30초가 지나면 알이 되어 다시 태어나고, 완전한 형태는 훨씬 단단하다."
             ));
 
+    public static final AbnoProfile SILENT_ORCHESTRA = new AbnoProfile(
+            "silent_orchestra", "침묵의 오케스트라", "T-01-31", "ALEPH", 0xFF3333,
+            new int[]{0, 35, 45, 15}, 30, 19, 13,
+            DamageColor.WHITE, 7, 9,
+            2,
+            () -> ModItems.DA_CAPO, 120,
+            () -> ModItems.DA_CAPO_SUIT, 100,
+            "da_capo", "다 카포", "작업 성공률 +4%, 작업 속도 +4", 1,
+            new float[]{0f, 0f, 0f, 2.0f},
+            List.of(
+                    "무대 위에 선 지휘자. 연주자들의 자리는 비어 있지만, 지휘봉이 움직이면 어디선가 음악이 흐른다.",
+                    "작업 결과가 좋음이거나 나쁨이면 클리포트 카운터가 1 감소한다. 보통일 때만 조용하다.",
+                    "탈출하면 가장 가까운 부서 중앙 홀에서 다섯 악장을 연주한다. 악장마다 통하는 피해 속성이 하나뿐이며, 마지막 악장이 끝날 때 정신력이 절반 미만인 직원은 모두 죽는다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
+            Map.entry(SILENT_ORCHESTRA.id, SILENT_ORCHESTRA),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
