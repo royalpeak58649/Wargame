@@ -8394,3 +8394,59 @@ print("assets dimension refraction ok")
 
 merge_lang({"entity.lobcorp.dimension_refraction": "차원 굴절 변이체", "item.lobcorp.diffraction": "회절", "item.lobcorp.diffraction_suit": "회절의 옷"},
            {"entity.lobcorp.dimension_refraction": "Dimensional Refraction Variant", "item.lobcorp.diffraction": "Diffraction", "item.lobcorp.diffraction_suit": "Diffraction Suit"})
+
+
+# ───────────── 살점 우상 ─────────────
+def flesh_idol():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    stone = hexc("#8a8a86")
+    stone_dark = hexc("#5e5e5a")
+    stone_hi = hexc("#a8a8a2")
+    flesh = hexc("#c0504e")
+    flesh_dark = hexc("#7a2a2c")
+    flesh_hi = hexc("#e08078")
+    bone = hexc("#efe6cc")
+    bone_dark = hexc("#b8ac8c")
+
+    # 돌 제단 (u0 v0, 12x4x8)
+    f = box(img, 0, 0, 12, 4, 8, stone, 6, top=stone_hi, front=stone_dark)
+    fx, fy = f["front"]
+    for x in range(0, 12, 3):
+        px(img, fx + x, fy + 1, stone_dark)
+        px(img, fx + x, fy + 2, stone_dark)
+
+    # 살점 덩어리 세 개: 8x5x6 (u0 v16) / 6x4x5 (u0 v28) / 4x3x4 (u0 v38)
+    for (u, v, w, h, d) in [(0, 16, 8, 5, 6), (0, 28, 6, 4, 5), (0, 38, 4, 3, 4)]:
+        f = box(img, u, v, w, h, d, flesh, 8, top=flesh_hi)
+        fx, fy = f["front"]
+        # 핏줄: 어두운 세로/가로 선
+        for y in range(1, h - 1, 2):
+            px(img, fx + (y % w), fy + y, flesh_dark)
+        for x in range(1, w - 1, 2):
+            px(img, fx + x, fy + (x % h), flesh_dark)
+        px(img, fx + w - 1, fy, flesh_hi)
+
+    # 머리 덩어리 (u0 v46, 4x4x4) — 어두운 눈 두 개
+    f = box(img, 0, 46, 4, 4, 4, flesh, 8, top=flesh_hi)
+    fx, fy = f["front"]
+    px(img, fx + 1, fy + 1, flesh_dark)
+    px(img, fx + 2, fy + 1, flesh_dark)
+    px(img, fx + 1, fy + 2, flesh_dark)
+    px(img, fx + 2, fy + 2, flesh_dark)
+
+    # 치켜든 팔 토막 두 개 (u16 v46 / u24 v46, 2x4x2)
+    box(img, 16, 46, 2, 4, 2, flesh, 8, top=flesh_hi)
+    box(img, 24, 46, 2, 4, 2, flesh, 8, top=flesh_hi)
+
+    # 뼈 가시 세 개 (u32 v46 / u36 v46 / u40 v46, 1x3x1)
+    for u in (32, 36, 40):
+        box(img, u, 46, 1, 3, 1, bone, 4, top=bone_dark)
+
+    save(img, "textures/entity/flesh_idol.png")
+
+
+flesh_idol()
+print("assets flesh idol ok")
+
+merge_lang({"entity.lobcorp.flesh_idol": "살점 우상"},
+           {"entity.lobcorp.flesh_idol": "Flesh Idol"})

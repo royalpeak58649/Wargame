@@ -32,6 +32,7 @@ import kr.lobcorp.client.model.CloudedMonkModel;
 import kr.lobcorp.client.model.IlPiantoModel;
 import kr.lobcorp.client.model.BackwardClockModel;
 import kr.lobcorp.client.model.DimensionRefractionModel;
+import kr.lobcorp.client.model.FleshIdolModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -92,6 +93,7 @@ import kr.lobcorp.entity.CloudedMonkEntity;
 import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.BackwardClockEntity;
 import kr.lobcorp.entity.DimensionRefractionEntity;
+import kr.lobcorp.entity.FleshIdolEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1583,6 +1585,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(DimensionRefractionModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class FleshIdol extends MobRenderer<FleshIdolEntity, FleshIdolModel.State, FleshIdolModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/flesh_idol.png");
+
+        public FleshIdol(EntityRendererProvider.Context ctx) {
+            super(ctx, new FleshIdolModel(ctx.bakeLayer(FleshIdolModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public FleshIdolModel.State createRenderState() {
+            return new FleshIdolModel.State();
+        }
+
+        @Override
+        public void extractRenderState(FleshIdolEntity e, FleshIdolModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.praying = e.isPraying();
+        }
+
+        @Override
+        public Identifier getTextureLocation(FleshIdolModel.State s) {
             return TEX;
         }
     }

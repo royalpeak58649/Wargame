@@ -141,6 +141,8 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.BACKWARD_CLOCK, kr.lobcorp.client.render.NewAbnoRenderers.BackwardClock::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.DimensionRefractionModel.LAYER, kr.lobcorp.client.model.DimensionRefractionModel::createLayer);
         EntityRendererRegistry.register(ModEntities.DIMENSION_REFRACTION, kr.lobcorp.client.render.NewAbnoRenderers.DimensionRefraction::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.FleshIdolModel.LAYER, kr.lobcorp.client.model.FleshIdolModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.FLESH_IDOL, kr.lobcorp.client.render.NewAbnoRenderers.FleshIdol::new);
 
         ClientPlayNetworking.registerGlobalReceiver(Payloads.OpenWork.TYPE,
                 (payload, ctx) -> ctx.client().gui.setScreen(new WorkScreen(payload)));
