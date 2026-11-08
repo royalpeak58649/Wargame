@@ -94,8 +94,7 @@ public abstract class OrdealEntity extends PathfinderMob {
             @Override
             public boolean canUse() {
                 LivingEntity cur = getTarget();
-                // 사무직을 쫓고 있거나 재탐색 쿨다운이 끝났으면 다시 고른다
-                if (cur instanceof ClerkEntity) return true;
+                // 재탐색 쿨다운이 끝났으면 다시 고른다
                 if (retargetCd <= 0) return true;
                 if (getRandom().nextInt(4) != 0) return false;
                 return cur == null || !cur.isAlive() || (cur instanceof Player pl && (pl.isCreative() || pl.isSpectator()));
