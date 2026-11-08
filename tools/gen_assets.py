@@ -8155,3 +8155,109 @@ print("assets clouded monk ok")
 
 merge_lang({"entity.lobcorp.clouded_monk": "구름 낀 수도승", "item.lobcorp.amita": "아미타", "item.lobcorp.amita_suit": "아미타의 승복"},
            {"entity.lobcorp.clouded_monk": "Clouded Monk", "item.lobcorp.amita": "Amita", "item.lobcorp.amita_suit": "Amita Robe"})
+
+
+# ───────────── 달의 울음 ─────────────
+def il_pianto():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    ivory = hexc("#f2f0e8")
+    ivory_dark = hexc("#cfcabb")
+    key_white = hexc("#fbfaf4")
+    key_black = hexc("#14141c")
+    moon = hexc("#f0e0a0")
+    moon_dark = hexc("#c8b070")
+    tear = hexc("#5a6a9a")
+    coat = hexc("#14141c")
+    coat_hi = hexc("#2a2a38")
+
+    # 피아노 몸통 (u0 v0, 12x5x10)
+    box(img, 0, 0, 12, 5, 10, ivory, 6, top=ivory_dark)
+    # 뚜껑 (u0 v16, 12x1x10)
+    box(img, 0, 16, 12, 1, 10, ivory, 6, top=hexc("#fbfaf4"))
+    # 다리 (u0 v28, 1x6x1)
+    box(img, 0, 28, 1, 6, 1, ivory_dark, 5)
+    # 건반 (u0 v36, 10x1x2) — 흑백 건반 줄
+    k = box(img, 0, 36, 10, 1, 2, key_white, 4)
+    kx, ky = k["front"]
+    for x in range(0, 10, 2):
+        px(img, kx + x, ky, key_black)
+    # 초승달 얼굴 (u0 v40, 6x6x1)
+    m = box(img, 0, 40, 6, 6, 1, moon, 5, top=moon_dark)
+    mx, my = m["front"]
+    for y in range(6):
+        px(img, mx + 5, my + y, moon_dark)
+    # 눈 (u8 v40, 1x1x1)
+    box(img, 8, 40, 1, 1, 1, key_black, 0)
+    # 눈물 자국 (u16 v40, 1x3x1)
+    box(img, 16, 40, 1, 3, 1, tear, 4)
+
+    # 형체의 긴 코트 (u24 v0, 6x14x4)
+    box(img, 24, 0, 6, 14, 4, coat, 5, top=coat_hi)
+    # 큰 초승달 머리 (u24 v20, 8x8x2)
+    h = box(img, 24, 20, 8, 8, 2, moon, 5, top=moon_dark)
+    hx, hy = h["front"]
+    for y in range(8):
+        px(img, hx + 7, hy + y, moon_dark)
+        px(img, hx + 6, hy + y, moon_dark)
+    for x in range(2, 5):
+        px(img, hx + x, hy + 3, key_black)
+    for y in range(4, 8):
+        px(img, hx + 3, hy + y, tear)
+    # 긴 팔 (u24 v32, 2x12x2)
+    box(img, 24, 32, 2, 12, 2, coat, 5, top=coat_hi)
+
+    save(img, "textures/entity/il_pianto.png")
+
+
+ML = {"k": "#14141c", "w": "#f2f0e8", "y": "#f0e0a0", "b": "#5a6a9a", "g": "#9a9aa8"}
+# 달빛: 가느다란 초승달 칼날
+icon([
+    "................",
+    "..........yyy...",
+    ".........yywy...",
+    "........yywwy...",
+    ".......yywwy....",
+    "......yywwy.....",
+    ".....yywwy......",
+    ".....yywy.......",
+    ".....yywy.......",
+    ".....yywwy......",
+    "......yywwy.....",
+    ".......yywwy....",
+    "........yywy....",
+    ".........yyy....",
+    "..........k.....",
+    "................",
+], ML, "textures/item/moonlight.png")
+# 달빛의 연미복: 검은 연미복 실루엣
+icon([
+    "................",
+    "......kkkk......",
+    ".....kkkkkk.....",
+    "....kkkkkkkk....",
+    "...kkkkkkkkkk...",
+    "...kkwwwwwwkk...",
+    "...kkwyyyywkk...",
+    "...kkwwwwwwkk...",
+    "...kkkkkkkkkk...",
+    "...kkkkkkkkkk...",
+    "...kkkkkkkkkk...",
+    "...kkkkkkkkkk...",
+    "...kkk....kkk...",
+    "...kkk....kkk...",
+    "...kk......kk...",
+    "................",
+], ML, "textures/item/moonlight_suit.png")
+
+armor(hexc("#14141c"), "#5a6a9a", "#f0e0a0", "textures/entity/equipment/humanoid/moonlight.png")
+
+for item, parent in [("moonlight", "minecraft:item/handheld"), ("moonlight_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+wjson("equipment/moonlight.json", {"layers": {"humanoid": [{"texture": "lobcorp:moonlight"}]}})
+
+il_pianto()
+print("assets il pianto ok")
+
+merge_lang({"entity.lobcorp.il_pianto": "달의 울음", "item.lobcorp.moonlight": "달빛", "item.lobcorp.moonlight_suit": "달빛의 연미복"},
+           {"entity.lobcorp.il_pianto": "Il Pianto della Luna", "item.lobcorp.moonlight": "Moonlight", "item.lobcorp.moonlight_suit": "Moonlight Tailcoat"})

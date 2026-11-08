@@ -29,6 +29,7 @@ import kr.lobcorp.client.model.DreamingCurrentModel;
 import kr.lobcorp.client.model.BurrowingHeavenModel;
 import kr.lobcorp.client.model.FirebirdModel;
 import kr.lobcorp.client.model.CloudedMonkModel;
+import kr.lobcorp.client.model.IlPiantoModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -86,6 +87,7 @@ import kr.lobcorp.entity.DreamingCurrentEntity;
 import kr.lobcorp.entity.BurrowingHeavenEntity;
 import kr.lobcorp.entity.FirebirdEntity;
 import kr.lobcorp.entity.CloudedMonkEntity;
+import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1505,6 +1507,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(CloudedMonkModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class IlPianto extends MobRenderer<IlPiantoEntity, IlPiantoModel.State, IlPiantoModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/il_pianto.png");
+
+        public IlPianto(EntityRendererProvider.Context ctx) {
+            super(ctx, new IlPiantoModel(ctx.bakeLayer(IlPiantoModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public IlPiantoModel.State createRenderState() {
+            return new IlPiantoModel.State();
+        }
+
+        @Override
+        public void extractRenderState(IlPiantoEntity e, IlPiantoModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.breached = e.isBreached();
+        }
+
+        @Override
+        public Identifier getTextureLocation(IlPiantoModel.State s) {
             return TEX;
         }
     }
