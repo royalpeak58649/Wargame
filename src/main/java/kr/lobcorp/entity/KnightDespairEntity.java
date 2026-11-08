@@ -46,7 +46,8 @@ public class KnightDespairEntity extends BreachingAbnormality {
     /** 검 사거리 */
     private static final double THROW_RANGE = 24.0;
     /** 검 피해 (PALE) */
-    private static final int THROW_DAMAGE = 25;
+    /** PALE: 최대 HP 대비 % */
+    private static final int THROW_DAMAGE = 60;
 
     private UUID blessedId = null;
     private int tpT = 0;
@@ -284,8 +285,7 @@ public class KnightDespairEntity extends BreachingAbnormality {
         setYHeadRot(getYRot());
 
         boolean blessed = Employees.get(target).blessed;
-        float dmg = THROW_DAMAGE * (blessed ? 1.5f : 1f);
-        target.hurtServer(sl, sl.damageSources().magic(), dmg);
+        Employees.damagePale(target, THROW_DAMAGE * (blessed ? 1.5f : 1f));
         target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 2, false, false));
         sl.sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY() + 1.2, target.getZ(), 10, 0.3, 0.4, 0.3, 0.03);
         sl.playSound(null, blockPosition(), SoundEvents.TRIDENT_THROW.value(), SoundSource.HOSTILE, 1.2f, 0.8f);

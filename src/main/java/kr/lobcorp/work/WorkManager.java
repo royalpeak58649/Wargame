@@ -197,6 +197,11 @@ public final class WorkManager {
                 if (dmg > 0) p.hurtServer(level, level.damageSources().magic(), dmg);
                 if (dmg > 0) Employees.damageSp(p, dmg);
             }
+            case PALE -> {
+                // PALE: 피해 수치 1당 최대 HP의 5%
+                level.playSound(null, p.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.PLAYERS, 0.6f, 1.6f);
+                Employees.damagePale(p, dmg * 5f);
+            }
             default -> {
                 if (wearsAny(p, RED_SUITS)) dmg--;
                 level.sendParticles(ParticleTypes.DAMAGE_INDICATOR, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.3, 0.3, 0.3, 0);
@@ -381,7 +386,7 @@ public final class WorkManager {
         return false;
     }
 
-    private static boolean blackSuit(ServerPlayer p) {
+    public static boolean blackSuit(ServerPlayer p) {
         return wearsAny(p, BLACK_SUITS);
     }
 

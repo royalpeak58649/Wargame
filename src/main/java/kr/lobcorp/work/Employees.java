@@ -235,6 +235,15 @@ public final class Employees {
         }
     }
 
+    /** PALE 피해: 최대 HP의 percent%만큼 HP를 깎는다. 방어구·내성을 무시한다 */
+    public static void damagePale(ServerPlayer p, float percent) {
+        if (ToolState.isSheltered(p) || percent <= 0) return;
+        ServerLevel sl = p.level();
+        float dmg = p.getMaxHealth() * percent / 100f;
+        sl.sendParticles(ParticleTypes.END_ROD, p.getX(), p.getY() + 1.2, p.getZ(), 10, 0.3, 0.5, 0.3, 0.03);
+        p.hurtServer(sl, sl.damageSources().magic(), dmg);
+    }
+
     /** SP 피해. 0 이하가 되면 패닉 */
     public static void damageSp(ServerPlayer p, int amount) {
         if (ToolState.isSheltered(p)) return;

@@ -200,8 +200,8 @@ public class JudgementBirdEntity extends BreachingAbnormality {
             if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
             if (kr.lobcorp.work.ToolState.isSheltered(p)) continue;
             if (p.distanceTo(this) > JUDGE_RADIUS) continue;
-            int dmg = 30 + p.getRandom().nextInt(11);
-            p.hurtServer(sl, sl.damageSources().magic(), dmg);
+            // PALE: 최대 HP의 60~80%
+            kr.lobcorp.work.Employees.damagePale(p, 60 + p.getRandom().nextInt(21));
             if (!p.isAlive()) {
                 sl.sendParticles(ParticleTypes.SOUL, p.getX(), p.getY() + 1.6, p.getZ(), 20, 0.4, 0.6, 0.4, 0.02);
                 Facility.broadcast(sl.getServer(), Component.literal("[관제] ").withStyle(st -> st.withColor(0xAA0000))
