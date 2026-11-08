@@ -176,6 +176,25 @@ public class CensoredEntity extends BreachingAbnormality {
                         .withStyle(st -> st.withColor(0xFF3333))));
     }
 
+    @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (!isBreached()) return;
+        if (c.distanceToSqr(this) > DEATH_RADIUS * DEATH_RADIUS) return;
+        if (!(level() instanceof ServerLevel sl)) return;
+        for (ServerPlayer o : sl.getEntitiesOfClass(ServerPlayer.class, c.getBoundingBox().inflate(FEAR_RADIUS))) {
+            if (!o.isAlive() || o.isCreative() || o.isSpectator()) continue;
+            Employees.damageSp(o, 12 + getRandom().nextInt(6));
+        }
+        if (sl.getEntitiesOfClass(CensoredMinionEntity.class, getBoundingBox().inflate(256.0)).size() >= MAX_MINIONS) return;
+        CensoredMinionEntity minion = kr.lobcorp.ModEntities.CENSORED_MINION.create(sl, EntitySpawnReason.EVENT);
+        if (minion == null) return;
+        minion.snapTo(c.getX(), c.getY(), c.getZ(), c.getYRot(), 0);
+        sl.addFreshEntity(minion);
+        sl.sendParticles(ParticleTypes.SQUID_INK, c.getX(), c.getY() + 1, c.getZ(), 30, 0.5, 0.8, 0.5, 0.03);
+        Facility.broadcast(sl.getServer(), Component.literal("[관제] 사무직의 시신에서 같은 모습의 하수인이 태어났습니다.")
+                .withStyle(st -> st.withColor(0xFF3333)));
+    }
+
     // ───────────── 틱 ─────────────
 
     @Override
@@ -189,6 +208,10 @@ public class CensoredEntity extends BreachingAbnormality {
             EmployeeData d = Employees.get(p);
             if (d.prudence >= PRUDENCE_SAFE || d.isPanicking()) continue;
             Employees.panic(p);
+        }
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(FEAR_RADIUS))) {
+            if (!c.isAlive() || c.isPanicking()) continue;
+            c.damageSp(100);
         }
     }
 

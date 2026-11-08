@@ -140,6 +140,19 @@ public class CloudedMonkEntity extends BreachingAbnormality {
         }
     }
 
+    @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (isBreached()) return;
+        deaths++;
+        if (deaths < DEATH_LIMIT) return;
+        deaths = 0;
+        lowerQliphoth(null, 1);
+        if (level() instanceof ServerLevel sl) {
+            Facility.broadcast(sl.getServer(), Component.literal("[관제] D-01-110 구름 낀 수도승이 죽음을 세어 내려앉습니다.")
+                    .withStyle(st -> st.withColor(0xFF5555)));
+        }
+    }
+
     // ───────────── 탈출 ─────────────
 
     @Override

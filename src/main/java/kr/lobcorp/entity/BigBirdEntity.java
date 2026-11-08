@@ -137,6 +137,17 @@ public class BigBirdEntity extends BreachingAbnormality {
     }
 
     @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (isBreached()) return;
+        deathTally++;
+        if (deathTally % 5 == 0) {
+            ServerPlayer any = null;
+            if (level() instanceof ServerLevel sl && !sl.players().isEmpty()) any = sl.players().get(0);
+            lowerQliphoth(any, 1);
+        }
+    }
+
+    @Override
     public void onAnyBreach(BreachingAbnormality who) {
         if (isBreached() || level().getServer() == null) return;
         if (AbnoEvents.breachedCount(level().getServer()) >= 3) {

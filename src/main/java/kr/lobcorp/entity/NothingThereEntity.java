@@ -175,6 +175,14 @@ public class NothingThereEntity extends BreachingAbnormality {
         if (deathsInCell % 2 == 0) lowerQliphoth(null, 1);
     }
 
+    @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (isBreached() || home == null) return;
+        if (c.blockPosition().distSqr(home) > 36) return;
+        deathsInCell++;
+        if (deathsInCell % 2 == 0) lowerQliphoth(null, 1);
+    }
+
     // ───────────── 탈출 / 복귀 ─────────────
 
     @Override

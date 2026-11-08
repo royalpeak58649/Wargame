@@ -146,6 +146,13 @@ public class ArmyInBlackEntity extends BreachingAbnormality {
         if (deaths % DEATHS_PER_LOWER == 0) lowerQliphoth(null, 1);
     }
 
+    @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (isBreached()) return;
+        deaths++;
+        if (deaths % DEATHS_PER_LOWER == 0) lowerQliphoth(null, 1);
+    }
+
     // ───────────── 탈출 / 복귀 ─────────────
 
     @Override

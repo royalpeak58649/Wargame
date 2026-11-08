@@ -384,6 +384,21 @@ public class MeltingLoveEntity extends BreachingAbnormality {
                         .withStyle(st -> st.withColor(0xFF3333))));
     }
 
+    @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (!isBreached()) return;
+        if (c.distanceToSqr(this) > DEATH_RADIUS * DEATH_RADIUS) return;
+        if (!(level() instanceof ServerLevel sl)) return;
+        if (sl.getEntitiesOfClass(MeltingSlimeEntity.class, getBoundingBox().inflate(256.0)).size() >= MAX_SLIMES) return;
+        MeltingSlimeEntity slime = kr.lobcorp.ModEntities.MELTING_SLIME.create(sl, EntitySpawnReason.EVENT);
+        if (slime == null) return;
+        slime.snapTo(c.getX(), c.getY(), c.getZ(), c.getYRot(), 0);
+        sl.addFreshEntity(slime);
+        sl.sendParticles(ParticleTypes.ITEM_SLIME, c.getX(), c.getY() + 1, c.getZ(), 30, 0.5, 0.8, 0.5, 0.05);
+        Facility.broadcast(sl.getServer(), Component.literal("[관제] 사무직의 시신이 점액 덩어리가 되어 D-03-109를 따릅니다.")
+                .withStyle(st -> st.withColor(0xFF3333)));
+    }
+
     // ───────────── 틱 ─────────────
 
     @Override

@@ -188,6 +188,19 @@ public class SmilingMountainEntity extends BreachingAbnormality {
         addCorpse(p.position());
     }
 
+    @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (!isBreached()) {
+            if (home != null && c.blockPosition().distSqr(home) <= 36) {
+                lowerQliphoth(null, 1);
+            }
+            facilityDeaths++;
+            if (facilityDeaths % 10 == 0) lowerQliphoth(null, 1);
+            return;
+        }
+        addCorpse(c.position());
+    }
+
     /** 시체 위치를 기억한다 (최대 20개, 오래된 것부터 버린다) */
     private void addCorpse(Vec3 at) {
         corpses.add(at);

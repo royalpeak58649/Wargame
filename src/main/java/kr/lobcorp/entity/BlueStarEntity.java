@@ -146,6 +146,17 @@ public class BlueStarEntity extends BreachingAbnormality {
             Employees.damageSp(p, 15 + getRandom().nextInt(6));
             p.level().playSound(null, p.blockPosition(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.HOSTILE, 1.2f, 0.5f);
         }
+        // 사무직도 같은 파동에 휩쓸린다
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(256.0))) {
+            if (!c.isAlive()) continue;
+            c.damageSp(15 + getRandom().nextInt(6));
+        }
+        // 공황에 빠진 사무직은 별에게 끌려간다
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(256.0))) {
+            if (!c.isAlive() || !c.isPanicking()) continue;
+            c.teleportTo(getX(), getY(), getZ());
+            c.hurtServer(sl, sl.damageSources().magic(), 1000f);
+        }
         // 별 주위로 푸른 영혼이 고리 모양으로 맴돈다
         for (int i = 0; i < 24; i++) {
             double a = Math.PI * 2 * i / 24;

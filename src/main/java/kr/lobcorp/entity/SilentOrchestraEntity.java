@@ -213,6 +213,14 @@ public class SilentOrchestraEntity extends BreachingAbnormality {
                 p.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 60, 0, false, false));
             }
         }
+        // 사무직도 같은 음파에 휩쓸린다 (대피소 판정 없음)
+        for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(40.0))) {
+            if (!c.isAlive()) continue;
+            double cd = distanceTo(c);
+            double cratio = ringRatio(mv, cd);
+            if (cratio <= 0) continue;
+            c.damageSp(Math.max(1, (int) Math.round(base * cratio)));
+        }
         // 지휘자 주위로 음표가 고리 모양으로 맴돈다
         for (int i = 0; i < 16; i++) {
             double a = Math.PI * 2 * i / 16;

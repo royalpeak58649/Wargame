@@ -170,6 +170,20 @@ public class BlackSwanEntity extends BreachingAbnormality {
     }
 
     @Override
+    public void onAnyClerkDeath(ClerkEntity c) {
+        if (isBreached()) return;
+        deaths++;
+        if (deaths % 5 == 0) darken(null);
+    }
+
+    @Override
+    public void onAnyClerkPanic(ClerkEntity c) {
+        if (isBreached()) return;
+        panics++;
+        if (panics % 5 == 0) darken(null);
+    }
+
+    @Override
     public void onAnyBreach(BreachingAbnormality who) {
         if (isBreached()) return;
         breaches++;
