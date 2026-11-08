@@ -163,5 +163,9 @@
   "item.lobcorp.diffraction_suit": "회절의 옷",
   "entity.lobcorp.flesh_idol": "살점 우상",
   "entity.lobcorp.express_train": "지옥행 급행열차",
-  "item.lobcorp.magic_bullet_order": "마탄 의뢰서"
+  "item.lobcorp.magic_bullet_order": "마탄 의뢰서",
+  "entity.lobcorp.amber_dawn": "호박색 여명",
+  "entity.lobcorp.green_dawn": "녹색 여명",
+  "entity.lobcorp.crimson_dawn": "진홍색 여명",
+  "entity.lobcorp.violet_dawn": "보라색 여명"
 }

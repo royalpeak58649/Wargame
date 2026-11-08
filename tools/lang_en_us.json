@@ -163,5 +163,9 @@
   "item.lobcorp.diffraction_suit": "Diffraction Suit",
   "entity.lobcorp.flesh_idol": "Flesh Idol",
   "entity.lobcorp.express_train": "Express Train to Hell",
-  "item.lobcorp.magic_bullet_order": "Magic Bullet Order"
+  "item.lobcorp.magic_bullet_order": "Magic Bullet Order",
+  "entity.lobcorp.amber_dawn": "Dawn of Amber",
+  "entity.lobcorp.green_dawn": "Dawn of Green",
+  "entity.lobcorp.crimson_dawn": "Dawn of Crimson",
+  "entity.lobcorp.violet_dawn": "Dawn of Violet"
 }
