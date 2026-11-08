@@ -7,6 +7,9 @@ import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.BigBadWolfModel;
 import kr.lobcorp.client.model.BigBirdModel;
 import kr.lobcorp.client.model.BlackSwanModel;
+import kr.lobcorp.client.model.BlueStarModel;
+import kr.lobcorp.client.model.CensoredMinionModel;
+import kr.lobcorp.client.model.CensoredModel;
 import kr.lobcorp.client.model.ChildGalaxyModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
@@ -25,6 +28,8 @@ import kr.lobcorp.client.model.LittlePrinceMinionModel;
 import kr.lobcorp.client.model.LittlePrinceModel;
 import kr.lobcorp.client.model.LittleRedModel;
 import kr.lobcorp.client.model.MeatLanternModel;
+import kr.lobcorp.client.model.MeltingLoveModel;
+import kr.lobcorp.client.model.MeltingSlimeModel;
 import kr.lobcorp.client.model.DreamingCurrentModel;
 import kr.lobcorp.client.model.BurrowingHeavenModel;
 import kr.lobcorp.client.model.FirebirdModel;
@@ -72,6 +77,9 @@ import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
 import kr.lobcorp.entity.BlackSwanEntity;
+import kr.lobcorp.entity.BlueStarEntity;
+import kr.lobcorp.entity.CensoredEntity;
+import kr.lobcorp.entity.CensoredMinionEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -90,6 +98,8 @@ import kr.lobcorp.entity.LittlePrinceEntity;
 import kr.lobcorp.entity.LittlePrinceMinionEntity;
 import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
+import kr.lobcorp.entity.MeltingLoveEntity;
+import kr.lobcorp.entity.MeltingSlimeEntity;
 import kr.lobcorp.entity.DreamingCurrentEntity;
 import kr.lobcorp.entity.BurrowingHeavenEntity;
 import kr.lobcorp.entity.FirebirdEntity;
@@ -1988,6 +1998,108 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(SmilingMountainModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Censored extends MobRenderer<CensoredEntity, CensoredModel.State, CensoredModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/censored.png");
+
+        public Censored(EntityRendererProvider.Context ctx) {
+            super(ctx, new CensoredModel(ctx.bakeLayer(CensoredModel.LAYER)), 1.0f);
+        }
+
+        @Override
+        public CensoredModel.State createRenderState() {
+            return new CensoredModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(CensoredModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class CensoredMinion extends MobRenderer<CensoredMinionEntity, CensoredMinionModel.State, CensoredMinionModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/censored_minion.png");
+
+        public CensoredMinion(EntityRendererProvider.Context ctx) {
+            super(ctx, new CensoredMinionModel(ctx.bakeLayer(CensoredMinionModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public CensoredMinionModel.State createRenderState() {
+            return new CensoredMinionModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(CensoredMinionModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class BlueStar extends MobRenderer<BlueStarEntity, BlueStarModel.State, BlueStarModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/blue_star.png");
+
+        public BlueStar(EntityRendererProvider.Context ctx) {
+            super(ctx, new BlueStarModel(ctx.bakeLayer(BlueStarModel.LAYER)), 0.0f);
+        }
+
+        @Override
+        public BlueStarModel.State createRenderState() {
+            return new BlueStarModel.State();
+        }
+
+        @Override
+        public void extractRenderState(BlueStarEntity e, BlueStarModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(BlueStarModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class MeltingLove extends MobRenderer<MeltingLoveEntity, MeltingLoveModel.State, MeltingLoveModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/melting_love.png");
+
+        public MeltingLove(EntityRendererProvider.Context ctx) {
+            super(ctx, new MeltingLoveModel(ctx.bakeLayer(MeltingLoveModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public MeltingLoveModel.State createRenderState() {
+            return new MeltingLoveModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(MeltingLoveModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class MeltingSlime extends MobRenderer<MeltingSlimeEntity, MeltingSlimeModel.State, MeltingSlimeModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/melting_slime.png");
+
+        public MeltingSlime(EntityRendererProvider.Context ctx) {
+            super(ctx, new MeltingSlimeModel(ctx.bakeLayer(MeltingSlimeModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public MeltingSlimeModel.State createRenderState() {
+            return new MeltingSlimeModel.State();
+        }
+
+        @Override
+        public void extractRenderState(MeltingSlimeEntity e, MeltingSlimeModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.big = e.isBig();
+        }
+
+        @Override
+        public Identifier getTextureLocation(MeltingSlimeModel.State s) {
             return TEX;
         }
     }

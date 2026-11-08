@@ -9329,3 +9329,372 @@ merge_lang({"entity.lobcorp.nothing_there": "아무것도 없는", "entity.lobco
             "item.lobcorp.da_capo": "Da Capo", "item.lobcorp.da_capo_suit": "Da Capo Suit",
             "item.lobcorp.smile": "Smile", "item.lobcorp.smile_suit": "Smile Suit"})
 print("assets aleph 1 ok")
+
+
+# ═════════════ ALEPH 2: 검열됨 / 푸른 별 / 녹아내리는 사랑 ═════════════
+def censored():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    black = hexc("#050505")
+    bar = hexc("#f4f4f4")
+    red = hexc("#c01010")
+    red_dark = hexc("#6a0606")
+
+    def glitch(fx, fy, w, h):
+        for _ in range(max(2, w // 3)):
+            y = fy + random.randint(0, h - 1)
+            x = fx + random.randint(0, max(0, w - 3))
+            rect(img, x, y, random.randint(1, 3), 1, red, 6)
+        for _ in range(2):
+            y = fy + random.randint(0, h - 1)
+            rect(img, fx, y, w, 1, red_dark, 4)
+
+    def censor_bar(fx, fy, w, h):
+        rect(img, fx, fy + h // 2 - 1, w, 2, bar, 2)
+        for x in range(fx, fx + w, 3):
+            px(img, x, fy + h // 2 - 1, hexc("#c8c8c8"))
+
+    # 몸통 (u0 v0, 16x24x12)
+    b = box(img, 0, 0, 16, 24, 12, black, 3)
+    bx, by = b["front"]
+    glitch(bx, by, 16, 24)
+    censor_bar(bx, by, 16, 24)
+
+    # 머리 (u0 v36, 10x10x10)
+    h = box(img, 0, 36, 10, 10, 10, black, 3)
+    hx, hy = h["front"]
+    glitch(hx, hy, 10, 10)
+    censor_bar(hx, hy, 10, 10)
+
+    # 굵은 팔 (u0 v56 / u16 v56, 6x20x6)
+    for u in (0, 16):
+        a = box(img, u, 56, 6, 20, 6, black, 3)
+        ax, ay = a["front"]
+        glitch(ax, ay, 6, 20)
+        censor_bar(ax, ay, 6, 20)
+
+    # 촉수 (u32 v56 / u40 v56, 4x16x4)
+    for u in (32, 40):
+        t = box(img, u, 56, 4, 16, 4, black, 3)
+        tx, ty = t["front"]
+        glitch(tx, ty, 4, 16)
+
+    # 다리 (u0 v84 / u12 v84, 6x16x6)
+    for u in (0, 12):
+        l = box(img, u, 84, 6, 16, 6, black, 3)
+        lx, ly = l["front"]
+        glitch(lx, ly, 6, 16)
+        censor_bar(lx, ly, 6, 16)
+
+    save(img, "textures/entity/censored.png")
+
+
+def censored_minion():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    pale = hexc("#d8d0c8")
+    pale_dark = hexc("#a89c94")
+    black = hexc("#050505")
+    bar = hexc("#f4f4f4")
+    red = hexc("#c01010")
+
+    def glitch(fx, fy, w, h):
+        for _ in range(max(1, w // 4)):
+            y = fy + random.randint(0, h - 1)
+            x = fx + random.randint(0, max(0, w - 2))
+            rect(img, x, y, random.randint(1, 2), 1, red, 6)
+
+    # 몸통 (u0 v0, 8x12x4)
+    b = box(img, 0, 0, 8, 12, 4, pale, 6, top=pale_dark)
+    bx, by = b["front"]
+    for y in range(2, 11, 3):
+        for x in range(1, 7):
+            px(img, bx + x, by + y, pale_dark)
+    glitch(bx, by, 8, 12)
+
+    # 머리 (u0 v16, 8x8x8) — 검은 막대가 덮는다
+    h = box(img, 0, 16, 8, 8, 8, pale, 6, top=pale_dark)
+    hx, hy = h["front"]
+    rect(img, hx, hy + 2, 8, 4, black, 2)
+    rect(img, hx, hy + 3, 8, 2, bar, 2)
+    glitch(hx, hy, 8, 8)
+
+    # 팔 (u0 v32 / u8 v32, 3x10x3)
+    for u in (0, 8):
+        a = box(img, u, 32, 3, 10, 3, pale, 6, top=pale_dark)
+        ax, ay = a["front"]
+        glitch(ax, ay, 3, 10)
+
+    # 다리 (u0 v48 / u8 v48, 3x12x3)
+    for u in (0, 8):
+        l = box(img, u, 48, 3, 12, 3, pale, 6, top=pale_dark)
+        lx, ly = l["front"]
+        glitch(lx, ly, 3, 12)
+
+    save(img, "textures/entity/censored_minion.png")
+
+
+def blue_star():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    deep = hexc("#0a1a5a")
+    deep_dark = hexc("#050c30")
+    cyan = hexc("#40e0ff")
+    white = hexc("#e8fbff")
+
+    # 핵 (u0 v0, 12x12x12)
+    c = box(img, 0, 0, 12, 12, 12, deep, 8, top=hexc("#122a7a"))
+    cx, cy = c["front"]
+    for (x, y) in [(5, 5), (6, 5), (5, 6), (6, 6)]:
+        px(img, cx + x, cy + y, white)
+    for (x, y) in [(4, 4), (7, 4), (4, 7), (7, 7)]:
+        px(img, cx + x, cy + y, cyan)
+    for i in range(12):
+        px(img, cx + i, cy + 1, cyan)
+        px(img, cx + i, cy + 10, cyan)
+    for i in range(12):
+        px(img, cx + 1, cy + i, hexc("#2a6ad0"))
+        px(img, cx + 10, cy + i, hexc("#2a6ad0"))
+
+    # 가시 네 개 (u0 v24 / u8 v24 / u16 v24 / u24 v24, 4x4x4)
+    for u in (0, 8, 16, 24):
+        s = box(img, u, 24, 4, 4, 4, deep_dark, 6, top=cyan)
+        sx, sy = s["front"]
+        px(img, sx + 1, sy + 1, white)
+        px(img, sx + 2, sy + 2, cyan)
+
+    save(img, "textures/entity/blue_star.png")
+
+
+def melting_love():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    pink = hexc("#f08ab0")
+    pink_dark = hexc("#c05a80")
+    pink_deep = hexc("#8a3050")
+    hair = hexc("#e06a98")
+    black = hexc("#2a1018")
+    white = hexc("#fff0f4")
+
+    # 흘러내리는 치마 (u0 v0, 16x10x16)
+    b = box(img, 0, 0, 16, 10, 16, pink, 8, top=hexc("#f8a8c4"))
+    bx, by = b["front"]
+    for x in range(0, 16, 3):
+        rect(img, bx + x, by + 4, 2, 6, pink_dark, 6)
+    for x in range(1, 16, 4):
+        px(img, bx + x, by + 9, pink_deep)
+
+    # 몸통 (u0 v32, 8x10x6)
+    t = box(img, 0, 32, 8, 10, 6, pink, 8, top=hexc("#f8a8c4"))
+    tx, ty = t["front"]
+    for y in range(0, 10, 3):
+        px(img, tx + 3, ty + y, pink_dark)
+        px(img, tx + 4, ty + y, pink_dark)
+
+    # 머리 (u0 v52, 8x8x8)
+    h = box(img, 0, 52, 8, 8, 8, pink, 8, top=hexc("#f8a8c4"))
+    hx, hy = h["front"]
+    for (x, y) in [(2, 3), (5, 3)]:
+        px(img, hx + x, hy + y, black)
+        px(img, hx + x, hy + y + 1, black)
+    for x in range(3, 5):
+        px(img, hx + x, hy + 5, pink_deep)
+    px(img, hx + 1, hy + 4, white)
+    px(img, hx + 6, hy + 4, white)
+
+    # 머리카락 (u0 v72, 10x10x10)
+    hr = box(img, 0, 72, 10, 10, 10, hair, 8, top=hexc("#f08ab0"))
+    hrx, hry = hr["front"]
+    for x in range(0, 10, 2):
+        rect(img, hrx + x, hry + 6, 1, 4, pink_deep, 4)
+
+    # 팔 (u0 v96 / u8 v96, 3x10x3)
+    for u in (0, 8):
+        a = box(img, u, 96, 3, 10, 3, pink, 8, top=hexc("#f8a8c4"))
+        ax, ay = a["front"]
+        for y in range(6, 10):
+            px(img, ax + 1, ay + y, pink_dark)
+
+    # 방울 (u0 v112 / u6 v112 / u12 v112, 3x6x3)
+    for u in (0, 6, 12):
+        d = box(img, u, 112, 3, 6, 3, pink_dark, 6, top=pink)
+        dx, dy = d["front"]
+        px(img, dx + 1, dy + 5, pink_deep)
+
+    save(img, "textures/entity/melting_love.png")
+
+
+def melting_slime():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    pink = hexc("#f08ab0")
+    pink_dark = hexc("#c05a80")
+    pink_deep = hexc("#8a3050")
+    black = hexc("#2a1018")
+    white = hexc("#fff0f4")
+
+    # 몸통 (u0 v0, 12x10x12)
+    b = box(img, 0, 0, 12, 10, 12, pink, 8, top=hexc("#f8a8c4"))
+    bx, by = b["front"]
+    for x in range(0, 12, 4):
+        rect(img, bx + x, by + 6, 2, 4, pink_dark, 6)
+    for x in range(2, 12, 5):
+        px(img, bx + x, by + 9, pink_deep)
+
+    # 눈 (u0 v24 / u4 v24, 2x2x2)
+    for u in (0, 4):
+        e = box(img, u, 24, 2, 2, 2, white, 2)
+        ex, ey = e["front"]
+        px(img, ex, ey, black)
+        px(img, ex + 1, ey + 1, black)
+
+    # 하트 왕관 (u0 v32, 6x4x4)
+    c = box(img, 0, 32, 6, 4, 4, pink_deep, 6, top=hexc("#ff5a8a"))
+    cx, cy = c["front"]
+    for (x, y) in [(1, 1), (4, 1), (2, 2), (3, 2)]:
+        px(img, cx + x, cy + y, hexc("#ff9ac0"))
+
+    save(img, "textures/entity/melting_slime.png")
+
+
+censored()
+censored_minion()
+blue_star()
+melting_love()
+melting_slime()
+
+# ── E.G.O: 검열됨 / 별의 소리 / 흠모 ──
+CE = {"k": "#050505", "r": "#c01010", "d": "#6a0606", "w": "#f4f4f4", "g": "#3a3a3a"}
+icon([
+    "................",
+    ".............kk.",
+    "............krk.",
+    "...........krrk.",
+    "..........krrk..",
+    ".........krrk...",
+    "........krrk....",
+    ".......krrk.....",
+    "......krrk......",
+    ".....krrk.......",
+    "....krrk........",
+    "...krrk.........",
+    "..krdk..........",
+    ".krdk...........",
+    ".kk.............",
+    "................",
+], CE, "textures/item/censored.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkwwwwkk....",
+    "....kkwrrwkk....",
+    "....kkwrrwkk....",
+    "....kkwwwwkk....",
+    "....kkkkkkkk....",
+    "....kkrrrrkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....gggggg.....",
+    "................",
+    "................",
+], CE, "textures/item/censored_suit.png")
+
+BS = {"k": "#050c30", "b": "#0a1a5a", "c": "#40e0ff", "w": "#e8fbff", "d": "#2a6ad0"}
+icon([
+    "................",
+    ".......cc.......",
+    "......cwwc......",
+    "......cwwc......",
+    "..cc..cwwc..cc..",
+    ".cwwccwwwwccwwc.",
+    "..cc..cwwc..cc..",
+    "......cwwc......",
+    "......cwwc......",
+    ".......cc.......",
+    ".......bb.......",
+    ".......bb.......",
+    ".......bb.......",
+    "......kkkk......",
+    "................",
+    "................",
+], BS, "textures/item/sound_of_a_star.png")
+icon([
+    "................",
+    "...bb......bb...",
+    "..bbbb....bbbb..",
+    "..bbbbbbbbbbbb..",
+    "...bbbbbbbbbb...",
+    "....bbccccbb....",
+    "....bbcwccbb....",
+    "....bbccccbb....",
+    "....bbbbbbbb....",
+    "....bbccccbb....",
+    "....bbcwccbb....",
+    "....bbbbbbbb....",
+    "....bbbbbbbb....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], BS, "textures/item/sound_of_a_star_suit.png")
+
+AD = {"k": "#8a3050", "p": "#f08ab0", "d": "#c05a80", "w": "#fff0f4", "s": "#ff9ac0"}
+icon([
+    "................",
+    "................",
+    "..pppppppppppp..",
+    "..pwwwwwwwwwwp..",
+    "..pppppppppppp..",
+    "..dddddddddddd..",
+    "......dddd......",
+    "......dddd......",
+    "......dddd......",
+    "......dddd......",
+    "......dddd......",
+    "......dddd......",
+    "......kkkk......",
+    "................",
+    "................",
+    "................",
+], AD, "textures/item/adoration.png")
+icon([
+    "................",
+    "...pp......pp...",
+    "..pppp....pppp..",
+    "..pppppppppppp..",
+    "...pppppppppp...",
+    "....ppwwwwpp....",
+    "....ppwddwpp....",
+    "....ppwwwwpp....",
+    "....pppppppp....",
+    "....ppwwwwpp....",
+    "....ppwddwpp....",
+    "....pppppppp....",
+    "....pppppppp....",
+    ".....kkkkkk.....",
+    "................",
+    "................",
+], AD, "textures/item/adoration_suit.png")
+
+armor(hexc("#050505"), "#c01010", "#f4f4f4", "textures/entity/equipment/humanoid/censored.png")
+armor(hexc("#0a1a5a"), "#40e0ff", "#e8fbff", "textures/entity/equipment/humanoid/sound_of_a_star.png")
+armor(hexc("#f08ab0"), "#8a3050", "#fff0f4", "textures/entity/equipment/humanoid/adoration.png")
+
+for item, parent in [("censored", "minecraft:item/handheld"), ("censored_suit", "minecraft:item/generated"),
+                     ("sound_of_a_star", "minecraft:item/handheld"), ("sound_of_a_star_suit", "minecraft:item/generated"),
+                     ("adoration", "minecraft:item/handheld"), ("adoration_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+for mat in ("censored", "sound_of_a_star", "adoration"):
+    wjson(f"equipment/{mat}.json", {"layers": {"humanoid": [{"texture": f"lobcorp:{mat}"}]}})
+
+merge_lang({"entity.lobcorp.censored": "███████", "entity.lobcorp.censored_minion": "███████의 하수인",
+            "entity.lobcorp.blue_star": "푸른 별", "entity.lobcorp.melting_love": "녹아내리는 사랑",
+            "entity.lobcorp.melting_slime": "점액 덩어리",
+            "item.lobcorp.censored": "███████", "item.lobcorp.censored_suit": "███████ 옷",
+            "item.lobcorp.sound_of_a_star": "별의 소리", "item.lobcorp.sound_of_a_star_suit": "별의 소리 옷",
+            "item.lobcorp.adoration": "흠모", "item.lobcorp.adoration_suit": "흠모 옷"},
+           {"entity.lobcorp.censored": "CENSORED", "entity.lobcorp.censored_minion": "CENSORED Minion",
+            "entity.lobcorp.blue_star": "Blue Star", "entity.lobcorp.melting_love": "Melting Love",
+            "entity.lobcorp.melting_slime": "Slime Pawn",
+            "item.lobcorp.censored": "CENSORED", "item.lobcorp.censored_suit": "CENSORED Suit",
+            "item.lobcorp.sound_of_a_star": "Sound of a Star", "item.lobcorp.sound_of_a_star_suit": "Sound of a Star Suit",
+            "item.lobcorp.adoration": "Adoration", "item.lobcorp.adoration_suit": "Adoration Suit"})
+print("assets aleph 2 ok")

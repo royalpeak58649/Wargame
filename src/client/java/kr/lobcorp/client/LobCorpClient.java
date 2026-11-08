@@ -139,6 +139,16 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.SILENT_ORCHESTRA, kr.lobcorp.client.render.NewAbnoRenderers.SilentOrchestra::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.SmilingMountainModel.LAYER, kr.lobcorp.client.model.SmilingMountainModel::createLayer);
         EntityRendererRegistry.register(ModEntities.SMILING_MOUNTAIN, kr.lobcorp.client.render.NewAbnoRenderers.SmilingMountain::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CensoredModel.LAYER, kr.lobcorp.client.model.CensoredModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.CENSORED, kr.lobcorp.client.render.NewAbnoRenderers.Censored::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CensoredMinionModel.LAYER, kr.lobcorp.client.model.CensoredMinionModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.CENSORED_MINION, kr.lobcorp.client.render.NewAbnoRenderers.CensoredMinion::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.BlueStarModel.LAYER, kr.lobcorp.client.model.BlueStarModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.BLUE_STAR, kr.lobcorp.client.render.NewAbnoRenderers.BlueStar::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.MeltingLoveModel.LAYER, kr.lobcorp.client.model.MeltingLoveModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.MELTING_LOVE, kr.lobcorp.client.render.NewAbnoRenderers.MeltingLove::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.MeltingSlimeModel.LAYER, kr.lobcorp.client.model.MeltingSlimeModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.MELTING_SLIME, kr.lobcorp.client.render.NewAbnoRenderers.MeltingSlime::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CloudedMonkModel.LAYER, kr.lobcorp.client.model.CloudedMonkModel::createLayer);
         EntityRendererRegistry.register(ModEntities.CLOUDED_MONK, kr.lobcorp.client.render.NewAbnoRenderers.CloudedMonk::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.IlPiantoModel.LAYER, kr.lobcorp.client.model.IlPiantoModel::createLayer);
