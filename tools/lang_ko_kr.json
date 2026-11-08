@@ -171,5 +171,8 @@
   "entity.lobcorp.green_noon": "녹색 정오",
   "entity.lobcorp.crimson_noon": "진홍색 정오",
   "entity.lobcorp.violet_noon": "보라색 정오",
-  "entity.lobcorp.indigo_noon": "쪽빛 정오"
+  "entity.lobcorp.indigo_noon": "쪽빛 정오",
+  "entity.lobcorp.amber_dusk": "호박색 황혼",
+  "entity.lobcorp.green_dusk": "녹색 황혼",
+  "entity.lobcorp.crimson_dusk": "진홍색 황혼"
 }
