@@ -984,6 +984,21 @@ public record AbnoProfile(
                     "탈출하면 무작위 부서 중앙 홀 한가운데에 떠올라, 시설 전체의 직원에게 주기적으로 WHITE 피해를 준다. 공황에 빠진 직원은 별에게 끌려가 사라진다."
             ));
 
+    public static final AbnoProfile MELTING_LOVE = new AbnoProfile(
+            "melting_love", "녹아내리는 사랑", "D-03-109", "ALEPH", 0xFF3333,
+            new int[]{35, 45, 50, 0}, 32, 25, 15,
+            DamageColor.BLACK, 4, 10,
+            3,
+            () -> ModItems.ADORATION, 120,
+            () -> ModItems.ADORATION_SUIT, 100,
+            "adoration", "흠모", "최대 HP +5, 최대 SP +10, 작업 성공률 -5%, 작업 속도 -5", 1,
+            new float[]{0.0f, 1.0f, 1.5f, 0.8f},
+            List.of(
+                    "분홍빛 점액으로 된 소녀. 누군가를 사랑하는 법을 배웠다고 믿는다.",
+                    "작업 결과가 보통이나 나쁨이면 클리포트 카운터가 1 감소한다. 처음 작업한 직원이 그녀의 사랑을 받는다.",
+                    "탈출하면 점액을 뿜고, 죽은 직원은 점액 덩어리가 되어 그녀를 따른다. RED 피해는 오히려 그녀를 회복시킨다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
@@ -991,6 +1006,7 @@ public record AbnoProfile(
             Map.entry(SMILING_MOUNTAIN.id, SMILING_MOUNTAIN),
             Map.entry(CENSORED.id, CENSORED),
             Map.entry(BLUE_STAR.id, BLUE_STAR),
+            Map.entry(MELTING_LOVE.id, MELTING_LOVE),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),

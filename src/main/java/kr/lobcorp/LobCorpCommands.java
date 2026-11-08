@@ -90,7 +90,8 @@ public final class LobCorpCommands {
                         .then(Commands.literal("silent_orchestra").executes(c -> build(c, ModEntities.SILENT_ORCHESTRA, false)))
                         .then(Commands.literal("smiling_mountain").executes(c -> build(c, ModEntities.SMILING_MOUNTAIN, false)))
                         .then(Commands.literal("censored").executes(c -> build(c, ModEntities.CENSORED, false)))
-                        .then(Commands.literal("blue_star").executes(c -> build(c, ModEntities.BLUE_STAR, false))))
+                        .then(Commands.literal("blue_star").executes(c -> build(c, ModEntities.BLUE_STAR, false)))
+                        .then(Commands.literal("melting_love").executes(c -> build(c, ModEntities.MELTING_LOVE, false))))
                 .then(Commands.literal("facility").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(c -> facility(c, false))
                         .then(Commands.literal("full").executes(c -> facility(c, true)))
@@ -304,6 +305,7 @@ public final class LobCorpCommands {
                 if (e instanceof kr.lobcorp.entity.WorkerBeeEntity
                         || e instanceof kr.lobcorp.entity.LittlePrinceMinionEntity
                         || e instanceof kr.lobcorp.entity.CensoredMinionEntity
+                        || e instanceof kr.lobcorp.entity.MeltingSlimeEntity
                         || e instanceof kr.lobcorp.entity.SaplingEntity
                         || e instanceof kr.lobcorp.entity.NakedWormEntity) e.discard();
             }

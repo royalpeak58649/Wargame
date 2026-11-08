@@ -24,6 +24,8 @@ import kr.lobcorp.entity.LaetitiaEntity;
 import kr.lobcorp.entity.LaetitiaFriendEntity;
 import kr.lobcorp.entity.LittleRedEntity;
 import kr.lobcorp.entity.MeatLanternEntity;
+import kr.lobcorp.entity.MeltingLoveEntity;
+import kr.lobcorp.entity.MeltingSlimeEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NotesEntity;
 import kr.lobcorp.entity.ScarecrowEntity;
@@ -161,6 +163,8 @@ public final class ModEntities {
     public static EntityType<CensoredEntity> CENSORED;
     public static EntityType<CensoredMinionEntity> CENSORED_MINION;
     public static EntityType<BlueStarEntity> BLUE_STAR;
+    public static EntityType<MeltingLoveEntity> MELTING_LOVE;
+    public static EntityType<MeltingSlimeEntity> MELTING_SLIME;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -320,6 +324,10 @@ public final class ModEntities {
                 .sized(0.8f, 1.6f).clientTrackingRange(10));
         BLUE_STAR = register("blue_star", EntityType.Builder.of(BlueStarEntity::new, MobCategory.MISC)
                 .sized(1.6f, 1.6f).clientTrackingRange(10));
+        MELTING_LOVE = register("melting_love", EntityType.Builder.of(MeltingLoveEntity::new, MobCategory.MISC)
+                .sized(1.2f, 2.0f).clientTrackingRange(10));
+        MELTING_SLIME = register("melting_slime", EntityType.Builder.of(MeltingSlimeEntity::new, MobCategory.MONSTER)
+                .sized(0.8f, 0.8f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -413,6 +421,8 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(CENSORED, CensoredEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CENSORED_MINION, CensoredMinionEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BLUE_STAR, BlueStarEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(MELTING_LOVE, MeltingLoveEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(MELTING_SLIME, MeltingSlimeEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

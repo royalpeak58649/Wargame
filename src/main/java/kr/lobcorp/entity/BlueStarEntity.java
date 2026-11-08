@@ -144,7 +144,7 @@ public class BlueStarEntity extends BreachingAbnormality {
             if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
             if (ToolState.isSheltered(p)) continue;
             Employees.damageSp(p, 15 + getRandom().nextInt(6));
-            p.level().playSound(null, p.blockPosition(), SoundEvents.WARDEN_HEARTBEAT.value(), SoundSource.HOSTILE, 1.2f, 0.5f);
+            p.level().playSound(null, p.blockPosition(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.HOSTILE, 1.2f, 0.5f);
         }
         // 별 주위로 푸른 영혼이 고리 모양으로 맴돈다
         for (int i = 0; i < 24; i++) {
@@ -153,7 +153,7 @@ public class BlueStarEntity extends BreachingAbnormality {
             sl.sendParticles(ParticleTypes.SOUL, getX() + Math.cos(a) * r, getY() + 0.8, getZ() + Math.sin(a) * r,
                     1, 0.05, 0.2, 0.05, 0.0);
         }
-        sl.playSound(null, blockPosition(), SoundEvents.WARDEN_HEARTBEAT.value(), SoundSource.HOSTILE, 1.6f, 0.4f);
+        sl.playSound(null, blockPosition(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.HOSTILE, 1.6f, 0.4f);
 
         // 공황에 빠진 직원은 별에게 끌려간다
         for (ServerPlayer p : sl.players()) {
