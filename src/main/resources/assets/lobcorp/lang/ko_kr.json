@@ -122,5 +122,12 @@
   "item.lobcorp.hornet_suit": "말벌의 옷",
   "entity.lobcorp.black_swan": "흑조의 꿈",
   "item.lobcorp.black_swan": "흑조",
-  "item.lobcorp.black_swan_suit": "흑조의 드레스"
+  "item.lobcorp.black_swan_suit": "흑조의 드레스",
+  "entity.lobcorp.yin": "음",
+  "item.lobcorp.discord": "불화",
+  "item.lobcorp.discord_suit": "불화의 옷",
+  "entity.lobcorp.yang": "양",
+  "entity.lobcorp.snow_white_apple": "백설공주의 사과",
+  "item.lobcorp.green_stem": "초록 줄기",
+  "item.lobcorp.green_stem_suit": "초록 줄기의 옷"
 }

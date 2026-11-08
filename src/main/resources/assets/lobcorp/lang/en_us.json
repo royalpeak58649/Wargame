@@ -122,5 +122,12 @@
   "item.lobcorp.hornet_suit": "Hornet Garb",
   "entity.lobcorp.black_swan": "Dream of a Black Swan",
   "item.lobcorp.black_swan": "Black Swan",
-  "item.lobcorp.black_swan_suit": "Black Swan Dress"
+  "item.lobcorp.black_swan_suit": "Black Swan Dress",
+  "entity.lobcorp.yin": "Yin",
+  "item.lobcorp.discord": "Discord",
+  "item.lobcorp.discord_suit": "Discord Suit",
+  "entity.lobcorp.yang": "Yang",
+  "entity.lobcorp.snow_white_apple": "Snow White's Apple",
+  "item.lobcorp.green_stem": "Green Stem",
+  "item.lobcorp.green_stem_suit": "Green Stem Suit"
 }
