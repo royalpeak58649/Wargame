@@ -183,5 +183,16 @@
   "item.lobcorp.da_capo": "Da Capo",
   "item.lobcorp.da_capo_suit": "Da Capo Suit",
   "item.lobcorp.smile": "Smile",
-  "item.lobcorp.smile_suit": "Smile Suit"
+  "item.lobcorp.smile_suit": "Smile Suit",
+  "entity.lobcorp.censored": "CENSORED",
+  "entity.lobcorp.censored_minion": "CENSORED Minion",
+  "entity.lobcorp.blue_star": "Blue Star",
+  "entity.lobcorp.melting_love": "Melting Love",
+  "entity.lobcorp.melting_slime": "Slime Pawn",
+  "item.lobcorp.censored": "CENSORED",
+  "item.lobcorp.censored_suit": "CENSORED Suit",
+  "item.lobcorp.sound_of_a_star": "Sound of a Star",
+  "item.lobcorp.sound_of_a_star_suit": "Sound of a Star Suit",
+  "item.lobcorp.adoration": "Adoration",
+  "item.lobcorp.adoration_suit": "Adoration Suit"
 }

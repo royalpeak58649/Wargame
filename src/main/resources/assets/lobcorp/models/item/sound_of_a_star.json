@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "lobcorp:item/sound_of_a_star"
+  }
+}

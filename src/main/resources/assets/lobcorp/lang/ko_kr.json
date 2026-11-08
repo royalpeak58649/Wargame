@@ -183,5 +183,16 @@
   "item.lobcorp.da_capo": "다 카포",
   "item.lobcorp.da_capo_suit": "다 카포 옷",
   "item.lobcorp.smile": "미소",
-  "item.lobcorp.smile_suit": "미소 옷"
+  "item.lobcorp.smile_suit": "미소 옷",
+  "entity.lobcorp.censored": "███████",
+  "entity.lobcorp.censored_minion": "███████의 하수인",
+  "entity.lobcorp.blue_star": "푸른 별",
+  "entity.lobcorp.melting_love": "녹아내리는 사랑",
+  "entity.lobcorp.melting_slime": "점액 덩어리",
+  "item.lobcorp.censored": "███████",
+  "item.lobcorp.censored_suit": "███████ 옷",
+  "item.lobcorp.sound_of_a_star": "별의 소리",
+  "item.lobcorp.sound_of_a_star_suit": "별의 소리 옷",
+  "item.lobcorp.adoration": "흠모",
+  "item.lobcorp.adoration_suit": "흠모 옷"
 }

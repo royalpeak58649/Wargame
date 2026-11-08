@@ -1,0 +1,9 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "lobcorp:sound_of_a_star"
+      }
+    ]
+  }
+}
