@@ -2,6 +2,11 @@ package kr.lobcorp.client.render;
 
 import kr.lobcorp.LobCorp;
 import kr.lobcorp.client.model.AllAroundHelperModel;
+import kr.lobcorp.client.model.ApocalypseBirdModel;
+import kr.lobcorp.client.model.ApocalypseEggModel;
+import kr.lobcorp.client.model.ApostleModel;
+import kr.lobcorp.client.model.ArmyInBlackModel;
+import kr.lobcorp.client.model.ArmySoldierModel;
 import kr.lobcorp.client.model.AlriuneModel;
 import kr.lobcorp.client.model.BeautyBeastModel;
 import kr.lobcorp.client.model.BigBadWolfModel;
@@ -69,10 +74,14 @@ import kr.lobcorp.client.model.TodaysShyLookModel;
 import kr.lobcorp.client.model.TreeSapModel;
 import kr.lobcorp.client.model.VoidDreamModel;
 import kr.lobcorp.client.model.WoodsmanModel;
+import kr.lobcorp.client.model.WhiteNightModel;
 import kr.lobcorp.client.model.YangModel;
 import kr.lobcorp.client.model.YinModel;
 import kr.lobcorp.entity.AllAroundHelperEntity;
 import kr.lobcorp.entity.AlriuneEntity;
+import kr.lobcorp.entity.ApostleEntity;
+import kr.lobcorp.entity.ArmyInBlackEntity;
+import kr.lobcorp.entity.ArmySoldierEntity;
 import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
@@ -139,8 +148,11 @@ import kr.lobcorp.entity.TodaysShyLookEntity;
 import kr.lobcorp.entity.TreeSapEntity;
 import kr.lobcorp.entity.VoidDreamEntity;
 import kr.lobcorp.entity.WoodsmanEntity;
+import kr.lobcorp.entity.WhiteNightEntity;
 import kr.lobcorp.entity.YangEntity;
 import kr.lobcorp.entity.YinEntity;
+import kr.lobcorp.apocalypse.ApocalypseBirdEntity;
+import kr.lobcorp.apocalypse.ApocalypseEggEntity;
 import kr.lobcorp.ordeal.AmberDawnEntity;
 import kr.lobcorp.ordeal.GreenDawnEntity;
 import kr.lobcorp.ordeal.CrimsonDawnEntity;
@@ -2100,6 +2112,126 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(MeltingSlimeModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ArmyInBlack extends MobRenderer<ArmyInBlackEntity, ArmyInBlackModel.State, ArmyInBlackModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/army_in_black.png");
+
+        public ArmyInBlack(EntityRendererProvider.Context ctx) {
+            super(ctx, new ArmyInBlackModel(ctx.bakeLayer(ArmyInBlackModel.LAYER)), 0.6f);
+        }
+
+        @Override
+        public ArmyInBlackModel.State createRenderState() {
+            return new ArmyInBlackModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ArmyInBlackModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ArmySoldier extends MobRenderer<ArmySoldierEntity, ArmySoldierModel.State, ArmySoldierModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/army_soldier.png");
+
+        public ArmySoldier(EntityRendererProvider.Context ctx) {
+            super(ctx, new ArmySoldierModel(ctx.bakeLayer(ArmySoldierModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public ArmySoldierModel.State createRenderState() {
+            return new ArmySoldierModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ArmySoldierModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class WhiteNight extends MobRenderer<WhiteNightEntity, WhiteNightModel.State, WhiteNightModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/whitenight.png");
+
+        public WhiteNight(EntityRendererProvider.Context ctx) {
+            super(ctx, new WhiteNightModel(ctx.bakeLayer(WhiteNightModel.LAYER)), 0.0f);
+        }
+
+        @Override
+        public WhiteNightModel.State createRenderState() {
+            return new WhiteNightModel.State();
+        }
+
+        @Override
+        public void extractRenderState(WhiteNightEntity e, WhiteNightModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.lightCoords = LightCoordsUtil.FULL_BRIGHT; // 스스로 빛난다
+        }
+
+        @Override
+        public Identifier getTextureLocation(WhiteNightModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class Apostle extends MobRenderer<ApostleEntity, ApostleModel.State, ApostleModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/apostle.png");
+
+        public Apostle(EntityRendererProvider.Context ctx) {
+            super(ctx, new ApostleModel(ctx.bakeLayer(ApostleModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public ApostleModel.State createRenderState() {
+            return new ApostleModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ApostleModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ApocalypseBird extends MobRenderer<ApocalypseBirdEntity, ApocalypseBirdModel.State, ApocalypseBirdModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/apocalypse_bird.png");
+
+        public ApocalypseBird(EntityRendererProvider.Context ctx) {
+            super(ctx, new ApocalypseBirdModel(ctx.bakeLayer(ApocalypseBirdModel.LAYER)), 2.0f);
+        }
+
+        @Override
+        public ApocalypseBirdModel.State createRenderState() {
+            return new ApocalypseBirdModel.State();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ApocalypseBirdModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ApocalypseEgg extends MobRenderer<ApocalypseEggEntity, ApocalypseEggModel.State, ApocalypseEggModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/apocalypse_egg.png");
+
+        public ApocalypseEgg(EntityRendererProvider.Context ctx) {
+            super(ctx, new ApocalypseEggModel(ctx.bakeLayer(ApocalypseEggModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public ApocalypseEggModel.State createRenderState() {
+            return new ApocalypseEggModel.State();
+        }
+
+        @Override
+        public void extractRenderState(ApocalypseEggEntity e, ApocalypseEggModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.kind = e.kind();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ApocalypseEggModel.State s) {
             return TEX;
         }
     }

@@ -9698,3 +9698,439 @@ merge_lang({"entity.lobcorp.censored": "███████", "entity.lobcorp.
             "item.lobcorp.sound_of_a_star": "Sound of a Star", "item.lobcorp.sound_of_a_star_suit": "Sound of a Star Suit",
             "item.lobcorp.adoration": "Adoration", "item.lobcorp.adoration_suit": "Adoration Suit"})
 print("assets aleph 2 ok")
+
+
+# ═════════════ ALEPH 3: 검은 군단 / 백야 / 종말새 ═════════════
+def army_in_black():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    pink = hexc("#f08ab0")
+    pink_dark = hexc("#c05a80")
+    pink_deep = hexc("#8a3050")
+    white = hexc("#f4f0f4")
+    black = hexc("#1a1418")
+
+    # 다리 (u0 v0 / u8 v0, 2x4x2)
+    for u in (0, 8):
+        box(img, u, 0, 2, 4, 2, black, 4, top=hexc("#2a2228"))
+
+    # 몸통 (u0 v8, 4x6x3) — 가슴의 분홍 하트
+    b = box(img, 0, 8, 4, 6, 3, white, 6, top=pink)
+    bx, by = b["front"]
+    for (x, y) in [(1, 1), (2, 1), (1, 2), (2, 2)]:
+        px(img, bx + x, by + y, pink)
+    px(img, bx + 1, by + 3, pink_deep)
+    px(img, bx + 2, by + 3, pink_deep)
+
+    # 머리 (u0 v20, 4x4x4)
+    h = box(img, 0, 20, 4, 4, 4, white, 6, top=hexc("#e8e0e8"))
+    hx, hy = h["front"]
+    px(img, hx + 1, hy + 1, black)
+    px(img, hx + 2, hy + 1, black)
+    px(img, hx + 1, hy + 2, pink_dark)
+    px(img, hx + 2, hy + 2, pink_dark)
+
+    # 높은 모자 (u0 v32, 4x4x4)
+    box(img, 0, 32, 4, 4, 4, black, 4, top=pink_dark)
+
+    save(img, "textures/entity/army_in_black.png")
+
+
+def army_soldier():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    black = hexc("#141018")
+    black_light = hexc("#241c28")
+    pink = hexc("#ff5a8a")
+    pink_light = hexc("#ff9ac0")
+    pink_deep = hexc("#8a3050")
+    skin = hexc("#e8d8d0")
+
+    # 몸통 (u0 v0, 8x12x4) — 가슴의 커다란 하트
+    b = box(img, 0, 0, 8, 12, 4, black, 4, top=black_light)
+    bx, by = b["front"]
+    for x in range(8):
+        px(img, bx + x, by, hexc("#3a2a34"))
+    for (x, y) in [(2, 3), (3, 3), (4, 3), (5, 3), (2, 4), (3, 4), (4, 4), (5, 4),
+                   (3, 5), (4, 5), (3, 6), (4, 6)]:
+        px(img, bx + x, by + y, pink)
+    for (x, y) in [(3, 3), (4, 3), (3, 4), (4, 4)]:
+        px(img, bx + x, by + y, pink_light)
+    px(img, bx + 3, by + 7, pink_deep)
+    px(img, bx + 4, by + 7, pink_deep)
+
+    # 머리 (u0 v16, 8x8x8)
+    h = box(img, 0, 16, 8, 8, 8, skin, 6, top=hexc("#d8c8c0"))
+    hx, hy = h["front"]
+    for x in range(8):
+        px(img, hx + x, hy, black)
+        px(img, hx + x, hy + 1, black)
+    px(img, hx + 2, hy + 3, black)
+    px(img, hx + 5, hy + 3, black)
+    px(img, hx + 3, hy + 5, pink_deep)
+    px(img, hx + 4, hy + 5, pink_deep)
+
+    # 높은 모자 (u0 v32, 6x8x6)
+    box(img, 0, 32, 6, 8, 6, black, 4, top=black_light)
+
+    # 팔 (u0 v48 / u8 v48, 3x12x3)
+    for u in (0, 8):
+        a = box(img, u, 48, 3, 12, 3, black, 4, top=black_light)
+        ax, ay = a["front"]
+        for y in range(9, 12):
+            px(img, ax + 1, ay + y, skin)
+
+    # 다리 (u0 v64 / u8 v64, 3x12x3)
+    for u in (0, 8):
+        l = box(img, u, 64, 3, 12, 3, black, 4, top=black_light)
+        lx, ly = l["front"]
+        for y in range(10, 12):
+            px(img, lx + 1, ly + y, hexc("#0a080c"))
+
+    save(img, "textures/entity/army_soldier.png")
+
+
+def whitenight():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    white = hexc("#f6f2e8")
+    white_dark = hexc("#d8d0c0")
+    gold = hexc("#e8c860")
+    gold_dark = hexc("#a88a30")
+    red = hexc("#c02020")
+
+    # 몸통 (u0 v0, 8x16x6)
+    b = box(img, 0, 0, 8, 16, 6, white, 4, top=white_dark)
+    bx, by = b["front"]
+    for y in range(0, 16, 4):
+        for x in range(8):
+            px(img, bx + x, by + y, gold)
+    for x in range(3, 5):
+        for y in range(2, 14):
+            px(img, bx + x, by + y, gold_dark)
+    px(img, bx + 3, by + 6, red)
+    px(img, bx + 4, by + 6, red)
+
+    # 머리 (u0 v24, 8x8x8)
+    h = box(img, 0, 24, 8, 8, 8, white, 4, top=white_dark)
+    hx, hy = h["front"]
+    for (x, y) in [(2, 3), (5, 3)]:
+        px(img, hx + x, hy + y, gold)
+        px(img, hx + x, hy + y + 1, gold_dark)
+    for x in range(3, 5):
+        px(img, hx + x, hy + 6, red)
+
+    # 고리 (u0 v40, 14x1x14)
+    box(img, 0, 40, 14, 1, 14, gold, 4, top=hexc("#fff0a0"))
+
+    # 날개 (u0 v56 / u32 v56, 2x20x16) — 흰 깃털
+    for u in (0, 32):
+        w = box(img, u, 56, 2, 20, 16, white, 4, top=white_dark)
+        wx, wy = w["front"]
+        for y in range(0, 20, 3):
+            for x in range(2):
+                px(img, wx + x, wy + y, white_dark)
+        for y in range(0, 20, 5):
+            px(img, wx, wy + y, gold)
+            px(img, wx + 1, wy + y, gold)
+
+    save(img, "textures/entity/whitenight.png")
+
+
+def apostle():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    white = hexc("#f2eee2")
+    white_dark = hexc("#d0c8b8")
+    gold = hexc("#e0c060")
+    gold_dark = hexc("#a08030")
+    skin = hexc("#e8d8c8")
+    wood = hexc("#6a4a2a")
+
+    # 두루마기 몸통 (u0 v0, 8x16x6)
+    b = box(img, 0, 0, 8, 16, 6, white, 4, top=white_dark)
+    bx, by = b["front"]
+    for x in range(8):
+        px(img, bx + x, by + 15, gold)
+        px(img, bx + x, by + 14, gold_dark)
+    for y in range(0, 16, 5):
+        for x in range(8):
+            px(img, bx + x, by + y, white_dark)
+    for y in range(2, 14):
+        px(img, bx + 3, by + y, gold)
+        px(img, bx + 4, by + y, gold)
+
+    # 머리 (u0 v24, 8x8x8)
+    h = box(img, 0, 24, 8, 8, 8, skin, 6, top=hexc("#d8c8b8"))
+    hx, hy = h["front"]
+    for x in range(8):
+        px(img, hx + x, hy, white)
+        px(img, hx + x, hy + 1, white_dark)
+    px(img, hx + 2, hy + 3, hexc("#3a2a20"))
+    px(img, hx + 5, hy + 3, hexc("#3a2a20"))
+    px(img, hx + 3, hy + 5, hexc("#a08070"))
+    px(img, hx + 4, hy + 5, hexc("#a08070"))
+
+    # 작은 고리 (u0 v40, 8x1x8)
+    box(img, 0, 40, 8, 1, 8, gold, 4, top=hexc("#fff0a0"))
+
+    # 팔 (u0 v52 / u8 v52, 3x12x3)
+    for u in (0, 8):
+        a = box(img, u, 52, 3, 12, 3, white, 4, top=white_dark)
+        ax, ay = a["front"]
+        for y in range(9, 12):
+            px(img, ax + 1, ay + y, skin)
+        for y in range(0, 9, 4):
+            px(img, ax + 1, ay + y, gold)
+
+    # 긴 창 (u0 v68, 1x24x1)
+    box(img, 0, 68, 1, 24, 1, wood, 4, top=gold)
+
+    # 다리 (u0 v96 / u8 v96, 3x12x3)
+    for u in (0, 8):
+        l = box(img, u, 96, 3, 12, 3, white, 4, top=white_dark)
+        lx, ly = l["front"]
+        for y in range(10, 12):
+            px(img, lx + 1, ly + y, hexc("#4a3a2a"))
+
+    save(img, "textures/entity/apostle.png")
+
+
+def apocalypse_bird():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    dark = hexc("#0e0c12")
+    dark_light = hexc("#1e1a24")
+    yellow = hexc("#f0d040")
+    yellow_dark = hexc("#a08010")
+    gold = hexc("#e0b840")
+    red = hexc("#b02020")
+
+    # 몸통 (u0 v0, 24x20x20)
+    b = box(img, 0, 0, 24, 20, 20, dark, 4, top=dark_light)
+    bx, by = b["front"]
+    for y in range(0, 20, 4):
+        for x in range(0, 24, 6):
+            px(img, bx + x, by + y, dark_light)
+
+    # 목 (u0 v40, 6x14x6)
+    box(img, 0, 40, 6, 14, 6, dark, 4, top=dark_light)
+
+    # 머리 (u0 v60, 10x10x14)
+    h = box(img, 0, 60, 10, 10, 14, dark, 4, top=dark_light)
+    hx, hy = h["front"]
+    for (x, y) in [(2, 3), (6, 3)]:
+        px(img, hx + x, hy + y, yellow)
+        px(img, hx + x + 1, hy + y, yellow)
+        px(img, hx + x, hy + y + 1, yellow_dark)
+        px(img, hx + x + 1, hy + y + 1, yellow_dark)
+
+    # 부리 (u0 v84, 4x3x6)
+    box(img, 0, 84, 4, 3, 6, red, 6, top=hexc("#d04040"))
+
+    # 날개 (u0 v96 / u56 v96, 4x28x24)
+    for u in (0, 56):
+        w = box(img, u, 96, 4, 28, 24, dark, 4, top=dark_light)
+        wx, wy = w["front"]
+        for y in range(0, 28, 4):
+            for x in range(4):
+                px(img, wx + x, wy + y, hexc("#2a2430"))
+        for y in range(2, 28, 8):
+            px(img, wx + 1, wy + y, yellow_dark)
+
+    # 꼬리 (u0 v24, 4x4x20)
+    box(img, 0, 24, 4, 4, 20, dark, 4, top=dark_light)
+
+    # 몸통의 눈 (u0 v20 / u4 v20 / u8 v20, 2x2x1)
+    for u in (0, 4, 8):
+        e = box(img, u, 20, 2, 2, 1, yellow, 4)
+        ex, ey = e["front"]
+        px(img, ex, ey, hexc("#1a1408"))
+        px(img, ex + 1, ey + 1, yellow_dark)
+
+    # 황금 저울 (u0 v48, 1x12x1 + u4 v48, 6x1x1)
+    box(img, 0, 48, 1, 12, 1, gold, 4, top=hexc("#fff0a0"))
+    box(img, 4, 48, 6, 1, 1, gold, 4, top=hexc("#fff0a0"))
+
+    save(img, "textures/entity/apocalypse_bird.png")
+
+
+def apocalypse_egg():
+    img = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    shell = hexc("#2a2430")
+    shell_light = hexc("#3e3648")
+    yellow = hexc("#f0d040")
+    yellow_dark = hexc("#a08010")
+    red = hexc("#b02020")
+
+    # 알 (u0 v0, 12x16x12)
+    e = box(img, 0, 0, 12, 16, 12, shell, 4, top=shell_light)
+    ex, ey = e["front"]
+    for y in range(0, 16, 4):
+        for x in range(0, 12, 3):
+            px(img, ex + x, ey + y, shell_light)
+    for x in range(2, 10, 3):
+        px(img, ex + x, ey + 8, yellow_dark)
+
+    # 부리 (u0 v32, 4x3x4)
+    box(img, 0, 32, 4, 3, 4, red, 6, top=hexc("#d04040"))
+
+    # 팔 (u0 v44 / u8 v44, 2x12x2)
+    for u in (0, 8):
+        a = box(img, u, 44, 2, 12, 2, shell, 4, top=shell_light)
+        ax, ay = a["front"]
+        for y in range(0, 12, 3):
+            px(img, ax, ay + y, yellow_dark)
+
+    # 눈 (u0 v60 / u4 v60 / u8 v60 / u12 v60, 2x2x1)
+    for u in (0, 4, 8, 12):
+        ey2 = box(img, u, 60, 2, 2, 1, yellow, 4)
+        exx, eyy = ey2["front"]
+        px(img, exx, eyy, hexc("#1a1408"))
+        px(img, exx + 1, eyy + 1, yellow_dark)
+
+    save(img, "textures/entity/apocalypse_egg.png")
+
+
+army_in_black()
+army_soldier()
+whitenight()
+apostle()
+apocalypse_bird()
+apocalypse_egg()
+
+# ── E.G.O: 분홍 / 실낙원 / 황혼 ──
+PK = {"k": "#1a1418", "p": "#f08ab0", "d": "#c05a80", "w": "#fff0f4", "s": "#ff9ac0"}
+icon([
+    "................",
+    ".............kk.",
+    "............kpk.",
+    "...........kppk.",
+    "..........kppk..",
+    ".........kppk...",
+    "........kppk....",
+    ".......kppk.....",
+    "......kppk......",
+    ".....kppk.......",
+    "....kppk........",
+    "...kppk.........",
+    "..kpdk..........",
+    ".kpdk...........",
+    ".kk.............",
+    "................",
+], PK, "textures/item/pink.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkppppkk....",
+    "....kkpsspkk....",
+    "....kkppppkk....",
+    "....kkkkkkkk....",
+    "....kkppppkk....",
+    "....kkpsspkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....pppppp.....",
+    "................",
+    "................",
+], PK, "textures/item/pink_suit.png")
+
+PL = {"k": "#3a3020", "w": "#f6f2e8", "g": "#e0c060", "r": "#c02020", "d": "#d0c8b8"}
+icon([
+    "................",
+    "......wwww......",
+    ".....wwwwww.....",
+    "....wwrrrrww....",
+    "....wwrrrrww....",
+    ".....wwwwww.....",
+    "......wwww......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    ".......gg.......",
+    "......kkkk......",
+    "................",
+    "................",
+], PL, "textures/item/paradise_lost.png")
+icon([
+    "................",
+    "...ww......ww...",
+    "..wwww....wwww..",
+    "..wwwwwwwwwwww..",
+    "...wwwwwwwwww...",
+    "....wwggggww....",
+    "....wwgrrgww....",
+    "....wwggggww....",
+    "....wwwwwwww....",
+    "....wwggggww....",
+    "....wwgrrgww....",
+    "....wwwwwwww....",
+    "....wwwwwwww....",
+    ".....gggggg.....",
+    "................",
+    "................",
+], PL, "textures/item/paradise_lost_suit.png")
+
+TW = {"k": "#0e0c12", "g": "#e0b840", "r": "#b02020", "b": "#3060c0", "d": "#2a2430"}
+icon([
+    "................",
+    ".............kk.",
+    "............kgk.",
+    "...........kgrk.",
+    "..........kgbk..",
+    ".........kgrk...",
+    "........kgbk....",
+    ".......kgrk.....",
+    "......kgbk......",
+    ".....kgrk.......",
+    "....kgbk........",
+    "...kgrk.........",
+    "..kgdk..........",
+    ".kgdk...........",
+    ".kk.............",
+    "................",
+], TW, "textures/item/twilight.png")
+icon([
+    "................",
+    "...kk......kk...",
+    "..kkkk....kkkk..",
+    "..kkkkkkkkkkkk..",
+    "...kkkkkkkkkk...",
+    "....kkggggkk....",
+    "....kkgrrgkk....",
+    "....kkggggkk....",
+    "....kkkkkkkk....",
+    "....kkggggkk....",
+    "....kkgbbgkk....",
+    "....kkkkkkkk....",
+    "....kkkkkkkk....",
+    ".....gggggg.....",
+    "................",
+    "................",
+], TW, "textures/item/twilight_suit.png")
+
+armor(hexc("#f08ab0"), "#1a1418", "#fff0f4", "textures/entity/equipment/humanoid/pink.png")
+armor(hexc("#f6f2e8"), "#e0c060", "#c02020", "textures/entity/equipment/humanoid/paradise_lost.png")
+armor(hexc("#0e0c12"), "#e0b840", "#b02020", "textures/entity/equipment/humanoid/twilight.png")
+
+for item, parent in [("pink", "minecraft:item/handheld"), ("pink_suit", "minecraft:item/generated"),
+                     ("paradise_lost", "minecraft:item/handheld"), ("paradise_lost_suit", "minecraft:item/generated"),
+                     ("twilight", "minecraft:item/handheld"), ("twilight_suit", "minecraft:item/generated")]:
+    wjson(f"items/{item}.json", {"model": {"type": "minecraft:model", "model": f"lobcorp:item/{item}"}})
+    wjson(f"models/item/{item}.json", {"parent": parent, "textures": {"layer0": f"lobcorp:item/{item}"}})
+for mat in ("pink", "paradise_lost", "twilight"):
+    wjson(f"equipment/{mat}.json", {"layers": {"humanoid": [{"texture": f"lobcorp:{mat}"}]}})
+
+merge_lang({"entity.lobcorp.army_in_black": "검은 군단", "entity.lobcorp.army_soldier": "검은 군인",
+            "entity.lobcorp.whitenight": "백야", "entity.lobcorp.apostle": "사도",
+            "entity.lobcorp.apocalypse_bird": "종말새", "entity.lobcorp.apocalypse_egg": "종말새의 알",
+            "item.lobcorp.pink": "분홍", "item.lobcorp.pink_suit": "분홍 옷",
+            "item.lobcorp.paradise_lost": "실낙원", "item.lobcorp.paradise_lost_suit": "실낙원 옷",
+            "item.lobcorp.twilight": "황혼", "item.lobcorp.twilight_suit": "황혼 옷"},
+           {"entity.lobcorp.army_in_black": "Army in Black", "entity.lobcorp.army_soldier": "Black Soldier",
+            "entity.lobcorp.whitenight": "WhiteNight", "entity.lobcorp.apostle": "Apostle",
+            "entity.lobcorp.apocalypse_bird": "Apocalypse Bird", "entity.lobcorp.apocalypse_egg": "Apocalypse Egg",
+            "item.lobcorp.pink": "Pink", "item.lobcorp.pink_suit": "Pink Suit",
+            "item.lobcorp.paradise_lost": "Paradise Lost", "item.lobcorp.paradise_lost_suit": "Paradise Lost Suit",
+            "item.lobcorp.twilight": "Twilight", "item.lobcorp.twilight_suit": "Twilight Suit"})
+print("assets aleph 3 ok")

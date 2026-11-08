@@ -149,6 +149,18 @@ public class LobCorpClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.MELTING_LOVE, kr.lobcorp.client.render.NewAbnoRenderers.MeltingLove::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.MeltingSlimeModel.LAYER, kr.lobcorp.client.model.MeltingSlimeModel::createLayer);
         EntityRendererRegistry.register(ModEntities.MELTING_SLIME, kr.lobcorp.client.render.NewAbnoRenderers.MeltingSlime::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.ArmyInBlackModel.LAYER, kr.lobcorp.client.model.ArmyInBlackModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.ARMY_IN_BLACK, kr.lobcorp.client.render.NewAbnoRenderers.ArmyInBlack::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.ArmySoldierModel.LAYER, kr.lobcorp.client.model.ArmySoldierModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.ARMY_SOLDIER, kr.lobcorp.client.render.NewAbnoRenderers.ArmySoldier::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.WhiteNightModel.LAYER, kr.lobcorp.client.model.WhiteNightModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.WHITENIGHT, kr.lobcorp.client.render.NewAbnoRenderers.WhiteNight::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.ApostleModel.LAYER, kr.lobcorp.client.model.ApostleModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.APOSTLE, kr.lobcorp.client.render.NewAbnoRenderers.Apostle::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.ApocalypseBirdModel.LAYER, kr.lobcorp.client.model.ApocalypseBirdModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.APOCALYPSE_BIRD, kr.lobcorp.client.render.NewAbnoRenderers.ApocalypseBird::new);
+        ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.ApocalypseEggModel.LAYER, kr.lobcorp.client.model.ApocalypseEggModel::createLayer);
+        EntityRendererRegistry.register(ModEntities.APOCALYPSE_EGG, kr.lobcorp.client.render.NewAbnoRenderers.ApocalypseEgg::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.CloudedMonkModel.LAYER, kr.lobcorp.client.model.CloudedMonkModel::createLayer);
         EntityRendererRegistry.register(ModEntities.CLOUDED_MONK, kr.lobcorp.client.render.NewAbnoRenderers.CloudedMonk::new);
         ModelLayerRegistry.registerModelLayer(kr.lobcorp.client.model.IlPiantoModel.LAYER, kr.lobcorp.client.model.IlPiantoModel::createLayer);
