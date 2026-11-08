@@ -83,6 +83,7 @@ public final class ModItems {
     public static final ArmorMaterial DA_CAPO_MAT = material("da_capo", 10);
     public static final ArmorMaterial SMILE_MAT = material("smile", 10);
     public static final ArmorMaterial CENSORED_MAT = material("censored", 10);
+    public static final ArmorMaterial SOUND_OF_A_STAR_MAT = material("sound_of_a_star", 10);
 
     public static Item PENITENCE;
     public static Item PENITENCE_SUIT;
@@ -195,6 +196,8 @@ public final class ModItems {
     public static Item SMILE_SUIT;
     public static Item CENSORED_WEAPON;
     public static Item CENSORED_SUIT;
+    public static Item SOUND_OF_A_STAR;
+    public static Item SOUND_OF_A_STAR_SUIT;
 
     private static ArmorMaterial material(String name, int chestDefense) {
         return new ArmorMaterial(
@@ -483,6 +486,10 @@ public final class ModItems {
                 "O-03-89 · ALEPH", "BLACK 피해, 빠른 연타", "기록할 수 없는 형태의 무기. 쥐고 있으면 손이 검게 번진다.");
         CENSORED_SUIT = suit("censored_suit", CENSORED_MAT,
                 "O-03-89 · ALEPH");
+        SOUND_OF_A_STAR = weapon("sound_of_a_star", DamageColor.WHITE, 5.0, -2.4,
+                "O-03-93 · ALEPH", "WHITE 피해 관통 원거리", "푸른 빛을 머금은 악기 모양의 총. 쏠 때마다 낮은 음이 울린다.");
+        SOUND_OF_A_STAR_SUIT = suit("sound_of_a_star_suit", SOUND_OF_A_STAR_MAT,
+                "O-03-93 · ALEPH");
     }
 
     public static List<Item> all() {
@@ -501,6 +508,6 @@ public final class ModItems {
                 GOLD_RUSH, GOLD_RUSH_SUIT, CRIMSON_SCAR, CRIMSON_SCAR_SUIT,
                 COBALT_SCAR, COBALT_SCAR_SUIT, FAINT_AROMA, FAINT_AROMA_SUIT,
                 HORNET, HORNET_SUIT, BLACK_SWAN, BLACK_SWAN_SUIT,
-                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MIMICRY, MIMICRY_SUIT, DA_CAPO, DA_CAPO_SUIT, SMILE, SMILE_SUIT, CENSORED_WEAPON, CENSORED_SUIT, MAGIC_BULLET_ORDER);
+                DISCORD, DISCORD_SUIT, GREEN_STEM, GREEN_STEM_SUIT, SPORE, SPORE_SUIT, HYPOCRISY, HYPOCRISY_SUIT, EXUVIAE, EXUVIAE_SUIT, ECSTASY, ECSTASY_SUIT, HEAVEN, HEAVEN_SUIT, FEATHER_OF_HONOR, FEATHER_OF_HONOR_SUIT, AMITA, AMITA_SUIT, MOONLIGHT, MOONLIGHT_SUIT, DIFFRACTION, DIFFRACTION_SUIT, MIMICRY, MIMICRY_SUIT, DA_CAPO, DA_CAPO_SUIT, SMILE, SMILE_SUIT, CENSORED_WEAPON, CENSORED_SUIT, SOUND_OF_A_STAR, SOUND_OF_A_STAR_SUIT, MAGIC_BULLET_ORDER);
     }
 }

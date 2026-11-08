@@ -6,6 +6,7 @@ import kr.lobcorp.entity.BeautyBeastEntity;
 import kr.lobcorp.entity.BigBadWolfEntity;
 import kr.lobcorp.entity.BigBirdEntity;
 import kr.lobcorp.entity.BlackSwanEntity;
+import kr.lobcorp.entity.BlueStarEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
@@ -159,6 +160,7 @@ public final class ModEntities {
     public static EntityType<SmilingMountainEntity> SMILING_MOUNTAIN;
     public static EntityType<CensoredEntity> CENSORED;
     public static EntityType<CensoredMinionEntity> CENSORED_MINION;
+    public static EntityType<BlueStarEntity> BLUE_STAR;
     public static EntityType<AmberDawnEntity> AMBER_DAWN;
     public static EntityType<GreenDawnEntity> GREEN_DAWN;
     public static EntityType<CrimsonDawnEntity> CRIMSON_DAWN;
@@ -316,6 +318,8 @@ public final class ModEntities {
                 .sized(1.2f, 2.2f).clientTrackingRange(10));
         CENSORED_MINION = register("censored_minion", EntityType.Builder.of(CensoredMinionEntity::new, MobCategory.MONSTER)
                 .sized(0.8f, 1.6f).clientTrackingRange(10));
+        BLUE_STAR = register("blue_star", EntityType.Builder.of(BlueStarEntity::new, MobCategory.MISC)
+                .sized(1.6f, 1.6f).clientTrackingRange(10));
         AMBER_DAWN = register("amber_dawn", EntityType.Builder.of(AmberDawnEntity::new, MobCategory.MONSTER)
                 .sized(0.6f, 0.4f).clientTrackingRange(10));
         GREEN_DAWN = register("green_dawn", EntityType.Builder.of(GreenDawnEntity::new, MobCategory.MONSTER)
@@ -408,6 +412,7 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(SMILING_MOUNTAIN, SmilingMountainEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CENSORED, CensoredEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CENSORED_MINION, CensoredMinionEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BLUE_STAR, BlueStarEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(AMBER_DAWN, AmberDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GREEN_DAWN, GreenDawnEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CRIMSON_DAWN, CrimsonDawnEntity.createAttributes());

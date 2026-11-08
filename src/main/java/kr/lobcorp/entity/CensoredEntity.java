@@ -157,8 +157,8 @@ public class CensoredEntity extends BreachingAbnormality {
 
     @Override
     public void onAnyEmployeeDeath(ServerPlayer p) {
-        if (!isBreached() || home == null) return;
-        if (p.blockPosition().distSqr(home) > DEATH_RADIUS * DEATH_RADIUS) return;
+        if (!isBreached()) return;
+        if (p.distanceToSqr(this) > DEATH_RADIUS * DEATH_RADIUS) return;
         if (!(level() instanceof ServerLevel sl)) return;
         for (ServerPlayer o : sl.getEntitiesOfClass(ServerPlayer.class, p.getBoundingBox().inflate(FEAR_RADIUS))) {
             if (!o.isAlive() || o.isCreative() || o.isSpectator()) continue;

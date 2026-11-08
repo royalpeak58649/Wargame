@@ -969,12 +969,28 @@ public record AbnoProfile(
                     "억압 작업은 「희생」으로 바뀐다. 무작위 직원 한 명이 격리실로 끌려가 삼켜지고, 카운터가 1 회복된다. 탈출하면 죽인 직원마다 같은 모습의 하수인이 태어난다."
             ));
 
+    public static final AbnoProfile BLUE_STAR = new AbnoProfile(
+            "blue_star", "푸른 별", "O-03-93", "ALEPH", 0xFF3333,
+            new int[]{30, 50, 0, 40}, 33, 28, 7,
+            DamageColor.WHITE, 6, 9,
+            2,
+            () -> ModItems.SOUND_OF_A_STAR, 120,
+            () -> ModItems.SOUND_OF_A_STAR_SUIT, 100,
+            "sound_of_a_star", "별의 소리", "이동 속도 +10%", 1,
+            new float[]{0.4f, 0.2f, 0.8f, 1.2f},
+            List.of(
+                    "허공에 떠 있는 푸른 심장. 낮은 소리가 끝없이 울린다.",
+                    "신중이 85 미만인 직원이 작업을 마치면 클리포트 카운터가 1 감소한다. 자제가 65 미만인 직원은 격리실에 들어서는 순간 별에게 빨려 들어간다.",
+                    "탈출하면 무작위 부서 중앙 홀 한가운데에 떠올라, 시설 전체의 직원에게 주기적으로 WHITE 피해를 준다. 공황에 빠진 직원은 별에게 끌려가 사라진다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
             Map.entry(SILENT_ORCHESTRA.id, SILENT_ORCHESTRA),
             Map.entry(SMILING_MOUNTAIN.id, SMILING_MOUNTAIN),
             Map.entry(CENSORED.id, CENSORED),
+            Map.entry(BLUE_STAR.id, BLUE_STAR),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),

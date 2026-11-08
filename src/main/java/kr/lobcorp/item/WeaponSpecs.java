@@ -30,6 +30,7 @@ public final class WeaponSpecs {
         put("syrinx", WeaponKind.PIERCE, 20, 20, 4f);
         put("harmony", WeaponKind.PIERCE, 24, 30, 8f);
         put("match_flame", WeaponKind.CANNON, 24, 60, 12f);
+        put("sound_of_a_star", WeaponKind.PIERCE, 40, 24, 9f);
 
         // ── 창 ──
         for (String id : new String[]{"horn", "fragments", "frost_splinter", "harvest", "green_stem", "spore", "heaven"}) {
