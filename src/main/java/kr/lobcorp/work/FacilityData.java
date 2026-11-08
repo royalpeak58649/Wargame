@@ -17,6 +17,8 @@ public class FacilityData {
     public List<Slot> slots = new ArrayList<>();
     /** 지금 고를 수 있는 후보 환상체 id */
     public List<String> offers = new ArrayList<>();
+    /** 부서 중앙 홀 중심 좌표 (cx, fy, oz) */
+    public List<BlockPos> centers = new ArrayList<>();
 
     public static final class Slot {
         public final BlockPos origin;
@@ -36,8 +38,9 @@ public class FacilityData {
             Codec.INT.fieldOf("quota").forGetter(d -> d.quota),
             Codec.BOOL.fieldOf("quota_met").forGetter(d -> d.quotaMet),
             Slot.CODEC.listOf().optionalFieldOf("slots", List.of()).forGetter(d -> d.slots),
-            Codec.STRING.listOf().optionalFieldOf("offers", List.of()).forGetter(d -> d.offers)
-    ).apply(i, (day, energy, quota, met, slots, offers) -> {
+            Codec.STRING.listOf().optionalFieldOf("offers", List.of()).forGetter(d -> d.offers),
+            BlockPos.CODEC.listOf().optionalFieldOf("centers", List.of()).forGetter(d -> d.centers)
+    ).apply(i, (day, energy, quota, met, slots, offers, centers) -> {
         FacilityData d = new FacilityData();
         d.day = day;
         d.energy = energy;
@@ -45,6 +48,7 @@ public class FacilityData {
         d.quotaMet = met;
         d.slots = new ArrayList<>(slots);
         d.offers = new ArrayList<>(offers);
+        d.centers = new ArrayList<>(centers);
         return d;
     }));
 }

@@ -1,6 +1,8 @@
 package kr.lobcorp.work;
 
 import kr.lobcorp.ModAttachments;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
@@ -12,6 +14,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /** 시설 에너지 / 할당량 / 날짜 */
@@ -98,6 +106,76 @@ public final class Facility {
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {
             if (!BAR.getPlayers().contains(p)) BAR.addPlayer(p);
         }
+        if (server.getTickCount() % 100 == 0) regenerate(server);
+    }
+
+    /** 부서 중앙 홀에서 5초마다 체력·정신력을 조금 회복한다. */
+    private static void regenerate(MinecraftServer server) {
+        List<BlockPos> centers = centers(server);
+        if (centers.isEmpty()) return;
+        ServerLevel level = server.overworld();
+        for (BlockPos c : centers) {
+            for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+                if (!p.isAlive() || p.level() != level) continue;
+                if (Math.abs(p.getX() - (c.getX() + 0.5)) > 6.5) continue;
+                if (Math.abs(p.getZ() - (c.getZ() + 0.5)) > 6.5) continue;
+                if (Math.abs(p.getY() - c.getY()) > 3) continue;
+                EmployeeData d = Employees.get(p);
+                if (d.isPanicking()) continue;
+                p.heal(2f);
+                if (d.sp < d.maxSp()) {
+                    d.sp = Math.min(d.maxSp(), d.sp + 2);
+                    Employees.sync(p);
+                }
+                level.sendParticles(ParticleTypes.HAPPY_VILLAGER, p.getX(), p.getY() + 1.2, p.getZ(), 4, 0.4, 0.5, 0.4, 0);
+            }
+        }
+    }
+
+    /** 부서 중앙 홀 중심 목록. 예전에 지은 시설은 격리실 자리에서 역산해 캐시한다. */
+    public static List<BlockPos> centers(MinecraftServer server) {
+        FacilityData f = get(server);
+        if (!f.centers.isEmpty()) return f.centers;
+        List<BlockPos> derived = deriveCenters(f.slots);
+        if (!derived.isEmpty()) f.centers = new ArrayList<>(derived);
+        return derived;
+    }
+
+    private static List<BlockPos> deriveCenters(List<FacilityData.Slot> slots) {
+        List<BlockPos> out = new ArrayList<>();
+        if (slots.isEmpty()) return out;
+        // 모든 격리실 자리에서 가능한 중앙 홀 z 후보를 모은다.
+        Set<Integer> candidates = new HashSet<>();
+        for (FacilityData.Slot s : slots) {
+            for (int k = 0; k <= 4; k++) {
+                candidates.add(s.origin.getZ() - 13 - 10 * k);
+                candidates.add(s.origin.getZ() + 13 + 10 * k);
+            }
+        }
+        Map<String, List<FacilityData.Slot>> byDept = new LinkedHashMap<>();
+        for (FacilityData.Slot s : slots) byDept.computeIfAbsent(s.dept, k -> new ArrayList<>()).add(s);
+        for (List<FacilityData.Slot> group : byDept.values()) {
+            if (group.isEmpty()) continue;
+            BlockPos first = group.get(0).origin;
+            int oz = Integer.MIN_VALUE;
+            for (int cand : candidates) {
+                boolean ok = true;
+                for (FacilityData.Slot s : slots) {
+                    if (!isCandidate(s.origin.getZ(), cand)) { ok = false; break; }
+                }
+                if (ok) { oz = cand; break; }
+            }
+            if (oz == Integer.MIN_VALUE) return List.of();
+            out.add(new BlockPos(first.getX(), first.getY(), oz));
+        }
+        return out;
+    }
+
+    private static boolean isCandidate(int slotZ, int oz) {
+        for (int k = 0; k <= 4; k++) {
+            if (slotZ == oz + 13 + 10 * k || slotZ == oz - 13 - 10 * k) return true;
+        }
+        return false;
     }
 
     public static void onLeave(ServerPlayer p) {
