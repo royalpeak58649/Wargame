@@ -122,9 +122,18 @@ public abstract class AbnormalityEntity extends PathfinderMob {
         return super.hurtServer(level, source, amount);
     }
 
+    private String panelKey = null;
+
     @Override
     public void tick() {
         super.tick();
+        // 복도에서 보이는 클리포트 카운터 글자판
+        if (!level().isClientSide() && home != null && tickCount % 20 == 7) {
+            String k = kr.lobcorp.work.QliphothPanel.key(this);
+            boolean changed = !k.equals(panelKey);
+            panelKey = k;
+            kr.lobcorp.work.QliphothPanel.update((ServerLevel) level(), this, home, changed);
+        }
         if (!level().isClientSide() && home != null && !isBreached() && !isFriendly() && tickCount % 10 == 0) {
             double hx = home.getX() + 0.5, hz = home.getZ() + 0.5, hy = home.getY() + homeYOffset();
             if (distanceToSqr(hx, hy, hz) > 0.3) {

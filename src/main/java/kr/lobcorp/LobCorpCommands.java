@@ -228,6 +228,7 @@ public final class LobCorpCommands {
         }
         discardFriends(c.getSource().getServer());
         discardBees(c.getSource().getServer());
+        kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;
