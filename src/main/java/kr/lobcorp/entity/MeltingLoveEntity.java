@@ -3,10 +3,12 @@ package kr.lobcorp.entity;
 import kr.lobcorp.AbnoProfile;
 import kr.lobcorp.DamageColor;
 import kr.lobcorp.item.EgoWeaponItem;
+import kr.lobcorp.work.EmployeeData;
 import kr.lobcorp.work.Employees;
 import kr.lobcorp.work.Facility;
 import kr.lobcorp.work.WorkManager;
 import kr.lobcorp.work.WorkSession;
+import kr.lobcorp.work.WorkType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -28,7 +30,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * D-03-109 녹아내리는 사랑 — 분홍빛 점액으로 된 소녀.
