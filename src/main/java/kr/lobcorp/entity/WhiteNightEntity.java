@@ -64,6 +64,8 @@ public class WhiteNightEntity extends BreachingAbnormality {
     private int ringTicks = 0;
     /** 고리가 퍼지기 시작한 뒤 지난 틱 (-1 = 고리 없음) */
     private int ringAge = -1;
+    /** 이번 고리에 이미 맞은 플레이어 */
+    private final java.util.Set<java.util.UUID> ringHit = new java.util.HashSet<>();
 
     public WhiteNightEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -219,6 +221,7 @@ public class WhiteNightEntity extends BreachingAbnormality {
     /** 고리 하나를 시작한다 — 사도를 되살리고, 퍼지기 시작한다 */
     private void startRing(ServerLevel sl) {
         ringAge = 0;
+        ringHit.clear();
         spawnApostles(sl, MAX_APOSTLES);
         sl.playSound(null, blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.HOSTILE, 1.6f, 0.5f);
     }
@@ -236,9 +239,11 @@ public class WhiteNightEntity extends BreachingAbnormality {
         }
         for (ServerPlayer p : sl.players()) {
             if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
+            if (ringHit.contains(p.getUUID())) continue;
             double dist = Math.sqrt(Math.pow(p.getX() - getX(), 2) + Math.pow(p.getZ() - getZ(), 2));
             if (Math.abs(dist - radius) > RING_WIDTH) continue;
             Employees.damagePale(p, RING_PALE);
+            ringHit.add(p.getUUID());
         }
         if (++ringAge > RING_TICKS) ringAge = -1;
     }
@@ -269,8 +274,12 @@ public class WhiteNightEntity extends BreachingAbnormality {
         super.tick();
         if (!(level() instanceof ServerLevel sl)) return;
         if (!isBreached()) {
-            // 90초 동안 아무도 작업하지 않으면 카운터가 내려간다
-            if (++idleTicks >= IDLE_LIMIT) {
+            // 90초 동안 아무도 작업하지 않으면 카운터가 내려간다 (관전·크리에이티브만 있으면 세지 않는다)
+            boolean anyone = false;
+            for (ServerPlayer p : sl.players()) {
+                if (!p.isSpectator() && !p.isCreative()) { anyone = true; break; }
+            }
+            if (anyone && ++idleTicks >= IDLE_LIMIT) {
                 idleTicks = 0;
                 lowerQliphoth(null, 1);
             }

@@ -106,7 +106,8 @@ public final class LobCorpCommands {
                             int n = kr.lobcorp.work.FacilityBuilder.fixSephirahSigns(c.getSource().getLevel(), Facility.get(server).slots);
                             c.getSource().sendSuccess(() -> Component.literal("세피라 표지판 " + n + "개를 고쳤습니다."), true);
                             return 1;
-                        })))
+                        }))
+                        .then(Commands.literal("aleph").executes(c -> facilityAleph(c))))
                 .then(Commands.literal("extract").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(c -> {
                             var server = c.getSource().getServer();
@@ -256,9 +257,40 @@ public final class LobCorpCommands {
         if (!full) kr.lobcorp.work.Extraction.place(server, "one_sin");
         if (c.getSource().getEntity() instanceof ServerPlayer p)
             p.teleportTo(level, r.spawn().getX() + 0.5, r.spawn().getY(), r.spawn().getZ() + 0.5, java.util.Set.of(), -90f, 0f, false);
-        c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 10개, 격리실 " + r.slots().size() + "칸. 상층 바닥 높이 Y=" + r.topY()
+        c.getSource().sendSuccess(() -> Component.literal("로보토미 시설 완공: 부서 11개, 격리실 " + r.slots().size() + "칸. 상층 바닥 높이 Y=" + r.topY()
                 + ". 중앙제어팀 홀로 이동했습니다." + (full ? " (환상체 전부 수용)" : " 첫 환상체를 수용했습니다. 하루가 끝나면(/lobcorp day next) 다음 후보가 나옵니다.")
                 + " 각 부서 중앙 홀에서는 5초마다 체력과 정신력이 회복됩니다.")
+                .withStyle(s -> s.withColor(0x55FF55)), true);
+        return 1;
+    }
+
+    /** 격리 심층부(ALEPH) 증축: 기존 하층 첫 부서 서쪽에 새 부서를 짓는다. */
+    private static int facilityAleph(CommandContext<CommandSourceStack> c) {
+        ServerLevel level = c.getSource().getLevel();
+        var server = c.getSource().getServer();
+        if (!kr.lobcorp.work.Extraction.hasFacility(server)) {
+            c.getSource().sendFailure(Component.literal("먼저 /lobcorp facility 로 시설을 지으세요."));
+            return 0;
+        }
+        FacilityData f = Facility.get(server);
+        for (FacilityData.Slot s : f.slots) {
+            if ("격리 심층부".equals(s.dept)) {
+                c.getSource().sendFailure(Component.literal("격리 심층부는 이미 증축되었습니다."));
+                return 0;
+            }
+        }
+        BlockPos first = null;
+        for (BlockPos p : f.centers) {
+            if (first == null || p.getY() < first.getY() || (p.getY() == first.getY() && p.getX() < first.getX())) first = p;
+        }
+        if (first == null) {
+            c.getSource().sendFailure(Component.literal("시설 좌표를 찾을 수 없습니다."));
+            return 0;
+        }
+        var r = kr.lobcorp.work.FacilityBuilder.buildAlephWing(level, first, false);
+        f.slots.addAll(r.slots());
+        f.centers.addAll(r.centers());
+        c.getSource().sendSuccess(() -> Component.literal("격리 심층부(ALEPH)가 증축되었습니다: 격리실 8칸. 수용한 환상체가 45종 이상이면 ALEPH 후보가 나옵니다.")
                 .withStyle(s -> s.withColor(0x55FF55)), true);
         return 1;
     }

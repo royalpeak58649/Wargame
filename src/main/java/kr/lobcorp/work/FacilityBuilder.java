@@ -68,6 +68,9 @@ public final class FacilityBuilder {
                         List.of(u("tree_sap", ModEntities.TREE_SAP), u("shelter", ModEntities.SHELTER), u("express_train", ModEntities.EXPRESS_TRAIN)),
                         List.of(u("portrait", ModEntities.PORTRAIT), u("notes", ModEntities.NOTES))));
         List<Dept> lower = List.of(
+                new Dept("격리 심층부", "다아트", DyeColor.MAGENTA,
+                        List.of(u("nothing_there", ModEntities.NOTHING_THERE), u("silent_orchestra", ModEntities.SILENT_ORCHESTRA), u("smiling_mountain", ModEntities.SMILING_MOUNTAIN), u("censored", ModEntities.CENSORED)),
+                        List.of(u("blue_star", ModEntities.BLUE_STAR), u("melting_love", ModEntities.MELTING_LOVE), u("army_in_black", ModEntities.ARMY_IN_BLACK), u("whitenight", ModEntities.WHITENIGHT))),
                 new Dept("추출팀", "비나", DyeColor.BROWN,
                         List.of(u("big_bird", ModEntities.BIG_BIRD), u("judgement_bird", ModEntities.JUDGEMENT_BIRD), u("dreaming_current", ModEntities.DREAMING_CURRENT), u("firebird", ModEntities.FIREBIRD)),
                         List.of(u("queen_of_hatred", ModEntities.QUEEN_HATRED), u("knight_of_despair", ModEntities.KNIGHT_DESPAIR), u("burrowing_heaven", ModEntities.BURROWING_HEAVEN), u("backward_clock", ModEntities.BACKWARD_CLOCK))),
@@ -97,8 +100,9 @@ public final class FacilityBuilder {
         for (int f = 0; f < floors.size(); f++) {
             int fy = topY - f * FLOOR_GAP;
             List<Dept> depts = floors.get(f);
+            int start = (f == 2) ? -1 : 0;   // 하층은 한 부서만큼 서쪽에서 시작(기존 세 부서의 x 유지)
             for (int i = 0; i < depts.size(); i++) {
-                int cx = ox + i * DEPT_SPACING;
+                int cx = ox + (i + start) * DEPT_SPACING;
                 boolean westDoor = i > 0 || f == 0 || f == 1;         // 상층·중층 첫 부서는 서쪽 계단실과 연결
                 boolean eastDoor = i < depts.size() - 1 || f == 1 || f == 2; // 중층·하층 마지막 부서는 동쪽 계단실과 연결
                 units += department(level, cx, fy, oz, depts.get(i), f, westDoor, eastDoor, fill, slots);
@@ -110,6 +114,23 @@ public final class FacilityBuilder {
         stairwell(level, ox, topY, oz, -1);
         stairwell(level, ox + (floors.get(1).size() - 1) * DEPT_SPACING, topY - FLOOR_GAP, oz, +1);
         return new Result(new BlockPos(ox + 3, topY, oz + 3), units, topY, slots, centers);
+    }
+
+    /**
+     * 격리 심층부(ALEPH)만 증축한다. firstLowerCenter = 기존 하층 첫 부서(추출팀)의 중앙 홀 중심.
+     * 새 부서는 그 서쪽 한 칸에 짓고, 동서 통로로 잇고, 기존 부서의 서쪽 출입구를 다시 연다.
+     */
+    public static Result buildAlephWing(ServerLevel level, BlockPos firstLowerCenter, boolean fill) {
+        List<FacilityData.Slot> slots = new ArrayList<>();
+        int fy = firstLowerCenter.getY(), oz = firstLowerCenter.getZ();
+        int newCx = firstLowerCenter.getX() - DEPT_SPACING;
+        Dept d = layout().get(2).get(0);
+        int units = department(level, newCx, fy, oz, d, 2, false, true, fill, slots);
+        corridorX(level, newCx + 8, firstLowerCenter.getX() - 8, fy, oz, d.color());
+        // 기존 하층 첫 부서의 서쪽 출입구를 다시 연다
+        clear(level, firstLowerCenter.getX() - 7, fy, oz - 1, firstLowerCenter.getX() - 8, fy + 3, oz + 1);
+        BlockPos center = new BlockPos(newCx, fy, oz);
+        return new Result(center, units, fy, slots, List.of(center));
     }
 
     // ───────────────────────── 부서 ─────────────────────────

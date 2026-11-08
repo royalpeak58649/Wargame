@@ -20,6 +20,7 @@ public final class Extraction {
 
     public static final int HE_AFTER = 8;
     public static final int WAW_AFTER = 20;
+    public static final int ALEPH_AFTER = 45;
 
     public static boolean hasFacility(MinecraftServer server) {
         return !Facility.get(server).slots.isEmpty();
@@ -43,7 +44,7 @@ public final class Extraction {
             boolean ok = switch (risk) {
                 case "HE" -> n >= HE_AFTER;
                 case "WAW" -> n >= WAW_AFTER;
-                case "ALEPH" -> false;
+                case "ALEPH" -> n >= ALEPH_AFTER;
                 default -> true;
             };
             if (ok) open.add(id);
