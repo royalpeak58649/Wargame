@@ -44,7 +44,7 @@ public final class WeaponSpecs {
 
         // ── 속도 ──
         for (String id : new String[]{"bear_paws", "grinder", "gaze", "gold_rush", "crimson_scar",
-                "cobalt_scar", "amita", "moonlight", "discord", "tears_sword", "pleasure", "da_capo"}) {
+                "cobalt_scar", "amita", "moonlight", "discord", "tears_sword", "pleasure", "da_capo", "censored"}) {
             put(id, WeaponKind.FAST, 0, 0, 0f);
         }
     }

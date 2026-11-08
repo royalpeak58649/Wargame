@@ -954,11 +954,27 @@ public record AbnoProfile(
                     "탈출하면 시체를 찾아 기어 다니며 먹어 치우고, 시체 셋을 먹을 때마다 몸이 한 덩이씩 커진다."
             ));
 
+    public static final AbnoProfile CENSORED = new AbnoProfile(
+            "censored", "███████", "O-03-89", "ALEPH", 0xFF3333,
+            new int[]{50, 60, 40, 0}, 32, 33, 17,
+            DamageColor.BLACK, 5, 10,
+            2,
+            () -> ModItems.CENSORED_WEAPON, 120,
+            () -> ModItems.CENSORED_SUIT, 100,
+            "censored", "███████", "최대 SP +10", 1,
+            new float[]{0.6f, 0.8f, 0.4f, 1.0f},
+            List.of(
+                    "이 환상체의 모습은 기록할 수 없다. 기록하려는 시도는 모두 검게 지워졌다.",
+                    "정신력이 약한 직원(신중 85 미만)은 작업을 시작하자마자 공황에 빠지고 클리포트 카운터가 1 감소한다. 신중이 높아도 시작할 때 최대 SP의 60%를 잃는다. 작업 결과가 나쁨이어도 감소한다.",
+                    "억압 작업은 「희생」으로 바뀐다. 무작위 직원 한 명이 격리실로 끌려가 삼켜지고, 카운터가 1 회복된다. 탈출하면 죽인 직원마다 같은 모습의 하수인이 태어난다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
             Map.entry(EXPRESS_TRAIN.id, EXPRESS_TRAIN),
             Map.entry(NOTHING_THERE.id, NOTHING_THERE),
             Map.entry(SILENT_ORCHESTRA.id, SILENT_ORCHESTRA),
             Map.entry(SMILING_MOUNTAIN.id, SMILING_MOUNTAIN),
+            Map.entry(CENSORED.id, CENSORED),
             Map.entry(FLESH_IDOL.id, FLESH_IDOL),
             Map.entry(DIMENSION_REFRACTION.id, DIMENSION_REFRACTION),
             Map.entry(BACKWARD_CLOCK.id, BACKWARD_CLOCK),
