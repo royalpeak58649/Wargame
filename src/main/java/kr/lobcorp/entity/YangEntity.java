@@ -191,16 +191,28 @@ public class YangEntity extends BreachingAbnormality {
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (isPendant()) return false;
-        return super.hurtServer(level, source, amount);
+        boolean result = super.hurtServer(level, source, amount);
+        if (isBreached() && result && source.getEntity() instanceof LivingEntity attacker && attacker != this) {
+            int sp = Math.max(1, Math.round(amount));
+            if (attacker instanceof ServerPlayer p) {
+                Employees.damageSp(p, sp);
+                p.sendSystemMessage(Component.literal("  흰 비늘이 빛나며 상처가 정신으로 되돌아온다.")
+                        .withStyle(st -> st.withColor(0xFFFFFF).withItalic(true)));
+            } else {
+                attacker.hurtServer(level, level.damageSources().thorns(this), amount);
+            }
+            level.sendParticles(ParticleTypes.END_ROD, attacker.getX(), attacker.getY() + 1.2, attacker.getZ(), 10, 0.4, 0.5, 0.4, 0.05);
+        }
+        return result;
     }
 
     @Override
-    public void die(DamageSource source) {
-        if (isBreached() && yinBreached(level().getServer())) {
+    protected void suppress(Entity by) {
+        if (isBreached() && !isPendant() && yinBreached(level().getServer())) {
             becomePendant();
             return;
         }
-        super.die(source);
+        super.suppress(by);
     }
 
     private void becomePendant() {
@@ -274,7 +286,10 @@ public class YangEntity extends BreachingAbnormality {
             }
             if (--pendantT <= 0) {
                 if (yinBreached(sl.getServer())) revive();
-                else suppress(null);
+                else {
+                    setPendant(false);
+                    super.suppress(null);
+                }
             }
             return;
         }
@@ -322,26 +337,6 @@ public class YangEntity extends BreachingAbnormality {
                 .append(Component.literal(" 직원이 양을 두른 채 음에게 닿았습니다.").withStyle(st -> st.withColor(0xFF5555))));
         YinEntity.union(sl, yin, this);
         wearer.hurtServer(sl, sl.damageSources().magic(), 1000f);
-    }
-
-    // ───────────── 피해 반사 ─────────────
-
-    @Override
-    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
-        if (isPendant()) return false;
-        boolean result = super.hurtServer(level, source, amount);
-        if (isBreached() && result && source.getEntity() instanceof LivingEntity attacker && attacker != this) {
-            int sp = Math.max(1, Math.round(amount));
-            if (attacker instanceof ServerPlayer p) {
-                Employees.damageSp(p, sp);
-                p.sendSystemMessage(Component.literal("  흰 비늘이 빛나며 상처가 정신으로 되돌아온다.")
-                        .withStyle(st -> st.withColor(0xFFFFFF).withItalic(true)));
-            } else {
-                attacker.hurtServer(level, level.damageSources().thorns(this), amount);
-            }
-            level.sendParticles(ParticleTypes.END_ROD, attacker.getX(), attacker.getY() + 1.2, attacker.getZ(), 10, 0.4, 0.5, 0.4, 0.05);
-        }
-        return result;
     }
 
     // ───────────── 저장 ─────────────

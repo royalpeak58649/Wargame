@@ -690,7 +690,7 @@ public record AbnoProfile(
             2,
             () -> ModItems.DISCORD, 60,
             () -> ModItems.DISCORD_SUIT, 50,
-            "discord", "불화", "최대 HP -4, 최대 SP -4, 작업 성공률 +10%, 작업 속도 +10%", 3,
+            "discord", "불화", "최대 HP -4, 최대 SP -4, 이동 속도 +10%", 3,
             new float[]{0.5f, 1.5f, 0.0f, 1.0f},
             List.of(
                     "검은 비단 같은 비늘을 지닌 잉어. 머리 한가운데에 눈알 하나가 박혀 있고, 그 눈은 언제나 짝을 찾고 있다.",

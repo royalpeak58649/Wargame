@@ -185,6 +185,7 @@ public final class WorkManager {
         switch (prof.workDamage()) {
             case WHITE -> {
                 if (wearsAny(p, WHITE_SUITS)) dmg--;
+                if (ToolState.isYangHolder(p)) dmg--;
                 level.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.2, p.getZ(), 30, 0.4, 0.6, 0.4, 0);
                 level.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_BREAK, SoundSource.PLAYERS, 0.8f, 0.5f);
                 if (dmg > 0) Employees.damageSp(p, dmg);
@@ -361,9 +362,7 @@ public final class WorkManager {
             () -> ModItems.LOVE_AND_HATE_SUIT,
             () -> ModItems.TEARS_SWORD_SUIT,
             () -> ModItems.GOLD_RUSH_SUIT,
-            () -> ModItems.BLACK_SWAN_SUIT,
-            () -> ModItems.DISCORD_SUIT,
-            () -> ModItems.GREEN_STEM_SUIT);
+            () -> ModItems.BLACK_SWAN_SUIT);
     /** BLACK 작업 피해 -1 */
     public static final List<java.util.function.Supplier<Item>> BLACK_SUITS = List.of(
             () -> ModItems.CRIMSON_SCAR_SUIT,

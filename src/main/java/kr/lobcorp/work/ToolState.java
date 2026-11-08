@@ -128,6 +128,13 @@ public final class ToolState {
             return;
         }
         yangTicks++;
+        if (yangTicks % 20 == 0) {
+            EmployeeData d = Employees.get(p);
+            if (d.sp < d.maxSp()) {
+                d.sp++;
+                Employees.sync(p);
+            }
+        }
         if (yangTicks % YANG_COUNTER_TICKS == 0) {
             kr.lobcorp.entity.YinEntity.lowerCounter(server, p);
         }

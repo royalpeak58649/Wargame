@@ -168,12 +168,12 @@ public class YinEntity extends BreachingAbnormality {
     }
 
     @Override
-    public void die(DamageSource source) {
-        if (isBreached() && yangBreached(level().getServer())) {
+    protected void suppress(Entity by) {
+        if (isBreached() && !isPendant() && yangBreached(level().getServer())) {
             becomePendant();
             return;
         }
-        super.die(source);
+        super.suppress(by);
     }
 
     private void becomePendant() {
@@ -263,12 +263,14 @@ public class YinEntity extends BreachingAbnormality {
             invertPlayer(p);
         }
         for (Entity e : sl.getAllEntities()) {
-            if (!(e instanceof BreachingAbnormality b) || !b.isBreached() || !b.isAlive()) continue;
-            if (b instanceof BlackSwanEntity) continue; // 흑조는 용의 길을 비껴간다
-            if (!box.contains(b.position())) continue;
-            int max = b.profile().qliphothMax();
-            b.qliphoth = Math.max(0, max - b.qliphoth);
-            sl.sendParticles(ParticleTypes.SQUID_INK, b.getX(), b.getY() + 1.2, b.getZ(), 20, 0.5, 0.6, 0.5, 0.02);
+            if (!(e instanceof AbnormalityEntity a) || !a.isAlive() || a.isBreached()) continue;
+            if (a.profile().isTool() || a.profile().qliphothMax() <= 0) continue;
+            if (!box.contains(a.position())) continue;
+            int max = a.profile().qliphothMax();
+            int inv = max - a.qliphoth;
+            if (inv <= 0 && a instanceof BreachingAbnormality b) { b.qliphoth = 1; b.lowerQliphoth(null, 1); }
+            else a.qliphoth = Math.max(0, inv);
+            sl.sendParticles(ParticleTypes.SQUID_INK, a.getX(), a.getY() + 1.2, a.getZ(), 20, 0.5, 0.6, 0.5, 0.02);
         }
     }
 
@@ -300,7 +302,10 @@ public class YinEntity extends BreachingAbnormality {
             }
             if (--pendantT <= 0) {
                 if (yangBreached(sl.getServer())) revive();
-                else suppress(null);
+                else {
+                    setPendant(false);
+                    super.suppress(null);
+                }
             }
             return;
         }

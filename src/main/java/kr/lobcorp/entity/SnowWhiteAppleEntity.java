@@ -177,7 +177,7 @@ public class SnowWhiteAppleEntity extends BreachingAbnormality {
 
     private void clearVines(ServerLevel sl) {
         for (BlockPos pos : vines) {
-            if (sl.getBlockState(pos).is(Blocks.VINE)) sl.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            if (sl.getBlockState(pos).is(Blocks.MOSS_CARPET)) sl.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         }
         vines.clear();
     }
@@ -195,7 +195,7 @@ public class SnowWhiteAppleEntity extends BreachingAbnormality {
             BlockPos pos = new BlockPos((int) Math.floor(px), (int) Math.floor(getY()), (int) Math.floor(pz));
             if (!sl.getBlockState(pos).isAir()) continue;
             if (sl.getBlockState(pos.below()).isAir()) continue;
-            sl.setBlock(pos, Blocks.VINE.defaultBlockState(), 3);
+            sl.setBlock(pos, Blocks.MOSS_CARPET.defaultBlockState(), 3);
             vines.add(pos);
         }
     }
