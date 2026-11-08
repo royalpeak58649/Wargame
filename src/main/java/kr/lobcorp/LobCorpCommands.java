@@ -139,7 +139,27 @@ public final class LobCorpCommands {
                                     }
                                     return advanceDay(c);
                                 })
-                                .then(Commands.literal("force").executes(LobCorpCommands::advanceDay))))
+                                .then(Commands.literal("force").executes(LobCorpCommands::advanceDay)))
+                        .then(Commands.literal("set")
+                                .then(Commands.argument("n", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 999))
+                                        .executes(c -> {
+                                            int n = com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "n");
+                                            FacilityData f = Facility.get(c.getSource().getServer());
+                                            f.day = n;
+                                            f.energy = 0;
+                                            f.quotaMet = false;
+                                            f.quota = 20 + 10 * n;
+                                            c.getSource().sendSuccess(() -> Component.literal("날짜를 " + n + "일차로 바꿨습니다. (할당량 " + f.quota + ")"), true);
+                                            return 1;
+                                        })))
+                .then(Commands.literal("newgame").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .executes(c -> {
+                            c.getSource().sendFailure(Component.literal("모든 환상체, 날짜, 에너지, 직원 능력치·기프트를 초기화하고 1일차부터 다시 시작합니다. 시설 건물은 남습니다. 정말 하려면 /lobcorp newgame confirm (능력치를 남기려면 /lobcorp newgame confirm keepstats)"));
+                            return 0;
+                        })
+                        .then(Commands.literal("confirm")
+                                .executes(c -> newGame(c, false))
+                                .then(Commands.literal("keepstats").executes(c -> newGame(c, true)))))
                 .then(Commands.literal("breach").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::breachNearest))
                 .then(Commands.literal("clear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -247,9 +267,9 @@ public final class LobCorpCommands {
         }
     }
 
-    private static int clear(CommandContext<CommandSourceStack> c) {
+    private static int removeAllAbnormalities(net.minecraft.server.MinecraftServer server) {
         int n = 0;
-        for (ServerLevel l : c.getSource().getServer().getAllLevels()) {
+        for (ServerLevel l : server.getAllLevels()) {
             for (Entity e : l.getAllEntities()) {
                 if (e instanceof AbnormalityEntity) {
                     e.discard();
@@ -257,11 +277,50 @@ public final class LobCorpCommands {
                 }
             }
         }
+        return n;
+    }
+
+    private static int clear(CommandContext<CommandSourceStack> c) {
+        int n = removeAllAbnormalities(c.getSource().getServer());
         discardFriends(c.getSource().getServer());
         discardMinions(c.getSource().getServer());
         kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);
         return n;
+    }
+
+    private static int newGame(CommandContext<CommandSourceStack> c, boolean keepStats) {
+        net.minecraft.server.MinecraftServer server = c.getSource().getServer();
+        if (!kr.lobcorp.work.Extraction.hasFacility(server)) {
+            c.getSource().sendFailure(Component.literal("시설이 없습니다. /lobcorp facility 로 먼저 지으세요."));
+            return 0;
+        }
+        removeAllAbnormalities(server);
+        discardFriends(server);
+        discardMinions(server);
+        kr.lobcorp.work.QliphothPanel.discardAll(server);
+        FacilityData f = Facility.get(server);
+        for (FacilityData.Slot slot : f.slots) {
+            slot.abno = "";
+            kr.lobcorp.work.FacilityBuilder.labelSlot(server.overworld(), slot.origin, null, slot.dept);
+        }
+        f.day = 1;
+        f.energy = 0;
+        f.quota = 30;
+        f.quotaMet = false;
+        f.offers.clear();
+        kr.lobcorp.work.ToolState.nextDay(server);
+        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+            WorkManager.clear(p);
+            if (!keepStats) {
+                p.setAttached(ModAttachments.EMPLOYEE, new EmployeeData());
+                Employees.apply(p);
+            }
+            p.setHealth(p.getMaxHealth());
+        }
+        kr.lobcorp.work.Extraction.place(server, "one_sin");
+        Facility.broadcast(server, Component.literal("[L사] 새 관리가 시작됩니다. Day 1").withStyle(s -> s.withColor(0x55FF55)));
+        return 1;
     }
 }
