@@ -44,7 +44,7 @@ public final class WorkManager {
 
     public static boolean isAbnoBusy(AbnormalityEntity a) {
         for (WorkSession s : SESSIONS.values()) if (s.abno == a) return true;
-        return false;
+        return kr.lobcorp.entity.AgentEntity.isWorkingOn(a);
     }
 
     // ───────────── 화면 열기 / 버튼 처리 ─────────────

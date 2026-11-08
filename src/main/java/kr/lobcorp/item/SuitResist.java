@@ -99,6 +99,26 @@ public final class SuitResist {
         return baseMult(p, c) * kr.lobcorp.Grades.mult(kr.lobcorp.Grades.threatGradeNear(p), kr.lobcorp.Grades.suitGrade(p));
     }
 
+    /**
+     * 플레이어가 아닌 개체(관리직 등)가 입는 작업 피해 배율.
+     * 가슴 슈트의 내성표 × 등급 차이 배율(공격자 등급 vs 슈트 등급).
+     */
+    public static float itemMult(net.minecraft.world.item.ItemStack chest, DamageColor c, int attackerGrade) {
+        String id = chest == null || chest.isEmpty()
+                ? ""
+                : BuiltInRegistries.ITEM.getKey(chest.getItem()).getPath();
+        float[] v = of(id);
+        float base = switch (c) {
+            case RED -> v[0];
+            case WHITE -> v[1];
+            case BLACK -> v[2];
+            case PALE -> v[3];
+        };
+        int gradeOfChest = chest == null || chest.isEmpty() ? 0 : kr.lobcorp.Grades.ofItem(chest.getItem());
+        if (gradeOfChest <= 0) gradeOfChest = 1;
+        return base * kr.lobcorp.Grades.mult(attackerGrade, gradeOfChest);
+    }
+
     /** 등급 배율을 뺀 순수 슈트 내성 */
     public static float baseMult(ServerPlayer p, DamageColor c) {
         float[] v = of(p);

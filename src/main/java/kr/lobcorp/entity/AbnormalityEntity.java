@@ -86,6 +86,16 @@ public abstract class AbnormalityEntity extends PathfinderMob {
     /** 다른 환상체의 작업이 끝났을 때 (자신이 대상이 아닌 경우) */
     public void onOtherWorkFinished(ServerPlayer worker, AbnormalityEntity other, WorkManager.Result result) {}
 
+    /**
+     * 관리직(AgentEntity)이 이 환상체에 대한 작업을 마쳤을 때.
+     * 기본: 결과가 나쁨이면 탈출형 환상체의 클리포트 카운터가 1 감소한다.
+     */
+    public void onAgentWorkFinished(AgentEntity agent, WorkManager.Result result, WorkType type) {
+        if (result == WorkManager.Result.BAD && this instanceof BreachingAbnormality b) {
+            b.lowerQliphoth(null, 1);
+        }
+    }
+
     /** 작업 성공률 보정 (퍼센트 포인트). 오늘의 수줍은 표정 등 */
     public int workChanceBonus(ServerPlayer worker, WorkType type) {
         return 0;

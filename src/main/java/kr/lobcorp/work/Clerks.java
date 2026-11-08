@@ -1,6 +1,7 @@
 package kr.lobcorp.work;
 
 import kr.lobcorp.ModEntities;
+import kr.lobcorp.entity.AgentEntity;
 import kr.lobcorp.entity.ClerkEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -58,7 +59,8 @@ public final class Clerks {
         List<ClerkEntity> out = new ArrayList<>();
         if (level == null) return out;
         for (Entity e : level.getAllEntities()) {
-            if (e instanceof ClerkEntity c && c.isAlive()) out.add(c);
+            // 관리직(AgentEntity)은 사무직이 아니므로 하루 교체 대상에서 제외한다
+            if (e instanceof ClerkEntity c && !(e instanceof AgentEntity) && c.isAlive()) out.add(c);
         }
         return out;
     }

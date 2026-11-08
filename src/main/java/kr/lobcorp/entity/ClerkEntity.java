@@ -42,8 +42,8 @@ public class ClerkEntity extends PathfinderMob {
     private static final int PANIC_TICKS = 600;
     /** 소속 부서 중앙 홀 */
     private BlockPos post = null;
-    private int sp = MAX_SP;
-    private int panicTicks = 0;
+    protected int sp = MAX_SP;
+    protected int panicTicks = 0;
 
     public ClerkEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -75,6 +75,11 @@ public class ClerkEntity extends PathfinderMob {
 
     public int sp() {
         return sp;
+    }
+
+    /** 최대 정신력 (관리직은 신중 스탯으로 덮어쓴다) */
+    public int maxSp() {
+        return MAX_SP;
     }
 
     public BlockPos post() {
@@ -146,7 +151,7 @@ public class ClerkEntity extends PathfinderMob {
             getNavigation().moveTo(tx, getY(), tz, 1.4);
         }
         if (panicTicks <= 0) {
-            sp = MAX_SP / 2;
+            sp = maxSp() / 2;
             entityData.set(PANIC, false);
         }
     }
