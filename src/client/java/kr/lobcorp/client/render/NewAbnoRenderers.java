@@ -16,6 +16,7 @@ import kr.lobcorp.client.model.BlueStarModel;
 import kr.lobcorp.client.model.CensoredMinionModel;
 import kr.lobcorp.client.model.CensoredModel;
 import kr.lobcorp.client.model.ChildGalaxyModel;
+import kr.lobcorp.client.model.ClerkModel;
 import kr.lobcorp.client.model.CrumblingArmorModel;
 import kr.lobcorp.client.model.FairyFestivalModel;
 import kr.lobcorp.client.model.FetusModel;
@@ -90,6 +91,7 @@ import kr.lobcorp.entity.BlueStarEntity;
 import kr.lobcorp.entity.CensoredEntity;
 import kr.lobcorp.entity.CensoredMinionEntity;
 import kr.lobcorp.entity.ChildGalaxyEntity;
+import kr.lobcorp.entity.ClerkEntity;
 import kr.lobcorp.entity.CrumblingArmorEntity;
 import kr.lobcorp.entity.FairyFestivalEntity;
 import kr.lobcorp.entity.FetusEntity;
@@ -2233,6 +2235,38 @@ public final class NewAbnoRenderers {
         @Override
         public Identifier getTextureLocation(ApocalypseEggModel.State s) {
             return TEX;
+        }
+    }
+
+    public static class Clerk extends MobRenderer<ClerkEntity, ClerkModel.State, ClerkModel> {
+        private static final Identifier[] TEX = {
+                LobCorp.id("textures/entity/clerk_0.png"),
+                LobCorp.id("textures/entity/clerk_1.png"),
+                LobCorp.id("textures/entity/clerk_2.png"),
+                LobCorp.id("textures/entity/clerk_3.png"),
+        };
+
+        public Clerk(EntityRendererProvider.Context ctx) {
+            super(ctx, new ClerkModel(ctx.bakeLayer(ClerkModel.LAYER)), 0.5f);
+        }
+
+        @Override
+        public ClerkModel.State createRenderState() {
+            return new ClerkModel.State();
+        }
+
+        @Override
+        public void extractRenderState(ClerkEntity e, ClerkModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.panic = e.isPanicking();
+            s.skin = e.skin();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ClerkModel.State s) {
+            int i = s.skin;
+            if (i < 0 || i >= TEX.length) i = 0;
+            return TEX[i];
         }
     }
 }

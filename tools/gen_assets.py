@@ -10134,3 +10134,78 @@ merge_lang({"entity.lobcorp.army_in_black": "검은 군단", "entity.lobcorp.arm
             "item.lobcorp.paradise_lost": "Paradise Lost", "item.lobcorp.paradise_lost_suit": "Paradise Lost Suit",
             "item.lobcorp.twilight": "Twilight", "item.lobcorp.twilight_suit": "Twilight Suit"})
 print("assets aleph 3 ok")
+
+
+# ═════════════ 사무직 (Clerk) ═════════════
+def clerks():
+    """플레이어 스킨 레이아웃(64x64) 사무직 4종."""
+    suits = ["#1e2a44", "#2b2b30", "#1d3326", "#4a1c26"]  # 네이비 / 차콜 / 진녹 / 버건디
+    hairs = ["#141018", "#4a2c18", "#2a1a10", "#c8a050"]  # 검정 / 갈색 / 진갈색 / 금발
+    skin = hexc("#e8b48c")
+    shirt = hexc("#f2f2ee")
+    tie = hexc("#8c1c24")
+    trouser = hexc("#22222a")
+    shoe = hexc("#101014")
+    for n in range(4):
+        img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+        suit = hexc(suits[n])
+        hair = hexc(hairs[n])
+
+        # 머리 (u0 v0, 8x8x8)
+        f = box(img, 0, 0, 8, 8, 8, skin, 4)
+        # 얼굴: 눈 / 입
+        fx, fy = f["front"]
+        px(img, fx + 1, fy + 3, hexc("#20202a"))
+        px(img, fx + 2, fy + 3, hexc("#20202a"))
+        px(img, fx + 5, fy + 3, hexc("#20202a"))
+        px(img, fx + 6, fy + 3, hexc("#20202a"))
+        rect(img, fx + 3, fy + 5, 2, 1, hexc("#a05a50"), 0)
+        # 머리카락: 윗면 + 앞/뒤/옆 상단
+        tx, ty = f["top"]
+        rect(img, tx, ty, 8, 8, hair, 6)
+        rect(img, fx, fy, 8, 2, hair, 6)
+        bx, by = f["back"]
+        rect(img, bx, by, 8, 4, hair, 6)
+        rx, ry = f["right"]
+        rect(img, rx, ry, 8, 2, hair, 6)
+        lx, ly = f["left"]
+        rect(img, lx, ly, 8, 2, hair, 6)
+
+        # 몸통 (u16 v16, 8x12x4) — 흰 셔츠 + 넥타이 + 재킷
+        b = box(img, 16, 16, 8, 12, 4, shirt, 3)
+        bx, by = b["front"]
+        rect(img, bx + 3, by, 2, 8, tie, 4)          # 넥타이
+        rect(img, bx, by, 2, 12, suit, 5)            # 재킷 앞 왼쪽
+        rect(img, bx + 6, by, 2, 12, suit, 5)        # 재킷 앞 오른쪽
+        rect(img, bx, by + 10, 8, 2, suit, 5)        # 재킷 아래
+        for face in ("back", "right", "left"):
+            x, y = b[face]
+            rect(img, x, y, 8 if face == "back" else 4, 12, suit, 5)
+        tx, ty = b["top"]
+        rect(img, tx, ty, 8, 4, suit, 5)
+        tx, ty = b["bottom"]
+        rect(img, tx, ty, 8, 4, suit, 5)
+
+        # 팔 (오른팔 u40 v16 / 왼팔 u32 v48, 4x12x4) — 재킷 소매 + 손
+        for u, v in ((40, 16), (32, 48)):
+            a = box(img, u, v, 4, 12, 4, suit, 5)
+            for face in ("front", "back", "right", "left"):
+                x, y = a[face]
+                rect(img, x, y + 10, 4, 2, skin, 4)
+
+        # 다리 (오른다리 u0 v16 / 왼다리 u16 v48, 4x12x4) — 바지 + 검은 구두
+        for u, v in ((0, 16), (16, 48)):
+            l = box(img, u, v, 4, 12, 4, trouser, 4)
+            for face in ("front", "back", "right", "left"):
+                x, y = l[face]
+                rect(img, x, y + 10, 4, 2, shoe, 3)
+            tx, ty = l["bottom"]
+            rect(img, tx, ty, 4, 4, shoe, 3)
+
+        save(img, f"textures/entity/clerk_{n}.png")
+
+
+clerks()
+merge_lang({"entity.lobcorp.clerk": "사무직"},
+           {"entity.lobcorp.clerk": "Clerk"})
+print("assets clerks ok")
