@@ -70,6 +70,7 @@ public final class Facility {
             EmployeeData d = Employees.get(p);
             d.panicTicks = 0;
             d.sp = d.maxSp();
+            p.setHealth(p.getMaxHealth());
             d.laetitiaHeart = false;
             d.princeSpores = 0;
             d.parasiteBlessed = false;

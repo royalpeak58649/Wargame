@@ -61,6 +61,13 @@ public class FreischutzEntity extends AbnormalityEntity {
         return AbnoProfile.FREISCHUTZ;
     }
 
+    @Override
+    public int workChanceBonus(ServerPlayer worker, WorkType type) {
+        int bonus = super.workChanceBonus(worker, type);
+        if (type == WorkType.REPRESSION && Employees.get(worker).justice >= 45) bonus += 45;
+        return bonus;
+    }
+
     public int getCounter() {
         return counter;
     }

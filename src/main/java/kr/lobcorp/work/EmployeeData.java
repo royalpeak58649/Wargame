@@ -11,6 +11,7 @@ import java.util.Set;
 /** 플레이어(직원)마다 붙는 영구 데이터. 사망해도 유지된다. */
 public class EmployeeData {
     public static final int BASE_STAT = 15;
+    public static final int MAX_STAT = 130;
 
     public int fortitude = BASE_STAT;   // 용기 → 최대 HP
     public int prudence = BASE_STAT;    // 신중 → 최대 SP
@@ -79,6 +80,7 @@ public class EmployeeData {
         d.prudence = p;
         d.temperance = t;
         d.justice = j;
+        d.clampStats();
         d.sp = sp;
         d.panicTicks = panic;
         d.gifts = new HashSet<>(gifts);
@@ -187,6 +189,14 @@ public class EmployeeData {
             case ATTACHMENT -> temperance += amount;
             case REPRESSION -> justice += amount;
         }
+        clampStats();
+    }
+
+    public void clampStats() {
+        fortitude = Math.min(MAX_STAT, fortitude);
+        prudence = Math.min(MAX_STAT, prudence);
+        temperance = Math.min(MAX_STAT, temperance);
+        justice = Math.min(MAX_STAT, justice);
     }
 
     /** 원작 등급표(I: 1~29, II: 30~44, III: 45~64, IV: 65~84, V: 85~) 근사 */

@@ -130,16 +130,16 @@ public final class LobCorpCommands {
                                     return 0;
                                 })))
                 .then(Commands.literal("day").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
-                        .then(Commands.literal("next").executes(c -> {
-                            Facility.nextDay(c.getSource().getServer());
-                            for (ServerLevel l : c.getSource().getServer().getAllLevels())
-                                for (Entity e : l.getAllEntities())
-                                    if (e instanceof AbnormalityEntity a) a.resetQliphoth();
-                            discardFriends(c.getSource().getServer());
-                            discardBees(c.getSource().getServer());
-                            kr.lobcorp.work.Extraction.offer(c.getSource().getServer());
-                            return 1;
-                        })))
+                        .then(Commands.literal("next")
+                                .executes(c -> {
+                                    FacilityData f = Facility.get(c.getSource().getServer());
+                                    if (!f.quotaMet) {
+                                        c.getSource().sendFailure(Component.literal("에너지 할당량을 채우지 못했습니다. (" + f.energy + " / " + f.quota + ") 강제로 넘기려면 /lobcorp day next force"));
+                                        return 0;
+                                    }
+                                    return advanceDay(c);
+                                })
+                                .then(Commands.literal("force").executes(LobCorpCommands::advanceDay))))
                 .then(Commands.literal("breach").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .executes(LobCorpCommands::breachNearest))
                 .then(Commands.literal("clear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
@@ -223,10 +223,24 @@ public final class LobCorpCommands {
         }
     }
 
-    private static void discardBees(net.minecraft.server.MinecraftServer server) {
+    private static int advanceDay(CommandContext<CommandSourceStack> c) {
+        Facility.nextDay(c.getSource().getServer());
+        for (ServerLevel l : c.getSource().getServer().getAllLevels())
+            for (Entity e : l.getAllEntities())
+                if (e instanceof AbnormalityEntity a) a.resetQliphoth();
+        discardFriends(c.getSource().getServer());
+        discardMinions(c.getSource().getServer());
+        kr.lobcorp.work.Extraction.offer(c.getSource().getServer());
+        return 1;
+    }
+
+    private static void discardMinions(net.minecraft.server.MinecraftServer server) {
         for (ServerLevel l : server.getAllLevels()) {
             for (Entity e : l.getAllEntities()) {
-                if (e instanceof kr.lobcorp.entity.WorkerBeeEntity) e.discard();
+                if (e instanceof kr.lobcorp.entity.WorkerBeeEntity
+                        || e instanceof kr.lobcorp.entity.LittlePrinceMinionEntity
+                        || e instanceof kr.lobcorp.entity.SaplingEntity
+                        || e instanceof kr.lobcorp.entity.NakedWormEntity) e.discard();
             }
         }
     }
@@ -242,7 +256,7 @@ public final class LobCorpCommands {
             }
         }
         discardFriends(c.getSource().getServer());
-        discardBees(c.getSource().getServer());
+        discardMinions(c.getSource().getServer());
         kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
         int count = n;
         c.getSource().sendSuccess(() -> Component.literal("환상체 " + count + "개를 제거했습니다."), true);

@@ -163,8 +163,10 @@ public class SnowQueenEntity extends AbnormalityEntity {
             fd.frozenAt = null;
             dd.fortitude += 6;
             dd.prudence += 6;
+            dd.clampStats();
             fd.fortitude += 6;
             fd.prudence += 6;
+            fd.clampStats();
             Employees.apply(d);
             Employees.apply(f);
             Employees.sync(d);
