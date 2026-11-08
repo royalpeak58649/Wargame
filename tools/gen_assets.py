@@ -8450,3 +8450,55 @@ print("assets flesh idol ok")
 
 merge_lang({"entity.lobcorp.flesh_idol": "살점 우상"},
            {"entity.lobcorp.flesh_idol": "Flesh Idol"})
+
+
+# ───────────── 지옥행 급행열차 ─────────────
+def express_train():
+    img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+    wood = hexc("#6b3a2a")
+    wood_dark = hexc("#4a2418")
+    wood_hi = hexc("#8a4f38")
+    brass = hexc("#c9a227")
+    brass_dark = hexc("#8a6d14")
+    roof_c = hexc("#1e1e22")
+    roof_hi = hexc("#33333a")
+    steel = hexc("#8c8c94")
+    steel_dark = hexc("#5a5a62")
+    lamp_off = hexc("#3a2a20")
+    lamp_on = hexc("#ffb020")
+    lamp_on_hi = hexc("#ffe066")
+
+    # 매표소 몸통 10x12x8 (u0 v0)
+    f = box(img, 0, 0, 10, 12, 8, wood, 8, top=wood_hi, front=wood_dark)
+    fx, fy = f["front"]
+    for y in range(1, 12, 3):
+        for x in range(10):
+            px(img, fx + x, fy + y, wood_dark)
+
+    # 지붕 판 12x2x10 (u0 v22)
+    box(img, 0, 22, 12, 2, 10, roof_c, 5, top=roof_hi)
+
+    # 매표 창 6x4x1 (u0 v36) — 놋쇠 창틀
+    f = box(img, 0, 36, 6, 4, 1, brass, 6, top=brass_dark, front=brass_dark)
+    fx, fy = f["front"]
+    for x in range(1, 5):
+        for y in range(1, 3):
+            px(img, fx + x, fy + y, hexc("#2a1a12"))
+
+    # 레일 두 줄 2x1x14 (u0 v44 / u0 v60)
+    box(img, 0, 44, 2, 1, 14, steel, 6, top=steel_dark)
+    box(img, 0, 60, 2, 1, 14, steel, 6, top=steel_dark)
+
+    # 지붕 위 등불 네 개 (u32 v0 / u32 v8)
+    for i in range(4):
+        box(img, 32, 0, 2, 2, 2, lamp_off, 6, top=hexc("#4a3a2c"))
+        box(img, 32, 8, 2, 2, 2, lamp_on, 6, top=lamp_on_hi, front=lamp_on_hi)
+
+    save(img, "textures/entity/express_train.png")
+
+
+express_train()
+print("assets express train ok")
+
+merge_lang({"entity.lobcorp.express_train": "지옥행 급행열차"},
+           {"entity.lobcorp.express_train": "Express Train to Hell"})

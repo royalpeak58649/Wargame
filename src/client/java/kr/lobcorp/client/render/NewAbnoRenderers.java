@@ -33,6 +33,7 @@ import kr.lobcorp.client.model.IlPiantoModel;
 import kr.lobcorp.client.model.BackwardClockModel;
 import kr.lobcorp.client.model.DimensionRefractionModel;
 import kr.lobcorp.client.model.FleshIdolModel;
+import kr.lobcorp.client.model.ExpressTrainModel;
 import kr.lobcorp.client.model.MhzModel;
 import kr.lobcorp.client.model.NakedNestModel;
 import kr.lobcorp.client.model.NakedWormModel;
@@ -94,6 +95,7 @@ import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.BackwardClockEntity;
 import kr.lobcorp.entity.DimensionRefractionEntity;
 import kr.lobcorp.entity.FleshIdolEntity;
+import kr.lobcorp.entity.ExpressTrainEntity;
 import kr.lobcorp.entity.MhzEntity;
 import kr.lobcorp.entity.NakedNestEntity;
 import kr.lobcorp.entity.NakedWormEntity;
@@ -1609,6 +1611,30 @@ public final class NewAbnoRenderers {
 
         @Override
         public Identifier getTextureLocation(FleshIdolModel.State s) {
+            return TEX;
+        }
+    }
+
+    public static class ExpressTrain extends MobRenderer<ExpressTrainEntity, ExpressTrainModel.State, ExpressTrainModel> {
+        private static final Identifier TEX = LobCorp.id("textures/entity/express_train.png");
+
+        public ExpressTrain(EntityRendererProvider.Context ctx) {
+            super(ctx, new ExpressTrainModel(ctx.bakeLayer(ExpressTrainModel.LAYER)), 0.8f);
+        }
+
+        @Override
+        public ExpressTrainModel.State createRenderState() {
+            return new ExpressTrainModel.State();
+        }
+
+        @Override
+        public void extractRenderState(ExpressTrainEntity e, ExpressTrainModel.State s, float pt) {
+            super.extractRenderState(e, s, pt);
+            s.lights = e.lights();
+        }
+
+        @Override
+        public Identifier getTextureLocation(ExpressTrainModel.State s) {
             return TEX;
         }
     }
