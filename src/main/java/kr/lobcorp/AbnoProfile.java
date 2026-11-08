@@ -833,7 +833,23 @@ public record AbnoProfile(
                     "카운터가 0이 되면 탈출해 직원을 쫓는다. 체력이 70% 아래로 떨어지면 구름을 모은 뒤 정면으로 곧장 돌진하며, 돌진에 닿은 직원은 큰 피해를 입고 수도승은 상처를 메운다."
             ));
 
+    public static final AbnoProfile IL_PIANTO = new AbnoProfile(
+            "il_pianto", "달의 울음", "D-01-105", "WAW", 0xAA55FF,
+            new int[]{30, 45, 35, 25}, 20, 13, 7,
+            DamageColor.WHITE, 4, 6,
+            3,
+            () -> ModItems.MOONLIGHT, 70,
+            () -> ModItems.MOONLIGHT_SUIT, 60,
+            "moonlight", "달빛", "최대 HP +1, 최대 SP +1, 작업 성공률 +1%, 이동 속도 +1%", 3,
+            new float[]{1.2f, 0.0f, 1.0f, 2.0f},
+            List.of(
+                    "뚜껑이 우는 초승달 얼굴로 된 창백한 그랜드 피아노. 탈출하면 뚜껑이 달머리로 솟아오른 키 큰 형상이 된다.",
+                    "통찰 작업이 가장 좋고 애착과 억압이 그다음, 본능이 가장 나쁘다. 통찰 작업을 마치면 연주가 시작되어 모든 직원이 잠시 빨라지지만, 세 번째 연주에서는 연주자가 피아노에 갇히고 카운터가 0이 되어 곧바로 탈출한다. 보통이면 30% 확률로, 나쁨이면 반드시 카운터가 1 내려간다.",
+                    "탈출하면 직원을 쫓으며, 갇힌 연주자는 계속 느려지고 피해를 입는다. 주기적으로 몸을 웅크렸다가 정면으로 돌진한다. 연주가 끝나면 연주자의 체력을 절반으로 깎고 격리실로 돌아간다."
+            ));
+
     public static final Map<String, AbnoProfile> BY_ID = Map.ofEntries(
+            Map.entry(IL_PIANTO.id, IL_PIANTO),
             Map.entry(CLOUDED_MONK.id, CLOUDED_MONK),
             Map.entry(FIREBIRD.id, FIREBIRD),
             Map.entry(BURROWING_HEAVEN.id, BURROWING_HEAVEN),

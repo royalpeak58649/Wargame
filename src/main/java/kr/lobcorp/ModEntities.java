@@ -42,6 +42,7 @@ import kr.lobcorp.entity.DreamingCurrentEntity;
 import kr.lobcorp.entity.BurrowingHeavenEntity;
 import kr.lobcorp.entity.FirebirdEntity;
 import kr.lobcorp.entity.CloudedMonkEntity;
+import kr.lobcorp.entity.IlPiantoEntity;
 import kr.lobcorp.entity.SpiderBudEntity;
 import kr.lobcorp.entity.OldLadyEntity;
 import kr.lobcorp.entity.OneSinEntity;
@@ -130,6 +131,7 @@ public final class ModEntities {
     public static EntityType<BurrowingHeavenEntity> BURROWING_HEAVEN;
     public static EntityType<FirebirdEntity> FIREBIRD;
     public static EntityType<CloudedMonkEntity> CLOUDED_MONK;
+    public static EntityType<IlPiantoEntity> IL_PIANTO;
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, LobCorp.id(name));
@@ -256,6 +258,8 @@ public final class ModEntities {
                 .sized(1.4f, 1.6f).clientTrackingRange(10));
         CLOUDED_MONK = register("clouded_monk", EntityType.Builder.of(CloudedMonkEntity::new, MobCategory.MISC)
                 .sized(0.9f, 2.2f).clientTrackingRange(10));
+        IL_PIANTO = register("il_pianto", EntityType.Builder.of(IlPiantoEntity::new, MobCategory.MISC)
+                .sized(1.4f, 2.4f).clientTrackingRange(10));
 
         FabricDefaultAttributeRegistry.register(ONE_SIN, OneSinEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(SCORCHED_GIRL, ScorchedGirlEntity.createAttributes());
@@ -316,5 +320,6 @@ public final class ModEntities {
         FabricDefaultAttributeRegistry.register(BURROWING_HEAVEN, BurrowingHeavenEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(FIREBIRD, FirebirdEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(CLOUDED_MONK, CloudedMonkEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(IL_PIANTO, IlPiantoEntity.createAttributes());
     }
 }
