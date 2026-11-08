@@ -167,5 +167,9 @@
   "entity.lobcorp.amber_dawn": "호박색 여명",
   "entity.lobcorp.green_dawn": "녹색 여명",
   "entity.lobcorp.crimson_dawn": "진홍색 여명",
-  "entity.lobcorp.violet_dawn": "보라색 여명"
+  "entity.lobcorp.violet_dawn": "보라색 여명",
+  "entity.lobcorp.green_noon": "녹색 정오",
+  "entity.lobcorp.crimson_noon": "진홍색 정오",
+  "entity.lobcorp.violet_noon": "보라색 정오",
+  "entity.lobcorp.indigo_noon": "쪽빛 정오"
 }

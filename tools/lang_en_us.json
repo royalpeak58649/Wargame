@@ -167,5 +167,9 @@
   "entity.lobcorp.amber_dawn": "Dawn of Amber",
   "entity.lobcorp.green_dawn": "Dawn of Green",
   "entity.lobcorp.crimson_dawn": "Dawn of Crimson",
-  "entity.lobcorp.violet_dawn": "Dawn of Violet"
+  "entity.lobcorp.violet_dawn": "Dawn of Violet",
+  "entity.lobcorp.green_noon": "Noon of Green",
+  "entity.lobcorp.crimson_noon": "Noon of Crimson",
+  "entity.lobcorp.violet_noon": "Noon of Violet",
+  "entity.lobcorp.indigo_noon": "Noon of Indigo"
 }
