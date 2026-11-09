@@ -38,6 +38,26 @@ public final class Grades {
         };
     }
 
+    /** 위험 등급별 E.G.O 무기 피해 배율. 등급이 높을수록 강하다 */
+    public static float damageScale(int grade) {
+        return switch (grade) {
+            case 1 -> 1.4f; // ZAYIN
+            case 2 -> 1.5f; // TETH
+            case 3 -> 1.6f; // HE
+            case 4 -> 1.7f; // WAW
+            case 5 -> 1.8f; // ALEPH
+            default -> 1.5f;
+        };
+    }
+
+    /** 설명 첫 줄("O-06-20 · ALEPH")에서 마지막 "· " 뒤 단어로 등급을 찾는다. 없으면 0 */
+    public static int ofLore(String loreFirstLine) {
+        if (loreFirstLine == null) return 0;
+        int i = loreFirstLine.lastIndexOf("· ");
+        if (i < 0) return 0;
+        return of(loreFirstLine.substring(i + 2).trim());
+    }
+
     /** 등급 차이에 따른 피해 배율. 둘 중 하나라도 0이면 1 */
     public static float mult(int attacker, int defender) {
         if (attacker == 0 || defender == 0) return 1f;

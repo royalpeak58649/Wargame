@@ -1,6 +1,7 @@
 package kr.lobcorp.item;
 
 import kr.lobcorp.DamageColor;
+import kr.lobcorp.Grades;
 import kr.lobcorp.entity.AbnormalityEntity;
 import kr.lobcorp.entity.BreachingAbnormality;
 import net.minecraft.core.BlockPos;
@@ -133,14 +134,16 @@ public class EgoWeaponItem extends Item {
         }
 
         for (LivingEntity e : hit) {
+            // 사격 피해도 무기 위험 등급에 따라 증가한다 (한 발당 한 번만 계산)
+            float shotDamage = spec.damage() * Grades.damageScale(Grades.ofItem(this));
             if (e instanceof ServerPlayer sp && sp != player) {
-                sp.hurtServer(sl, sl.damageSources().magic(), spec.damage());
+                sp.hurtServer(sl, sl.damageSources().magic(), shotDamage);
                 sp.sendSystemMessage(Component.literal("  어디선가 날아온 마탄이 몸을 꿰뚫었다.")
                         .withStyle(s -> s.withColor(0xAAAAAA).withItalic(true)));
                 player.sendSystemMessage(Component.literal("  마탄이 아군을 꿰뚫었다…")
                         .withStyle(s -> s.withColor(0xFF5555)));
             } else {
-                e.hurtServer(sl, sl.damageSources().playerAttack(player), spec.damage());
+                e.hurtServer(sl, sl.damageSources().playerAttack(player), shotDamage);
             }
         }
     }

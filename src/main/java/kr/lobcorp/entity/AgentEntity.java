@@ -171,7 +171,10 @@ public class AgentEntity extends ClerkEntity {
     @Override
     public boolean doHurtTarget(ServerLevel level, Entity target) {
         float amount = 2f + justice / 10f;
-        if (getMainHandItem().getItem() instanceof EgoWeaponItem) amount += 6f;
+        // E.G.O 무기를 들고 있으면 무기 위험 등급에 비례한 추가 피해
+        if (getMainHandItem().getItem() instanceof EgoWeaponItem item) {
+            amount += 6f * Grades.damageScale(Grades.ofItem(item));
+        }
         return target.hurtServer(level, damageSources().mobAttack(this), amount);
     }
 

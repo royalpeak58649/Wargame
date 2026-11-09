@@ -244,7 +244,7 @@ public final class ModItems {
     public static void init() {
         PENITENCE = register("penitence", p -> new EgoWeaponItem(p, DamageColor.WHITE),
                 new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
-                        .attributes(weaponStats("penitence", 5.0, -3.0))
+                        .attributes(weaponStats("penitence", 7.0, -3.0))
                         .component(DataComponents.LORE, lore("O-03-03 · ZAYIN", "WHITE 피해 둔기", "죄를 짊어진 자의 무게.")));
 
         PENITENCE_SUIT = register("penitence_suit", Item::new,
@@ -254,7 +254,7 @@ public final class ModItems {
 
         REGRET = register("regret", p -> new EgoWeaponItem(p, DamageColor.RED),
                 new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
-                        .attributes(weaponStats("regret", 7.0, -3.2))
+                        .attributes(weaponStats("regret", 10.5, -3.2))
                         .component(DataComponents.LORE, lore("T-01-54 · TETH", "RED 피해 둔기", "쇠가 되어 가는 머리로 벽을 두드리던 소리.")));
 
         REGRET_SUIT = register("regret_suit", Item::new,
@@ -265,9 +265,11 @@ public final class ModItems {
     }
 
     private static Item weapon(String id, DamageColor c, double dmg, double speed, String... lore) {
+        // 위험 등급에 따라 근접 피해를 늘린다 (0.5 단위 반올림)
+        double scaled = Math.round(dmg * Grades.damageScale(lore.length > 0 ? Grades.ofLore(lore[0]) : 0) * 2.0) / 2.0;
         return register(id, p -> new EgoWeaponItem(p, c),
                 new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)
-                        .attributes(weaponStats(id, dmg, speed))
+                        .attributes(weaponStats(id, scaled, speed))
                         .component(DataComponents.LORE, lore(lore)));
     }
 
