@@ -210,6 +210,9 @@ public class LobCorp implements ModInitializer {
             }
         });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p) {
+                WorkManager.fail(p, "사망");
+            }
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && Employees.get(p).possessTicks > 0) {
                 Employees.release(p, "  홀림이 풀렸다.");
             }

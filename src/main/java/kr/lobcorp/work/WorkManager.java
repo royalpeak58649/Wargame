@@ -151,7 +151,7 @@ public final class WorkManager {
                 if (SESSIONS.get(id) != s) continue; // 패닉 등으로 중단됨
                 if (s.box >= s.maxBox) {
                     SESSIONS.remove(id);
-                    finish(p, s);
+                    finish(p, s, null);
                 }
             }
         }
@@ -212,7 +212,7 @@ public final class WorkManager {
         s.abno.onBoxResult(p, false);
     }
 
-    private static void finish(ServerPlayer p, WorkSession s) {
+    private static void finish(ServerPlayer p, WorkSession s, Result forced) {
         AbnormalityEntity a = s.abno;
         AbnoProfile prof = a.profile();
         EmployeeData d = Employees.get(p);
@@ -220,7 +220,8 @@ public final class WorkManager {
         Facility.addEnergy(p.level().getServer(), s.good);
         a.addPe(s.good);
 
-        Result r = s.good >= prof.goodMin() ? Result.GOOD : s.good >= prof.normalMin() ? Result.NORMAL : Result.BAD;
+        Result r = forced != null ? forced
+                : s.good >= prof.goodMin() ? Result.GOOD : s.good >= prof.normalMin() ? Result.NORMAL : Result.BAD;
         // 위험도가 낮은 환상체에서는 성장이 줄어든다
         int statVal = switch (s.type) {
             case INSTINCT -> d.fortitude;
@@ -277,7 +278,15 @@ public final class WorkManager {
         }
     }
 
-    /** 패닉/사망 등으로 작업 중단. 이미 생산한 PE는 반영 */
+    /** 패닉/사망 등으로 작업이 중단되면 실패(나쁨)로 처리한다 */
+    public static void fail(ServerPlayer p, String reason) {
+        WorkSession s = SESSIONS.remove(p.getUUID());
+        if (s == null) return;
+        p.sendSystemMessage(Component.literal("■ 작업 실패 (" + reason + ")").withStyle(st -> st.withColor(0xAA0000)));
+        finish(p, s, Result.BAD);
+    }
+
+    /** 수면/홀림/접속 종료 등 그 밖의 중단. 이미 생산한 PE는 반영 */
     public static void abort(ServerPlayer p, String reason) {
         WorkSession s = SESSIONS.remove(p.getUUID());
         if (s == null) return;

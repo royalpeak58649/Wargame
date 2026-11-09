@@ -320,7 +320,7 @@ public final class Employees {
     public static void panic(ServerPlayer p) {
         EmployeeData d = get(p);
         d.sp = 0;
-        WorkManager.abort(p, "패닉");
+        WorkManager.fail(p, "패닉");
         d.panicTicks = PANIC_TICKS;
         p.addEffect(new MobEffectInstance(MobEffects.NAUSEA, PANIC_TICKS, 0, false, false));
         p.addEffect(new MobEffectInstance(MobEffects.DARKNESS, PANIC_TICKS, 0, false, false));

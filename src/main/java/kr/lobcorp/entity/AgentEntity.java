@@ -238,7 +238,7 @@ public class AgentEntity extends ClerkEntity {
         super.tick();
         if (!(level() instanceof ServerLevel sl)) return;
         if (isPanicking()) {
-            abortWork("공황");
+            failWork("공황");
             return;
         }
         if (tickCount % 100 == 0 && level().getServer() != null) {
@@ -403,6 +403,27 @@ public class AgentEntity extends ClerkEntity {
         mode = Mode.HOLD;
     }
 
+    /** 공황·사망으로 인한 작업 중단 — 결과는 나쁨으로 처리된다 */
+    private void failWork(String why) {
+        if (mode != Mode.WORK) return;
+        if (!working) { // 아직 환상체에게 걸어가는 중이면 결과 없음
+            abortWork(why);
+            return;
+        }
+        AbnormalityEntity a = null;
+        if (workAbno != null && level() instanceof ServerLevel sl) {
+            if (sl.getEntity(workAbno) instanceof AbnormalityEntity ab) a = ab;
+        }
+        if (a != null) {
+            if (level().getServer() != null) Facility.addEnergy(level().getServer(), good);
+            a.onAgentWorkFinished(this, WorkManager.Result.BAD, workType);
+            tell("■ 관리직 " + agentName + " — 작업 실패 (" + why + "): 나쁨  PE-BOX +" + good);
+        }
+        if (workAbno != null) BUSY.remove(workAbno);
+        working = false;
+        mode = Mode.HOLD;
+    }
+
     /** 작업 중단 (공황·전투 명령·대상 소실 등) */
     private void abortWork(String why) {
         if (mode != Mode.WORK) return;
@@ -481,6 +502,7 @@ public class AgentEntity extends ClerkEntity {
 
     @Override
     public void die(DamageSource source) {
+        failWork("사망");
         if (level() instanceof ServerLevel sl) {
             for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.CHEST}) {
                 ItemStack stack = getItemBySlot(slot);
