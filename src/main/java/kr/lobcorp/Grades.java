@@ -151,7 +151,17 @@ public final class Grades {
     public static int threatGradeNear(ServerPlayer p) {
         WorkSession s = WorkManager.session(p);
         if (s != null && s.abno != null) return of(s.abno.profile().risk());
-        int best = 0;
+        return ofEntity(threatNear(p));
+    }
+
+    /**
+     * 지금 플레이어를 위협하는 개체.
+     * 작업 중이면 그 환상체, 아니면 8블록 안에서 가장 가까운 적대 개체(등급이 있는 것만). 없으면 null.
+     */
+    public static Entity threatNear(ServerPlayer p) {
+        WorkSession s = WorkManager.session(p);
+        if (s != null && s.abno != null) return s.abno;
+        Entity best = null;
         double bd = Double.MAX_VALUE;
         for (Entity e : p.level().getEntities(p, p.getBoundingBox().inflate(8.0))) {
             if (!e.isAlive()) continue;
@@ -165,7 +175,7 @@ public final class Grades {
             double d = p.distanceToSqr(e);
             if (d > 64.0 || d >= bd) continue;
             bd = d;
-            best = g;
+            best = e;
         }
         return best;
     }

@@ -175,10 +175,12 @@ public class LobCorp implements ModInitializer {
                 }
                 return false;
             }
-            // 그 밖의 HP 피해는 모두 RED 피해로 취급한다
+            // 공격한 환상체의 피해 속성으로 내성을 적용한다, 알 수 없으면 RED
             if (entity instanceof net.minecraft.server.level.ServerPlayer p2 && !kr.lobcorp.item.SuitResist.bypass
                     && amount > 0 && amount < 500f) {
-                float m = kr.lobcorp.item.SuitResist.mult(p2, kr.lobcorp.DamageColor.RED);
+                kr.lobcorp.DamageColor col = kr.lobcorp.item.SuitResist.threatColor(p2, kr.lobcorp.DamageColor.RED);
+                if (col == kr.lobcorp.DamageColor.WHITE) col = kr.lobcorp.DamageColor.RED; // WHITE는 SP 피해 쪽에서 처리
+                float m = kr.lobcorp.item.SuitResist.mult(p2, col);
                 if (m != 1f) {
                     kr.lobcorp.item.SuitResist.bypass = true;
                     try {

@@ -245,9 +245,15 @@ public final class Employees {
         kr.lobcorp.item.SuitResist.hurtRaw(p, dmg);
     }
 
-    /** SP 피해. 슈트의 WHITE 내성을 적용한다. 0 이하가 되면 패닉 */
+    /**
+     * SP 피해. 슈트의 WHITE 내성을 적용한다.
+     * 현재 위협(공격한 환상체)의 피해 속성이 BLACK이면 BLACK 내성을 쓴다. 0 이하가 되면 패닉
+     */
     public static void damageSp(ServerPlayer p, int amount) {
-        damageSpRaw(p, Math.round(amount * kr.lobcorp.item.SuitResist.mult(p, kr.lobcorp.DamageColor.WHITE)));
+        kr.lobcorp.DamageColor col = kr.lobcorp.item.SuitResist.threatColor(p, kr.lobcorp.DamageColor.WHITE) == kr.lobcorp.DamageColor.BLACK
+                ? kr.lobcorp.DamageColor.BLACK
+                : kr.lobcorp.DamageColor.WHITE;
+        damageSpRaw(p, Math.round(amount * kr.lobcorp.item.SuitResist.mult(p, col)));
     }
 
     /** 내성을 이미 반영한 SP 피해. 0 이하가 되면 패닉 */

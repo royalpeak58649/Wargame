@@ -119,6 +119,16 @@ public final class SuitResist {
         return base * kr.lobcorp.Grades.mult(attackerGrade, gradeOfChest);
     }
 
+    /**
+     * 지금 플레이어를 위협하는 개체의 피해 속성.
+     * 환상체면 그 프로필의 작업 피해 속성, 그 밖에는 fallback.
+     */
+    public static DamageColor threatColor(ServerPlayer p, DamageColor fallback) {
+        net.minecraft.world.entity.Entity e = kr.lobcorp.Grades.threatNear(p);
+        if (e instanceof kr.lobcorp.entity.AbnormalityEntity a) return a.profile().workDamage();
+        return fallback;
+    }
+
     /** 등급 배율을 뺀 순수 슈트 내성 */
     public static float baseMult(ServerPlayer p, DamageColor c) {
         float[] v = of(p);
