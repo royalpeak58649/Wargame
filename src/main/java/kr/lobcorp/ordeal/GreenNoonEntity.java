@@ -67,7 +67,8 @@ public class GreenNoonEntity extends OrdealEntity {
             sl.playSound(null, blockPosition(), SoundEvents.FIRE_EXTINGUISH, SoundSource.HOSTILE, 0.8f, 0.8f);
             return;
         }
-        if (tickCount % 25 == 0 && getTarget() instanceof ServerPlayer target
+        // 사무직·요원도 사격 대상이 된다
+        if (tickCount % 25 == 0 && getTarget() instanceof LivingEntity target
                 && distanceTo(target) <= 16 && hasLineOfSight(target)) {
             shoot(sl, target);
         }
@@ -80,7 +81,7 @@ public class GreenNoonEntity extends OrdealEntity {
     }
 
     /** 눈에서 대상의 눈까지 한 줄. 단단한 블록에서 멈추고, 처음 맞은 직원만 아프다. */
-    private void shoot(ServerLevel sl, ServerPlayer target) {
+    private void shoot(ServerLevel sl, LivingEntity target) {
         heat++;
         Vec3 from = getEyePosition();
         Vec3 to = target.getEyePosition();

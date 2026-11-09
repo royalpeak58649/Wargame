@@ -58,8 +58,8 @@ public abstract class OrdealEntity extends PathfinderMob {
     }
 
     /**
-     * 표적 후보를 평가해 가장 적합한 대상을 고른다.
-     * 플레이어는 점수에 0.6을 곱해 우선하고, 사무직은 거리 그대로 평가한다.
+     * 표적 후보를 평가해 가장 가까운 대상을 고른다.
+     * 플레이어와 사무직을 같은 거리 기준으로 비교한다.
      */
     private LivingEntity pickTarget(ServerLevel sl) {
         LivingEntity best = null;
@@ -69,9 +69,8 @@ public abstract class OrdealEntity extends PathfinderMob {
             if (ToolState.isSheltered(p)) continue;
             double d = distanceTo(p);
             if (d > 40.0) continue;
-            double score = d * 0.6;
-            if (score < bestScore) {
-                bestScore = score;
+            if (d < bestScore) {
+                bestScore = d;
                 best = p;
             }
         }

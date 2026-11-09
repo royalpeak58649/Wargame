@@ -350,30 +350,30 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         return best;
     }
 
-    /** 위협도 + 거리 + 약간의 무작위로 추격 대상을 다시 고른다 (한 명이 영구히 어그로를 잡지 못하게) */
+    /**
+     * 순수 거리만으로 가장 가까운 유효 표적(플레이어/사무직·요원)을 다시 고른다.
+     * 위협도(threat)는 기록만 남기고 선택에는 쓰지 않는다.
+     */
     private void retarget(ServerLevel sl) {
         LivingEntity best = null;
-        float bestScore = Float.NEGATIVE_INFINITY;
+        double bestDist = Double.MAX_VALUE;
         for (ServerPlayer p : sl.players()) {
             if (!p.isAlive() || p.isCreative() || p.isSpectator()) continue;
             if (ToolState.isSheltered(p)) continue;
             double dist = distanceTo(p);
             if (dist > 40) continue;
-            float score = threat.getOrDefault(p.getUUID(), 0f) + 20f / (1f + (float) dist) + getRandom().nextFloat() * 8f;
-            if (p == getTarget() && targetTicks > 300) score *= 0.4f;
-            if (score > bestScore) {
-                bestScore = score;
+            if (dist < bestDist) {
+                bestDist = dist;
                 best = p;
             }
         }
-        // 사무직은 플레이어보다 조금 낮은 우선순위로 함께 고려한다
+        // 사무직(요원 포함)도 같은 거리 기준으로 비교한다
         for (ClerkEntity c : sl.getEntitiesOfClass(ClerkEntity.class, getBoundingBox().inflate(40.0))) {
             if (!c.isAlive()) continue;
             double dist = distanceTo(c);
             if (dist > 40) continue;
-            float score = 20f / (1f + (float) dist) + getRandom().nextFloat() * 8f - 4f;
-            if (score > bestScore) {
-                bestScore = score;
+            if (dist < bestDist) {
+                bestDist = dist;
                 best = c;
             }
         }
@@ -403,7 +403,7 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
                 }
                 if (--retargetIn <= 0) {
                     retarget(sl);
-                    retargetIn = 100 + getRandom().nextInt(60);
+                    retargetIn = 40;
                 }
             }
             // 문이 좁아 못 나가는 히트박스: 일정 시간이 지나도 방 안에 있으면 복도로 옮긴다

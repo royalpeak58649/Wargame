@@ -232,7 +232,8 @@ public class LittleRedEntity extends BreachingAbnormality {
             }
         }
         if (shotCd > 0) shotCd--;
-        if (shotCd <= 0 && getTarget() instanceof ServerPlayer tp && distanceTo(tp) <= 12 && hasLineOfSight(tp)) {
+        // 사무직·요원도 사격 대상이 된다 (플레이어 전용 처리는 아래에서 분기)
+        if (shotCd <= 0 && getTarget() instanceof LivingEntity tp && distanceTo(tp) <= 12 && hasLineOfSight(tp)) {
             shotCd = 80;
             shotAnimTicks = 10;
             sl.broadcastEntityEvent(this, (byte) 5);

@@ -85,7 +85,8 @@ public class IndigoNoonEntity extends OrdealEntity {
             if (charge == 0) chargeHits.clear();
             return;
         }
-        if (tickCount % 120 == 0 && onGround() && getTarget() instanceof ServerPlayer target
+        // 사무직·요원도 돌진 대상이 된다
+        if (tickCount % 120 == 0 && onGround() && getTarget() instanceof LivingEntity target
                 && distanceTo(target) <= 8) {
             Vec3 dir = target.position().subtract(position());
             Vec3 flat = new Vec3(dir.x, 0, dir.z);
