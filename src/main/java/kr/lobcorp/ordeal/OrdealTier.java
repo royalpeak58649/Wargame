@@ -5,8 +5,8 @@ package kr.lobcorp.ordeal;
  */
 public enum OrdealTier {
     DAWN(2, 0.25f, 0.10f, "여명"),
-    NOON(4, 0.50f, 0.15f, "정오"),
-    DUSK(7, 0.75f, 0.20f, "황혼");
+    NOON(6, 0.50f, 0.15f, "정오"),
+    DUSK(11, 0.75f, 0.20f, "황혼");
 
     /** 이 등급이 열리는 최소 일차 */
     public final int minDay;
