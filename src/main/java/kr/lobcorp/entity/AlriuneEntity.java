@@ -182,7 +182,7 @@ public class AlriuneEntity extends BreachingAbnormality {
             if (p.distanceToSqr(this) > BLOOM_RADIUS * BLOOM_RADIUS) continue;
             Employees.damageSp(p, 30 + getRandom().nextInt(11));
             if (Employees.get(p).panicTicks > 0) {
-                Employees.get(p).panicTicks = 0;
+                Employees.endPanic(p);
                 sl.sendParticles(ParticleTypes.CHERRY_LEAVES, p.getX(), p.getY() + 1.0, p.getZ(), 40, 0.5, 0.8, 0.5, 0.02);
                 sl.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.HOSTILE, 1.2f, 0.5f);
                 Facility.broadcast(sl.getServer(), Component.literal("[관제] ").withStyle(st -> st.withColor(0xAA0000))

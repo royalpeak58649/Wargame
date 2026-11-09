@@ -126,7 +126,7 @@ public class FuneralEntity extends BreachingAbnormality {
         if (!(level() instanceof ServerLevel sl)) return;
         Employees.damageSp(p, amount);
         if (Employees.get(p).panicTicks > 0) {
-            Employees.get(p).panicTicks = 0;
+            Employees.endPanic(p);
             sl.sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1.0, p.getZ(), 40, 0.5, 0.8, 0.5, 0.02);
             sl.playSound(null, p.blockPosition(), SoundEvents.ALLAY_DEATH, SoundSource.HOSTILE, 1.2f, 0.8f);
             Facility.broadcast(sl.getServer(), Component.literal("[관제] ").withStyle(st -> st.withColor(0xAA0000))

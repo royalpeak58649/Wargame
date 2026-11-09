@@ -77,7 +77,7 @@ public final class Facility {
         }
         for (ServerPlayer p : server.getPlayerList().getPlayers()) {
             EmployeeData d = Employees.get(p);
-            d.panicTicks = 0;
+            Employees.endPanic(p);
             d.sp = d.maxSp();
             p.setHealth(p.getMaxHealth());
             d.laetitiaHeart = false;

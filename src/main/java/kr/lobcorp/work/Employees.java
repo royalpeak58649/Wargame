@@ -295,7 +295,7 @@ public final class Employees {
         sl.sendParticles(ParticleTypes.HAPPY_VILLAGER, p.getX(), p.getY() + 1.2, p.getZ(), 8, 0.4, 0.5, 0.4, 0.02);
         sl.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 0.8f, 1.4f);
         if (d.sp >= d.maxSp()) {
-            d.panicTicks = 0;
+            endPanic(p);
             p.sendSystemMessage(Component.literal("[관제] 동료 덕분에 정신을 차렸습니다.").withStyle(s -> s.withColor(0xAAAAAA)));
             if (by != null && by != p) {
                 by.sendSystemMessage(Component.literal("  ").append(p.getDisplayName())
@@ -306,6 +306,15 @@ public final class Employees {
                     .withStyle(s -> s.withColor(0xAAAAAA)), true);
         }
         sync(p);
+    }
+
+    /** 패닉을 조기에 끝낸다. 패닉으로 걸린 상태 효과도 함께 제거한다. */
+    public static void endPanic(ServerPlayer p) {
+        get(p).panicTicks = 0;
+        p.removeEffect(MobEffects.NAUSEA);
+        p.removeEffect(MobEffects.DARKNESS);
+        p.removeEffect(MobEffects.WEAKNESS);
+        if (get(p).sleepTicks <= 0) p.removeEffect(MobEffects.SLOWNESS);
     }
 
     public static void panic(ServerPlayer p) {
@@ -417,6 +426,7 @@ public final class Employees {
                     p.level().sendParticles(ParticleTypes.WHITE_ASH, p.getX(), p.getY() + 1, p.getZ(), 3, 0.3, 0.5, 0.3, 0);
                 }
                 if (d.panicTicks == 0) {
+                    endPanic(p);
                     d.sp = Math.max(1, d.maxSp() / 2);
                     p.sendSystemMessage(Component.literal("[관제] 정신을 차렸습니다. SP가 절반 회복되었습니다.").withStyle(s -> s.withColor(0xAAAAAA)));
                 }
