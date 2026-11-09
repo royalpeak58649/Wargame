@@ -171,6 +171,11 @@ public abstract class BreachingAbnormality extends AbnormalityEntity {
         }
     }
 
+    /** 클리포트 폭주를 막지 못했다: 카운터를 완전히 소진시킨다. */
+    public void meltdownFail() {
+        lowerQliphoth(null, qliphoth);
+    }
+
     // ───────────── 탈출 ─────────────
 
     public void breach() {

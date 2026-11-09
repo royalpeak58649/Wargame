@@ -1,7 +1,7 @@
 package kr.lobcorp.ordeal;
 
 /**
- * 시련의 등급. 날짜가 지날수록 더 높은 등급이 열리고, 할당량 대비 에너지 비율이 기준을 넘으면 발생한다.
+ * 시련의 등급. 날짜가 지날수록 더 높은 등급이 열리고, 클리포트 폭주 레벨 2(여명)·4(정오)·6(황혼)에서 발생한다.
  */
 public enum OrdealTier {
     DAWN(2, 0.25f, 0.10f, "여명"),
@@ -10,7 +10,7 @@ public enum OrdealTier {
 
     /** 이 등급이 열리는 최소 일차 */
     public final int minDay;
-    /** 하루 할당량 대비 발생 기준 비율 */
+    /** 하루 할당량 대비 발생 기준 비율 (현재는 사용하지 않음 — 폭주 레벨로 발생) */
     public final float threshold;
     /** 극복 보상 (할당량 대비 에너지 비율) */
     public final float reward;

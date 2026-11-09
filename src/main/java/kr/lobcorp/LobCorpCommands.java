@@ -207,6 +207,17 @@ public final class LobCorpCommands {
                                             c.getSource().sendSuccess(() -> Component.literal(msg), true);
                                             return 1;
                                         }))))
+                .then(Commands.literal("meltdown").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                        .then(Commands.literal("status").executes(c -> {
+                            String st = kr.lobcorp.work.Meltdown.status(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal(st).withStyle(s -> s.withColor(0xAAAAAA)), false);
+                            return 1;
+                        }))
+                        .then(Commands.literal("levelup").executes(c -> {
+                            kr.lobcorp.work.Meltdown.forceLevelUp(c.getSource().getServer());
+                            c.getSource().sendSuccess(() -> Component.literal("클리포트 폭주 레벨을 올렸습니다."), true);
+                            return 1;
+                        })))
                 .then(Commands.literal("apocalypse").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.literal("start").executes(c -> {
                             boolean ok = kr.lobcorp.apocalypse.ApocalypseManager.start(c.getSource().getServer());
@@ -407,6 +418,7 @@ public final class LobCorpCommands {
     private static int advanceDay(CommandContext<CommandSourceStack> c) {
         Facility.nextDay(c.getSource().getServer());
         kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
+        kr.lobcorp.work.Meltdown.clearAll();
         kr.lobcorp.apocalypse.ApocalypseManager.clearAll(c.getSource().getServer());
         for (ServerLevel l : c.getSource().getServer().getAllLevels())
             for (Entity e : l.getAllEntities())
@@ -451,6 +463,7 @@ public final class LobCorpCommands {
         discardMinions(c.getSource().getServer());
         kr.lobcorp.work.QliphothPanel.discardAll(c.getSource().getServer());
         kr.lobcorp.ordeal.OrdealManager.clearAll(c.getSource().getServer());
+        kr.lobcorp.work.Meltdown.clearAll();
         kr.lobcorp.apocalypse.ApocalypseManager.clearAll(c.getSource().getServer());
         kr.lobcorp.work.Clerks.discardAll(c.getSource().getServer());
         int count = n;
@@ -469,6 +482,7 @@ public final class LobCorpCommands {
         discardMinions(server);
         kr.lobcorp.work.QliphothPanel.discardAll(server);
         kr.lobcorp.ordeal.OrdealManager.clearAll(server);
+        kr.lobcorp.work.Meltdown.clearAll();
         kr.lobcorp.apocalypse.ApocalypseManager.clearAll(server);
         kr.lobcorp.work.Clerks.discardAll(server);
         FacilityData f = Facility.get(server);

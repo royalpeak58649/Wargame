@@ -105,6 +105,7 @@ public final class WorkManager {
         if (notes) interval = Math.max(6, interval * 3 / 4);
         if (d.firebirdBlind && !(a instanceof kr.lobcorp.entity.FirebirdEntity)) interval *= 2;
         SESSIONS.put(p.getUUID(), new WorkSession(a, type, prof.maxBox(), chance, interval));
+        Meltdown.onWorkStarted(p.level().getServer(), a);
         PunishingBirdEntity.onAnyWorkStarted(p.level(), a, p);
         // 은하수의 아이: 조약돌을 지닌 채 다른 환상체를 작업하면 아이가 배신을 알아챈다
         if (d.pebble && !(a instanceof kr.lobcorp.entity.ChildGalaxyEntity)) {

@@ -330,6 +330,7 @@ public class AgentEntity extends ClerkEntity {
         tickInBox = 0;
         level().playSound(null, a.blockPosition(), SoundEvents.BEACON_AMBIENT, SoundSource.HOSTILE, 1f, 0.6f);
         tell("▶ 관리직 " + agentName + ": " + workType.ko + " 작업 시작 (성공률 " + chance + "%)");
+        kr.lobcorp.work.Meltdown.onWorkStarted(level().getServer(), a);
     }
 
     private void processBox(AbnormalityEntity a) {

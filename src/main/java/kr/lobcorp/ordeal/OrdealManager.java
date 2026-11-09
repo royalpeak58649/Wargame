@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * 시련의 발생·진행·정산을 관리한다. 할당량 대비 에너지 비율이 등급 기준을 넘으면 하루에 한 번씩 발생한다.
+ * 시련의 발생·진행·정산을 관리한다. 클리포트 폭주 레벨이 2(여명)·4(정오)·6(황혼)에 도달하면 하루에 한 번씩 발생한다.
  */
 public final class OrdealManager {
     private OrdealManager() {}
@@ -48,31 +48,11 @@ public final class OrdealManager {
     public static void tick(MinecraftServer server) {
         if (server.getTickCount() % 20 != 0) return;
         FacilityData f = Facility.get(server);
-        boolean firstTick = lastDay == -1;
         if (f.day != lastDay) {
             TRIGGERED.clear();
             lastDay = f.day;
         }
-        if (kr.lobcorp.work.Extraction.hasFacility(server) && f.quota > 0) {
-            float frac = (float) f.energy / f.quota;
-            if (firstTick) {
-                // 서버 재시작으로 TRIGGERED가 사라졌으므로, 오늘 이미 기준을 넘긴 등급은 발생시키지 않고 지나간 것으로 표시한다
-                for (OrdealTier tier : OrdealTier.values()) {
-                    if (f.day < tier.minDay) continue;
-                    if (frac < tier.threshold) continue;
-                    TRIGGERED.add(tier);
-                }
-            }
-            for (OrdealTier tier : OrdealTier.values()) {
-                if (TRIGGERED.contains(tier)) continue;
-                if (f.day < tier.minDay) continue;
-                if (frac < tier.threshold) continue;
-                TRIGGERED.add(tier);
-                List<OrdealType> pool = OrdealType.ofTier(tier);
-                if (pool.isEmpty()) continue;
-                start(server, pool.get(server.overworld().getRandom().nextInt(pool.size())));
-            }
-        }
+        // 시련은 이제 클리포트 폭주 레벨(2/4/6)에서만 발생한다 (Meltdown 참고)
         for (Active a : new ArrayList<>(ACTIVE)) {
             // 살아 있지 않은 개체를 정리한다. 체력이 남은 채 사라졌다면 처치가 아니라 자멸·소멸이므로 실패로 본다.
             a.entities.removeIf(e -> {
@@ -94,8 +74,22 @@ public final class OrdealManager {
         }
     }
 
-    /** 시련을 발생시키고 소환한 개체 수를 돌려준다. */
-    public static int start(MinecraftServer server, OrdealType type) {
+    /** 해당 등급의 시련을 오늘 처음으로 발생시킨다. 이미 발생했거나 등급 풀이 비면 false. */
+    public static boolean startTier(MinecraftServer server, OrdealTier tier) {
+        if (tier == null || TRIGGERED.contains(tier)) return false;
+        List<OrdealType> pool = OrdealType.ofTier(tier);
+        if (pool.isEmpty()) return false;
+        TRIGGERED.add(tier);
+        start(server, pool.get(server.overworld().getRandom().nextInt(pool.size())));
+        return true;
+    }
+
+    /** 오늘 이 등급의 시련이 이미 발생했는지 */
+    public static boolean triggered(OrdealTier tier) {
+        return TRIGGERED.contains(tier);
+    }
+
+    /** 시련을 발생시키고 소환한 개체 수를 돌려준다. */    public static int start(MinecraftServer server, OrdealType type) {
         ServerLevel level = server.overworld();
         // 환상체가 수용된 부서의 중앙 홀에서만 발생한다. 그런 곳이 없으면 기존 동작(플레이어 위치)으로 대체한다.
         List<BlockPos> centers = new ArrayList<>(Facility.activeCenters(server));
