@@ -124,6 +124,19 @@ public class ClerkEntity extends PathfinderMob {
         }
     }
 
+    /** WHITE 피해로 공황 중인 사무직을 진정시킨다 */
+    public void recoverSp(int n) {
+        if (n <= 0) return;
+        sp = Math.min(maxSp(), sp + n);
+        if (level() instanceof ServerLevel sl) {
+            sl.sendParticles(ParticleTypes.HAPPY_VILLAGER, getX(), getY() + 1.2, getZ(), 6, 0.3, 0.4, 0.3, 0.02);
+        }
+        if (sp >= maxSp()) {
+            panicTicks = 0;
+            entityData.set(PANIC, false);
+        }
+    }
+
     @Override
     public void tick() {
         super.tick();

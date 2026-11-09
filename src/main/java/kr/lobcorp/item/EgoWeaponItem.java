@@ -4,6 +4,8 @@ import kr.lobcorp.DamageColor;
 import kr.lobcorp.Grades;
 import kr.lobcorp.entity.AbnormalityEntity;
 import kr.lobcorp.entity.BreachingAbnormality;
+import kr.lobcorp.entity.ClerkEntity;
+import kr.lobcorp.work.Employees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -136,6 +138,15 @@ public class EgoWeaponItem extends Item {
         for (LivingEntity e : hit) {
             // 사격 피해도 무기 위험 등급에 따라 증가한다 (한 발당 한 번만 계산)
             float shotDamage = spec.damage() * Grades.damageScale(Grades.ofItem(this));
+            if (calms(e, player)) {
+                // WHITE 무기는 패닉 중인 아군을 진정시킨다
+                if (e instanceof ServerPlayer sp) {
+                    Employees.whiteRecover(sp, shotDamage, player);
+                } else if (e instanceof ClerkEntity c) {
+                    c.recoverSp(Math.round(shotDamage * 2f));
+                }
+                continue;
+            }
             if (e instanceof ServerPlayer sp && sp != player) {
                 sp.hurtServer(sl, sl.damageSources().magic(), shotDamage);
                 sp.sendSystemMessage(Component.literal("  어디선가 날아온 마탄이 몸을 꿰뚫었다.")
@@ -148,10 +159,21 @@ public class EgoWeaponItem extends Item {
         }
     }
 
-    /** 마탄은 아군(다른 생존 플레이어)도 맞는다. */
+    /** 마탄은 아군(다른 생존 플레이어)도 맞는다. WHITE 무기는 패닉 중인 아군을 진정시킨다. */
     private boolean hits(LivingEntity e, ServerPlayer shooter, boolean friendlyFire) {
-        return validTarget(e, shooter) || (friendlyFire && e instanceof ServerPlayer sp && sp != shooter
-                && sp.isAlive() && !sp.isCreative() && !sp.isSpectator());
+        if (validTarget(e, shooter)) return true;
+        if (friendlyFire && e instanceof ServerPlayer sp && sp != shooter
+                && sp.isAlive() && !sp.isCreative() && !sp.isSpectator()) return true;
+        return calms(e, shooter);
+    }
+
+    /** WHITE 무기 사격이 진정시킬 수 있는 패닉 상태의 아군인가 */
+    private boolean calms(LivingEntity e, ServerPlayer shooter) {
+        if (color != DamageColor.WHITE) return false;
+        if (e instanceof ServerPlayer sp && sp != shooter && sp.isAlive()) {
+            return Employees.get(sp).isPanicking();
+        }
+        return e instanceof ClerkEntity c && c.isPanicking();
     }
 
     public static boolean validTarget(LivingEntity e, ServerPlayer shooter) {

@@ -281,6 +281,27 @@ public final class Employees {
         if (d.sp <= 0) panic(p);
     }
 
+    /** WHITE 피해로 패닉 중인 동료를 때리면 정신을 차린다 (Lobotomy Corporation 규칙) */
+    public static void whiteRecover(ServerPlayer p, float amount, ServerPlayer by) {
+        EmployeeData d = get(p);
+        d.sp = Math.min(d.maxSp(), d.sp + Math.max(1, Math.round(amount * 2f)));
+        ServerLevel sl = p.level();
+        sl.sendParticles(ParticleTypes.HAPPY_VILLAGER, p.getX(), p.getY() + 1.2, p.getZ(), 8, 0.4, 0.5, 0.4, 0.02);
+        sl.playSound(null, p.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 0.8f, 1.4f);
+        if (d.sp >= d.maxSp()) {
+            d.panicTicks = 0;
+            p.sendSystemMessage(Component.literal("[관제] 동료 덕분에 정신을 차렸습니다.").withStyle(s -> s.withColor(0xAAAAAA)));
+            if (by != null && by != p) {
+                by.sendSystemMessage(Component.literal("  ").append(p.getDisplayName())
+                        .append(Component.literal("이(가) 정신을 차렸습니다.").withStyle(s -> s.withColor(0xAAAAAA))));
+            }
+        } else if (by != null && by != p) {
+            by.sendSystemMessage(Component.literal("정신력 회복 " + d.sp + "/" + d.maxSp())
+                    .withStyle(s -> s.withColor(0xAAAAAA)), true);
+        }
+        sync(p);
+    }
+
     public static void panic(ServerPlayer p) {
         EmployeeData d = get(p);
         d.sp = 0;

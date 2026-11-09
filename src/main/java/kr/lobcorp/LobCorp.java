@@ -100,6 +100,24 @@ public class LobCorp implements ModInitializer {
             if (entity instanceof net.minecraft.server.level.ServerPlayer p && kr.lobcorp.work.ToolState.isSheltered(p)) {
                 return false;
             }
+            // WHITE 피해로 패닉 중인 동료를 때리면 정신을 차린다
+            if (entity instanceof net.minecraft.server.level.ServerPlayer p
+                    && source.getEntity() instanceof net.minecraft.server.level.ServerPlayer attacker
+                    && attacker != p && source.getDirectEntity() == attacker
+                    && attacker.getMainHandItem().getItem() instanceof kr.lobcorp.item.EgoWeaponItem ego
+                    && ego.color == kr.lobcorp.DamageColor.WHITE
+                    && Employees.get(p).isPanicking()) {
+                Employees.whiteRecover(p, amount, attacker);
+                return false;
+            }
+            // WHITE E.G.O 무기로 공황 중인 사무직을 때리면 진정된다
+            if (entity instanceof kr.lobcorp.entity.ClerkEntity clerk && clerk.isPanicking()
+                    && source.getEntity() instanceof net.minecraft.server.level.ServerPlayer attacker
+                    && attacker.getMainHandItem().getItem() instanceof kr.lobcorp.item.EgoWeaponItem ego
+                    && ego.color == kr.lobcorp.DamageColor.WHITE) {
+                clerk.recoverSp(Math.round(amount * 2f));
+                return false;
+            }
             // E.G.O 무기로 다른 직원을 칠 때: WHITE=SP, BLACK=HP+SP, PALE=최대 HP 비율
             if (entity instanceof net.minecraft.server.level.ServerPlayer p
                     && source.getEntity() instanceof net.minecraft.server.level.ServerPlayer attacker
