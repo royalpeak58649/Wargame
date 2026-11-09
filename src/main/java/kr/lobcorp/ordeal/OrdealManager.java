@@ -89,7 +89,8 @@ public final class OrdealManager {
         return TRIGGERED.contains(tier);
     }
 
-    /** 시련을 발생시키고 소환한 개체 수를 돌려준다. */    public static int start(MinecraftServer server, OrdealType type) {
+    /** 시련을 발생시키고 소환한 개체 수를 돌려준다. */
+    public static int start(MinecraftServer server, OrdealType type) {
         ServerLevel level = server.overworld();
         // 환상체가 수용된 부서의 중앙 홀에서만 발생한다. 그런 곳이 없으면 기존 동작(플레이어 위치)으로 대체한다.
         List<BlockPos> centers = new ArrayList<>(Facility.activeCenters(server));
