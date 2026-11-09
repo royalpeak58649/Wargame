@@ -445,7 +445,7 @@ public class AgentEntity extends ClerkEntity {
             for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.CHEST}) {
                 ItemStack stack = getItemBySlot(slot);
                 if (stack.isEmpty()) continue;
-                player.getInventory().placeItemBackInInventory(stack.copy());
+                player.getInventory().placeItemBackInInventory(stack.copy(), net.minecraft.util.Prediction.SERVER_ONLY);
                 setItemSlot(slot, ItemStack.EMPTY);
             }
             player.sendSystemMessage(Component.literal("관리직 " + agentName + "의 장비를 회수했습니다."));
@@ -463,7 +463,7 @@ public class AgentEntity extends ClerkEntity {
             player.setItemInHand(hand, ItemStack.EMPTY);
         } else {
             player.setItemInHand(hand, old);
-            player.getInventory().placeItemBackInInventory(held.copy());
+            player.getInventory().placeItemBackInInventory(held.copy(), net.minecraft.util.Prediction.SERVER_ONLY);
         }
     }
 
